@@ -63,7 +63,7 @@ public class TabView extends LinearLayout {
         }
     }
 
-    public void setViewSelect(boolean isselect) {
+    public void setViewSelect(boolean  isselect) {
         viewBinding.tabNameView.setSelected(isselect);
         viewBinding.tabIconView.setSelected(isselect);
         viewBinding.tabNameView.setTextColor(isselect?getResources().getColor(R.color.colorWhite):getResources().getColor(R.color.color798795));
