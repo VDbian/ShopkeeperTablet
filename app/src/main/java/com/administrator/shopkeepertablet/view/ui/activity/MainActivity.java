@@ -1,18 +1,33 @@
 package com.administrator.shopkeepertablet.view.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.administrator.shopkeepertablet.R;
-import com.administrator.shopkeepertablet.model.api.ApiSourceImpl;
-import com.administrator.shopkeepertablet.repository.BaseRepertory;
-import com.administrator.shopkeepertablet.repository.impl.BaseRepertoryImpl;
+import com.administrator.shopkeepertablet.databinding.ActivityMainBinding;
+import com.administrator.shopkeepertablet.di.app.AppComponent;
+import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Description:
+ * Author CC
+ * Time 2018/6/23
+ */
+
+
+public class MainActivity extends BaseActivity {
+    ActivityMainBinding binding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void setupActivityComponent(AppComponent appComponent) {
+
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding= DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.tabParishFood.setViewSelect(true);
     }
 }

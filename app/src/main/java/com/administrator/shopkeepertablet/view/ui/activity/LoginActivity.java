@@ -3,6 +3,7 @@ package com.administrator.shopkeepertablet.view.ui.activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.ActivityLoginBinding;
@@ -21,7 +22,7 @@ import javax.inject.Inject;
  */
 
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     ActivityLoginBinding binding;
     @Inject
@@ -41,6 +42,22 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setViewModel(viewModel);
-        viewModel.loginViewModel();
+        initView();
+    }
+
+    private void initView() {
+        binding.btnLogin.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_login:
+                viewModel.loginViewModel();
+                break;
+            default:
+                break;
+        }
     }
 }

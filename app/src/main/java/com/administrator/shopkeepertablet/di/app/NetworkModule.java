@@ -29,7 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class NetworkModule {
     public static final String PHOTO_TOKEN = "";
-    private static final String BASE_URL = "https://www.xcyytc.com:8099/";
+    private static final String BASE_URL = "https://www.xcyytc.com:8098/";
     private static final String BASE_URL_PHOTO = "";
     private static final String TAG = "api";
 

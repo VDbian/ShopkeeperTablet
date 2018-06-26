@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
+
+
     <application
         android:name=".AppApplication"
         android:allowBackup="true"
@@ -12,13 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.ui.activity.LoginActivity" android:screenOrientation="landscape">
+        <meta-data android:name="design_width" android:value="1024">
+        </meta-data>
+        <meta-data android:name="design_height" android:value="768">
+        </meta-data>
+
+        <activity android:name=".view.ui.activity.MainActivity" android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--<activity android:name=".view.ui.activity.MainActivity" android:screenOrientation="landscape"/>-->
     </application>
 
 </manifest>

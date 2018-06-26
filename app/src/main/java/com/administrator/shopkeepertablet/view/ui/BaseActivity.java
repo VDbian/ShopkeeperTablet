@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.administrator.shopkeepertablet.AppApplication;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.gyf.barlibrary.ImmersionBar;
+import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * Author CC
  * Time 2018/6/11
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AutoLayoutActivity {
 
     protected abstract void setupActivityComponent(AppComponent appComponent);
 

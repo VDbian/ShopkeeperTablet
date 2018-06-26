@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:gravity="center"
+            android:layout_width="72px"
+            android:layout_height="64px"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/tab_icon_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/menu_fastfood"
+                />
+
+            <TextView
+                android:id="@+id/tab_news_view"
+                android:layout_width="18px"
+                android:layout_height="18px"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/colorWhite"
+                android:background="@drawable/shape_tab_news"
+                android:textSize="10px"
+                android:text="2"
+                />
+
+            <TextView
+                android:textColor="@color/color798795"
+                android:id="@+id/tab_name_view"
+                android:layout_below="@+id/tab_icon_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="堂点"
+                android:textSize="14px"
+                android:layout_marginTop="4px"
+                />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>
