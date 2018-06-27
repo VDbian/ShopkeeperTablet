@@ -35,8 +35,9 @@ public abstract class BaseActivity extends AutoLayoutActivity {
         super.onCreate(savedInstanceState);
         setupActivityComponent(AppApplication.get(this).getAppComponent());
         immersionBar = ImmersionBar.with(this)
-                .keyboardEnable(true);
-        immersionBar.init();
+                .keyboardEnable(false)
+                .statusBarColor("#000000")
+                .fitsSystemWindows(true);
     }
 
     @Override

@@ -14,8 +14,8 @@
 
             <ImageView
                 android:id="@+id/tab_icon_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25px"
+                android:layout_height="30px"
                 android:layout_centerHorizontal="true"
                 android:src="@mipmap/menu_fastfood"
                 />
@@ -29,6 +29,7 @@
                 android:background="@drawable/shape_tab_news"
                 android:textSize="10px"
                 android:text="2"
+                android:gravity="center"
                 />
 
             <TextView
