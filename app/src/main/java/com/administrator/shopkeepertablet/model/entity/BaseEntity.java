@@ -33,4 +33,13 @@ public class BaseEntity<T> {
     public void setResult(T result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "BaseEntity{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", result=" + result +
+                '}';
+    }
 }

@@ -3,14 +3,16 @@ package com.administrator.shopkeepertablet.viewmodel;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
+import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
-import com.administrator.shopkeepertablet.repository.LoginRepertory;
+import com.administrator.shopkeepertablet.repository.login.LoginRepertory;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.activity.LoginActivity;
+import com.google.gson.Gson;
 
-import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -33,26 +35,31 @@ public class LoginViewModel extends BaseViewModel {
         this.preferenceSource = preferenceSource;
     }
 
-    public void loginViewModel(){
-        if (!TextUtils.isEmpty(username.get())&&!TextUtils.isEmpty(password.get())){
-            loginRepertory.login(username.get(),"4B176F0E-0553-4094-8181-5048641B20EF",password.get())
+    public void loginViewModel() {
+        if (!TextUtils.isEmpty(username.get()) && !TextUtils.isEmpty(password.get())) {
+            loginRepertory.login("老板", "4B176F0E-0553-4094-8181-5048641B20EF", "123")
                     .subscribe(new Consumer<BaseEntity<String>>() {
                         @Override
-                        public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                            MLog.d("api",stringBaseEntity.getCode()+"");
-                            MLog.d("api",stringBaseEntity.getResult()+"");
+                        public void accept(BaseEntity<String> baseEntity) throws Exception {
+                            MLog.d("api", baseEntity.toString());
+                            if (baseEntity.getCode() == AppConstant.REQUEST_SUCCESS) {
+                                UserInfoEntity entity = new Gson().fromJson(baseEntity.getResult(), UserInfoEntity.class);
+                                MLog.d("api", entity.toString());
+                                loginActivity.intentToMain();
+                            } else {
+                                MToast.showToast(loginActivity, baseEntity.getMessage());
+                            }
                         }
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            MLog.e("api",throwable.getMessage());
+                            MLog.e("api", throwable.getMessage());
                         }
                     });
 
-        }else {
-            MToast.showToast(loginActivity,"用户名或密码不能为空");
+        } else {
+            MToast.showToast(loginActivity, "用户名或密码不能为空");
         }
-
 
 
     }

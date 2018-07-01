@@ -2,6 +2,7 @@ package com.administrator.shopkeepertablet.di.app;
 
 import com.administrator.shopkeepertablet.model.api.ApiSource;
 import com.administrator.shopkeepertablet.model.api.ApiSourceImpl;
+import com.administrator.shopkeepertablet.model.factory.CryptoConverterFactory;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.utils.MLog;
 
@@ -62,7 +63,7 @@ public class NetworkModule {
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(CryptoConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();

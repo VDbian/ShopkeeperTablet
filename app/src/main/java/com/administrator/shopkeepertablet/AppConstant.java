@@ -9,6 +9,11 @@ public class AppConstant {
     public static final String PORT_URL ="Port/";
     public static final String MASTE_URL ="Maste/";
 
+
+    public static final int REQUEST_SUCCESS = 1;
+    public static final int REQUEST_FAILED = 0;//失败
+    public static final int REQUEST_ERROR = -1;//数据库查询错误
+
     public static final int RESPONSE_CODE_OK = 200;
 
     public static final int EVENT_LOGOUT_EXIT = 1;

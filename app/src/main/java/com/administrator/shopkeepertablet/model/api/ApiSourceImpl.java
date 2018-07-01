@@ -1,11 +1,8 @@
 package com.administrator.shopkeepertablet.model.api;
 
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
-import com.administrator.shopkeepertablet.model.entity.LoginEntity;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
+import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
 
 
 import io.reactivex.Observable;
@@ -28,5 +25,10 @@ public class ApiSourceImpl implements ApiSource {
     @Override
     public Observable<BaseEntity<String>> login(String name, String id, String pwd) {
         return retrofitInterface.login(name,id,pwd);
+    }
+
+    @Override
+    public Observable<ResultFoodEntity> getFoodList(String id) {
+        return retrofitInterface.getFoodList("0",id);
     }
 }

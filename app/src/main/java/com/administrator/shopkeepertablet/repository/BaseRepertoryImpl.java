@@ -1,4 +1,4 @@
-package com.administrator.shopkeepertablet.repository.impl;
+package com.administrator.shopkeepertablet.repository;
 
 import com.administrator.shopkeepertablet.model.api.ApiSource;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;

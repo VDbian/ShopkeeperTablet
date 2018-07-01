@@ -55,7 +55,7 @@ public class TabView extends LinearLayout {
     private void initView() {
         viewBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.tab_view, this, true);
         viewBinding.tabNameView.setText(name);
-        viewBinding.tabNameView.setTextColor(R.drawable.selector_tab_text);
+//        viewBinding.tabNameView.setTextColor(R.drawable.selector_tab_text);
         viewBinding.tabIconView.setImageDrawable(iconDrawable);
         viewBinding.tabNewsView.setText(news);
         if (TextUtils.isEmpty(news)){
@@ -67,5 +67,8 @@ public class TabView extends LinearLayout {
         viewBinding.tabNameView.setSelected(isselect);
         viewBinding.tabIconView.setSelected(isselect);
         viewBinding.tabNameView.setTextColor(isselect?getResources().getColor(R.color.colorWhite):getResources().getColor(R.color.color798795));
+//        if(isselect){
+//            viewBinding.tabNameView.setTextColor(getResources().getColor(R.color.colorWhite));
+//        }
     }
 }

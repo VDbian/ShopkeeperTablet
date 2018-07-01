@@ -1,4 +1,4 @@
-package com.administrator.shopkeepertablet.di.login;
+package com.administrator.shopkeepertablet.di.parish;
 
 
 import com.administrator.shopkeepertablet.di.Activity;
@@ -18,11 +18,11 @@ import dagger.Provides;
  * Time 2018/6/14
  */
 @Module
-public class LoginModule {
+public class ParishFragmentModule {
     private LoginActivity loginActivity;
 
 
-    public LoginModule(LoginActivity loginActivity) {
+    public ParishFragmentModule(LoginActivity loginActivity) {
         this.loginActivity = loginActivity;
     }
 

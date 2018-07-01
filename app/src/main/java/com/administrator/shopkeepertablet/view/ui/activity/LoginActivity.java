@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.view.ui.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.login.DaggerLoginComponent;
 import com.administrator.shopkeepertablet.di.login.LoginModule;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
+import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
 import com.administrator.shopkeepertablet.viewmodel.LoginViewModel;
 
 import javax.inject.Inject;
@@ -59,5 +61,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             default:
                 break;
         }
+    }
+
+    public void intentToMain(){
+        Intent intent = new Intent(LoginActivity.this,OrderDishesActivity.class);
+        startActivity(intent);
     }
 }
