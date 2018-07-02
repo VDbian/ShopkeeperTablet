@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rlv_table"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="36px"
+            android:layout_marginTop="12px"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_table_state"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="12px"
+                android:layout_height="12px"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16px"
+                android:background="@drawable/shape_table_state_leisure"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/state_leisure"
+                android:textSize="12px"
+                android:textColor="@color/color666666"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8px"
+                />
+            <View
+                android:layout_width="12px"
+                android:layout_height="12px"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16px"
+                android:background="@drawable/shape_table_state_open"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/state_open"
+                android:textSize="12px"
+                android:textColor="@color/color666666"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8px"
+                />
+            <View
+                android:layout_width="12px"
+                android:layout_height="12px"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16px"
+                android:background="@drawable/shape_table_state_order"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/state_order"
+                android:textSize="12px"
+                android:textColor="@color/color666666"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8px"
+                android:layout_marginRight="16px"
+                />
+
+        </LinearLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_room"
+            android:layout_width="match_parent"
+            android:layout_height="48px"
+            android:layout_marginTop="12px"
+            />
+
+    </LinearLayout>
+</layout>
