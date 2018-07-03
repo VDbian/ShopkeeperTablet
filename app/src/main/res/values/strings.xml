@@ -21,5 +21,10 @@
     <string name="state_open">已开桌</string>
     <string name="state_order">已下单</string>
     <string name="price_prefix">￥%1$2.2f</string>
+    <string name="diners_num">用餐人数</string>
+    <string name="tableware_num">餐具数</string>
+    <string name="price_and_unit">￥%1$2.2f/%1$s</string>
+    <string name="confirm">确认</string>
+
 
 </resources>

@@ -25,6 +25,24 @@ public interface RetrofitInterface {
             @Field("Passd") String pwd//登录密码
     );
 
+    //获取房间
+    @FormUrlEncoded
+    @POST( AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
+    Observable<BaseEntity<String>> getRooms(
+            @Field("Type") String type,
+            @Field("id") String id
+    );
+
+    //获取桌号信息
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
+    Observable<BaseEntity<String>> getTables(
+            @Field("Type") String type,
+            @Field("leibie") String leibie,
+            @Field("id") String id,
+            @Field("Pindex1") int Pindex,
+            @Field("Psize1") int Psize
+    );
 
 
     //菜单列表PortTakeFoodAshx.ashx

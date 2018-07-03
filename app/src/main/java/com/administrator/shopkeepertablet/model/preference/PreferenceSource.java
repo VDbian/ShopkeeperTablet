@@ -18,4 +18,11 @@ public interface PreferenceSource {
 
     @Favor("token")
     void setToken(String token);
+
+    @Favor("id")
+    @Default("")
+    String getId();
+
+    @Favor("id")
+    void setId(String id);
 }

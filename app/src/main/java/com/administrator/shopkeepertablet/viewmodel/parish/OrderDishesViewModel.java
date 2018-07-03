@@ -34,7 +34,7 @@ public class OrderDishesViewModel extends BaseViewModel {
     }
 
     public void getFoodList(){
-        repertory.getFoodList("4B176F0E-0553-4094-8181-5048641B20EF")
+        repertory.getFoodList("0","4B176F0E-0553-4094-8181-5048641B20EF")
                 .subscribe(new Consumer<ResultFoodEntity>() {
                     @Override
                     public void accept(ResultFoodEntity resultFoodEntity) throws Exception {

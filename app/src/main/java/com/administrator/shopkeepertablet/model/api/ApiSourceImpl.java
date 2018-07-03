@@ -28,7 +28,17 @@ public class ApiSourceImpl implements ApiSource {
     }
 
     @Override
-    public Observable<ResultFoodEntity> getFoodList(String id) {
-        return retrofitInterface.getFoodList("0",id);
+    public Observable<BaseEntity<String>> getRooms(String type, String id) {
+        return retrofitInterface.getRooms(type,id);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getTables(String type, String leibie, String id, int Pindex, int Psize) {
+        return retrofitInterface.getTables(type,leibie,id,Pindex,Psize);
+    }
+
+    @Override
+    public Observable<ResultFoodEntity> getFoodList(String type,String id) {
+        return retrofitInterface.getFoodList(type,id);
     }
 }
