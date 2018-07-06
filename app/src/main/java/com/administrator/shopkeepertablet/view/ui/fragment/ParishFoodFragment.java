@@ -51,6 +51,8 @@ public class ParishFoodFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
+        viewModel.getRooms();
+        viewModel.getTables();
     }
 
     private void initView(){

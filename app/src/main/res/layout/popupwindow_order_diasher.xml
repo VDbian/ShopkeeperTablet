@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    
+    <RelativeLayout
+        android:layout_width="354px"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64px"
+            android:background="@color/color23cac0"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8px"
+                android:orientation="vertical"
+                
+                >
+
+                <TextView
+                    android:id="@+id/tv_room_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4px"
+                    android:text="A05"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="28px" />
+
+                <TextView
+                    android:id="@+id/tv_room_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="大厅"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14px" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/ll_cancel"
+                android:layout_width="36px"
+                android:layout_height="36px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12px"
+                >
+                <ImageView
+                    android:layout_width="22px"
+                    android:layout_height="22px"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/nav_close"
+                    />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="72px"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shape_count_bg"
+            >
+            <TextView
+                android:id="@+id/tv_begin_table"
+                android:layout_width="162px"
+                android:layout_height="52px"
+                android:layout_marginLeft="10px"
+                android:layout_marginTop="10px"
+                android:background="@drawable/shape_order_dishes_order_bg"
+                android:gravity="center"
+                android:text="点菜"
+                android:textColor="@color/colorWhite"
+                android:textSize="18px" />
+            <TextView
+                android:id="@+id/tv_begin_table_and_order"
+                android:layout_width="162px"
+                android:layout_height="52px"
+                android:layout_marginLeft="10px"
+                android:layout_marginTop="10px"
+                android:background="@drawable/shape_order_dishes_order_bg"
+                android:gravity="center"
+                android:text="清台"
+                android:textColor="@color/colorWhite"
+                android:textSize="18px" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    
+</layout>

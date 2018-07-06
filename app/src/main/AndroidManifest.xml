@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.ui.activity.parish.OrderDishesActivity" android:screenOrientation="landscape" />
-        <!--<activity android:name=".view.ui.activity.MainActivity" android:screenOrientation="landscape"/>-->
+        <activity android:name=".view.ui.activity.MainActivity" android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

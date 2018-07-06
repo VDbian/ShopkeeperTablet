@@ -3,6 +3,8 @@ package com.administrator.shopkeepertablet.view.ui.activity.parish;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 
 import com.administrator.shopkeepertablet.R;
@@ -14,6 +16,7 @@ import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesVarietyAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
+import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.parish.OrderDishesViewModel;
 
@@ -37,6 +40,8 @@ public class OrderDishesActivity extends BaseActivity {
     OrderDishesViewModel viewModel;
     private OrderDishesVarietyAdapter adapter;
     private List<FoodEntity> mList = new ArrayList<>();
+
+
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -69,6 +74,7 @@ public class OrderDishesActivity extends BaseActivity {
 
         viewModel.getFoodList();
     }
+
 
     public void refreshVariety(List<FoodEntity> foodEntities){
         mList.clear();

@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     public void intentToMain(){
-        Intent intent = new Intent(LoginActivity.this,OrderDishesActivity.class);
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
         startActivity(intent);
     }
 }
