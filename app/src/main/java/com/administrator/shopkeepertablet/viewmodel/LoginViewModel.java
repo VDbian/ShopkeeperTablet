@@ -37,7 +37,7 @@ public class LoginViewModel extends BaseViewModel {
 
     public void loginViewModel() {
         if (!TextUtils.isEmpty(username.get()) && !TextUtils.isEmpty(password.get())) {
-            loginRepertory.login("老板", "4B176F0E-0553-4094-8181-5048641B20EF", "123")
+            loginRepertory.login("收银", "4B176F0E-0553-4094-8181-5048641B20EF", "111")
                     .subscribe(new Consumer<BaseEntity<String>>() {
                         @Override
                         public void accept(BaseEntity<String> baseEntity) throws Exception {
@@ -46,6 +46,8 @@ public class LoginViewModel extends BaseViewModel {
                                 UserInfoEntity entity = new Gson().fromJson(baseEntity.getResult(), UserInfoEntity.class);
                                 MLog.d("api", entity.toString());
                                 preferenceSource.setId("4B176F0E-0553-4094-8181-5048641B20EF");
+                                preferenceSource.setName(entity.getUserName());
+                                preferenceSource.setUserId(entity.getUserId());
                                 loginActivity.intentToMain();
                             } else {
                                 MToast.showToast(loginActivity, baseEntity.getMessage());
@@ -61,7 +63,5 @@ public class LoginViewModel extends BaseViewModel {
         } else {
             MToast.showToast(loginActivity, "用户名或密码不能为空");
         }
-
-
     }
 }

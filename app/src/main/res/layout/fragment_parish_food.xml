@@ -14,7 +14,8 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rlv_table"
-            android:layout_width="match_parent"
+            android:layout_marginLeft="16px"
+            android:layout_width="wrap_content"
             android:layout_height="0px"
             android:layout_weight="1" />
 

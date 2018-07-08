@@ -19,10 +19,16 @@ public interface ApiSource {
 
     Observable<BaseEntity<String>> login(String name, String id, String pwd);
 
-    Observable<BaseEntity<String>> getRooms(String type,String id);
+    Observable<BaseEntity<String>> getRooms(String type, String id, int Pindex, int Psize);
 
-    Observable<BaseEntity<String>> getTables(String type,String leibie, String id, int Pindex, int Psize);
+    Observable<BaseEntity<String>> getTables(String type, String leibie, String id, int Pindex, int Psize);
 
-    Observable<ResultFoodEntity> getFoodList(String type,String id);
+    Observable<BaseEntity<String>> openTable(String type, String tableId, String tableName, String id, String people, String ware, String userId, String name);
+
+    Observable<BaseEntity<String>> clearTable(String type,String tableId,String billId, String id);
+
+    Observable<ResultFoodEntity> getFoodList(String type, String id);
+
+    Observable<BaseEntity<String>> getFoodTypeList(String type, String id, int index, int size);
 
 }

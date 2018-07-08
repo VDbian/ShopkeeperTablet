@@ -45,7 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4px"
-                        android:text="A05"
+                        android:text="@{viemModel.table}"
                         android:textColor="@color/colorWhite"
                         android:textSize="28px" />
 
@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="大厅"
+                        android:text="@{viemModel.room}"
                         android:textColor="@color/colorWhite"
                         android:textSize="14px" />
                 </LinearLayout>
@@ -74,7 +74,7 @@
                         android:layout_marginTop="4px"
                         android:background="@drawable/shape_order_dishes_num_bg"
                         android:gravity="center"
-                        android:text="2人"
+                        android:text="@{@string/people_num(viemModel.people)}"
                         android:textColor="@color/colorWhite"
                         android:textSize="14px" />
 
@@ -85,7 +85,7 @@
                         android:layout_gravity="center"
                         android:background="@color/color1ca29a"
                         android:gravity="center"
-                        android:text="01:35"
+                        android:text="@{viemModel.time}"
                         android:textColor="@color/colorWhite"
                         android:textSize="14px" />
 

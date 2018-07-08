@@ -32,17 +32,17 @@ public class MainActivity extends BaseActivity {
 
 
     public static final int FRAGMENT_PARISH = 0;
-    public static final int FRAGMENT_FAST = 1;
-    public static final int FRAGMENT_ORDER = 2;
-    public static final int FRAGMENT_RESERVE = 3;
-    public static final int FRAGMENT_LINEUP = 4;
-    public static final int FRAGMENT_RECHARGE = 5;
-    public static final int FRAGMENT_MESSAGE = 6;
-    public static final int FRAGMENT_PRINTER = 7;
-    public static final int FRAGMENT_SETTING = 8;
+//    public static final int FRAGMENT_FAST = 1;
+//    public static final int FRAGMENT_ORDER = 2;
+//    public static final int FRAGMENT_RESERVE = 3;
+//    public static final int FRAGMENT_LINEUP = 4;
+//    public static final int FRAGMENT_RECHARGE = 5;
+//    public static final int FRAGMENT_MESSAGE = 6;
+//    public static final int FRAGMENT_PRINTER = 7;
+//    public static final int FRAGMENT_SETTING = 8;
 
     protected FragmentManager fragmentManager;
-    private Fragment myFragment[] = new Fragment[9];
+    private Fragment myFragment[] = new Fragment[1];
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity {
 
     private void initView() {
         initFragment();
+        binding.tvCashier.setText(viewModel.getUserName());
     }
 
     private void initFragment() {
@@ -89,30 +90,30 @@ public class MainActivity extends BaseActivity {
             case FRAGMENT_PARISH:
                 binding.tabParishFood.setViewSelect(true);
                 break;
-            case FRAGMENT_FAST:
-                binding.tabFastFood.setViewSelect(true);
-                break;
-            case FRAGMENT_ORDER:
-                binding.tabOrderList.setViewSelect(true);
-                break;
-            case FRAGMENT_RESERVE:
-                binding.tabReserve.setViewSelect(true);
-                break;
-            case FRAGMENT_LINEUP:
-                binding.tabLineup.setViewSelect(true);
-                break;
-            case FRAGMENT_RECHARGE:
-                binding.tabRecharge.setViewSelect(true);
-                break;
-            case FRAGMENT_MESSAGE:
-                binding.tabMessage.setViewSelect(true);
-                break;
-            case FRAGMENT_PRINTER:
-                binding.tabPrinter.setViewSelect(true);
-                break;
-            case FRAGMENT_SETTING:
-                binding.tabSetting.setViewSelect(true);
-                break;
+//            case FRAGMENT_FAST:
+//                binding.tabFastFood.setViewSelect(true);
+//                break;
+//            case FRAGMENT_ORDER:
+//                binding.tabOrderList.setViewSelect(true);
+//                break;
+//            case FRAGMENT_RESERVE:
+//                binding.tabReserve.setViewSelect(true);
+//                break;
+//            case FRAGMENT_LINEUP:
+//                binding.tabLineup.setViewSelect(true);
+//                break;
+//            case FRAGMENT_RECHARGE:
+//                binding.tabRecharge.setViewSelect(true);
+//                break;
+//            case FRAGMENT_MESSAGE:
+//                binding.tabMessage.setViewSelect(true);
+//                break;
+//            case FRAGMENT_PRINTER:
+//                binding.tabPrinter.setViewSelect(true);
+//                break;
+//            case FRAGMENT_SETTING:
+//                binding.tabSetting.setViewSelect(true);
+//                break;
         }
     }
 

@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel" />
+    </data>
+
     <LinearLayout
         android:layout_width="354px"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="672px"
         android:background="@color/colorWhite"
-        >
+        android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="64px"
-            android:background="@color/color23cac0"
-            >
+            android:background="@color/color23cac0">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8px"
-                android:orientation="vertical"
-                
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_room_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4px"
-                    android:text="A05"
+                    android:text="@={viewModel.table}"
                     android:textColor="@color/colorWhite"
                     android:textSize="28px" />
 
@@ -35,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="大厅"
+                    android:text="@={viewModel.room}"
                     android:textColor="@color/colorWhite"
                     android:textSize="14px" />
             </LinearLayout>
@@ -46,14 +50,13 @@
                 android:layout_height="36px"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="12px"
-                >
+                android:layout_marginRight="12px">
+
                 <ImageView
                     android:layout_width="22px"
                     android:layout_height="22px"
                     android:layout_centerInParent="true"
-                    android:src="@mipmap/nav_close"
-                    />
+                    android:src="@mipmap/nav_close" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -61,43 +64,41 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0px"
-            android:orientation="vertical"
             android:layout_weight="1"
-            >
+            android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60px"
-                >
+                android:layout_height="60px">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/diners_num"
-                    android:layout_marginLeft="29px"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="29px"
+                    android:text="@string/diners_num"
                     android:textColor="@color/color333333"
-                    android:textSize="20px"
-                    />
+                    android:textSize="20px" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="48px"
-                    android:orientation="horizontal"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="8px"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="8px"
                     android:background="@drawable/shape_count_bg"
-                    >
+                    android:orientation="horizontal">
+
                     <RelativeLayout
                         android:id="@+id/rl_dinners_num_reduce"
                         android:layout_width="44px"
-                        android:layout_height="48px"
-                        >
+                        android:layout_height="48px">
+
                         <ImageView
                             android:layout_width="16px"
                             android:layout_height="16px"
-                            android:src="@mipmap/form_reduce"
                             android:layout_centerInParent="true"
-                            />
+                            android:src="@mipmap/form_reduce" />
                     </RelativeLayout>
 
                     <TextView
@@ -105,66 +106,65 @@
                         android:layout_width="42px"
                         android:layout_height="48px"
                         android:background="@color/colore5e5e5"
-                        android:text="1"
                         android:gravity="center"
-                        android:textSize="18px"
+                        android:text="@={viewModel.people}"
                         android:textColor="@color/color333333"
-                        />
+                        android:textSize="18px" />
+
                     <RelativeLayout
                         android:id="@+id/rl_dinners_num_plus"
                         android:layout_width="44px"
                         android:layout_height="48px">
+
                         <ImageView
-                            android:layout_centerInParent="true"
                             android:layout_width="16px"
                             android:layout_height="16px"
-                            android:src="@mipmap/form_plus"
-                            />
+                            android:layout_centerInParent="true"
+                            android:src="@mipmap/form_plus" />
                     </RelativeLayout>
 
                 </LinearLayout>
 
 
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/colore5e5e5"
-                />
+                android:background="@color/colore5e5e5" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60px"
-                >
+                android:layout_height="60px">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/tableware_num"
-                    android:layout_marginLeft="29px"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="29px"
+                    android:text="@string/tableware_num"
                     android:textColor="@color/color333333"
-                    android:textSize="20px"
-                    />
+                    android:textSize="20px" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="48px"
-                    android:orientation="horizontal"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="8px"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="8px"
                     android:background="@drawable/shape_count_bg"
-                    >
+                    android:orientation="horizontal">
+
                     <RelativeLayout
                         android:id="@+id/rl_tableware_num_reduce"
                         android:layout_width="44px"
-                        android:layout_height="48px"
-                        >
+                        android:layout_height="48px">
+
                         <ImageView
                             android:layout_width="16px"
                             android:layout_height="16px"
-                            android:src="@mipmap/form_reduce"
                             android:layout_centerInParent="true"
-                            />
+                            android:src="@mipmap/form_reduce" />
                     </RelativeLayout>
 
                     <TextView
@@ -172,39 +172,39 @@
                         android:layout_width="42px"
                         android:layout_height="48px"
                         android:background="@color/colore5e5e5"
-                        android:text="1"
                         android:gravity="center"
-                        android:textSize="18px"
+                        android:text="@={viewModel.tableware}"
                         android:textColor="@color/color333333"
-                        />
+                        android:textSize="18px" />
+
                     <RelativeLayout
                         android:id="@+id/rl_tableware_num_plus"
                         android:layout_width="44px"
                         android:layout_height="48px">
+
                         <ImageView
-                            android:layout_centerInParent="true"
                             android:layout_width="16px"
                             android:layout_height="16px"
-                            android:src="@mipmap/form_plus"
-                            />
+                            android:layout_centerInParent="true"
+                            android:src="@mipmap/form_plus" />
                     </RelativeLayout>
 
                 </LinearLayout>
 
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/colore5e5e5"
-                />
+                android:background="@color/colore5e5e5" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="72px"
-            android:orientation="horizontal"
             android:background="@drawable/shape_count_bg"
-            >
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/tv_begin_table"
                 android:layout_width="162px"
@@ -216,11 +216,13 @@
                 android:text="开台"
                 android:textColor="@color/colorWhite"
                 android:textSize="18px" />
+
             <TextView
                 android:id="@+id/tv_begin_table_and_order"
                 android:layout_width="162px"
                 android:layout_height="52px"
                 android:layout_marginLeft="10px"
+                android:layout_marginRight="10px"
                 android:layout_marginTop="10px"
                 android:background="@drawable/shape_order_dishes_order_bg"
                 android:gravity="center"
@@ -231,5 +233,5 @@
         </LinearLayout>
 
     </LinearLayout>
-    
+
 </layout>

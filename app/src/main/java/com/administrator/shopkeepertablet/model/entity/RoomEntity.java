@@ -1,5 +1,7 @@
 package com.administrator.shopkeepertablet.model.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Description:
  * Author chencheng
@@ -20,14 +22,109 @@ public class RoomEntity {
      * Counts  : 20.0
      */
 
-    private String ID;
-    private String RESTAURANTID;
-    private String NAME;
-    private String SORTNO;
-    private int STATE;
-    private String RoomTypeID;
-    private String AreaId;
-    private double Price;
-    private double Counts;
+    @SerializedName("ID")
+    private String id;
+    @SerializedName("RESTAURANTID")
+    private String restaurantId;
+    @SerializedName("NAME")
+    private String name;
+    @SerializedName("SORTNO")
+    private String sortno;
+    @SerializedName("STATE")
+    private int state;
+    @SerializedName("RoomTypeID")
+    private String roomTypeID;
+    @SerializedName("AreaId")
+    private String areaId;
+    @SerializedName("Price")
+    private double price;
+    @SerializedName("Counts")
+    private double counts;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSortno() {
+        return sortno;
+    }
+
+    public void setSortno(String sortno) {
+        this.sortno = sortno;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getRoomTypeID() {
+        return roomTypeID;
+    }
+
+    public void setRoomTypeID(String roomTypeID) {
+        this.roomTypeID = roomTypeID;
+    }
+
+    public String getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getCounts() {
+        return counts;
+    }
+
+    public void setCounts(double counts) {
+        this.counts = counts;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomEntity{" +
+                "id='" + id + '\'' +
+                ", restaurantId='" + restaurantId + '\'' +
+                ", name='" + name + '\'' +
+                ", sortno='" + sortno + '\'' +
+                ", state=" + state +
+                ", roomTypeID='" + roomTypeID + '\'' +
+                ", areaId='" + areaId + '\'' +
+                ", price=" + price +
+                ", counts=" + counts +
+                '}';
+    }
 }

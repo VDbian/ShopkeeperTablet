@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel"/>
+    </data>
     
     <RelativeLayout
         android:layout_width="354px"
@@ -13,11 +18,11 @@
             android:background="@color/color23cac0"
             >
             <LinearLayout
+                android:id="@+id/ll_room_table"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8px"
                 android:orientation="vertical"
-                
                 >
 
                 <TextView
@@ -25,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4px"
-                    android:text="A05"
+                    android:text="@{viewModel.table}"
                     android:textColor="@color/colorWhite"
                     android:textSize="28px" />
 
@@ -34,9 +39,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="大厅"
+                    android:text="@{viewModel.room}"
                     android:textColor="@color/colorWhite"
                     android:textSize="14px" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_people_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25px"
+                android:layout_marginTop="4px"
+                android:layout_toRightOf="@+id/ll_room_table"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_people_num"
+                    android:layout_width="46px"
+                    android:layout_height="27px"
+                    android:layout_marginTop="4px"
+                    android:background="@drawable/shape_order_dishes_num_bg"
+                    android:gravity="center"
+                    android:text="@{@string/people_num(viewModel.people)}"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14px" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="46px"
+                    android:layout_height="18px"
+                    android:layout_gravity="center"
+                    android:background="@color/color1ca29a"
+                    android:gravity="center"
+                    android:text="@{viewModel.time}"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14px" />
+
             </LinearLayout>
 
             <RelativeLayout
@@ -65,25 +104,26 @@
             android:background="@drawable/shape_count_bg"
             >
             <TextView
-                android:id="@+id/tv_begin_table"
+                android:id="@+id/tv_order_dishes"
                 android:layout_width="162px"
                 android:layout_height="52px"
                 android:layout_marginLeft="10px"
                 android:layout_marginTop="10px"
                 android:background="@drawable/shape_order_dishes_order_bg"
                 android:gravity="center"
-                android:text="点菜"
+                android:text="@string/order_diashes"
                 android:textColor="@color/colorWhite"
                 android:textSize="18px" />
             <TextView
-                android:id="@+id/tv_begin_table_and_order"
+                android:id="@+id/tv_clear_table"
                 android:layout_width="162px"
                 android:layout_height="52px"
                 android:layout_marginLeft="10px"
+                android:layout_marginRight="10px"
                 android:layout_marginTop="10px"
-                android:background="@drawable/shape_order_dishes_order_bg"
+                android:background="@drawable/shape_table_open_bg"
                 android:gravity="center"
-                android:text="清台"
+                android:text="@string/clear_table"
                 android:textColor="@color/colorWhite"
                 android:textSize="18px" />
 

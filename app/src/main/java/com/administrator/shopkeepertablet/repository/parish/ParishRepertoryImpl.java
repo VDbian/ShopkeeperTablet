@@ -29,20 +29,38 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
     }
 
     @Override
-    public Observable<BaseEntity<String>> getRooms(String type, String id) {
-        return apiSource.getRooms(type,id).subscribeOn(Schedulers.io())
+    public Observable<BaseEntity<String>> getRooms(String type, String id,int index, int size) {
+        return apiSource.getRooms(type,id,index,size).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
-    public Observable<BaseEntity<String>> getTables(String type, String leibie, String id, int Pindex, int Psize) {
-        return apiSource.getTables(type,leibie,id,Pindex,Psize).subscribeOn(Schedulers.io())
+    public Observable<BaseEntity<String>> getTables(String type, String leibie, String id, int index, int size) {
+        return apiSource.getTables(type,leibie,id,index,size).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> openTable(String type, String tableId, String tableName, String id, String people, String ware, String userId, String name) {
+        return apiSource.openTable(type,tableId,tableName,id,people,ware,userId,name).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> clearTable(String type, String tableId, String billId, String id) {
+        return apiSource.clearTable(type,tableId,billId,id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<ResultFoodEntity> getFoodList(String type, String id) {
         return apiSource.getFoodList(type,id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getFoodTypeList(String type, String id, int index, int size) {
+        return apiSource.getFoodTypeList(type,id,index,size).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

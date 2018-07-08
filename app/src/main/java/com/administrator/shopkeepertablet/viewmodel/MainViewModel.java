@@ -22,4 +22,8 @@ public class MainViewModel extends BaseViewModel {
         this.mainRepertory = mainRepertory;
         this.preferenceSource = preferenceSource;
     }
+
+    public String getUserName(){
+        return preferenceSource.getName();
+    }
 }

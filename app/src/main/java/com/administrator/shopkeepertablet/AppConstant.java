@@ -16,6 +16,8 @@ public class AppConstant {
 
     public static final int RESPONSE_CODE_OK = 200;
 
+    public static final int EVENT_ORDER_DISHES = 0;
+
     public static final int EVENT_LOGOUT_EXIT = 1;
     public static final int EVENT_LOGOUT_PWD = 2;
     public static final int EVENT_DATA_SELFINFO = 1;

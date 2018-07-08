@@ -1,73 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:layout_width="100px"
-        android:layout_height="112px"
-        android:orientation="vertical"
-        android:background="@drawable/shape_table_bg"
-        >
-        <TextView
-            android:id="@+id/tv_table_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:text="2号"
-            android:textSize="17px"
-            android:layout_marginLeft="8px"
-            android:layout_marginTop="8px"
-            />
-        <TextView
-            android:id="@+id/tv_people_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:text="8人"
-            android:textSize="12px"
-            android:layout_marginTop="10px"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8px"
-            android:visibility="gone"
-            />
+    <data>
 
-        <LinearLayout
-            android:id="@+id/ll_no_leisure"
-            android:layout_width="78px"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="42px"
-            android:visibility="gone"
-            >
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.TableEntity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_main"
+            android:layout_width="100px"
+            android:layout_height="112px"
+            android:orientation="vertical">
+
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="34px"
-                android:text="￥2500.00"
-                android:textSize="14px"
-                android:gravity="center"
-                android:background="@color/colorWhite"
-                />
+                android:id="@+id/tv_table_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8px"
+                android:layout_marginTop="8px"
+                android:text="@{entity.tableName}"
+                android:textColor="@color/colorWhite"
+                android:textSize="17px" />
+
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="20px"
+                android:id="@+id/tv_people_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8px"
+                android:layout_marginTop="10px"
+                android:text="@{@string/people_num(entity.personCounts)}"
+                android:textColor="@color/colorWhite"
                 android:textSize="12px"
-                android:text="01:30"
-                android:gravity="center"
-                android:background="@color/color19000000"
+                android:visibility="@{entity.textVisibility()}"
                 />
-            
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_leisure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/state_leisure"
-            android:textSize="14px"
-            android:textColor="@color/colorWhite"
-            />
+            <LinearLayout
+                android:id="@+id/ll_no_leisure"
+                android:layout_width="78px"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="42px"
+                android:orientation="vertical">
 
-    </RelativeLayout>
-    
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="34px"
+                    android:background="@color/colorWhite"
+                    android:gravity="center"
+                    android:text="@{@string/price_prefix(entity.price)}"
+                    android:textSize="14px" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20px"
+                    android:background="@color/color19000000"
+                    android:gravity="center"
+                    android:text="@{entity.getTime()}"
+                    android:textSize="12px" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_leisure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/state_leisure"
+                android:textColor="@color/colorWhite"
+                android:textSize="14px" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
 </layout>

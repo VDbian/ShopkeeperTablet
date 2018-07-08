@@ -18,7 +18,7 @@ import retrofit2.http.POST;
 public interface RetrofitInterface {
     //用户登录
     @FormUrlEncoded
-    @POST( AppConstant.PORT_URL + "PortLoginAshx.ashx")
+    @POST(AppConstant.PORT_URL + "PortLoginAshx.ashx")
     Observable<BaseEntity<String>> login(
             @Field("LoginName") String loginName,//登录名
             @Field("ID") String id,//店铺ID
@@ -27,10 +27,12 @@ public interface RetrofitInterface {
 
     //获取房间
     @FormUrlEncoded
-    @POST( AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
+    @POST(AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
     Observable<BaseEntity<String>> getRooms(
             @Field("Type") String type,
-            @Field("id") String id
+            @Field("id") String id,
+            @Field("Pindex1") int Pindex,
+            @Field("Psize1") int Psize
     );
 
     //获取桌号信息
@@ -44,14 +46,47 @@ public interface RetrofitInterface {
             @Field("Psize1") int Psize
     );
 
+    //开桌
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
+    Observable<BaseEntity<String>> openTable(
+            @Field("Type") String type,
+            @Field("ltableid") String tableId,
+            @Field("itablename") String tableName,
+            @Field("id") String id,
+            @Field("peoplecount") String people,
+            @Field("canju") String ware,
+            @Field("UserID") String userId,
+            @Field("Name") String name
+    );
+
+    //清台
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
+    Observable<BaseEntity<String>> clearTable(
+            @Field("Type") String type,
+            @Field("tableid") String tableId,
+            @Field("billid") String billId,
+            @Field("id") String id
+    );
+
 
     //菜单列表PortTakeFoodAshx.ashx
     @FormUrlEncoded
-    @POST( AppConstant.PORT_URL + "PortTakeFoodAshx.ashx")
+    @POST(AppConstant.PORT_URL + "PortTakeFoodAshx.ashx")
     Observable<ResultFoodEntity> getFoodList(
             @Field("Type") String type,
             @Field("id") String id//店铺ID
     );
 
+    //菜品类型PortTakeFoodAshx.ashx
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortTakeFoodAshx.ashx")
+    Observable<BaseEntity<String>> getFoodTypeList(
+            @Field("Type") String type,
+            @Field("id") String id,//店铺ID
+            @Field("Pindex1") int Pindex,
+            @Field("Psize1") int Psize
+    );
 
 }

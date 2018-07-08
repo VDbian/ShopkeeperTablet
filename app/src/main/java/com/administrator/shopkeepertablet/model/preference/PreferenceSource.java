@@ -12,12 +12,12 @@ import com.cocosw.favor.Favor;
 @AllFavor
 public interface PreferenceSource {
 
-    @Favor("token")
+    @Favor("name")
     @Default("")
-    String getToken();
+    String getName();
 
-    @Favor("token")
-    void setToken(String token);
+    @Favor("name")
+    void setName(String name);
 
     @Favor("id")
     @Default("")
@@ -25,4 +25,11 @@ public interface PreferenceSource {
 
     @Favor("id")
     void setId(String id);
+
+    @Favor("userId")
+    @Default("")
+    String getUserId();
+
+    @Favor("userId")
+    void setUserId(String userId);
 }

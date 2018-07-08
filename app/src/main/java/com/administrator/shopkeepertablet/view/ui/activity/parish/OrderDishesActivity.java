@@ -2,23 +2,32 @@ package com.administrator.shopkeepertablet.view.ui.activity.parish;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.ActivityBeginOrderDishesBinding;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.parish.DaggerParishActivityComponent;
 import com.administrator.shopkeepertablet.di.parish.ParishActivityModule;
+import com.administrator.shopkeepertablet.model.entity.EventOrderDishesEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
+import com.administrator.shopkeepertablet.utils.DataEvent;
+import com.administrator.shopkeepertablet.utils.DateUtils;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesVarietyAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.parish.OrderDishesViewModel;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +66,7 @@ public class OrderDishesActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_begin_order_dishes);
         binding.setViemModel(viewModel);
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -71,8 +81,19 @@ public class OrderDishesActivity extends BaseActivity {
 
             }
         });
+//        viewModel.getFoodList();
+        viewModel.getFoodType();
+    }
 
-        viewModel.getFoodList();
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onDataEvent(DataEvent event) {
+        if (event.getMessageTag() == AppConstant.EVENT_ORDER_DISHES) {
+            EventOrderDishesEntity eventOrderDishesEntity = (EventOrderDishesEntity) event.getMessageData();
+            viewModel.table.set(eventOrderDishesEntity.getTableName());
+            viewModel.room.set(eventOrderDishesEntity.getRoomName());
+            viewModel.people.set(eventOrderDishesEntity.getPeopleNum());
+            viewModel.time.set(DateUtils.friendly_time(DateUtils.stringToDate(eventOrderDishesEntity.getTime())));
+        }
     }
 
 
@@ -80,5 +101,11 @@ public class OrderDishesActivity extends BaseActivity {
         mList.clear();
         mList.addAll(foodEntities);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

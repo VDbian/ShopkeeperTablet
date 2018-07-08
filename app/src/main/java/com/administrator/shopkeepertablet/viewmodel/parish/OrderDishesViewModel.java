@@ -1,5 +1,8 @@
 package com.administrator.shopkeepertablet.viewmodel.parish;
 
+import android.databinding.ObservableField;
+
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
@@ -12,6 +15,8 @@ import com.google.gson.Gson;
 
 import java.util.Arrays;
 import java.util.List;
+
+import javax.xml.transform.sax.TemplatesHandler;
 
 import io.reactivex.functions.Consumer;
 
@@ -27,22 +32,47 @@ public class OrderDishesViewModel extends BaseViewModel {
     private OrderDishesActivity activity;
     private ParishRepertory repertory;
     private PreferenceSource preferenceSource;
+    public ObservableField<String> room = new ObservableField<>("");
+    public ObservableField<String> table = new ObservableField<>("");
+    public ObservableField<String> tableId = new ObservableField<>("");
+    public ObservableField<String> people = new ObservableField<>("1");
+    public ObservableField<String> tableware = new ObservableField<>("1");
+    public ObservableField<String> time = new ObservableField<>("");
+
 
     public OrderDishesViewModel(OrderDishesActivity activity, ParishRepertory repertory,PreferenceSource preferenceSource) {
         this.activity = activity;
         this.repertory = repertory;
+        this.preferenceSource = preferenceSource;
     }
 
     public void getFoodList(){
-        repertory.getFoodList("0","4B176F0E-0553-4094-8181-5048641B20EF")
+        repertory.getFoodList("0",preferenceSource.getId())
                 .subscribe(new Consumer<ResultFoodEntity>() {
                     @Override
                     public void accept(ResultFoodEntity resultFoodEntity) throws Exception {
                         MLog.e("api",resultFoodEntity.toString());
+                        if (resultFoodEntity.getCode().equals("1")) {
 //                        ResultFoodEntity resultFoodEntity = new Gson().fromJson(baseEntity.getResult(),ResultFoodEntity.class);
-                        List<FoodEntity> foodEntities = Arrays.asList(new Gson().fromJson(resultFoodEntity.getResult().getFood(),FoodEntity[].class));
-                        activity.refreshVariety(foodEntities);
+                            List<FoodEntity> foodEntities = Arrays.asList(new Gson().fromJson(resultFoodEntity.getResult().getFood(), FoodEntity[].class));
+                            activity.refreshVariety(foodEntities);
+                        }
 //                        MLog.e("api",foodEntities.size()+"");
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        MLog.e("api",throwable.getMessage());
+                    }
+                });
+    }
+
+    public void getFoodType(){
+        repertory.getFoodTypeList("1",preferenceSource.getId(),1,100)
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        MLog.e("api",stringBaseEntity.toString());
                     }
                 }, new Consumer<Throwable>() {
                     @Override
