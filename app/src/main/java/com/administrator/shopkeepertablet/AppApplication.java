@@ -9,6 +9,8 @@ import com.administrator.shopkeepertablet.di.app.AppModule;
 import com.administrator.shopkeepertablet.di.app.DaggerAppComponent;
 import com.administrator.shopkeepertablet.di.app.NetworkModule;
 
+import org.litepal.LitePalApplication;
+
 import java.util.Map;
 
 
@@ -17,7 +19,7 @@ import java.util.Map;
  * Author CC
  * Time 2018/6/11
  */
-public class AppApplication extends MultiDexApplication {
+public class AppApplication extends LitePalApplication {
 
     private AppComponent appComponent;
 

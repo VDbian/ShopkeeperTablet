@@ -1,5 +1,7 @@
 package com.administrator.shopkeepertablet.model.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ public class ResultFoodEntity {
 
     private String code;
     private ResultBean result;
+    private String message;
 
     public String getCode() {
         return code;
@@ -35,12 +38,29 @@ public class ResultFoodEntity {
         this.result = result;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public static class ResultBean {
         /**
          * food :
          */
 
         private String food;
+        @SerializedName("Spec")
+        private String spec;
+        @SerializedName("Kouwei")
+        private String kouWei;
+        private String foodType;
+        @SerializedName("Season")
+        private String season;
+        @SerializedName("ProductKouWei")
+        private String productKouWei;
 
         public String getFood() {
             return food;
@@ -48,6 +68,46 @@ public class ResultFoodEntity {
 
         public void setFood(String food) {
             this.food = food;
+        }
+
+        public String getSpec() {
+            return spec;
+        }
+
+        public void setSpec(String spec) {
+            this.spec = spec;
+        }
+
+        public String getKouWei() {
+            return kouWei;
+        }
+
+        public void setKouWei(String kouWei) {
+            this.kouWei = kouWei;
+        }
+
+        public String getFoodType() {
+            return foodType;
+        }
+
+        public void setFoodType(String foodType) {
+            this.foodType = foodType;
+        }
+
+        public String getSeason() {
+            return season;
+        }
+
+        public void setSeason(String season) {
+            this.season = season;
+        }
+
+        public String getProductKouWei() {
+            return productKouWei;
+        }
+
+        public void setProductKouWei(String productKouWei) {
+            this.productKouWei = productKouWei;
         }
     }
 }
