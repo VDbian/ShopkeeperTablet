@@ -2,6 +2,8 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.litepal.crud.LitePalSupport;
+
 /**
  * Description:
  * Author CC
@@ -9,7 +11,8 @@ import com.google.gson.annotations.SerializedName;
  */
 
 
-public class FoodTypeEntity {
+public class FoodTypeEntity extends LitePalSupport {
+
     @SerializedName("PRODUCTTYPEID")
     private String productTypeId;
 

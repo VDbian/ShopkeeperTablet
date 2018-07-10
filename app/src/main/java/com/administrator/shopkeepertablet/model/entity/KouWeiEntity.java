@@ -2,6 +2,8 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.litepal.crud.LitePalSupport;
+
 /**
  * Description:
  * Author CC
@@ -9,10 +11,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 
-public class KouWeiEntity {
-
-    @SerializedName("GUID")
-    private String id;
+public class KouWeiEntity  extends LitePalSupport {
+//    @SerializedName("GUID")
+//    private String uId;
     @SerializedName("Name")
     private String name;
     @SerializedName("NO")
@@ -24,13 +25,13 @@ public class KouWeiEntity {
     @SerializedName("Accord")
     private String accord;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+//    public String getuId() {
+//        return uId;
+//    }
+//
+//    public void setuId(String id) {
+//        this.uId = id;
+//    }
 
     public String getName() {
         return name;
@@ -75,7 +76,7 @@ public class KouWeiEntity {
     @Override
     public String toString() {
         return "KouWeiEntity{" +
-                "id='" + id + '\'' +
+//                "uId='" + uId + '\'' +
                 ", name='" + name + '\'' +
                 ", no='" + no + '\'' +
                 ", restaurantId='" + restaurantId + '\'' +

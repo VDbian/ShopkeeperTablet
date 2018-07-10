@@ -2,6 +2,8 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.litepal.crud.LitePalSupport;
+
 /**
  * Description:
  * Author CC
@@ -9,10 +11,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 
-public class SeasonEntity {
-
-    @SerializedName("GUID")
-    private String id;
+public class SeasonEntity extends LitePalSupport {
+//    @SerializedName("GUID")
+//    private String seasonId;
     @SerializedName("ProtuctID")
     private String productId;
     @SerializedName("Name")
@@ -26,13 +27,13 @@ public class SeasonEntity {
     @SerializedName("Type")
     private String type;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+//    public String getSeasonId() {
+//        return seasonId;
+//    }
+//
+//    public void setSeasonId(String seasonId) {
+//        this.seasonId = seasonId;
+//    }
 
     public String getProductId() {
         return productId;
@@ -85,7 +86,7 @@ public class SeasonEntity {
     @Override
     public String toString() {
         return "SeasonEntity{" +
-                "id='" + id + '\'' +
+//                "uId='" + gu + '\'' +
                 ", productId='" + productId + '\'' +
                 ", name='" + name + '\'' +
                 ", price='" + price + '\'' +

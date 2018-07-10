@@ -46,26 +46,7 @@ public class OrderDishesViewModel extends BaseViewModel {
         this.preferenceSource = preferenceSource;
     }
 
-    public void getFoodList(){
-        repertory.getFoodList("0",preferenceSource.getId())
-                .subscribe(new Consumer<ResultFoodEntity>() {
-                    @Override
-                    public void accept(ResultFoodEntity resultFoodEntity) throws Exception {
-                        MLog.e("api",resultFoodEntity.toString());
-                        if (resultFoodEntity.getCode().equals("1")) {
-//                        ResultFoodEntity resultFoodEntity = new Gson().fromJson(baseEntity.getResult(),ResultFoodEntity.class);
-                            List<FoodEntity> foodEntities = Arrays.asList(new Gson().fromJson(resultFoodEntity.getResult().getFood(), FoodEntity[].class));
-                            activity.refreshVariety(foodEntities);
-                        }
-//                        MLog.e("api",foodEntities.size()+"");
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        MLog.e("api",throwable.getMessage());
-                    }
-                });
-    }
+
 
     public void getFoodType(){
         repertory.getFoodTypeList("1",preferenceSource.getId(),1,100)
