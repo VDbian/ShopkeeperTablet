@@ -1,6 +1,7 @@
 package com.administrator.shopkeepertablet;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 
@@ -20,6 +21,12 @@ import java.util.Map;
 public class AppApplication extends MultiDexApplication {
 
     private AppComponent appComponent;
+
+    @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        MultiDex.install(context);
+    }
 
     @Override
     public void onCreate() {
