@@ -6,6 +6,8 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.util.List;
+
 /**
  * Description:
  * Author CC
@@ -24,15 +26,19 @@ public class ProductKouWeiEntity  {
     private String type;
     @SerializedName("Name")
     private String name;
+    @SerializedName("PatientId")
+    private String productId;
 
-    @Generated(hash = 606209820)
+
+    @Generated(hash = 491407968)
     public ProductKouWeiEntity(String uId, String no, String restaurantId,
-            String type, String name) {
+            String type, String name, String productId) {
         this.uId = uId;
         this.no = no;
         this.restaurantId = restaurantId;
         this.type = type;
         this.name = name;
+        this.productId = productId;
     }
 
     @Generated(hash = 1633960264)
@@ -96,5 +102,13 @@ public class ProductKouWeiEntity  {
 
     public void setUId(String uId) {
         this.uId = uId;
+    }
+
+    public String getProductId() {
+        return this.productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 }

@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.model.greendao;
 
+import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
@@ -8,6 +9,8 @@ import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 
@@ -58,6 +61,7 @@ public class FoodEntityDao extends AbstractDao<FoodEntity, String> {
 
     private DaoSession daoSession;
 
+    private Query<FoodEntity> foodTypeEntity_FoodEntityListQuery;
 
     public FoodEntityDao(DaoConfig config) {
         super(config);
@@ -470,4 +474,18 @@ public class FoodEntityDao extends AbstractDao<FoodEntity, String> {
         return true;
     }
     
+    /** Internal query to resolve the "foodEntityList" to-many relationship of FoodTypeEntity. */
+    public List<FoodEntity> _queryFoodTypeEntity_FoodEntityList(String productTypeId) {
+        synchronized (this) {
+            if (foodTypeEntity_FoodEntityListQuery == null) {
+                QueryBuilder<FoodEntity> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.ProductTypeId.eq(null));
+                foodTypeEntity_FoodEntityListQuery = queryBuilder.build();
+            }
+        }
+        Query<FoodEntity> query = foodTypeEntity_FoodEntityListQuery.forCurrentThread();
+        query.setParameter(0, productTypeId);
+        return query.list();
+    }
+
 }

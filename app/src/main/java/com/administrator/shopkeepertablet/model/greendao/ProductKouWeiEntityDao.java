@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.model.greendao;
 
+import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
@@ -8,6 +9,8 @@ import org.greenrobot.greendao.Property;
 import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
+import org.greenrobot.greendao.query.Query;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity;
 
@@ -29,8 +32,10 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
         public final static Property RestaurantId = new Property(2, String.class, "restaurantId", false, "RESTAURANT_ID");
         public final static Property Type = new Property(3, String.class, "type", false, "TYPE");
         public final static Property Name = new Property(4, String.class, "name", false, "NAME");
+        public final static Property ProductId = new Property(5, String.class, "productId", false, "PRODUCT_ID");
     }
 
+    private Query<ProductKouWeiEntity> foodEntity_ProductKouWeiEntityListQuery;
 
     public ProductKouWeiEntityDao(DaoConfig config) {
         super(config);
@@ -48,7 +53,8 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
                 "\"NO\" TEXT," + // 1: no
                 "\"RESTAURANT_ID\" TEXT," + // 2: restaurantId
                 "\"TYPE\" TEXT," + // 3: type
-                "\"NAME\" TEXT);"); // 4: name
+                "\"NAME\" TEXT," + // 4: name
+                "\"PRODUCT_ID\" TEXT);"); // 5: productId
     }
 
     /** Drops the underlying database table. */
@@ -85,6 +91,11 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
         if (name != null) {
             stmt.bindString(5, name);
         }
+ 
+        String productId = entity.getProductId();
+        if (productId != null) {
+            stmt.bindString(6, productId);
+        }
     }
 
     @Override
@@ -115,6 +126,11 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
         if (name != null) {
             stmt.bindString(5, name);
         }
+ 
+        String productId = entity.getProductId();
+        if (productId != null) {
+            stmt.bindString(6, productId);
+        }
     }
 
     @Override
@@ -129,7 +145,8 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // no
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // restaurantId
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // type
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // name
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // name
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // productId
         );
         return entity;
     }
@@ -141,6 +158,7 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
         entity.setRestaurantId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setType(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setProductId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     @Override
@@ -167,4 +185,18 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
         return true;
     }
     
+    /** Internal query to resolve the "productKouWeiEntityList" to-many relationship of FoodEntity. */
+    public List<ProductKouWeiEntity> _queryFoodEntity_ProductKouWeiEntityList(String productId) {
+        synchronized (this) {
+            if (foodEntity_ProductKouWeiEntityListQuery == null) {
+                QueryBuilder<ProductKouWeiEntity> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.ProductId.eq(null));
+                foodEntity_ProductKouWeiEntityListQuery = queryBuilder.build();
+            }
+        }
+        Query<ProductKouWeiEntity> query = foodEntity_ProductKouWeiEntityListQuery.forCurrentThread();
+        query.setParameter(0, productId);
+        return query.list();
+    }
+
 }

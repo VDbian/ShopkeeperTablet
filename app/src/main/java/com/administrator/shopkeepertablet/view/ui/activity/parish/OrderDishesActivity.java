@@ -1,12 +1,14 @@
 package com.administrator.shopkeepertablet.view.ui.activity.parish;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
@@ -16,9 +18,12 @@ import com.administrator.shopkeepertablet.di.parish.DaggerParishActivityComponen
 import com.administrator.shopkeepertablet.di.parish.ParishActivityModule;
 import com.administrator.shopkeepertablet.model.entity.EventOrderDishesEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
+import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
+import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
+import com.administrator.shopkeepertablet.view.ui.adapter.FoodTypeAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesVarietyAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
@@ -48,7 +53,9 @@ public class OrderDishesActivity extends BaseActivity {
     @Inject
     OrderDishesViewModel viewModel;
     private OrderDishesVarietyAdapter adapter;
+    private FoodTypeAdapter foodTypeAdapter;
     private List<FoodEntity> mList = new ArrayList<>();
+    private List<FoodTypeSelectEntity> foodTypeEntityList = new ArrayList<>();
 
 
 
@@ -68,6 +75,8 @@ public class OrderDishesActivity extends BaseActivity {
         binding.setViemModel(viewModel);
         EventBus.getDefault().register(this);
         initView();
+        viewModel.getFoodList();
+        viewModel.getFoodType();
     }
 
     private void initView(){
@@ -81,8 +90,22 @@ public class OrderDishesActivity extends BaseActivity {
 
             }
         });
-       viewModel.getFoodList();
-//        viewModel.getFoodType();
+
+        Drawable drawable1 = getResources().getDrawable(R.mipmap.search);
+        drawable1.setBounds(25, 0, 45, 20);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
+        binding.etSearch.setCompoundDrawables(drawable1, null, null, null);//只放左边
+
+        foodTypeAdapter = new FoodTypeAdapter(this,foodTypeEntityList);
+        binding.rlvFoodType.setAdapter(foodTypeAdapter);
+        binding.rlvFoodType.setLayoutManager(new LinearLayoutManager(this));
+       foodTypeAdapter.setOnItemClick(new FoodTypeAdapter.OnItemClick() {
+           @Override
+           public void onItemClick(FoodTypeEntity entity, int position) {
+                mList.clear();
+                mList.addAll(entity.getFoodEntityList());
+                adapter.notifyDataSetChanged();
+           }
+       });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
@@ -101,6 +124,12 @@ public class OrderDishesActivity extends BaseActivity {
         mList.clear();
         mList.addAll(foodEntities);
         adapter.notifyDataSetChanged();
+    }
+
+    public void refreshFoodType(List<FoodTypeSelectEntity> foodTypeEntities){
+        foodTypeEntityList.clear();
+        foodTypeEntityList.addAll(foodTypeEntities);
+        foodTypeAdapter.notifyDataSetChanged();
     }
 
     @Override

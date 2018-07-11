@@ -30,6 +30,8 @@ public class FoodTypeEntityDao extends AbstractDao<FoodTypeEntity, String> {
         public final static Property OrderNo = new Property(3, String.class, "orderNo", false, "ORDER_NO");
     }
 
+    private DaoSession daoSession;
+
 
     public FoodTypeEntityDao(DaoConfig config) {
         super(config);
@@ -37,6 +39,7 @@ public class FoodTypeEntityDao extends AbstractDao<FoodTypeEntity, String> {
     
     public FoodTypeEntityDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
+        this.daoSession = daoSession;
     }
 
     /** Creates the underlying database table. */
@@ -103,6 +106,12 @@ public class FoodTypeEntityDao extends AbstractDao<FoodTypeEntity, String> {
         if (orderNo != null) {
             stmt.bindString(4, orderNo);
         }
+    }
+
+    @Override
+    protected final void attachEntity(FoodTypeEntity entity) {
+        super.attachEntity(entity);
+        entity.__setDaoSession(daoSession);
     }
 
     @Override

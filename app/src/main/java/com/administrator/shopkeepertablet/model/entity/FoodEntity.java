@@ -13,6 +13,7 @@ import com.administrator.shopkeepertablet.model.greendao.DaoSession;
 import com.administrator.shopkeepertablet.model.greendao.SeasonEntityDao;
 import com.administrator.shopkeepertablet.model.greendao.SpecEntityDao;
 import com.administrator.shopkeepertablet.model.greendao.FoodEntityDao;
+import com.administrator.shopkeepertablet.model.greendao.ProductKouWeiEntityDao;
 
 
 /**
@@ -153,6 +154,9 @@ public class FoodEntity {
     @ToMany(referencedJoinProperty = "productId")
     private List<SeasonEntity> seasonEntityList;
 
+    @ToMany(referencedJoinProperty = "productId")
+    private List<ProductKouWeiEntity> productKouWeiEntityList;
+
     /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
@@ -209,252 +213,13 @@ public class FoodEntity {
     }
 
 
-    public String getProductId() {
-        return productId;
-    }
 
-    public void setProductId(String productId) {
-        this.productId = productId == null ? "" : productId;
-    }
-
-    public String getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId == null ? "" : restaurantId;
-    }
-
-//    public String getuId() {
-//        return uId;
-//    }
-//
-//    public void setuId(String uId) {
-//        this.uId  = uId == null ? "" : uId;
-//    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName == null ? "" : productName;
-    }
-
-    public String getPinYin() {
-        return pinYin;
-    }
-
-    public void setPinYin(String pinYin) {
-        this.pinYin = pinYin == null ? "" : pinYin;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit == null ? "" : unit;
-    }
-
-    public String getMinUnit() {
-        return minUnit;
-    }
-
-    public void setMinUnit(String minUnit) {
-        this.minUnit = minUnit == null ? "" : minUnit;
-    }
-
-    public String getProductTypeId() {
-        return productTypeId;
-    }
-
-    public void setProductTypeId(String productTypeId) {
-        this.productTypeId = productTypeId == null ? "" : productTypeId;
-    }
-
-    public String getProductTypeName() {
-        return productTypeName;
-    }
-
-    public void setProductTypeName(String productTypeName) {
-        this.productTypeName = productTypeName == null ? "" : productTypeName;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getProductFile() {
-        return productFile;
-    }
-
-    public void setProductFile(String productFile) {
-        this.productFile = productFile == null ? "" : productFile;
-    }
-
-    public String getProductImage() {
-        return productImage;
-    }
-
-    public void setProductImage(String productImage) {
-        this.productImage = productImage == null ? "" : productImage;
-    }
-
-    public int getState() {
-        return state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark == null ? "" : remark;
-    }
-
-    public String getTasteID() {
-        return tasteID;
-    }
-
-    public void setTasteID(String tasteID) {
-        this.tasteID = tasteID == null ? "" : tasteID;
-    }
-
-    public String getIsDaZhe() {
-        return IsDaZhe;
-    }
-
-    public void setIsDaZhe(String isDaZhe) {
-        IsDaZhe = isDaZhe == null ? "" : isDaZhe;
-    }
-
-    public String getDaZhe() {
-        return daZhe;
-    }
-
-    public void setDaZhe(String daZhe) {
-        this.daZhe = daZhe == null ? "" : daZhe;
-    }
-
-    public String getWarCount() {
-        return warCount;
-    }
-
-    public void setWarCount(String warCount) {
-        this.warCount = warCount == null ? "" : warCount;
-    }
-
-    public int getIsClose() {
-        return IsClose;
-    }
-
-    public void setIsClose(int isClose) {
-        this.IsClose = isClose;
-    }
-
-    public String getIsCloseName() {
-        return isCloseName;
-    }
-
-    public void setIsCloseName(String isCloseName) {
-        this.isCloseName = isCloseName == null ? "" : isCloseName;
-    }
-
-    public int getProductCount() {
-        return productCount;
-    }
-
-    public void setProductCount(int productCount) {
-        this.productCount = productCount;
-    }
-
-    public String getChuCaiType() {
-        return chuCaiType;
-    }
-
-    public void setChuCaiType(String chuCaiType) {
-        this.chuCaiType = chuCaiType == null ? "" : chuCaiType;
-    }
-
-    public int getCanDiscount() {
-        return canDiscount;
-    }
-
-    public void setCanDiscount(int canDiscount) {
-        this.canDiscount = canDiscount;
-    }
-
-    public double getMemberPice() {
-        return memberPice;
-    }
-
-    public void setMemberPice(double memberPice) {
-        this.memberPice = memberPice;
-    }
-
-    public int getSalesType() {
-        return salesType;
-    }
-
-    public void setSalesType(int salesType) {
-        this.salesType = salesType;
-    }
-
-    public String getAccordIng() {
-        return accordIng;
-    }
-
-    public void setAccordIng(String accordIng) {
-        this.accordIng = accordIng == null ? "" : accordIng;
-    }
-
-    public String getProductProperty() {
-        return productProperty;
-    }
-
-    public void setProductProperty(String productProperty) {
-        this.productProperty = productProperty == null ? "" : productProperty;
-    }
-
-    public String getProductGive() {
-        return productGive;
-    }
-
-    public void setProductGive(String productGive) {
-        this.productGive = productGive == null ? "" : productGive;
-    }
-
-    public String getTasteType() {
-        return tasteType;
-    }
-
-    public void setTasteType(String tasteType) {
-        this.tasteType = tasteType == null ? "" : tasteType;
-    }
-
-    public String getPrintWay() {
-        return printWay;
-    }
-
-    public void setPrintWay(String printWay) {
-        this.printWay = printWay == null ? "" : printWay;
-    }
 
     @Override
     public String toString() {
         return "FoodEntity{" +
                 ", productId='" + productId + '\'' +
                 ", restaurantId='" + restaurantId + '\'' +
-//                ", uId='" + uId + '\'' +
                 ", productName='" + productName + '\'' +
                 ", pinYin='" + pinYin + '\'' +
                 ", unit='" + unit + '\'' +
@@ -592,5 +357,266 @@ public class FoodEntity {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getFoodEntityDao() : null;
+    }
+
+    public String getProductId() {
+        return this.productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getRestaurantId() {
+        return this.restaurantId;
+    }
+
+    public void setRestaurantId(String restaurantId) {
+        this.restaurantId = restaurantId;
+    }
+
+    public String getProductName() {
+        return this.productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getPinYin() {
+        return this.pinYin;
+    }
+
+    public void setPinYin(String pinYin) {
+        this.pinYin = pinYin;
+    }
+
+    public String getUnit() {
+        return this.unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getMinUnit() {
+        return this.minUnit;
+    }
+
+    public void setMinUnit(String minUnit) {
+        this.minUnit = minUnit;
+    }
+
+    public String getProductTypeId() {
+        return this.productTypeId;
+    }
+
+    public void setProductTypeId(String productTypeId) {
+        this.productTypeId = productTypeId;
+    }
+
+    public String getProductTypeName() {
+        return this.productTypeName;
+    }
+
+    public void setProductTypeName(String productTypeName) {
+        this.productTypeName = productTypeName;
+    }
+
+    public double getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getProductFile() {
+        return this.productFile;
+    }
+
+    public void setProductFile(String productFile) {
+        this.productFile = productFile;
+    }
+
+    public String getProductImage() {
+        return this.productImage;
+    }
+
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
+
+    public int getState() {
+        return this.state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getRemark() {
+        return this.remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getTasteID() {
+        return this.tasteID;
+    }
+
+    public void setTasteID(String tasteID) {
+        this.tasteID = tasteID;
+    }
+
+    public String getIsDaZhe() {
+        return this.IsDaZhe;
+    }
+
+    public void setIsDaZhe(String IsDaZhe) {
+        this.IsDaZhe = IsDaZhe;
+    }
+
+    public String getDaZhe() {
+        return this.daZhe;
+    }
+
+    public void setDaZhe(String daZhe) {
+        this.daZhe = daZhe;
+    }
+
+    public String getWarCount() {
+        return this.warCount;
+    }
+
+    public void setWarCount(String warCount) {
+        this.warCount = warCount;
+    }
+
+    public int getIsClose() {
+        return this.IsClose;
+    }
+
+    public void setIsClose(int IsClose) {
+        this.IsClose = IsClose;
+    }
+
+    public String getIsCloseName() {
+        return this.isCloseName;
+    }
+
+    public void setIsCloseName(String isCloseName) {
+        this.isCloseName = isCloseName;
+    }
+
+    public int getProductCount() {
+        return this.productCount;
+    }
+
+    public void setProductCount(int productCount) {
+        this.productCount = productCount;
+    }
+
+    public String getChuCaiType() {
+        return this.chuCaiType;
+    }
+
+    public void setChuCaiType(String chuCaiType) {
+        this.chuCaiType = chuCaiType;
+    }
+
+    public int getCanDiscount() {
+        return this.canDiscount;
+    }
+
+    public void setCanDiscount(int canDiscount) {
+        this.canDiscount = canDiscount;
+    }
+
+    public double getMemberPice() {
+        return this.memberPice;
+    }
+
+    public void setMemberPice(double memberPice) {
+        this.memberPice = memberPice;
+    }
+
+    public int getSalesType() {
+        return this.salesType;
+    }
+
+    public void setSalesType(int salesType) {
+        this.salesType = salesType;
+    }
+
+    public String getAccordIng() {
+        return this.accordIng;
+    }
+
+    public void setAccordIng(String accordIng) {
+        this.accordIng = accordIng;
+    }
+
+    public String getProductProperty() {
+        return this.productProperty;
+    }
+
+    public void setProductProperty(String productProperty) {
+        this.productProperty = productProperty;
+    }
+
+    public String getProductGive() {
+        return this.productGive;
+    }
+
+    public void setProductGive(String productGive) {
+        this.productGive = productGive;
+    }
+
+    public String getTasteType() {
+        return this.tasteType;
+    }
+
+    public void setTasteType(String tasteType) {
+        this.tasteType = tasteType;
+    }
+
+    public String getPrintWay() {
+        return this.printWay;
+    }
+
+    public void setPrintWay(String printWay) {
+        this.printWay = printWay;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 244773525)
+    public List<ProductKouWeiEntity> getProductKouWeiEntityList() {
+        if (productKouWeiEntityList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ProductKouWeiEntityDao targetDao = daoSession.getProductKouWeiEntityDao();
+            List<ProductKouWeiEntity> productKouWeiEntityListNew = targetDao
+                    ._queryFoodEntity_ProductKouWeiEntityList(productId);
+            synchronized (this) {
+                if (productKouWeiEntityList == null) {
+                    productKouWeiEntityList = productKouWeiEntityListNew;
+                }
+            }
+        }
+        return productKouWeiEntityList;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 641658038)
+    public synchronized void resetProductKouWeiEntityList() {
+        productKouWeiEntityList = null;
     }
 }

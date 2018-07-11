@@ -11,9 +11,8 @@
             android:id="@+id/ll_title"
             android:layout_width="match_parent"
             android:layout_height="68px"
-            android:orientation="horizontal"
             android:background="@color/colorWhite"
-            >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -23,8 +22,7 @@
                 android:layout_marginLeft="8px"
                 android:background="@drawable/shape_count_bg"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:id="@+id/rl_num_reduce"
@@ -65,29 +63,28 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="50px"
-                android:orientation="horizontal"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8px"
-                >
+                android:orientation="horizontal">
+
                 <EditText
                     android:layout_width="85px"
                     android:layout_height="50px"
                     android:background="@drawable/shape_order_weight_bg"
+                    android:gravity="center"
                     android:text="2.5"
                     android:textColor="@color/color000000"
-                    android:textSize="18px"
-                    android:gravity="center"
-                    />
+                    android:textSize="18px" />
+
                 <TextView
                     android:layout_width="44px"
                     android:layout_height="50px"
                     android:background="@drawable/shape_count_bg"
-                    android:text="kg"
-                    android:textSize="17px"
-                    android:textColor="@color/colorc0c8ce"
                     android:gravity="center"
-                    />
-                
+                    android:text="kg"
+                    android:textColor="@color/colorc0c8ce"
+                    android:textSize="17px" />
+
             </LinearLayout>
 
             <TextView
@@ -168,112 +165,231 @@
             android:layout_below="@+id/view_line_title"
             android:background="@color/colorf0f3f6"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="110px"
                 android:layout_height="48px"
-                android:background="@drawable/shape_count_bg"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12px"
-                >
+                android:background="@drawable/shape_count_bg">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="18px"
-                    android:textColor="@color/colorWhite"
-                    android:text="规格"
-                    android:gravity="center"
                     android:background="@color/color23cac0"
-                    />
-                <View
-                    android:layout_width="6px"
-                    android:layout_height="6px"
-                    android:background="@drawable/shape_tab_news"
-                    android:layout_alignParentRight="true"
-                    />
+                    android:gravity="center"
+                    android:text="规格"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18px" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="110px"
                 android:layout_height="48px"
-                android:background="@drawable/shape_count_bg"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12px"
-                >
+                android:background="@drawable/shape_count_bg">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="18px"
-                    android:textColor="@color/color666666"
+                    android:background="@color/colorWhite"
+                    android:gravity="center"
                     android:text="做法"
-                    android:gravity="center"
-                    android:background="@color/colorWhite"
-                    />
-                <View
-                    android:layout_width="6px"
-                    android:layout_height="6px"
-                    android:background="@drawable/shape_tab_news"
-                    android:layout_alignParentRight="true"
-                    />
-
+                    android:textColor="@color/color666666"
+                    android:textSize="18px" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="110px"
                 android:layout_height="48px"
-                android:background="@drawable/shape_count_bg"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12px"
-                >
+                android:background="@drawable/shape_count_bg">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="18px"
-                    android:textColor="@color/color666666"
+                    android:background="@color/colorWhite"
+                    android:gravity="center"
                     android:text="加料"
-                    android:gravity="center"
-                    android:background="@color/colorWhite"
-                    />
-                <!--<View-->
-                    <!--android:layout_width="6px"-->
-                    <!--android:layout_height="6px"-->
-                    <!--android:background="@drawable/shape_tab_news"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--/>-->
-
+                    android:textColor="@color/color666666"
+                    android:textSize="18px" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="110px"
                 android:layout_height="48px"
-                android:background="@drawable/shape_count_bg"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12px"
-                >
+                android:background="@drawable/shape_count_bg">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="18px"
-                    android:textColor="@color/color666666"
-                    android:text="备注"
-                    android:gravity="center"
                     android:background="@color/colorWhite"
-                    />
-
+                    android:gravity="center"
+                    android:text="备注"
+                    android:textColor="@color/color666666"
+                    android:textSize="18px" />
             </RelativeLayout>
         </LinearLayout>
 
-
-        <FrameLayout
-            android:id="@+id/frame_layout"
+        <LinearLayout
+            android:id="@+id/ll_spec"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/view_line_bottom"
             android:layout_below="@+id/view_line_title"
-            android:layout_toRightOf="@+id/ll_property">
+            android:layout_toRightOf="@+id/ll_property"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="24px"
+                android:drawableLeft="@drawable/shape_oval_c0c8ce"
+                android:drawablePadding="8px"
+                android:text="规格"
+                android:textColor="@color/color97a3aa"
+                android:textSize="18px" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rlv_spec"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="16px"></android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_kouwei"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/view_line_bottom"
+            android:layout_below="@+id/view_line_title"
+            android:layout_toRightOf="@+id/ll_property"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="24px"
+                android:drawableLeft="@drawable/shape_oval_c0c8ce"
+                android:drawablePadding="8px"
+                android:text="做法"
+                android:textColor="@color/color97a3aa"
+                android:textSize="18px" />
+
+            <LinearLayout
+                android:layout_width="339px"
+                android:layout_height="48px"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="16px"
+                android:background="@drawable/shape_login_edit"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100px"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="自定义"
+                    android:textColor="@color/color333333"
+                    android:textSize="18px" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/colore5e5e5" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:paddingLeft="16px"
+                    android:text=""
+                    android:textColor="@color/color333333"
+                    android:textSize="18px" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rlv_kouwei"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="16px"></android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_add"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/view_line_bottom"
+            android:layout_below="@+id/view_line_title"
+            android:layout_toRightOf="@+id/ll_property"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="24px"
+                android:drawableLeft="@drawable/shape_oval_c0c8ce"
+                android:drawablePadding="8px"
+                android:text="加料"
+                android:textColor="@color/color97a3aa"
+                android:textSize="18px" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rlv_add"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="16px" />
 
 
-        </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_remark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/view_line_bottom"
+            android:layout_below="@+id/view_line_title"
+            android:layout_toRightOf="@+id/ll_property"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="24px"
+                android:drawableLeft="@drawable/shape_oval_c0c8ce"
+                android:drawablePadding="8px"
+                android:text="备注"
+                android:textColor="@color/color97a3aa"
+                android:textSize="18px" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16px"
+                android:layout_marginLeft="24px"
+                android:layout_marginRight="24px"
+                android:layout_marginTop="16px"
+                android:background="@drawable/shape_login_edit" />
+        </LinearLayout>
+
+
     </RelativeLayout>
 
 </layout>

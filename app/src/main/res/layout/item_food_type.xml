@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity"/>
+    </data>
+    
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="116px"
+            android:layout_height="48px"
+            android:layout_marginTop="10px"
+            android:layout_marginRight="10px"
+            android:layout_marginLeft="10px"
+            android:text="@{entity.foodTypeEntity.productTypeName}"
+            android:textColor="@color/color666666"
+            android:background="@color/colord2d6dc"
+            android:gravity="center"
+            />
+
+    </RelativeLayout>
+</layout>
