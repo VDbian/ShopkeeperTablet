@@ -2,7 +2,9 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.litepal.crud.LitePalSupport;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Description:
@@ -11,9 +13,11 @@ import org.litepal.crud.LitePalSupport;
  */
 
 
-public class KouWeiEntity  extends LitePalSupport {
-//    @SerializedName("GUID")
-//    private String uId;
+@Entity
+public class KouWeiEntity {
+    @Id
+    @SerializedName("GUID")
+    private String guId;
     @SerializedName("Name")
     private String name;
     @SerializedName("NO")
@@ -25,13 +29,28 @@ public class KouWeiEntity  extends LitePalSupport {
     @SerializedName("Accord")
     private String accord;
 
-//    public String getuId() {
-//        return uId;
-//    }
-//
-//    public void setuId(String id) {
-//        this.uId = id;
-//    }
+    @Generated(hash = 512498507)
+    public KouWeiEntity(String guId, String name, String no, String restaurantId,
+            String patientId, String accord) {
+        this.guId = guId;
+        this.name = name;
+        this.no = no;
+        this.restaurantId = restaurantId;
+        this.patientId = patientId;
+        this.accord = accord;
+    }
+
+    @Generated(hash = 833556541)
+    public KouWeiEntity() {
+    }
+
+    public String getGuId() {
+        return guId;
+    }
+
+    public void setGuId(String guId) {
+        this.guId = guId;
+    }
 
     public String getName() {
         return name;
@@ -76,7 +95,7 @@ public class KouWeiEntity  extends LitePalSupport {
     @Override
     public String toString() {
         return "KouWeiEntity{" +
-//                "uId='" + uId + '\'' +
+                "uId='" + guId + '\'' +
                 ", name='" + name + '\'' +
                 ", no='" + no + '\'' +
                 ", restaurantId='" + restaurantId + '\'' +

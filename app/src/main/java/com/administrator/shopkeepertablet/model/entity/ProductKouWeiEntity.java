@@ -2,16 +2,20 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.litepal.crud.LitePalSupport;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Description:
  * Author CC
  * Time 2018/7/9
  */
-public class ProductKouWeiEntity  extends LitePalSupport {
-//    @SerializedName("GUID")
-//    private String uId;
+@Entity
+public class ProductKouWeiEntity  {
+    @Id
+    @SerializedName("GUID")
+    private String uId;
     @SerializedName("No")
     private String no;
     @SerializedName("RESTAURANTID")
@@ -21,13 +25,27 @@ public class ProductKouWeiEntity  extends LitePalSupport {
     @SerializedName("Name")
     private String name;
 
-//    public String getuId() {
-//        return uId;
-//    }
-//
-//    public void setuId(String id) {
-//        this.uId = id;
-//    }
+    @Generated(hash = 606209820)
+    public ProductKouWeiEntity(String uId, String no, String restaurantId,
+            String type, String name) {
+        this.uId = uId;
+        this.no = no;
+        this.restaurantId = restaurantId;
+        this.type = type;
+        this.name = name;
+    }
+
+    @Generated(hash = 1633960264)
+    public ProductKouWeiEntity() {
+    }
+
+    public String getuId() {
+        return uId;
+    }
+
+    public void setuId(String id) {
+        this.uId = id;
+    }
 
     public String getNo() {
         return no;
@@ -64,11 +82,19 @@ public class ProductKouWeiEntity  extends LitePalSupport {
     @Override
     public String toString() {
         return "ProductKouWeiEntity{" +
-//                "uId='" + uId + '\'' +
+                "uId='" + uId + '\'' +
                 ", no='" + no + '\'' +
                 ", restaurantId='" + restaurantId + '\'' +
                 ", type='" + type + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public String getUId() {
+        return this.uId;
+    }
+
+    public void setUId(String uId) {
+        this.uId = uId;
     }
 }

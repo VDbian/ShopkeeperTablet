@@ -37,6 +37,10 @@ public class LoginViewModel extends BaseViewModel {
 
     public void loginViewModel() {
         if (!TextUtils.isEmpty(username.get()) && !TextUtils.isEmpty(password.get())) {
+            if (TextUtils.isEmpty(preferenceSource.getId())){
+                MToast.showToast(loginActivity,"请先设置店铺ID");
+                return;
+            }
             loginRepertory.login("收银", preferenceSource.getId(), "111")
                     .subscribe(new Consumer<BaseEntity<String>>() {
                         @Override

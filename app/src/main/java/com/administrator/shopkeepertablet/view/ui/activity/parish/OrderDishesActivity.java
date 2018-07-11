@@ -81,8 +81,8 @@ public class OrderDishesActivity extends BaseActivity {
 
             }
         });
-//        viewModel.getFoodList();
-        viewModel.getFoodType();
+       viewModel.getFoodList();
+//        viewModel.getFoodType();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)

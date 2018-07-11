@@ -2,7 +2,9 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.litepal.crud.LitePalSupport;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Description:
@@ -10,10 +12,11 @@ import org.litepal.crud.LitePalSupport;
  * Time 2018/7/9
  */
 
-
-public class SeasonEntity extends LitePalSupport {
-//    @SerializedName("GUID")
-//    private String seasonId;
+@Entity
+public class SeasonEntity {
+    @Id
+    @SerializedName("GUID")
+    private String seasonId;
     @SerializedName("ProtuctID")
     private String productId;
     @SerializedName("Name")
@@ -27,13 +30,29 @@ public class SeasonEntity extends LitePalSupport {
     @SerializedName("Type")
     private String type;
 
-//    public String getSeasonId() {
-//        return seasonId;
-//    }
-//
-//    public void setSeasonId(String seasonId) {
-//        this.seasonId = seasonId;
-//    }
+    @Generated(hash = 1711837320)
+    public SeasonEntity(String seasonId, String productId, String name,
+            String price, String restaurantId, String productName, String type) {
+        this.seasonId = seasonId;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.restaurantId = restaurantId;
+        this.productName = productName;
+        this.type = type;
+    }
+
+    @Generated(hash = 85610702)
+    public SeasonEntity() {
+    }
+
+    public String getSeasonId() {
+        return seasonId;
+    }
+
+    public void setSeasonId(String seasonId) {
+        this.seasonId = seasonId;
+    }
 
     public String getProductId() {
         return productId;
@@ -86,7 +105,7 @@ public class SeasonEntity extends LitePalSupport {
     @Override
     public String toString() {
         return "SeasonEntity{" +
-//                "uId='" + gu + '\'' +
+                "uId='" + seasonId + '\'' +
                 ", productId='" + productId + '\'' +
                 ", name='" + name + '\'' +
                 ", price='" + price + '\'' +

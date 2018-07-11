@@ -2,6 +2,7 @@ package com.administrator.shopkeepertablet.viewmodel.parish;
 
 import android.databinding.ObservableField;
 
+import com.administrator.shopkeepertablet.AppApplication;
 import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
@@ -46,6 +47,10 @@ public class OrderDishesViewModel extends BaseViewModel {
         this.preferenceSource = preferenceSource;
     }
 
+    public void getFoodList(){
+        List<FoodEntity> foodEntities = AppApplication.get(activity).getDaoSession().getFoodEntityDao().loadAll();
+        activity.refreshVariety(foodEntities);
+    }
 
 
     public void getFoodType(){

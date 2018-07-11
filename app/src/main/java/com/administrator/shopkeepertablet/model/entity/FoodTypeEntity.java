@@ -2,7 +2,9 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.litepal.crud.LitePalSupport;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Description:
@@ -10,9 +12,9 @@ import org.litepal.crud.LitePalSupport;
  * Time 2018/7/9
  */
 
-
-public class FoodTypeEntity extends LitePalSupport {
-
+@Entity
+public class FoodTypeEntity {
+@Id
     @SerializedName("PRODUCTTYPEID")
     private String productTypeId;
 
@@ -24,6 +26,19 @@ public class FoodTypeEntity extends LitePalSupport {
 
     @SerializedName("ORDERNO")
     private String orderNo;
+
+    @Generated(hash = 927442999)
+    public FoodTypeEntity(String productTypeId, String restaurantId,
+            String productTypeName, String orderNo) {
+        this.productTypeId = productTypeId;
+        this.restaurantId = restaurantId;
+        this.productTypeName = productTypeName;
+        this.orderNo = orderNo;
+    }
+
+    @Generated(hash = 431357427)
+    public FoodTypeEntity() {
+    }
 
     public String getProductTypeId() {
         return productTypeId;

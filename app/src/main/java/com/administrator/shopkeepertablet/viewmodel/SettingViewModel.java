@@ -1,9 +1,11 @@
 package com.administrator.shopkeepertablet.viewmodel;
 
+import android.app.Application;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.administrator.shopkeepertablet.AppApplication;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
@@ -11,14 +13,13 @@ import com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.SeasonEntity;
 import com.administrator.shopkeepertablet.model.entity.SpecEntity;
+import com.administrator.shopkeepertablet.model.greendao.DaoSession;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.setting.SettingRepertory;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.activity.setting.SettingActivity;
 import com.google.gson.Gson;
-
-import org.litepal.LitePal;
 
 import java.util.Arrays;
 import java.util.List;
@@ -68,18 +69,20 @@ public class SettingViewModel extends BaseViewModel {
                             List<ProductKouWeiEntity> productKouWeiEntities = Arrays.asList(new Gson().fromJson(resultFoodEntity.getResult().getProductKouWei(), ProductKouWeiEntity[].class));
                             List<SeasonEntity> seasonEntities = Arrays.asList(new Gson().fromJson(resultFoodEntity.getResult().getSeason(), SeasonEntity[].class));
                             List<FoodTypeEntity> foodTypeEntities = Arrays.asList(new Gson().fromJson(resultFoodEntity.getResult().getFoodType(), FoodTypeEntity[].class));
-                            LitePal.deleteAll(FoodEntity.class);
-                            LitePal.deleteAll(SpecEntity.class);
-                            LitePal.deleteAll(KouWeiEntity.class);
-                            LitePal.deleteAll(ProductKouWeiEntity.class);
-                            LitePal.deleteAll(SeasonEntity.class);
-                            LitePal.deleteAll(FoodTypeEntity.class);
-                            LitePal.saveAll(foodEntities);
-                            LitePal.saveAll(specEntities);
-                            LitePal.saveAll(kouWeiEntities);
-                            LitePal.saveAll(productKouWeiEntities);
-                            LitePal.saveAll(seasonEntities);
-                            LitePal.saveAll(foodTypeEntities);
+                            DaoSession mDao = AppApplication.get(activity).getDaoSession();
+                            mDao.getFoodEntityDao().deleteAll();
+                            mDao.getFoodTypeEntityDao().deleteAll();
+                            mDao.getSpecEntityDao().deleteAll();
+                            mDao.getKouWeiEntityDao().deleteAll();
+                            mDao.getProductKouWeiEntityDao().deleteAll();
+                            mDao.getSeasonEntityDao().deleteAll();
+
+                            mDao.getFoodEntityDao().insertOrReplaceInTx(foodEntities);
+                            mDao.getSpecEntityDao().insertOrReplaceInTx(specEntities);
+                            mDao.getKouWeiEntityDao().insertOrReplaceInTx(kouWeiEntities);
+                            mDao.getProductKouWeiEntityDao().insertOrReplaceInTx(productKouWeiEntities);
+                            mDao.getSeasonEntityDao().insertOrReplaceInTx(seasonEntities);
+                            mDao.getFoodTypeEntityDao().insertOrReplaceInTx(foodTypeEntities);
                             MToast.showToast(activity,"菜品已刷新");
                         }
 
@@ -87,6 +90,7 @@ public class SettingViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        MToast.showToast(activity,"菜品刷新失败");
                         MLog.e("api", throwable.getMessage());
                     }
                 });

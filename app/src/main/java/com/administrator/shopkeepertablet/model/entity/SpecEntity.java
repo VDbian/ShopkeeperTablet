@@ -2,7 +2,9 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.litepal.crud.LitePalSupport;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Generated;
 
 /**
  * Description:
@@ -10,10 +12,11 @@ import org.litepal.crud.LitePalSupport;
  * Time 2018/7/9
  */
 
-
-public class SpecEntity extends LitePalSupport {
-//    @SerializedName("GUID")
-//    private String uId;
+@Entity
+public class SpecEntity  {
+    @Id
+    @SerializedName("GUID")
+    private String uId;
     @SerializedName("ProtuctID")
     private String productId;
     @SerializedName("Name")
@@ -25,13 +28,28 @@ public class SpecEntity extends LitePalSupport {
     @SerializedName("ProtuctName")
     private String productName;
 
-//    public String getuId() {
-//        return uId;
-//    }
-//
-//    public void setuId(String id) {
-//        this.uId = id;
-//    }
+    @Generated(hash = 1743207129)
+    public SpecEntity(String uId, String productId, String name, double price,
+            String restaurantId, String productName) {
+        this.uId = uId;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.restaurantId = restaurantId;
+        this.productName = productName;
+    }
+
+    @Generated(hash = 168102231)
+    public SpecEntity() {
+    }
+
+    public String getuId() {
+        return uId;
+    }
+
+    public void setuId(String id) {
+        this.uId = id;
+    }
 
     public String getProductId() {
         return productId;
@@ -76,12 +94,20 @@ public class SpecEntity extends LitePalSupport {
     @Override
     public String toString() {
         return "SpecEntity{" +
-//                "uId='" + uId + '\'' +
+                "uId='" + uId + '\'' +
                 ", productId='" + productId + '\'' +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", restaurantId='" + restaurantId + '\'' +
                 ", productName='" + productName + '\'' +
                 '}';
+    }
+
+    public String getUId() {
+        return this.uId;
+    }
+
+    public void setUId(String uId) {
+        this.uId = uId;
     }
 }

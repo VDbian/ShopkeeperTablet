@@ -2,7 +2,18 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.litepal.crud.LitePalSupport;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToMany;
+
+import java.util.List;
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
+import com.administrator.shopkeepertablet.model.greendao.DaoSession;
+import com.administrator.shopkeepertablet.model.greendao.SeasonEntityDao;
+import com.administrator.shopkeepertablet.model.greendao.SpecEntityDao;
+import com.administrator.shopkeepertablet.model.greendao.FoodEntityDao;
+
 
 /**
  * Description:
@@ -10,8 +21,8 @@ import org.litepal.crud.LitePalSupport;
  * Time 2018/7/1
  */
 
-
-public class FoodEntity extends LitePalSupport {
+@Entity
+public class FoodEntity {
 
     /**
      * PRODUCTID : 1fffea9a-2cfe-4dfd-840d-033a36ba8f2b
@@ -45,15 +56,15 @@ public class FoodEntity extends LitePalSupport {
      * TasteType : 0
      * PrintWay : 1
      */
-
+    @Id
     @SerializedName("PRODUCTID")
     private String productId;
 
     @SerializedName("RESTAURANTID")
     private String restaurantId;
 
-//    @SerializedName("ID")
-//    private String uId;
+    @SerializedName("ID")
+    private String id;
 
     @SerializedName("PRODUCTNAME")
     private String productName;
@@ -136,6 +147,67 @@ public class FoodEntity extends LitePalSupport {
     @SerializedName("PrintWay")
     private String printWay;
 
+    @ToMany(referencedJoinProperty = "productId")
+    private List<SpecEntity> specEntityList;
+
+    @ToMany(referencedJoinProperty = "productId")
+    private List<SeasonEntity> seasonEntityList;
+
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    /** Used for active entity operations. */
+    @Generated(hash = 587034604)
+    private transient FoodEntityDao myDao;
+
+
+    @Generated(hash = 832036182)
+    public FoodEntity(String productId, String restaurantId, String id,
+            String productName, String pinYin, String unit, String minUnit,
+            String productTypeId, String productTypeName, double price,
+            String productFile, String productImage, int state, String remark,
+            String tasteID, String IsDaZhe, String daZhe, String warCount,
+            int IsClose, String isCloseName, int productCount, String chuCaiType,
+            int canDiscount, double memberPice, int salesType, String accordIng,
+            String productProperty, String productGive, String tasteType,
+            String printWay) {
+        this.productId = productId;
+        this.restaurantId = restaurantId;
+        this.id = id;
+        this.productName = productName;
+        this.pinYin = pinYin;
+        this.unit = unit;
+        this.minUnit = minUnit;
+        this.productTypeId = productTypeId;
+        this.productTypeName = productTypeName;
+        this.price = price;
+        this.productFile = productFile;
+        this.productImage = productImage;
+        this.state = state;
+        this.remark = remark;
+        this.tasteID = tasteID;
+        this.IsDaZhe = IsDaZhe;
+        this.daZhe = daZhe;
+        this.warCount = warCount;
+        this.IsClose = IsClose;
+        this.isCloseName = isCloseName;
+        this.productCount = productCount;
+        this.chuCaiType = chuCaiType;
+        this.canDiscount = canDiscount;
+        this.memberPice = memberPice;
+        this.salesType = salesType;
+        this.accordIng = accordIng;
+        this.productProperty = productProperty;
+        this.productGive = productGive;
+        this.tasteType = tasteType;
+        this.printWay = printWay;
+    }
+
+    @Generated(hash = 2051124127)
+    public FoodEntity() {
+    }
+
 
     public String getProductId() {
         return productId;
@@ -150,7 +222,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId == null ? "" :restaurantId;
+        this.restaurantId = restaurantId == null ? "" : restaurantId;
     }
 
 //    public String getuId() {
@@ -166,7 +238,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setProductName(String productName) {
-        this.productName  = productName == null ? "" : productName;
+        this.productName = productName == null ? "" : productName;
     }
 
     public String getPinYin() {
@@ -174,7 +246,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setPinYin(String pinYin) {
-        this.pinYin  = pinYin == null ? "" : pinYin;
+        this.pinYin = pinYin == null ? "" : pinYin;
     }
 
     public String getUnit() {
@@ -182,7 +254,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setUnit(String unit) {
-        this.unit  = unit == null ? "" : unit;
+        this.unit = unit == null ? "" : unit;
     }
 
     public String getMinUnit() {
@@ -190,7 +262,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setMinUnit(String minUnit) {
-        this.minUnit  = minUnit == null ? "" : minUnit;
+        this.minUnit = minUnit == null ? "" : minUnit;
     }
 
     public String getProductTypeId() {
@@ -198,7 +270,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setProductTypeId(String productTypeId) {
-        this.productTypeId  = productTypeId == null ? "" : productTypeId;
+        this.productTypeId = productTypeId == null ? "" : productTypeId;
     }
 
     public String getProductTypeName() {
@@ -206,7 +278,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setProductTypeName(String productTypeName) {
-        this.productTypeName  = productTypeName == null ? "" : productTypeName;
+        this.productTypeName = productTypeName == null ? "" : productTypeName;
     }
 
     public double getPrice() {
@@ -222,7 +294,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setProductFile(String productFile) {
-        this.productFile  = productFile == null ? "" : productFile;
+        this.productFile = productFile == null ? "" : productFile;
     }
 
     public String getProductImage() {
@@ -230,7 +302,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setProductImage(String productImage) {
-        this.productImage  = productImage == null ? "" : productImage;
+        this.productImage = productImage == null ? "" : productImage;
     }
 
     public int getState() {
@@ -246,7 +318,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setRemark(String remark) {
-        this.remark  = remark == null ? "" : remark;
+        this.remark = remark == null ? "" : remark;
     }
 
     public String getTasteID() {
@@ -254,7 +326,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setTasteID(String tasteID) {
-        this.tasteID  = tasteID == null ? "" : tasteID;
+        this.tasteID = tasteID == null ? "" : tasteID;
     }
 
     public String getIsDaZhe() {
@@ -262,7 +334,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setIsDaZhe(String isDaZhe) {
-        IsDaZhe  = isDaZhe == null ? "" : isDaZhe;
+        IsDaZhe = isDaZhe == null ? "" : isDaZhe;
     }
 
     public String getDaZhe() {
@@ -270,7 +342,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setDaZhe(String daZhe) {
-        this.daZhe  = daZhe == null ? "" : daZhe;
+        this.daZhe = daZhe == null ? "" : daZhe;
     }
 
     public String getWarCount() {
@@ -278,7 +350,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setWarCount(String warCount) {
-        this.warCount  = warCount == null ? "" : warCount;
+        this.warCount = warCount == null ? "" : warCount;
     }
 
     public int getIsClose() {
@@ -286,7 +358,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setIsClose(int isClose) {
-        this.IsClose  =isClose;
+        this.IsClose = isClose;
     }
 
     public String getIsCloseName() {
@@ -294,7 +366,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setIsCloseName(String isCloseName) {
-        this.isCloseName  = isCloseName == null ? "" : isCloseName;
+        this.isCloseName = isCloseName == null ? "" : isCloseName;
     }
 
     public int getProductCount() {
@@ -302,7 +374,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setProductCount(int productCount) {
-        this.productCount  =  productCount;
+        this.productCount = productCount;
     }
 
     public String getChuCaiType() {
@@ -310,7 +382,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setChuCaiType(String chuCaiType) {
-        this.chuCaiType  = chuCaiType == null ? "" : chuCaiType;
+        this.chuCaiType = chuCaiType == null ? "" : chuCaiType;
     }
 
     public int getCanDiscount() {
@@ -334,7 +406,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setSalesType(int salesType) {
-        this.salesType  = salesType;
+        this.salesType = salesType;
     }
 
     public String getAccordIng() {
@@ -342,7 +414,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setAccordIng(String accordIng) {
-        this.accordIng  = accordIng == null ? "" : accordIng;
+        this.accordIng = accordIng == null ? "" : accordIng;
     }
 
     public String getProductProperty() {
@@ -350,7 +422,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setProductProperty(String productProperty) {
-        this.productProperty  = productProperty == null ? "" : productProperty;
+        this.productProperty = productProperty == null ? "" : productProperty;
     }
 
     public String getProductGive() {
@@ -358,7 +430,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setProductGive(String productGive) {
-        this.productGive  = productGive == null ? "" : productGive;
+        this.productGive = productGive == null ? "" : productGive;
     }
 
     public String getTasteType() {
@@ -366,7 +438,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setTasteType(String tasteType) {
-        this.tasteType  = tasteType == null ? "" : tasteType;
+        this.tasteType = tasteType == null ? "" : tasteType;
     }
 
     public String getPrintWay() {
@@ -374,7 +446,7 @@ public class FoodEntity extends LitePalSupport {
     }
 
     public void setPrintWay(String printWay) {
-        this.printWay  = printWay == null ? "" : printWay;
+        this.printWay = printWay == null ? "" : printWay;
     }
 
     @Override
@@ -411,5 +483,114 @@ public class FoodEntity extends LitePalSupport {
                 ", tasteType='" + tasteType + '\'' +
                 ", printWay='" + printWay + '\'' +
                 '}';
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 159539771)
+    public List<SpecEntity> getSpecEntityList() {
+        if (specEntityList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            SpecEntityDao targetDao = daoSession.getSpecEntityDao();
+            List<SpecEntity> specEntityListNew = targetDao
+                    ._queryFoodEntity_SpecEntityList(productId);
+            synchronized (this) {
+                if (specEntityList == null) {
+                    specEntityList = specEntityListNew;
+                }
+            }
+        }
+        return specEntityList;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 1400662394)
+    public synchronized void resetSpecEntityList() {
+        specEntityList = null;
+    }
+
+    /**
+     * To-many relationship, resolved on first access (and after reset).
+     * Changes to to-many relations are not persisted, make changes to the target entity.
+     */
+    @Generated(hash = 856850312)
+    public List<SeasonEntity> getSeasonEntityList() {
+        if (seasonEntityList == null) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            SeasonEntityDao targetDao = daoSession.getSeasonEntityDao();
+            List<SeasonEntity> seasonEntityListNew = targetDao
+                    ._queryFoodEntity_SeasonEntityList(productId);
+            synchronized (this) {
+                if (seasonEntityList == null) {
+                    seasonEntityList = seasonEntityListNew;
+                }
+            }
+        }
+        return seasonEntityList;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    @Generated(hash = 2113497747)
+    public synchronized void resetSeasonEntityList() {
+        seasonEntityList = null;
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 211642632)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getFoodEntityDao() : null;
     }
 }
