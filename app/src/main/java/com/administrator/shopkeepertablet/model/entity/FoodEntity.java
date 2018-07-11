@@ -2,6 +2,8 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.litepal.crud.LitePalSupport;
+
 /**
  * Description:
  * Author CC
@@ -9,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 
-public class FoodEntity {
+public class FoodEntity extends LitePalSupport {
 
     /**
      * PRODUCTID : 1fffea9a-2cfe-4dfd-840d-033a36ba8f2b
@@ -43,14 +45,15 @@ public class FoodEntity {
      * TasteType : 0
      * PrintWay : 1
      */
+
     @SerializedName("PRODUCTID")
     private String productId;
 
     @SerializedName("RESTAURANTID")
     private String restaurantId;
 
-    @SerializedName("ID")
-    private String id;
+//    @SerializedName("ID")
+//    private String uId;
 
     @SerializedName("PRODUCTNAME")
     private String productName;
@@ -77,7 +80,7 @@ public class FoodEntity {
     private String productFile;
 
     @SerializedName("PRODUCTIMAGE")
-    private Object productImage;
+    private String productImage;
 
     @SerializedName("STATE")
     private int state;
@@ -86,19 +89,19 @@ public class FoodEntity {
     private String remark;
 
     @SerializedName("TasteID")
-    private Object tasteID;
+    private String tasteID;
 
     @SerializedName("isDaZhe")
-    private Object IsDaZhe;
+    private String IsDaZhe;
 
     @SerializedName("DaZhe")
-    private Object daZhe;
+    private String daZhe;
 
     @SerializedName("WarCount")
     private String warCount;
 
     @SerializedName("isClose")
-    private String IsClose;
+    private int IsClose;
 
     @SerializedName("IsCloseName")
     private String isCloseName;
@@ -125,7 +128,7 @@ public class FoodEntity {
     private String productProperty;
 
     @SerializedName("ProductGive")
-    private Object productGive;
+    private String productGive;
 
     @SerializedName("TasteType")
     private String tasteType;
@@ -139,7 +142,7 @@ public class FoodEntity {
     }
 
     public void setProductId(String productId) {
-        this.productId = productId;
+        this.productId = productId == null ? "" : productId;
     }
 
     public String getRestaurantId() {
@@ -147,23 +150,23 @@ public class FoodEntity {
     }
 
     public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
+        this.restaurantId = restaurantId == null ? "" :restaurantId;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+//    public String getuId() {
+//        return uId;
+//    }
+//
+//    public void setuId(String uId) {
+//        this.uId  = uId == null ? "" : uId;
+//    }
 
     public String getProductName() {
         return productName;
     }
 
     public void setProductName(String productName) {
-        this.productName = productName;
+        this.productName  = productName == null ? "" : productName;
     }
 
     public String getPinYin() {
@@ -171,7 +174,7 @@ public class FoodEntity {
     }
 
     public void setPinYin(String pinYin) {
-        this.pinYin = pinYin;
+        this.pinYin  = pinYin == null ? "" : pinYin;
     }
 
     public String getUnit() {
@@ -179,7 +182,7 @@ public class FoodEntity {
     }
 
     public void setUnit(String unit) {
-        this.unit = unit;
+        this.unit  = unit == null ? "" : unit;
     }
 
     public String getMinUnit() {
@@ -187,7 +190,7 @@ public class FoodEntity {
     }
 
     public void setMinUnit(String minUnit) {
-        this.minUnit = minUnit;
+        this.minUnit  = minUnit == null ? "" : minUnit;
     }
 
     public String getProductTypeId() {
@@ -195,7 +198,7 @@ public class FoodEntity {
     }
 
     public void setProductTypeId(String productTypeId) {
-        this.productTypeId = productTypeId;
+        this.productTypeId  = productTypeId == null ? "" : productTypeId;
     }
 
     public String getProductTypeName() {
@@ -203,7 +206,7 @@ public class FoodEntity {
     }
 
     public void setProductTypeName(String productTypeName) {
-        this.productTypeName = productTypeName;
+        this.productTypeName  = productTypeName == null ? "" : productTypeName;
     }
 
     public double getPrice() {
@@ -219,15 +222,15 @@ public class FoodEntity {
     }
 
     public void setProductFile(String productFile) {
-        this.productFile = productFile;
+        this.productFile  = productFile == null ? "" : productFile;
     }
 
-    public Object getProductImage() {
+    public String getProductImage() {
         return productImage;
     }
 
-    public void setProductImage(Object productImage) {
-        this.productImage = productImage;
+    public void setProductImage(String productImage) {
+        this.productImage  = productImage == null ? "" : productImage;
     }
 
     public int getState() {
@@ -243,31 +246,31 @@ public class FoodEntity {
     }
 
     public void setRemark(String remark) {
-        this.remark = remark;
+        this.remark  = remark == null ? "" : remark;
     }
 
-    public Object getTasteID() {
+    public String getTasteID() {
         return tasteID;
     }
 
-    public void setTasteID(Object tasteID) {
-        this.tasteID = tasteID;
+    public void setTasteID(String tasteID) {
+        this.tasteID  = tasteID == null ? "" : tasteID;
     }
 
-    public Object getIsDaZhe() {
+    public String getIsDaZhe() {
         return IsDaZhe;
     }
 
-    public void setIsDaZhe(Object isDaZhe) {
-        IsDaZhe = isDaZhe;
+    public void setIsDaZhe(String isDaZhe) {
+        IsDaZhe  = isDaZhe == null ? "" : isDaZhe;
     }
 
-    public Object getDaZhe() {
+    public String getDaZhe() {
         return daZhe;
     }
 
-    public void setDaZhe(Object daZhe) {
-        this.daZhe = daZhe;
+    public void setDaZhe(String daZhe) {
+        this.daZhe  = daZhe == null ? "" : daZhe;
     }
 
     public String getWarCount() {
@@ -275,15 +278,15 @@ public class FoodEntity {
     }
 
     public void setWarCount(String warCount) {
-        this.warCount = warCount;
+        this.warCount  = warCount == null ? "" : warCount;
     }
 
-    public String getIsClose() {
+    public int getIsClose() {
         return IsClose;
     }
 
-    public void setIsClose(String isClose) {
-        IsClose = isClose;
+    public void setIsClose(int isClose) {
+        this.IsClose  =isClose;
     }
 
     public String getIsCloseName() {
@@ -291,7 +294,7 @@ public class FoodEntity {
     }
 
     public void setIsCloseName(String isCloseName) {
-        this.isCloseName = isCloseName;
+        this.isCloseName  = isCloseName == null ? "" : isCloseName;
     }
 
     public int getProductCount() {
@@ -299,7 +302,7 @@ public class FoodEntity {
     }
 
     public void setProductCount(int productCount) {
-        this.productCount = productCount;
+        this.productCount  =  productCount;
     }
 
     public String getChuCaiType() {
@@ -307,7 +310,7 @@ public class FoodEntity {
     }
 
     public void setChuCaiType(String chuCaiType) {
-        this.chuCaiType = chuCaiType;
+        this.chuCaiType  = chuCaiType == null ? "" : chuCaiType;
     }
 
     public int getCanDiscount() {
@@ -331,7 +334,7 @@ public class FoodEntity {
     }
 
     public void setSalesType(int salesType) {
-        this.salesType = salesType;
+        this.salesType  = salesType;
     }
 
     public String getAccordIng() {
@@ -339,7 +342,7 @@ public class FoodEntity {
     }
 
     public void setAccordIng(String accordIng) {
-        this.accordIng = accordIng;
+        this.accordIng  = accordIng == null ? "" : accordIng;
     }
 
     public String getProductProperty() {
@@ -347,15 +350,15 @@ public class FoodEntity {
     }
 
     public void setProductProperty(String productProperty) {
-        this.productProperty = productProperty;
+        this.productProperty  = productProperty == null ? "" : productProperty;
     }
 
-    public Object getProductGive() {
+    public String getProductGive() {
         return productGive;
     }
 
-    public void setProductGive(Object productGive) {
-        this.productGive = productGive;
+    public void setProductGive(String productGive) {
+        this.productGive  = productGive == null ? "" : productGive;
     }
 
     public String getTasteType() {
@@ -363,7 +366,7 @@ public class FoodEntity {
     }
 
     public void setTasteType(String tasteType) {
-        this.tasteType = tasteType;
+        this.tasteType  = tasteType == null ? "" : tasteType;
     }
 
     public String getPrintWay() {
@@ -371,15 +374,15 @@ public class FoodEntity {
     }
 
     public void setPrintWay(String printWay) {
-        this.printWay = printWay;
+        this.printWay  = printWay == null ? "" : printWay;
     }
 
     @Override
     public String toString() {
         return "FoodEntity{" +
-                "productId='" + productId + '\'' +
+                ", productId='" + productId + '\'' +
                 ", restaurantId='" + restaurantId + '\'' +
-                ", id='" + id + '\'' +
+//                ", uId='" + uId + '\'' +
                 ", productName='" + productName + '\'' +
                 ", pinYin='" + pinYin + '\'' +
                 ", unit='" + unit + '\'' +
@@ -388,14 +391,14 @@ public class FoodEntity {
                 ", productTypeName='" + productTypeName + '\'' +
                 ", price=" + price +
                 ", productFile='" + productFile + '\'' +
-                ", productImage=" + productImage +
+                ", productImage='" + productImage + '\'' +
                 ", state=" + state +
                 ", remark='" + remark + '\'' +
-                ", tasteID=" + tasteID +
-                ", IsDaZhe=" + IsDaZhe +
-                ", daZhe=" + daZhe +
+                ", tasteID='" + tasteID + '\'' +
+                ", IsDaZhe='" + IsDaZhe + '\'' +
+                ", daZhe='" + daZhe + '\'' +
                 ", warCount='" + warCount + '\'' +
-                ", IsClose='" + IsClose + '\'' +
+                ", IsClose=" + IsClose +
                 ", isCloseName='" + isCloseName + '\'' +
                 ", productCount=" + productCount +
                 ", chuCaiType='" + chuCaiType + '\'' +
@@ -404,7 +407,7 @@ public class FoodEntity {
                 ", salesType=" + salesType +
                 ", accordIng='" + accordIng + '\'' +
                 ", productProperty='" + productProperty + '\'' +
-                ", productGive=" + productGive +
+                ", productGive='" + productGive + '\'' +
                 ", tasteType='" + tasteType + '\'' +
                 ", printWay='" + printWay + '\'' +
                 '}';

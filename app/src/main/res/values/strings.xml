@@ -28,6 +28,11 @@
     <string name="confirm">确认</string>
     <string name="order_diashes">点菜</string>
     <string name="clear_table">清台</string>
+    <string name="shop_setting">店铺配置</string>
+    <string name="setting_id">店铺ID</string>
+    <string name="setting_room">刷新房间</string>
+    <string name="setting_food">刷新菜品</string>
+    <string name="setting_confirm">确定</string>
 
 
 </resources>

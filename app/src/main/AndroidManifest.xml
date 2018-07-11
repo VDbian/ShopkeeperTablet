@@ -3,6 +3,8 @@
     package="com.administrator.shopkeepertablet">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".AppApplication"
@@ -26,6 +28,7 @@
         </activity>
         <activity android:name=".view.ui.activity.parish.OrderDishesActivity" android:screenOrientation="landscape" />
         <activity android:name=".view.ui.activity.MainActivity" android:screenOrientation="landscape"/>
+        <activity android:name=".view.ui.activity.setting.SettingActivity" android:screenOrientation="landscape" />
     </application>
 
 </manifest>

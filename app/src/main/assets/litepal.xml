@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<litepal>
+    <dbname value="shopKeeperTablet"/>
+
+    <version value="1"/>
+
+    <list>
+        <mapping class="com.administrator.shopkeepertablet.model.entity.FoodEntity"/>
+        <mapping class="com.administrator.shopkeepertablet.model.entity.SpecEntity"/>
+        <mapping class="com.administrator.shopkeepertablet.model.entity.SeasonEntity"/>
+        <mapping class="com.administrator.shopkeepertablet.model.entity.KouWeiEntity"/>
+        <mapping class="com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity"/>
+        <mapping class="com.administrator.shopkeepertablet.model.entity.FoodTypeEntity"/>
+    </list>
+</litepal>

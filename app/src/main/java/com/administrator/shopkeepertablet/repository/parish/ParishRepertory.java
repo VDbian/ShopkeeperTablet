@@ -63,13 +63,6 @@ public interface ParishRepertory extends BaseRepertory {
     Observable<BaseEntity<String>> clearTable(String type,String tableId,String billId, String id);
 
 
-    /**
-     * 获取菜单列表
-     * @param type 0
-     * @param id 店铺id
-     * @return
-     */
-    Observable<ResultFoodEntity> getFoodList(String type,String id);
 
     /**
      *
