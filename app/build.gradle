@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 26
@@ -20,6 +21,14 @@ android {
         enabled true
     }
     buildToolsVersion '26.0.2'
+}
+
+greendao {
+    schemaVersion 1//数据库版本号
+    daoPackage 'com.administrator.shopkeepertablet.model.greendao'//设置DaoMaster、DaoSession、Dao包名
+    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+    //targetGenDirTest：设置生成单元测试目录
+    //generateTests：设置自动生成单元测试用例
 }
 
 
@@ -46,5 +55,6 @@ dependencies {
     compile 'com.cocosw:favor:0.2.0@aar'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:design:26.1.0'
-    implementation 'org.litepal.android:core:2.0.0'
+//    implementation 'org.litepal.android:core:2.0.0'
+    implementation 'org.greenrobot:greendao:3.2.2' //
 }
