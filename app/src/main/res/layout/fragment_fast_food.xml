@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout android:layout_height="match_parent"
-        android:layout_width="match_parent"></RelativeLayout>
+    <LinearLayout android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+            android:layout_width="340px"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="64px"
+                android:background="@color/color23cac0"
+                >
+
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+    </LinearLayout>
 </layout>

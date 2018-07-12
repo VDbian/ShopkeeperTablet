@@ -167,6 +167,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_spec"
                 android:layout_width="110px"
                 android:layout_height="48px"
                 android:layout_gravity="center_horizontal"
@@ -174,6 +175,7 @@
                 android:background="@drawable/shape_count_bg">
 
                 <TextView
+                    android:id="@+id/tv_spec"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/color23cac0"
@@ -185,6 +187,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_kouwei"
                 android:layout_width="110px"
                 android:layout_height="48px"
                 android:layout_gravity="center_horizontal"
@@ -192,6 +195,7 @@
                 android:background="@drawable/shape_count_bg">
 
                 <TextView
+                    android:id="@+id/tv_kouwei"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorWhite"
@@ -202,6 +206,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_add"
                 android:layout_width="110px"
                 android:layout_height="48px"
                 android:layout_gravity="center_horizontal"
@@ -209,6 +214,7 @@
                 android:background="@drawable/shape_count_bg">
 
                 <TextView
+                    android:id="@+id/tv_add"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorWhite"
@@ -219,6 +225,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_remark"
                 android:layout_width="110px"
                 android:layout_height="48px"
                 android:layout_gravity="center_horizontal"
@@ -226,6 +233,7 @@
                 android:background="@drawable/shape_count_bg">
 
                 <TextView
+                    android:id="@+id/tv_remark"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/colorWhite"

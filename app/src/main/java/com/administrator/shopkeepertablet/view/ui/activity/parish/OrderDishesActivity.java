@@ -27,6 +27,7 @@ import com.administrator.shopkeepertablet.view.ui.adapter.FoodTypeAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesVarietyAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
+import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChoose;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.parish.OrderDishesViewModel;
 
@@ -87,7 +88,8 @@ public class OrderDishesActivity extends BaseActivity {
         adapter.setOnItemClick(new AdapterOnItemClick<FoodEntity>() {
             @Override
             public void onItemClick(FoodEntity foodEntity, int position) {
-
+                PopupWindowOrderDishesChoose OrderDishesChoose = new PopupWindowOrderDishesChoose(OrderDishesActivity.this,foodEntity);
+                OrderDishesChoose.showAtDropDownCenter(binding.llOrder);
             }
         });
 

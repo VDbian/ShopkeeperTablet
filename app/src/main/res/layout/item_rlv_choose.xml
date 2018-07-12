@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.ChooseBean" />
+    </data>
+
+    <TextView
+        android:layout_width="116px"
+        android:layout_height="48px"
+        android:background="@{entity.backgroundDrawable()}"
+        android:gravity="center"
+        android:text="@{entity.content}"
+        android:textColor="@{entity.textColor()}"
+        android:textSize="18px" />
+
+</layout>
