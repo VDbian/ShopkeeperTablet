@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.FoodAddBean" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="match_parent"
+        android:layout_height="48px"
+        android:layout_marginLeft="16px"
+        android:layout_marginRight="16px"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8px"
+            android:text="@{entity.name}"
+            android:textColor="@color/color000000"
+            android:textSize="17px" />
+
+        <TextView
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4px"
+            android:layout_weight="1"
+            android:text="@{@string/price_prefix(entity.price)}"
+            android:textColor="@color/colorf74f45"
+            android:textSize="17px" />
+
+        <LinearLayout
+            android:id="@+id/ll_copies"
+            android:layout_width="wrap_content"
+            android:layout_height="46px"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8px"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/colore5e5e5" />
+
+            <RelativeLayout
+                android:id="@+id/rl_num_reduce"
+                android:layout_width="36px"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="16px"
+                    android:layout_height="16px"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/form_reduce" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/colore5e5e5" />
+
+            <TextView
+                android:id="@+id/tv_num"
+                android:layout_width="32px"
+                android:layout_height="match_parent"
+                android:background="@color/colore5e5e5"
+                android:gravity="center"
+                android:text="@{String.valueOf(entity.num)}"
+                android:textColor="@color/color333333"
+                android:textSize="18px" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/colore5e5e5" />
+
+            <RelativeLayout
+                android:id="@+id/rl_num_plus"
+                android:layout_width="36px"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="16px"
+                    android:layout_height="16px"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/form_plus" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

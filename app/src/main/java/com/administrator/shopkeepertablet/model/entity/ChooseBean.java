@@ -33,12 +33,4 @@ public class ChooseBean {
     public void setContent(String content) {
         this.content = content;
     }
-
-    public int textColor() {
-        return choose ? R.color.colorffb001 : R.color.color666666;
-    }
-
-    public int backgroundDrawable() {
-        return choose ? R.drawable.shape_choose_select : R.drawable.shape_choose_normal;
-    }
 }

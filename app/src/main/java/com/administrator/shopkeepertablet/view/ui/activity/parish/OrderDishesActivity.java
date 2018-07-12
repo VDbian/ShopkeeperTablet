@@ -89,7 +89,7 @@ public class OrderDishesActivity extends BaseActivity {
             @Override
             public void onItemClick(FoodEntity foodEntity, int position) {
                 PopupWindowOrderDishesChoose OrderDishesChoose = new PopupWindowOrderDishesChoose(OrderDishesActivity.this,foodEntity);
-                OrderDishesChoose.showAtDropDownCenter(binding.llOrder);
+                OrderDishesChoose.showPopupWindowUp(binding.llOrder);
             }
         });
 

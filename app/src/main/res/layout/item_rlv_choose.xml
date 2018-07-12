@@ -8,13 +8,16 @@
             type="com.administrator.shopkeepertablet.model.entity.ChooseBean" />
     </data>
 
-    <TextView
+    <RelativeLayout
         android:layout_width="116px"
-        android:layout_height="48px"
-        android:background="@{entity.backgroundDrawable()}"
-        android:gravity="center"
-        android:text="@{entity.content}"
-        android:textColor="@{entity.textColor()}"
-        android:textSize="18px" />
+        android:layout_height="48px">
 
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@{entity.content}"
+            android:textSize="18px" />
+    </RelativeLayout>
 </layout>

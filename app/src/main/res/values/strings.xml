@@ -24,7 +24,7 @@
     <string name="price_prefix">￥%1$2.2f</string>
     <string name="diners_num">用餐人数</string>
     <string name="tableware_num">餐具数</string>
-    <string name="price_and_unit">￥%1$2.2f/%1$s</string>
+    <string name="price_and_unit">￥%1$2.2f/%2$s</string>
     <string name="confirm">确认</string>
     <string name="order_diashes">点菜</string>
     <string name="clear_table">清台</string>
