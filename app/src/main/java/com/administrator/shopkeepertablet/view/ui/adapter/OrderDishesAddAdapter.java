@@ -11,9 +11,7 @@ import android.widget.LinearLayout;
 import com.administrator.shopkeepertablet.BR;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.ItemRlvAddBinding;
-import com.administrator.shopkeepertablet.databinding.ItemRlvChooseBinding;
-import com.administrator.shopkeepertablet.model.entity.ChooseBean;
-import com.administrator.shopkeepertablet.model.entity.FoodAddBean;
+import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,7 @@ public class OrderDishesAddAdapter extends RecyclerView.Adapter<OrderDishesAddAd
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view =LayoutInflater.from(context).inflate(R.layout.item_rlv_add, null);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,48);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,56);
         view.setLayoutParams(params);
         return new ItemViewHolder(view);
     }
@@ -77,6 +75,9 @@ public class OrderDishesAddAdapter extends RecyclerView.Adapter<OrderDishesAddAd
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (onItemClick!=null){
+                    onItemClick.onItemClick(foodAddBean,position,foodAddBean.isSelect());
+                }
                 foodAddBean.setSelect(!foodAddBean.isSelect());
                 notifyDataSetChanged();
             }
@@ -90,7 +91,7 @@ public class OrderDishesAddAdapter extends RecyclerView.Adapter<OrderDishesAddAd
 
 
     public interface OnItemClick {
-        void onItemClick(FoodAddBean entity, int position);
+        void onItemClick(FoodAddBean entity, int position,boolean select);
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {

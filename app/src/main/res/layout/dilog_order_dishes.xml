@@ -234,7 +234,9 @@
                 android:layout_height="48px"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="12px"
-                android:background="@drawable/shape_count_bg">
+                android:background="@drawable/shape_count_bg"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:id="@+id/tv_remark"
@@ -381,7 +383,9 @@
             android:layout_above="@+id/view_line_bottom"
             android:layout_below="@+id/view_line_title"
             android:layout_toRightOf="@+id/ll_property"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
 
             <TextView
                 android:layout_width="wrap_content"

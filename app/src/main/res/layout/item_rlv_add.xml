@@ -5,7 +5,7 @@
 
         <variable
             name="entity"
-            type="com.administrator.shopkeepertablet.model.entity.FoodAddBean" />
+            type="com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean" />
     </data>
 
     <LinearLayout

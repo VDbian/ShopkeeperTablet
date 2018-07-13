@@ -15,15 +15,15 @@ import android.widget.PopupWindow;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.DilogOrderDishesBinding;
-import com.administrator.shopkeepertablet.model.entity.ChooseBean;
-import com.administrator.shopkeepertablet.model.entity.FoodAddBean;
+import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
+import com.administrator.shopkeepertablet.model.entity.bean.ChooseBean;
+import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity;
 import com.administrator.shopkeepertablet.model.entity.SeasonEntity;
 import com.administrator.shopkeepertablet.model.entity.SpecEntity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesAddAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesChooseAdapter;
-import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,8 +140,6 @@ public class PopupWindowOrderDishesChoose extends PopupWindow {
             setSelect(1);
         } else if (foodEntity.getSeasonEntityList().size() > 0) {
             setSelect(2);
-        } else {
-            setSelect(3);
         }
         setRlvAdapter();
 
@@ -206,8 +204,12 @@ public class PopupWindowOrderDishesChoose extends PopupWindow {
             binding.rlvAdd.addItemDecoration(new RecyclerViewItemDecoration(5));
             adapterSeason.setOnItemClick(new OrderDishesAddAdapter.OnItemClick() {
                 @Override
-                public void onItemClick(FoodAddBean entity, int position) {
-                    SeasonChooseList.add(entity);
+                public void onItemClick(FoodAddBean entity, int position, boolean select) {
+                    if (select) {
+                        SeasonChooseList.remove(entity);
+                    } else {
+                        SeasonChooseList.add(entity);
+                    }
                 }
             });
         }
@@ -221,12 +223,12 @@ public class PopupWindowOrderDishesChoose extends PopupWindow {
         binding.tvKouwei.setTextColor(context.getResources().getColor(position == 1 ? R.color.colorWhite : R.color.color666666));
         binding.tvAdd.setBackgroundColor(context.getResources().getColor(position == 2 ? R.color.color23cac0 : R.color.colorWhite));
         binding.tvAdd.setTextColor(context.getResources().getColor(position == 2 ? R.color.colorWhite : R.color.color666666));
-        binding.tvRemark.setBackgroundColor(context.getResources().getColor(position == 3 ? R.color.color23cac0 : R.color.colorWhite));
-        binding.tvRemark.setTextColor(context.getResources().getColor(position == 3 ? R.color.colorWhite : R.color.color666666));
+//        binding.tvRemark.setBackgroundColor(context.getResources().getColor(position == 3 ? R.color.color23cac0 : R.color.colorWhite));
+//        binding.tvRemark.setTextColor(context.getResources().getColor(position == 3 ? R.color.colorWhite : R.color.color666666));
         binding.llSpec.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
         binding.llKouwei.setVisibility(position == 1 ? View.VISIBLE : View.GONE);
         binding.llAdd.setVisibility(position == 2 ? View.VISIBLE : View.GONE);
-        binding.llRemark.setVisibility(position == 3 ? View.VISIBLE : View.GONE);
+//        binding.llRemark.setVisibility(position == 3 ? View.VISIBLE : View.GONE);
 
     }
 
@@ -243,9 +245,9 @@ public class PopupWindowOrderDishesChoose extends PopupWindow {
                 case R.id.rl_add:
                     setSelect(2);
                     break;
-                case R.id.rl_remark:
-                    setSelect(3);
-                    break;
+//                case R.id.rl_remark:
+//                    setSelect(3);
+//                    break;
                 case R.id.rl_num_plus:
                     int num = Integer.parseInt(binding.tvNum.getText().toString());
                     binding.tvNum.setText(String.valueOf(num + 1));
@@ -261,7 +263,21 @@ public class PopupWindowOrderDishesChoose extends PopupWindow {
                     break;
                 case R.id.tv_confirm:
                     if (onCallBackListener != null) {
-                        onCallBackListener.confirm(foodEntity,"1",0,"",SeasonChooseList);
+                        CartBean cartBean = new CartBean();
+                        cartBean.setFoodEntity(foodEntity);
+                        cartBean.setProductKouWeiEntity(productKouWeiEntity);
+                        if (binding.llCopies.getVisibility() == View.VISIBLE) {
+                            cartBean.setNum(binding.tvNum.getText().toString());
+                        } else {
+                            cartBean.setNum(binding.etWeight.getText().toString());
+                            cartBean.setUnit(binding.tvWeighUnit.getText().toString());
+                        }
+                        cartBean.setPrice(price);
+                        if (specEntity != null) {
+                            cartBean.setSpec(specEntity.getName());
+                        }
+                        cartBean.setFoodAddBeanList(SeasonChooseList);
+                        onCallBackListener.confirm(cartBean);
                     }
                     break;
             }
@@ -318,7 +334,7 @@ public class PopupWindowOrderDishesChoose extends PopupWindow {
 
 
     public interface OnCallBackListener {
-        void confirm(FoodEntity foodEntity,String num,double price,String spec,List<FoodAddBean> foodAddBeans);
+        void confirm(CartBean cartBean);
 
     }
 

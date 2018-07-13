@@ -5,7 +5,7 @@
 
         <variable
             name="entity"
-            type="com.administrator.shopkeepertablet.model.entity.ChooseBean" />
+            type="com.administrator.shopkeepertablet.model.entity.bean.ChooseBean" />
     </data>
 
     <RelativeLayout

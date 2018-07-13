@@ -2,7 +2,6 @@ package com.administrator.shopkeepertablet.view.ui.adapter;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +10,8 @@ import android.widget.LinearLayout;
 
 import com.administrator.shopkeepertablet.BR;
 import com.administrator.shopkeepertablet.R;
-import com.administrator.shopkeepertablet.databinding.DilogOrderDishesBinding;
-import com.administrator.shopkeepertablet.databinding.ItemFoodTypeBinding;
 import com.administrator.shopkeepertablet.databinding.ItemRlvChooseBinding;
-import com.administrator.shopkeepertablet.model.entity.ChooseBean;
-import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
-import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
+import com.administrator.shopkeepertablet.model.entity.bean.ChooseBean;
 
 import java.util.ArrayList;
 import java.util.List;

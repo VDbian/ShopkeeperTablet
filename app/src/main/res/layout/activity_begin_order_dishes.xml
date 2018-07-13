@@ -154,7 +154,7 @@
                     android:layout_marginTop="10px"
                     android:background="@drawable/shape_order_dishes_order_bg"
                     android:gravity="center"
-                    android:text="下单 ￥1500.00"
+                    android:text="@{@string/order_cart_price(viemModel.price)}"
                     android:textColor="@color/colorWhite"
                     android:textSize="18px" />
             </LinearLayout>
@@ -170,11 +170,12 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rlv_variety"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="15px"
             android:layout_marginRight="15px"
             android:layout_marginTop="15px"
+            android:layout_marginBottom="15px"
             android:layout_toRightOf="@+id/view_line_left"
             android:layout_toLeftOf="@+id/view_line_right"
             ></android.support.v7.widget.RecyclerView>

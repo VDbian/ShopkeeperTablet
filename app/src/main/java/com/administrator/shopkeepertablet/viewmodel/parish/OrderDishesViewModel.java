@@ -46,6 +46,7 @@ public class OrderDishesViewModel extends BaseViewModel {
     public ObservableField<String> people = new ObservableField<>("1");
     public ObservableField<String> tableware = new ObservableField<>("1");
     public ObservableField<String> time = new ObservableField<>("");
+    public ObservableField<Double> price = new ObservableField<>(0.00);
 
 
     public OrderDishesViewModel(OrderDishesActivity activity, ParishRepertory repertory, PreferenceSource preferenceSource) {

@@ -1,4 +1,4 @@
-package com.administrator.shopkeepertablet.model.entity;
+package com.administrator.shopkeepertablet.model.entity.bean;
 
 /**
  * Description:

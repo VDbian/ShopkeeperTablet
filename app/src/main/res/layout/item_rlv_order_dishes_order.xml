@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.bean.CartBean"/>
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -10,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12px"
             android:layout_marginLeft="16px"
-            android:text="醋泡花生"
+            android:text="@{entity.foodEntity.productName}"
             android:textColor="@color/color666666"
             android:textSize="20px"
             />
@@ -33,7 +39,7 @@
             android:layout_below="@+id/tv_name"
             android:layout_alignLeft="@+id/tv_name"
             android:layout_marginTop="8px"
-            android:text="中份"
+            android:text="@{entity.spec}"
             android:textSize="14px"
             android:textColor="@color/color848d95"
             />
@@ -46,7 +52,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="16px"
             android:layout_alignTop="@+id/tv_unit"
-            android:text="￥8.00"
+            android:text="@{@string/price_prefix(entity.price)}"
             android:textSize="14px"
             android:textColor="@color/color666666"
             />
@@ -57,7 +63,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@+id/tv_unit"
-            android:layout_marginTop="8px"
             android:layout_marginBottom="16px"
             >
         </LinearLayout>

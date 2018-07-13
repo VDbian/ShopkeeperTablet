@@ -25,6 +25,7 @@
     <string name="diners_num">用餐人数</string>
     <string name="tableware_num">餐具数</string>
     <string name="price_and_unit">￥%1$2.2f/%2$s</string>
+    <string name="num_prefix">x%1$s</string>
     <string name="confirm">确认</string>
     <string name="order_diashes">点菜</string>
     <string name="clear_table">清台</string>
@@ -33,6 +34,7 @@
     <string name="setting_room">刷新房间</string>
     <string name="setting_food">刷新菜品</string>
     <string name="setting_confirm">确定</string>
+    <string name="order_cart_price">下单 ￥%1$2.2f</string>
 
 
 </resources>
