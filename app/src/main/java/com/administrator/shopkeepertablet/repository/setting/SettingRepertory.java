@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.repository.setting;
 
+import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 import com.administrator.shopkeepertablet.repository.BaseRepertory;
 
@@ -22,4 +23,14 @@ public interface SettingRepertory extends BaseRepertory {
      * @return
      */
     Observable<ResultFoodEntity> getFoodList(String type, String id);
+
+    /**
+     * 获取套餐
+     * @param type 2
+     * @param id 店铺id
+     * @param index 页数
+     * @param size 每页数量
+     * @return
+     */
+    Observable<ResultFoodEntity> getComboList(String type, String id, int index, int size);
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.administrator.shopkeepertablet.BR;
 import com.administrator.shopkeepertablet.R;
@@ -57,6 +58,15 @@ public class OrderDishesCartAdapter extends RecyclerView.Adapter<OrderDishesCart
     public void onBindViewHolder(final ItemViewHolder holder, final int position) {
         final CartBean cartBean = cartBeanList.get(position);
         holder.setBinding(BR.entity, cartBean);
+        holder.binding.llRemark.removeAllViews();
+        if (!cartBean.getGiveNum().equals("0")){
+            View view = LayoutInflater.from(context).inflate(R.layout.view_order_dishes_give,null);
+            ((TextView)view.findViewById(R.id.tv_num)).setText(cartBean.getGiveNum());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            params.setMargins(0, 8, 0, 0);
+            view.setLayoutParams(params);
+            holder.binding.llRemark.addView(view);
+        }
         if (cartBean.getFoodAddBeanList().size()!=0){
             for (FoodAddBean foodAddBean :cartBean.getFoodAddBeanList()) {
                 OrderRemarkView view = new OrderRemarkView(context);
@@ -67,6 +77,8 @@ public class OrderDishesCartAdapter extends RecyclerView.Adapter<OrderDishesCart
                 holder.binding.llRemark.addView(view);
             }
         }
+
+
         if (TextUtils.isEmpty(cartBean.getUnit())){
             String format = context.getResources().getString(R.string.num_prefix);
             holder.binding.tvNum.setText(String.format(format, String.valueOf(cartBean.getNum())));

@@ -7,6 +7,8 @@ import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.List;
+import java.util.jar.Attributes;
+
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.DaoException;
 import com.administrator.shopkeepertablet.model.greendao.DaoSession;
@@ -85,7 +87,7 @@ public class FoodEntity {
     @SerializedName("PRODUCTTYPENAME")
     private String productTypeName;
 
-    @SerializedName("PRICE")
+    @SerializedName(value = "PRICE", alternate = {"Price"})
     private double price;
 
     @SerializedName("PRODUCTFile")
@@ -148,6 +150,22 @@ public class FoodEntity {
     @SerializedName("PrintWay")
     private String printWay;
 
+
+    @SerializedName("Type")
+    private boolean type;
+
+    @SerializedName("PackageName")
+    private String packageName;
+
+    @SerializedName("counts")
+    private String counts;
+
+    @SerializedName("Guid")
+    private String guid;
+
+
+
+
     @ToMany(referencedJoinProperty = "productId")
     private List<SpecEntity> specEntityList;
 
@@ -166,16 +184,15 @@ public class FoodEntity {
     private transient FoodEntityDao myDao;
 
 
-    @Generated(hash = 832036182)
-    public FoodEntity(String productId, String restaurantId, String id,
-            String productName, String pinYin, String unit, String minUnit,
-            String productTypeId, String productTypeName, double price,
-            String productFile, String productImage, int state, String remark,
-            String tasteID, String IsDaZhe, String daZhe, String warCount,
-            int IsClose, String isCloseName, int productCount, String chuCaiType,
-            int canDiscount, double memberPice, int salesType, String accordIng,
-            String productProperty, String productGive, String tasteType,
-            String printWay) {
+    @Generated(hash = 658359036)
+    public FoodEntity(String productId, String restaurantId, String id, String productName,
+            String pinYin, String unit, String minUnit, String productTypeId, String productTypeName,
+            double price, String productFile, String productImage, int state, String remark,
+            String tasteID, String IsDaZhe, String daZhe, String warCount, int IsClose,
+            String isCloseName, int productCount, String chuCaiType, int canDiscount, double memberPice,
+            int salesType, String accordIng, String productProperty, String productGive,
+            String tasteType, String printWay, boolean type, String packageName, String counts,
+            String guid) {
         this.productId = productId;
         this.restaurantId = restaurantId;
         this.id = id;
@@ -206,6 +223,10 @@ public class FoodEntity {
         this.productGive = productGive;
         this.tasteType = tasteType;
         this.printWay = printWay;
+        this.type = type;
+        this.packageName = packageName;
+        this.counts = counts;
+        this.guid = guid;
     }
 
     @Generated(hash = 2051124127)
@@ -618,5 +639,37 @@ public class FoodEntity {
     @Generated(hash = 641658038)
     public synchronized void resetProductKouWeiEntityList() {
         productKouWeiEntityList = null;
+    }
+
+    public boolean getType() {
+        return this.type;
+    }
+
+    public void setType(boolean type) {
+        this.type = type;
+    }
+
+    public String getPackageName() {
+        return this.packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getCounts() {
+        return this.counts;
+    }
+
+    public void setCounts(String counts) {
+        this.counts = counts;
+    }
+
+    public String getGuid() {
+        return this.guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 }

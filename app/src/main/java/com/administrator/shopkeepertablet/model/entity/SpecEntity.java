@@ -43,14 +43,6 @@ public class SpecEntity  {
     public SpecEntity() {
     }
 
-    public String getuId() {
-        return uId;
-    }
-
-    public void setuId(String id) {
-        this.uId = id;
-    }
-
     public String getProductId() {
         return productId;
     }

@@ -89,4 +89,52 @@ public interface RetrofitInterface {
             @Field("Psize1") int Psize
     );
 
+
+    //套餐PortTakeFoodAshx.ashx
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortTakeFoodAshx.ashx")
+    Observable<ResultFoodEntity> getComboList(
+            @Field("Type") String type,
+            @Field("id") String id,//店铺ID
+            @Field("Pindex1") int Pindex,
+            @Field("Psize1") int Psize
+    );
+
+
+    //堂点下单 PortTakeFoodServer.ashx
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortTakeFoodServer.ashx")
+    Observable<BaseEntity<String>> order(
+            @Field("Type") String type,
+            @Field("id") String id,//店铺ID
+            @Field("tableid") String tableId,
+            @Field("billid") String billId,
+            @Field("info") String info,
+            @Field("UserID") String UserId,
+            @Field("Name") String name,
+            @Field("TableName") String tableName,
+            @Field("APrice") String price,
+            @Field("FoodType") String foodType,
+            @Field("FanBill") String fanBill
+    );
+
+    //获取订单菜品列表
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
+    Observable<BaseEntity<String>> getOrderFoodList(
+            @Field("type") String type,
+            @Field("id") String id,
+            @Field("BILLID") String billId
+    );
+
+    //获取批量品注的口味
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKouWeiAshx.ashx")
+    Observable<BaseEntity<String>> getFoodKouweiList(
+            @Field("id") String id,//店铺ID
+            @Field("Pindex1") int Pindex,
+            @Field("Psize1") int Psize
+    );
+
+
 }

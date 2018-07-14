@@ -57,6 +57,10 @@ public class FoodEntityDao extends AbstractDao<FoodEntity, String> {
         public final static Property ProductGive = new Property(27, String.class, "productGive", false, "PRODUCT_GIVE");
         public final static Property TasteType = new Property(28, String.class, "tasteType", false, "TASTE_TYPE");
         public final static Property PrintWay = new Property(29, String.class, "printWay", false, "PRINT_WAY");
+        public final static Property Type = new Property(30, boolean.class, "type", false, "TYPE");
+        public final static Property PackageName = new Property(31, String.class, "packageName", false, "PACKAGE_NAME");
+        public final static Property Counts = new Property(32, String.class, "counts", false, "COUNTS");
+        public final static Property Guid = new Property(33, String.class, "guid", false, "GUID");
     }
 
     private DaoSession daoSession;
@@ -105,7 +109,11 @@ public class FoodEntityDao extends AbstractDao<FoodEntity, String> {
                 "\"PRODUCT_PROPERTY\" TEXT," + // 26: productProperty
                 "\"PRODUCT_GIVE\" TEXT," + // 27: productGive
                 "\"TASTE_TYPE\" TEXT," + // 28: tasteType
-                "\"PRINT_WAY\" TEXT);"); // 29: printWay
+                "\"PRINT_WAY\" TEXT," + // 29: printWay
+                "\"TYPE\" INTEGER NOT NULL ," + // 30: type
+                "\"PACKAGE_NAME\" TEXT," + // 31: packageName
+                "\"COUNTS\" TEXT," + // 32: counts
+                "\"GUID\" TEXT);"); // 33: guid
     }
 
     /** Drops the underlying database table. */
@@ -239,6 +247,22 @@ public class FoodEntityDao extends AbstractDao<FoodEntity, String> {
         if (printWay != null) {
             stmt.bindString(30, printWay);
         }
+        stmt.bindLong(31, entity.getType() ? 1L: 0L);
+ 
+        String packageName = entity.getPackageName();
+        if (packageName != null) {
+            stmt.bindString(32, packageName);
+        }
+ 
+        String counts = entity.getCounts();
+        if (counts != null) {
+            stmt.bindString(33, counts);
+        }
+ 
+        String guid = entity.getGuid();
+        if (guid != null) {
+            stmt.bindString(34, guid);
+        }
     }
 
     @Override
@@ -366,6 +390,22 @@ public class FoodEntityDao extends AbstractDao<FoodEntity, String> {
         if (printWay != null) {
             stmt.bindString(30, printWay);
         }
+        stmt.bindLong(31, entity.getType() ? 1L: 0L);
+ 
+        String packageName = entity.getPackageName();
+        if (packageName != null) {
+            stmt.bindString(32, packageName);
+        }
+ 
+        String counts = entity.getCounts();
+        if (counts != null) {
+            stmt.bindString(33, counts);
+        }
+ 
+        String guid = entity.getGuid();
+        if (guid != null) {
+            stmt.bindString(34, guid);
+        }
     }
 
     @Override
@@ -411,7 +451,11 @@ public class FoodEntityDao extends AbstractDao<FoodEntity, String> {
             cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // productProperty
             cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // productGive
             cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // tasteType
-            cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29) // printWay
+            cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29), // printWay
+            cursor.getShort(offset + 30) != 0, // type
+            cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31), // packageName
+            cursor.isNull(offset + 32) ? null : cursor.getString(offset + 32), // counts
+            cursor.isNull(offset + 33) ? null : cursor.getString(offset + 33) // guid
         );
         return entity;
     }
@@ -448,6 +492,10 @@ public class FoodEntityDao extends AbstractDao<FoodEntity, String> {
         entity.setProductGive(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
         entity.setTasteType(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
         entity.setPrintWay(cursor.isNull(offset + 29) ? null : cursor.getString(offset + 29));
+        entity.setType(cursor.getShort(offset + 30) != 0);
+        entity.setPackageName(cursor.isNull(offset + 31) ? null : cursor.getString(offset + 31));
+        entity.setCounts(cursor.isNull(offset + 32) ? null : cursor.getString(offset + 32));
+        entity.setGuid(cursor.isNull(offset + 33) ? null : cursor.getString(offset + 33));
      }
     
     @Override

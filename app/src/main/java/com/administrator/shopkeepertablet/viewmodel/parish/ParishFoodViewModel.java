@@ -2,10 +2,12 @@ package com.administrator.shopkeepertablet.viewmodel.parish;
 
 import android.content.Intent;
 import android.databinding.ObservableField;
+import android.util.Log;
 
 import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
@@ -16,6 +18,7 @@ import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
 import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
 import com.google.gson.Gson;
+import com.zhy.autolayout.utils.L;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +41,8 @@ public class ParishFoodViewModel extends BaseViewModel {
     public ObservableField<String> people = new ObservableField<>("1");
     public ObservableField<String> tableware = new ObservableField<>("1");
     public ObservableField<String> time = new ObservableField<>("");
+    public ObservableField<String> billId = new ObservableField<>("");
+    public ObservableField<Double> price = new ObservableField<>(0.00);
 
 
     public ParishFoodViewModel(ParishFoodFragment fragment, ParishRepertory parishRepertory, PreferenceSource preferenceSource) {
@@ -87,9 +92,10 @@ public class ParishFoodViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-//                        MLog.e("api",stringBaseEntity.getResult());
+//                       MLog.e("api_kai",stringBaseEntity.getResult());
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "开台成功");
+                            billId.set(stringBaseEntity.getResult());
                             fragment.openSuccess(flag);
                         }
                     }
@@ -119,5 +125,31 @@ public class ParishFoodViewModel extends BaseViewModel {
                     }
                 });
 
+    }
+
+    public void getOrderFoodList() {
+        parishRepertory.getOrderFoodList("13", preferenceSource.getId(), billId.get()).subscribe(
+                new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd", stringBaseEntity.getCode() + "--" + stringBaseEntity.getMessage());
+                        if (stringBaseEntity.getCode() == 1) {
+                            OrderFoodEntity[] orderFoodEntities = new Gson().fromJson(stringBaseEntity.getResult(), OrderFoodEntity[].class);
+                            List<OrderFoodEntity> mList = Arrays.asList(orderFoodEntities);
+                            double a = 0;
+                            for (OrderFoodEntity entity : mList) {
+                                a += entity.getChargeMoney();
+                            }
+                            price.set(a);
+                            fragment.initPayPop(mList);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("VD", throwable.getMessage());
+                    }
+                }
+        );
     }
 }

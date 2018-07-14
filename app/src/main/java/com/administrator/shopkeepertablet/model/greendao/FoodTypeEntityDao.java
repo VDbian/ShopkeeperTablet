@@ -28,6 +28,7 @@ public class FoodTypeEntityDao extends AbstractDao<FoodTypeEntity, String> {
         public final static Property RestaurantId = new Property(1, String.class, "restaurantId", false, "RESTAURANT_ID");
         public final static Property ProductTypeName = new Property(2, String.class, "productTypeName", false, "PRODUCT_TYPE_NAME");
         public final static Property OrderNo = new Property(3, String.class, "orderNo", false, "ORDER_NO");
+        public final static Property Type = new Property(4, boolean.class, "type", false, "TYPE");
     }
 
     private DaoSession daoSession;
@@ -49,7 +50,8 @@ public class FoodTypeEntityDao extends AbstractDao<FoodTypeEntity, String> {
                 "\"PRODUCT_TYPE_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: productTypeId
                 "\"RESTAURANT_ID\" TEXT," + // 1: restaurantId
                 "\"PRODUCT_TYPE_NAME\" TEXT," + // 2: productTypeName
-                "\"ORDER_NO\" TEXT);"); // 3: orderNo
+                "\"ORDER_NO\" TEXT," + // 3: orderNo
+                "\"TYPE\" INTEGER NOT NULL );"); // 4: type
     }
 
     /** Drops the underlying database table. */
@@ -81,6 +83,7 @@ public class FoodTypeEntityDao extends AbstractDao<FoodTypeEntity, String> {
         if (orderNo != null) {
             stmt.bindString(4, orderNo);
         }
+        stmt.bindLong(5, entity.getType() ? 1L: 0L);
     }
 
     @Override
@@ -106,6 +109,7 @@ public class FoodTypeEntityDao extends AbstractDao<FoodTypeEntity, String> {
         if (orderNo != null) {
             stmt.bindString(4, orderNo);
         }
+        stmt.bindLong(5, entity.getType() ? 1L: 0L);
     }
 
     @Override
@@ -125,7 +129,8 @@ public class FoodTypeEntityDao extends AbstractDao<FoodTypeEntity, String> {
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // productTypeId
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // restaurantId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // productTypeName
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // orderNo
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // orderNo
+            cursor.getShort(offset + 4) != 0 // type
         );
         return entity;
     }
@@ -136,6 +141,7 @@ public class FoodTypeEntityDao extends AbstractDao<FoodTypeEntity, String> {
         entity.setRestaurantId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setProductTypeName(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setOrderNo(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setType(cursor.getShort(offset + 4) != 0);
      }
     
     @Override

@@ -34,6 +34,15 @@ public class FoodTypeEntity {
     @SerializedName("ORDERNO")
     private String orderNo;
 
+
+//    private String PRODUCTTYPENAME;
+//    private String PRODUCTTYPEID;
+//    private String RESTAURANTID;
+//    private int ORDERNO;
+    @SerializedName("Type")
+    private boolean type;
+
+
     @ToMany(referencedJoinProperty = "productTypeId")
     private List<FoodEntity> foodEntityList;
 
@@ -45,13 +54,14 @@ public class FoodTypeEntity {
     @Generated(hash = 1225180916)
     private transient FoodTypeEntityDao myDao;
 
-    @Generated(hash = 927442999)
-    public FoodTypeEntity(String productTypeId, String restaurantId,
-            String productTypeName, String orderNo) {
+    @Generated(hash = 1012388691)
+    public FoodTypeEntity(String productTypeId, String restaurantId, String productTypeName,
+            String orderNo, boolean type) {
         this.productTypeId = productTypeId;
         this.restaurantId = restaurantId;
         this.productTypeName = productTypeName;
         this.orderNo = orderNo;
+        this.type = type;
     }
 
     @Generated(hash = 431357427)
@@ -170,5 +180,13 @@ public class FoodTypeEntity {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getFoodTypeEntityDao() : null;
+    }
+
+    public boolean getType() {
+        return this.type;
+    }
+
+    public void setType(boolean type) {
+        this.type = type;
     }
 }

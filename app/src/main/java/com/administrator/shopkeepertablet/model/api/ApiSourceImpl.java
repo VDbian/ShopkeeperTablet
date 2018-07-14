@@ -43,8 +43,18 @@ public class ApiSourceImpl implements ApiSource {
     }
 
     @Override
+    public Observable<ResultFoodEntity> getComboList(String type, String id, int index, int size) {
+        return retrofitInterface.getComboList(type,id,index,size);
+    }
+
+    @Override
     public Observable<BaseEntity<String>> getFoodTypeList(String type, String id, int index, int size) {
         return retrofitInterface.getFoodTypeList(type,id,index,size);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType, String fanBill) {
+        return retrofitInterface.order(type,id,tableId,billId,info,UserId,name,tableName,price,foodType,fanBill);
     }
 
     @Override
@@ -55,5 +65,15 @@ public class ApiSourceImpl implements ApiSource {
     @Override
     public Observable<ResultFoodEntity> getFoodList(String type, String id) {
         return retrofitInterface.getFoodList(type, id);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getOrderFoodList(String type, String id, String billId) {
+        return retrofitInterface.getOrderFoodList(type, id, billId);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getFoodKouweiList(String id, int index, int size) {
+        return retrofitInterface.getFoodKouweiList(id, index, size);
     }
 }

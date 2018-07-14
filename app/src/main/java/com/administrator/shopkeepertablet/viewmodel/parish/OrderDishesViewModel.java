@@ -1,6 +1,7 @@
 package com.administrator.shopkeepertablet.viewmodel.parish;
 
 import android.databinding.ObservableField;
+import android.util.Log;
 
 import com.administrator.shopkeepertablet.AppApplication;
 import com.administrator.shopkeepertablet.AppConstant;
@@ -8,6 +9,7 @@ import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
+import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 import com.administrator.shopkeepertablet.model.greendao.DaoSession;
 import com.administrator.shopkeepertablet.model.greendao.FoodEntityDao;
@@ -45,6 +47,7 @@ public class OrderDishesViewModel extends BaseViewModel {
     public ObservableField<String> tableId = new ObservableField<>("");
     public ObservableField<String> people = new ObservableField<>("1");
     public ObservableField<String> tableware = new ObservableField<>("1");
+    public ObservableField<String> billId = new ObservableField<>("");
     public ObservableField<String> time = new ObservableField<>("");
     public ObservableField<Double> price = new ObservableField<>(0.00);
 
@@ -84,6 +87,53 @@ public class OrderDishesViewModel extends BaseViewModel {
 //            MLog.e("api",foodTypeEntity.toString());
 //        }
 
+    }
+
+    public void order(String info,String foodType,String fanBill){
+        Log.e("info",info);
+
+        repertory.order("6", preferenceSource.getId(), tableId.get(), billId.get(), info, preferenceSource.getUserId(), preferenceSource.getName(),
+                table.get(),String.valueOf(price.get()), foodType, fanBill).subscribe(new Consumer<BaseEntity<String>>() {
+            @Override
+            public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                Log.e("vd",stringBaseEntity.toString());
+                if (stringBaseEntity.getCode()==1){
+                    MToast.showToast(activity,"下单成功");
+                    activity.finish();
+                }else {
+                    MToast.showToast(activity,"下单失败");
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                MToast.showToast(activity,"下单失败");
+            }
+        });
+    }
+
+//    public void getAllKouwei(){
+//        repertory.getFoodKouweiList(preferenceSource.getId(),1,50).subscribe(
+//                new Consumer<BaseEntity<String>>() {
+//                    @Override
+//                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+//                        Log.e("VD",stringBaseEntity.getResult());
+//                        if (stringBaseEntity.getCode()==0){
+//                            List<KouWeiEntity> list = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(),KouWeiEntity[].class));
+//                            activity.showPopAllKouwei(list);
+//                        }
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                    Log.e("vd",throwable.getMessage());
+//                    }
+//                });
+//    }
+
+    public void  getAllKouwei(){
+        List<KouWeiEntity> list = AppApplication.get(activity).getDaoSession().getKouWeiEntityDao().loadAll();
+        activity.showPopAllKouwei(list);
     }
 
 }

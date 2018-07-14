@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30px">
+
+        <TextView
+            android:id="@+id/tv_remark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16px"
+            android:gravity="center_vertical"
+            android:text="赠送"
+            android:textColor="@color/colorf74f45"
+            android:textSize="14px" />
+
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16px"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textColor="@color/colorf74f45"
+            android:textSize="14px" />
+
+    </RelativeLayout>
+</layout>

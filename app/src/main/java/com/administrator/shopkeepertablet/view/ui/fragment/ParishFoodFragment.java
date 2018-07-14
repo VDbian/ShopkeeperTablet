@@ -14,10 +14,12 @@ import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.FragmentParishFoodBinding;
 import com.administrator.shopkeepertablet.databinding.PopupwindowOrderDiasherBinding;
+import com.administrator.shopkeepertablet.databinding.PopupwindowOrderPayBinding;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.parish.DaggerParishFragmentComponent;
 import com.administrator.shopkeepertablet.di.parish.ParishFragmentModule;
 import com.administrator.shopkeepertablet.model.entity.EventOrderDishesEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.utils.DataEvent;
@@ -28,6 +30,7 @@ import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesAct
 import com.administrator.shopkeepertablet.view.ui.adapter.ParishTableAdapter;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowBeginTable;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderAndClear;
+import com.administrator.shopkeepertablet.view.widget.PopupWindowPay;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
 
@@ -56,6 +59,8 @@ public class ParishFoodFragment extends BaseFragment {
     private List<RoomEntity> roomEntities = new ArrayList<>();
     private PopupWindowBeginTable popBeginTable;
     private PopupWindowOrderAndClear popOrderAndClear;
+    private PopupWindowPay popupWindowPay;
+    private boolean first = true;
 
 
     @Override
@@ -113,14 +118,14 @@ public class ParishFoodFragment extends BaseFragment {
                         });
                         break;
                     case "1":
-                        viewModel.people.set(entity.getPersonCounts().toString());
+                        viewModel.people.set(entity.getPersonCounts());
                         viewModel.time.set(entity.getTime());
                         popOrderAndClear = new PopupWindowOrderAndClear(getActivity(), viewModel);
                         popOrderAndClear.showPopupWindow(binding.tabRoom);
                         popOrderAndClear.setOnCallBackListener(new PopupWindowOrderAndClear.OnCallBackListener() {
                             @Override
                             public void clear() {
-                                viewModel.clearTable(entity.getBillId().toString());
+                                viewModel.clearTable(entity.getBillId());
                             }
 
                             @Override
@@ -129,12 +134,23 @@ public class ParishFoodFragment extends BaseFragment {
                                 eventOrderDishesEntity.setPeopleNum(viewModel.people.get());
                                 eventOrderDishesEntity.setRoomName(viewModel.room.get());
                                 eventOrderDishesEntity.setTableName(viewModel.table.get());
+                                eventOrderDishesEntity.setBillId(entity.getBillId());
+                                eventOrderDishesEntity.setTableId(viewModel.tableId.get());
                                 eventOrderDishesEntity.setTime(entity.getKaiTime());
                                 EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_ORDER_DISHES).setMessageData(eventOrderDishesEntity));
+                                if (popOrderAndClear != null) {
+                                    popOrderAndClear.dismiss();
+                                }
                                 Intent intent = new Intent(getActivity(), OrderDishesActivity.class);
                                 startActivity(intent);
                             }
                         });
+                        break;
+                    case "2":
+                        viewModel.people.set(entity.getPersonCounts());
+                        viewModel.time.set(entity.getTime());
+                        viewModel.billId.set(entity.getBillId());
+                        viewModel.getOrderFoodList();
                         break;
                     default:
                         break;
@@ -189,9 +205,11 @@ public class ParishFoodFragment extends BaseFragment {
         }
         if (flag) {
             EventOrderDishesEntity eventOrderDishesEntity = new EventOrderDishesEntity();
+            eventOrderDishesEntity.setTableId(viewModel.tableId.get());
             eventOrderDishesEntity.setPeopleNum(viewModel.people.get());
             eventOrderDishesEntity.setRoomName(viewModel.room.get());
             eventOrderDishesEntity.setTableName(viewModel.table.get());
+            eventOrderDishesEntity.setBillId(viewModel.billId.get());
             eventOrderDishesEntity.setTime(DateUtils.getCurrentDate());
             EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_ORDER_DISHES).setMessageData(eventOrderDishesEntity));
             Intent intent = new Intent(getActivity(), OrderDishesActivity.class);
@@ -208,6 +226,33 @@ public class ParishFoodFragment extends BaseFragment {
         }
         int selectedTabPosition = binding.tabRoom.getSelectedTabPosition();
         viewModel.getTables(roomEntities.get(selectedTabPosition));
+    }
+
+    public void initPayPop(List<OrderFoodEntity> mList) {
+        popupWindowPay = new PopupWindowPay(getActivity(), viewModel, mList);
+        popupWindowPay.showPopupWindow(binding.tabRoom);
+        popupWindowPay.setOnCallBackListener(new PopupWindowPay.OnCallBackListener() {
+            @Override
+            public void pay() {
+
+            }
+
+            @Override
+            public void scanPay() {
+
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!first) {
+            int selectedTabPosition = binding.tabRoom.getSelectedTabPosition();
+            viewModel.getTables(roomEntities.get(selectedTabPosition));
+        } else {
+            first = false;
+        }
     }
 
     @Override

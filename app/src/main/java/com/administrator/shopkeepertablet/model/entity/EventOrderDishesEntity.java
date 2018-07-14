@@ -9,9 +9,11 @@ package com.administrator.shopkeepertablet.model.entity;
 
 public class EventOrderDishesEntity {
     private String tableName;
+    private String tableId;
     private String roomName;
     private String time;
     private String peopleNum;
+    private String billId;
 
     public String getTableName() {
         return tableName;
@@ -43,5 +45,21 @@ public class EventOrderDishesEntity {
 
     public void setPeopleNum(String peopleNum) {
         this.peopleNum = peopleNum;
+    }
+
+    public String getBillId() {
+        return billId;
+    }
+
+    public void setBillId(String billId) {
+        this.billId = billId;
+    }
+
+    public String getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
     }
 }

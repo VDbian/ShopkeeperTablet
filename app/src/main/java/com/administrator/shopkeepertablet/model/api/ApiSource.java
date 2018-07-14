@@ -25,10 +25,18 @@ public interface ApiSource {
 
     Observable<BaseEntity<String>> openTable(String type, String tableId, String tableName, String id, String people, String ware, String userId, String name);
 
-    Observable<BaseEntity<String>> clearTable(String type,String tableId,String billId, String id);
+    Observable<BaseEntity<String>> clearTable(String type, String tableId, String billId, String id);
 
     Observable<ResultFoodEntity> getFoodList(String type, String id);
 
+    Observable<ResultFoodEntity> getComboList(String type,String id, int index,int size);
+
     Observable<BaseEntity<String>> getFoodTypeList(String type, String id, int index, int size);
+
+    Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType, String fanBill);
+
+    Observable<BaseEntity<String>> getOrderFoodList(String type, String id, String billId);
+
+    Observable<BaseEntity<String>> getFoodKouweiList(String id,int index, int size);
 
 }

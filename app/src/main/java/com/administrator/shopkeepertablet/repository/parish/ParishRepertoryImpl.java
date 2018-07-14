@@ -52,11 +52,28 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-
-
     @Override
     public Observable<BaseEntity<String>> getFoodTypeList(String type, String id, int index, int size) {
         return apiSource.getFoodTypeList(type,id,index,size).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType, String fanBill) {
+        return apiSource.order(type, id, tableId, billId, info, UserId, name, tableName, price, foodType, fanBill).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    @Override
+    public Observable<BaseEntity<String>> getOrderFoodList(String type, String id, String billId) {
+        return apiSource.getOrderFoodList(type,id,billId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getFoodKouweiList(String id, int index, int size) {
+        return apiSource.getFoodKouweiList(id, index, size).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }
