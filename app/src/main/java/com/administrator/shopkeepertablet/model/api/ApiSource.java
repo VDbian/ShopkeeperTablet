@@ -39,4 +39,9 @@ public interface ApiSource {
 
     Observable<BaseEntity<String>> getFoodKouweiList(String id,int index, int size);
 
+    Observable<BaseEntity<String>> cancelOrder(String type,String tableId,String billId,String id, String tableName, String userName,String userId );
+
+    Observable<BaseEntity<String>> changePeople(String type,String tableId, String peopleNum, String wareNum,String billId,String id);
+
+    Observable<BaseEntity<String>> changeTable(String type,String newTableId,String newTableName,String oldTableId , String billId );
 }

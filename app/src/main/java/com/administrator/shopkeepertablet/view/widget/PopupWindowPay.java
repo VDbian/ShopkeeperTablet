@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,11 +94,12 @@ public class PopupWindowPay extends PopupWindow {
 
     }
 
-    private void initView(){
-        OrderFoodAdapter adapter = new OrderFoodAdapter(context,mList);
+    private void initView() {
+        OrderFoodAdapter adapter = new OrderFoodAdapter(context, mList);
         binding.rlvOrder.setAdapter(adapter);
         binding.rlvOrder.setLayoutManager(new LinearLayoutManager(context));
         binding.rlvOrder.addItemDecoration(new RecyclerViewItemDecoration(5));
+        binding.llMore.setVisibility(View.INVISIBLE);
         setListener();
     }
 
@@ -106,6 +108,13 @@ public class PopupWindowPay extends PopupWindow {
         binding.llCancel.setOnClickListener(listener);
         binding.tvPay.setOnClickListener(listener);
         binding.tvScanPay.setOnClickListener(listener);
+        binding.llAddFood.setOnClickListener(listener);//加菜
+        binding.llPushFood.setOnClickListener(listener);//催菜
+        binding.llChangeTable.setOnClickListener(listener);//换桌
+        binding.llCancelOrder.setOnClickListener(listener);//撤单
+        binding.llFoodPrinter.setOnClickListener(listener);//商品补打
+        binding.llMergeOrder.setOnClickListener(listener);//并单
+        binding.llChangePeople.setOnClickListener(listener);//修改人数
 
     }
 
@@ -127,6 +136,49 @@ public class PopupWindowPay extends PopupWindow {
                     }
                     break;
                 case R.id.iv_more:
+                    if (binding.llMore.getVisibility() == View.VISIBLE){
+                        binding.llMore.setVisibility(View.INVISIBLE);
+                    }else{
+                        binding.llMore.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case R.id.ll_add_food:
+                    dismiss();
+                    if (onCallBackListener != null) {
+                        onCallBackListener.more(0);
+                    }
+                    break;
+                case R.id.ll_change_table:
+                    if (onCallBackListener != null) {
+                        onCallBackListener.more(1);
+                    }
+                    break;
+                case R.id.ll_cancel_order:
+                    binding.llMore.setVisibility(View.INVISIBLE);
+                    if (onCallBackListener != null) {
+                        onCallBackListener.more(2);
+                    }
+                    break;
+                case R.id.ll_merge_order:
+                    if (onCallBackListener != null) {
+                        onCallBackListener.more(3);
+                    }
+                    break;
+                case R.id.ll_food_printer:
+                    if (onCallBackListener != null) {
+                        onCallBackListener.more(4);
+                    }
+                    break;
+                case R.id.ll_push_food:
+                    if (onCallBackListener != null) {
+                        onCallBackListener.more(5);
+                    }
+                    break;
+                case R.id.ll_change_people:
+                    binding.llMore.setVisibility(View.INVISIBLE);
+                    if (onCallBackListener != null) {
+                        onCallBackListener.more(6);
+                    }
                     break;
             }
         }
@@ -185,6 +237,8 @@ public class PopupWindowPay extends PopupWindow {
         void pay();
 
         void scanPay();
+
+        void more(int position);
     }
 
     public void setOnCallBackListener(OnCallBackListener onCallBackListener) {

@@ -29,18 +29,6 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
     }
 
     @Override
-    public Observable<BaseEntity<String>> getRooms(String type, String id,int index, int size) {
-        return apiSource.getRooms(type,id,index,size).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    @Override
-    public Observable<BaseEntity<String>> getTables(String type, String leibie, String id, int index, int size) {
-        return apiSource.getTables(type,leibie,id,index,size).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    @Override
     public Observable<BaseEntity<String>> openTable(String type, String tableId, String tableName, String id, String people, String ware, String userId, String name) {
         return apiSource.openTable(type,tableId,tableName,id,people,ware,userId,name).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -74,6 +62,24 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
     @Override
     public Observable<BaseEntity<String>> getFoodKouweiList(String id, int index, int size) {
         return apiSource.getFoodKouweiList(id, index, size).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> cancelOrder(String type, String tableId, String billId, String id, String tableName, String userName, String userId) {
+        return apiSource.cancelOrder(type, tableId, billId, id, tableName, userName, userId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> changePeople(String type, String tableId, String peopleNum, String wareNum, String billId, String id) {
+        return apiSource.changePeople(type, tableId, peopleNum, wareNum, billId, id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> changeTable(String type, String newTableId, String newTableName, String oldTableId, String billId) {
+        return apiSource.changeTable(type, newTableId, newTableName, oldTableId, billId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

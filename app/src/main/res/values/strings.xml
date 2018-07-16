@@ -39,6 +39,13 @@
     <string name="scan_pay">扫码结账</string>
     <string name="total_price">合计: ￥%1$2.2f</string>
     <string name="all_kouwei">批量品注</string>
+    <string name="add_food">加菜</string>
+    <string name="change_table">换桌</string>
+    <string name="cancel_order">撤单</string>
+    <string name="merge_order">并单</string>
+    <string name="food_printer">商品补打</string>
+    <string name="push_food">整单催菜</string>
+    <string name="change_peopel">修改人数</string>
 
 
 </resources>

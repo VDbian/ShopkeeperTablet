@@ -38,6 +38,7 @@ public abstract class BaseActivity extends AutoLayoutActivity {
                 .keyboardEnable(false)
                 .statusBarColor("#000000")
                 .fitsSystemWindows(true);
+        immersionBar.init();
     }
 
     @Override

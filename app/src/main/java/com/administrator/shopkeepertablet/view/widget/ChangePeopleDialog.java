@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 
 import com.administrator.shopkeepertablet.R;
+import com.administrator.shopkeepertablet.databinding.DialogChangePeopleBinding;
 import com.administrator.shopkeepertablet.databinding.DilogOrderDishesBinding;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 
@@ -21,50 +22,46 @@ import com.administrator.shopkeepertablet.model.entity.FoodEntity;
  * Time 2018/7/12
  */
 
-public class OrderDishesChooseDialog extends DialogFragment {
+public class ChangePeopleDialog extends DialogFragment {
 
-    private FoodEntity entity;
-    private DilogOrderDishesBinding binding;
+    private String peopleNum;
+    private String wareNum;
+    private DialogChangePeopleBinding binding;
     private OnConfirmClick onConfirmClick;
 
-    public void setEntity(FoodEntity entity) {
-        this.entity = entity;
-    }
 
     public void setOnConfirmClick(OnConfirmClick onConfirmClick) {
         this.onConfirmClick = onConfirmClick;
+    }
+
+    public void setPeopleNum(String peopleNum) {
+        this.peopleNum = peopleNum;
+    }
+
+    public void setWareNum(String wareNum) {
+        this.wareNum = wareNum;
+    }
+
+    public String getPeopleNum() {
+        return peopleNum;
+    }
+
+    public String getWareNum() {
+        return wareNum;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 //        binding = DataBindingUtil.setContentView(getActivity(),R.layout.layout_confirm_info);
         View customView = LayoutInflater.from(getActivity()).inflate(
-                R.layout.dilog_order_dishes, null);
+                R.layout.dialog_change_people, null);
         binding = DataBindingUtil.bind(customView);
-
-
+        binding.etPeopleNum.setText(peopleNum);
+        binding.etWareNum.setText(wareNum);
 
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(binding.getRoot()).create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "确认",
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                    if (onConfirmClick!=null){
-//                        onConfirmClick.confirm();
-//                    }
-//                    }
-//                });
-//        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "去修改",
-//                new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        //取消什么也不用做
-//                        if (onConfirmClick!=null){
-//                            onConfirmClick.update();
-//                        }
-//                    }
-//                });
+
         binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,8 +72,9 @@ public class OrderDishesChooseDialog extends DialogFragment {
         binding.tvConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dismiss();
                 if (onConfirmClick != null) {
-                    onConfirmClick.confirm();
+                    onConfirmClick.confirm(binding.etPeopleNum.getText().toString().trim(),binding.etWareNum.getText().toString().trim());
                 }
             }
         });
@@ -84,9 +82,7 @@ public class OrderDishesChooseDialog extends DialogFragment {
     }
 
     public interface OnConfirmClick {
-        void confirm();
-
-        void update();
+        void confirm(String peopleNum,String wareNum);
     }
 
 }

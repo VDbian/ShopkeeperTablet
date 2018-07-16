@@ -15,26 +15,6 @@ import io.reactivex.Observable;
 
 public interface ParishRepertory extends BaseRepertory {
 
-    /**
-     * 获取房间列表
-     * @param type 1
-     * @param id 店铺id
-     * @param index 当前页
-     * @param size 每页显示数量
-     * @return
-     */
-    Observable<BaseEntity<String>> getRooms(String type,String id,int index, int size);
-
-    /**
-     * 获取桌号信息
-     * @param type 0
-     * @param leibie 房间类型ID
-     * @param id 商店ID
-     * @param index 当前页
-     * @param size 每页数量
-     * @return
-     */
-    Observable<BaseEntity<String>> getTables(String type,String leibie, String id, int index, int size);
 
 
     /**
@@ -107,5 +87,42 @@ public interface ParishRepertory extends BaseRepertory {
      * @return
      */
     Observable<BaseEntity<String>> getFoodKouweiList(String id,int index, int size);
+
+    /**
+     * 撤单
+     * @param type 4
+     * @param tableId 桌位id
+     * @param billId 订单id
+     * @param id 店铺ID
+     * @param tableName 桌位名称
+     * @param userName 操作员
+     * @param userId 操作员Id
+     * @return
+     */
+    Observable<BaseEntity<String>> cancelOrder(String type,String tableId,String billId,String id, String tableName, String userName,String userId );
+
+
+    /**
+     * 修改人数
+     * @param type 2
+     * @param tableId 桌位ID
+     * @param peopleNum 人数
+     * @param wareNum 餐具数
+     * @param billId 订单Id
+     * @param id 店铺ID
+     * @return
+     */
+    Observable<BaseEntity<String>> changePeople(String type,String tableId, String peopleNum, String wareNum,String billId,String id);
+
+    /**
+     * 换桌
+     * @param type 2
+     * @param newTableId 换到的桌位ID
+     * @param newTableName 换到的桌位名字
+     * @param oldTableId 之前的桌位ID
+     * @param billId 之前的订单ID
+     * @return
+     */
+    Observable<BaseEntity<String>> changeTable(String type,String newTableId,String newTableName,String oldTableId , String billId );
 
 }

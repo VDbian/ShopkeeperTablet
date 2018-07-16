@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.FragmentParishFoodBinding;
-import com.administrator.shopkeepertablet.databinding.PopupwindowOrderDiasherBinding;
-import com.administrator.shopkeepertablet.databinding.PopupwindowOrderPayBinding;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.parish.DaggerParishFragmentComponent;
 import com.administrator.shopkeepertablet.di.parish.ParishFragmentModule;
@@ -22,12 +20,16 @@ import com.administrator.shopkeepertablet.model.entity.EventOrderDishesEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
+import com.administrator.shopkeepertablet.model.entity.bean.EventTableBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
+import com.administrator.shopkeepertablet.view.ui.activity.parish.TableActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.ParishTableAdapter;
+import com.administrator.shopkeepertablet.view.widget.ChangePeopleDialog;
+import com.administrator.shopkeepertablet.view.widget.ConfirmDialog;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowBeginTable;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderAndClear;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowPay;
@@ -37,7 +39,6 @@ import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -61,6 +62,7 @@ public class ParishFoodFragment extends BaseFragment {
     private PopupWindowOrderAndClear popOrderAndClear;
     private PopupWindowPay popupWindowPay;
     private boolean first = true;
+    private List<OrderFoodEntity> orderFoodEntityList = new ArrayList<>();
 
 
     @Override
@@ -137,6 +139,7 @@ public class ParishFoodFragment extends BaseFragment {
                                 eventOrderDishesEntity.setBillId(entity.getBillId());
                                 eventOrderDishesEntity.setTableId(viewModel.tableId.get());
                                 eventOrderDishesEntity.setTime(entity.getKaiTime());
+                                eventOrderDishesEntity.setOrderFoodEntityList(orderFoodEntityList);
                                 EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_ORDER_DISHES).setMessageData(eventOrderDishesEntity));
                                 if (popOrderAndClear != null) {
                                     popOrderAndClear.dismiss();
@@ -148,9 +151,10 @@ public class ParishFoodFragment extends BaseFragment {
                         break;
                     case "2":
                         viewModel.people.set(entity.getPersonCounts());
+                        viewModel.tableware.set(entity.getTableWareCount());
                         viewModel.time.set(entity.getTime());
                         viewModel.billId.set(entity.getBillId());
-                        viewModel.getOrderFoodList();
+                        viewModel.getOrderFoodList(entity);
                         break;
                     default:
                         break;
@@ -211,6 +215,7 @@ public class ParishFoodFragment extends BaseFragment {
             eventOrderDishesEntity.setTableName(viewModel.table.get());
             eventOrderDishesEntity.setBillId(viewModel.billId.get());
             eventOrderDishesEntity.setTime(DateUtils.getCurrentDate());
+            eventOrderDishesEntity.setOrderFoodEntityList(orderFoodEntityList);
             EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_ORDER_DISHES).setMessageData(eventOrderDishesEntity));
             Intent intent = new Intent(getActivity(), OrderDishesActivity.class);
             startActivity(intent);
@@ -228,7 +233,7 @@ public class ParishFoodFragment extends BaseFragment {
         viewModel.getTables(roomEntities.get(selectedTabPosition));
     }
 
-    public void initPayPop(List<OrderFoodEntity> mList) {
+    public void initPayPop(final List<OrderFoodEntity> mList, final TableEntity entity) {
         popupWindowPay = new PopupWindowPay(getActivity(), viewModel, mList);
         popupWindowPay.showPopupWindow(binding.tabRoom);
         popupWindowPay.setOnCallBackListener(new PopupWindowPay.OnCallBackListener() {
@@ -241,7 +246,86 @@ public class ParishFoodFragment extends BaseFragment {
             public void scanPay() {
 
             }
+
+            @Override
+            public void more(int position) {
+                switch (position) {
+                    case 0:
+                        EventOrderDishesEntity eventOrderDishesEntity = new EventOrderDishesEntity();
+                        eventOrderDishesEntity.setTableId(viewModel.tableId.get());
+                        eventOrderDishesEntity.setPeopleNum(viewModel.people.get());
+                        eventOrderDishesEntity.setRoomName(viewModel.room.get());
+                        eventOrderDishesEntity.setTableName(viewModel.table.get());
+                        eventOrderDishesEntity.setBillId(viewModel.billId.get());
+                        eventOrderDishesEntity.setTime(viewModel.time.get());
+                        eventOrderDishesEntity.setOrderFoodEntityList(mList);
+                        EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_ORDER_DISHES).setMessageData(eventOrderDishesEntity));
+                        Intent intent = new Intent(getActivity(), OrderDishesActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        eventTable(entity,"换桌",viewModel.room.get());
+                        break;
+                    case 2:
+                        final ConfirmDialog confirmDialog = new ConfirmDialog();
+                        confirmDialog.setTitle("撤单");
+                        confirmDialog.setMessage("是否要进行撤单操作");
+                        confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
+                            @Override
+                            public void confirm() {
+                                viewModel.cancelOrder();
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
+                        confirmDialog.show(getActivity().getFragmentManager(), "");
+                        break;
+                    case 3:
+                        eventTable(entity,"并单",viewModel.room.get());
+                        break;
+                    case 4:
+                        MLog.e("VD", "4");
+                        break;
+                    case 5:
+                        MLog.e("VD", "5");
+                        break;
+                    case 6:
+                        final ChangePeopleDialog changePeopleDialog = new ChangePeopleDialog();
+                        changePeopleDialog.setPeopleNum(viewModel.people.get());
+                        changePeopleDialog.setWareNum(viewModel.tableware.get());
+                        changePeopleDialog.setOnConfirmClick(new ChangePeopleDialog.OnConfirmClick() {
+                            @Override
+                            public void confirm(String peopleNum, String wareNum) {
+                                viewModel.changePeople(peopleNum,wareNum);
+                            }
+                        });
+                        changePeopleDialog.show(getActivity().getFragmentManager(), "");
+                        break;
+
+                }
+            }
         });
+    }
+
+    public void eventTable(TableEntity tableEntity,String title,String room){
+        EventTableBean bean = new EventTableBean();
+        bean.setTableEntity(tableEntity);
+        bean.setRoomName(room);
+        bean.setTitle(title);
+        EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_TABLE).setMessageData(bean));
+        Intent intent = new Intent(getActivity(), TableActivity.class);
+        startActivity(intent);
+    }
+
+    public void cancelOrderSuccess() {
+        if (popupWindowPay != null && popupWindowPay.isShowing()) {
+            popupWindowPay.dismiss();
+        }
+        int selectedTabPosition = binding.tabRoom.getSelectedTabPosition();
+        viewModel.getTables(roomEntities.get(selectedTabPosition));
     }
 
     @Override

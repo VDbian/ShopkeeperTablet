@@ -136,5 +136,51 @@ public interface RetrofitInterface {
             @Field("Psize1") int Psize
     );
 
+    //撤单
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
+    Observable<BaseEntity<String>> cancelOrder(
+            @Field("type") String type,
+            @Field("TableId") String tableId,
+            @Field("billid") String billId,
+            @Field("id") String id,
+            @Field("TableName") String tableName,
+            @Field("Username") String userName,
+            @Field("USERID") String userId
+    );
+
+    //修改人数
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
+    Observable<BaseEntity<String>> changePeople(
+            @Field("type") String type,
+            @Field("tableid") String tableId,
+            @Field("peoplecount") String peopleNum,
+            @Field("canju") String wareNum,
+            @Field("billid") String billId,
+            @Field("id") String id
+    );
+
+    //换桌
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortTurnFoodKaiDan.ashx")
+    Observable<BaseEntity<String>> changeTable(
+            @Field("type") String type,
+            @Field("TableId") String newTableId,
+            @Field("TableName") String newTableName,
+            @Field("xtableid") String oldTableId ,
+            @Field("billid") String billId
+    );
+
+    //    @FormUrlEncoded
+//    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
+//    Observable<BaseEntity<String>> changePeople(
+//    );
+
+
+//    @FormUrlEncoded
+//    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
+//    Observable<BaseEntity<String>> changePeople(
+//    );
 
 }

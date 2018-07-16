@@ -10,8 +10,10 @@ import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertoryImpl;
 import com.administrator.shopkeepertablet.view.ui.activity.LoginActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
+import com.administrator.shopkeepertablet.view.ui.activity.parish.TableActivity;
 import com.administrator.shopkeepertablet.viewmodel.LoginViewModel;
 import com.administrator.shopkeepertablet.viewmodel.parish.OrderDishesViewModel;
+import com.administrator.shopkeepertablet.viewmodel.parish.TableViewModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,10 +26,15 @@ import dagger.Provides;
 @Module
 public class ParishActivityModule {
     private OrderDishesActivity orderDishesActivity;
+    private TableActivity tableActivity;
 
 
     public ParishActivityModule(OrderDishesActivity orderDishesActivity) {
         this.orderDishesActivity = orderDishesActivity;
+    }
+
+    public ParishActivityModule(TableActivity tableActivity) {
+        this.tableActivity = tableActivity;
     }
 
     @Provides
@@ -40,6 +47,12 @@ public class ParishActivityModule {
     @Activity
     OrderDishesViewModel provideOrderDishesViewModel(ParishRepertory parishRepertory, PreferenceSource preferenceSource) {
         return new OrderDishesViewModel(orderDishesActivity, parishRepertory, preferenceSource);
+    }
+
+    @Provides
+    @Activity
+    TableViewModel provideTableViewModel(ParishRepertory parishRepertory, PreferenceSource preferenceSource){
+        return new TableViewModel(parishRepertory,preferenceSource,tableActivity);
     }
 
 }

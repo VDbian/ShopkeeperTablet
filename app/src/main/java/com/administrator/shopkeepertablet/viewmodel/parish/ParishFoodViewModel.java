@@ -127,7 +127,7 @@ public class ParishFoodViewModel extends BaseViewModel {
 
     }
 
-    public void getOrderFoodList() {
+    public void getOrderFoodList(final TableEntity entity) {
         parishRepertory.getOrderFoodList("13", preferenceSource.getId(), billId.get()).subscribe(
                 new Consumer<BaseEntity<String>>() {
                     @Override
@@ -141,7 +141,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                                 a += entity.getChargeMoney();
                             }
                             price.set(a);
-                            fragment.initPayPop(mList);
+                            fragment.initPayPop(mList,entity);
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -151,5 +151,48 @@ public class ParishFoodViewModel extends BaseViewModel {
                     }
                 }
         );
+    }
+
+    public void cancelOrder(){
+        parishRepertory.cancelOrder("4",tableId.get(),billId.get(),preferenceSource.getId(),table.get(),preferenceSource.getName(),preferenceSource.getUserId())
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd",stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode()==1){
+                            MToast.showToast(fragment.getActivity(),"撤单成功");
+                            fragment.cancelOrderSuccess();
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"撤单失败");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        MToast.showToast(fragment.getActivity(),"撤单失败");
+                    }
+                });
+    }
+
+
+    public void changePeople(String peopleNum,String wareNum){
+        parishRepertory.changePeople("2",tableId.get(),peopleNum,wareNum,billId.get(),preferenceSource.getId())
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd",stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode()==1){
+                            MToast.showToast(fragment.getActivity(),"修改成功");
+                            fragment.cancelOrderSuccess();
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"修改失败");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
     }
 }

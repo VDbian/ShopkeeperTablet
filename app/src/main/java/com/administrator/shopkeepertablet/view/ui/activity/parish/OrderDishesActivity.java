@@ -24,6 +24,7 @@ import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
 import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
 import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
@@ -34,6 +35,7 @@ import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.FoodTypeAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesCartAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesVarietyAdapter;
+import com.administrator.shopkeepertablet.view.ui.adapter.OrderFoodAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowAllKouwei;
@@ -46,6 +48,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +75,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
     private List<CartBean> cartBeanList = new ArrayList<>();
     private KouWeiEntity kouWeiEntity;
     private String remark;
+    private List<OrderFoodEntity> orderFoodEntityList = new ArrayList<>();
 
 
     @Override
@@ -95,6 +99,19 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initView() {
+        if (orderFoodEntityList.size() > 0) {
+            binding.tvOrdered.setVisibility(View.VISIBLE);
+            binding.tvOrdered.setTextColor(getResources().getColor(color.colorc0c8ce));
+            OrderFoodAdapter adapter = new OrderFoodAdapter(this, orderFoodEntityList);
+            binding.rlvOrdered.setAdapter(adapter);
+            binding.rlvOrdered.setLayoutManager(new LinearLayoutManager(this));
+            binding.rlvOrdered.addItemDecoration(new RecyclerViewItemDecoration(5));
+            binding.rlvOrdered.setVisibility(View.GONE);
+        } else {
+            binding.tvOrdered.setVisibility(View.GONE);
+            binding.rlvOrdered.setVisibility(View.GONE);
+        }
+
         adapter = new OrderDishesVarietyAdapter(this, mList);
         binding.rlvVariety.setAdapter(adapter);
         binding.rlvVariety.setLayoutManager(new GridLayoutManager(this, 4));
@@ -153,9 +170,9 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
                         cartBeanList.remove(entity);
                         cartAdapter.notifyDataSetChanged();
                         sumPrice();
-                        if (cartBeanList.size()==0){
+                        if (cartBeanList.size() == 0) {
                             kouWeiEntity = null;
-                            remark ="";
+                            remark = "";
                         }
                     }
                 });
@@ -166,6 +183,8 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         binding.tvOrder.setOnClickListener(this);
         binding.ivBack.setOnClickListener(this);
         binding.ivMore.setOnClickListener(this);
+        binding.tvOrdered.setOnClickListener(this);
+        binding.tvShopCart.setOnClickListener(this);
     }
 
     @Override
@@ -179,33 +198,46 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
                 cartAdapter.notifyDataSetChanged();
                 sumPrice();
                 kouWeiEntity = null;
-                remark ="";
+                remark = "";
                 break;
             case R.id.tv_order:
-                if (cartBeanList.size()==0){
-                    MToast.showToast(this,"购物车是空的");
-                }else {
-                    viewModel.order(getInfo(), "0", "");
+                if (cartBeanList.size() == 0) {
+                    MToast.showToast(this, "购物车是空的");
+                } else {
+                    String foodType = binding.tvOrdered.getVisibility() == View.GONE ? "0" : "1";
+                    viewModel.order(getInfo(), foodType, "");
                 }
                 break;
-            case id.iv_more:
-                if (cartBeanList.size()==0){
-                    MToast.showToast(this,"购物车是空的");
-                }else {
+            case R.id.iv_more:
+                if (cartBeanList.size() == 0) {
+                    MToast.showToast(this, "购物车是空的");
+                } else if (binding.rlvOrder.getVisibility() == View.VISIBLE) {
                     viewModel.getAllKouwei();
                 }
+                break;
+            case R.id.tv_shop_cart:
+                binding.tvOrdered.setTextColor(getResources().getColor(R.color.colorc0c8ce));
+                binding.tvShopCart.setTextColor(getResources().getColor(R.color.color23cac0));
+                binding.rlvOrder.setVisibility(View.VISIBLE);
+                binding.rlvOrdered.setVisibility(View.GONE);
+                break;
+            case R.id.tv_ordered:
+                binding.tvOrdered.setTextColor(getResources().getColor(R.color.color23cac0));
+                binding.tvShopCart.setTextColor(getResources().getColor(R.color.colorc0c8ce));
+                binding.rlvOrder.setVisibility(View.GONE);
+                binding.rlvOrdered.setVisibility(View.VISIBLE);
                 break;
 
         }
     }
 
     public void showPopAllKouwei(List<KouWeiEntity> list) {
-        PopupWindowAllKouwei popupWindowAllKouwei = new PopupWindowAllKouwei(this, list,kouWeiEntity,remark);
+        PopupWindowAllKouwei popupWindowAllKouwei = new PopupWindowAllKouwei(this, list, kouWeiEntity, remark);
         popupWindowAllKouwei.showPopupWindowUp();
         popupWindowAllKouwei.setOnCallBackListener(new PopupWindowAllKouwei.OnCallBackListener() {
             @Override
             public void confirm(KouWeiEntity entity, String re) {
-                kouWeiEntity =entity;
+                kouWeiEntity = entity;
                 remark = re;
             }
         });
@@ -235,26 +267,26 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
                 String kouwei = "";
                 String kouweiId = "";
                 if (bean.getProductKouWeiEntity() != null) {
-                    kouwei = bean.getProductKouWeiEntity().getName()+ "*" ;
-                    kouweiId = bean.getProductKouWeiEntity().getuId()+ "*" ;
+                    kouwei = bean.getProductKouWeiEntity().getName() + "*";
+                    kouweiId = bean.getProductKouWeiEntity().getuId() + "*";
                 }
                 if (!TextUtils.isEmpty(bean.getKouwei())) {
-                    kouwei = kouwei + bean.getKouwei()+ "*" ;
-                    kouweiId = kouweiId +  ""+ "*" ;
+                    kouwei = kouwei + bean.getKouwei() + "*";
+                    kouweiId = kouweiId + "" + "*";
                 }
-                if (kouWeiEntity!=null){
-                    kouwei = kouwei +kouWeiEntity.getName()+ "*" ;
-                    kouweiId = kouweiId  +kouWeiEntity.getGuId()+ "*" ;
+                if (kouWeiEntity != null) {
+                    kouwei = kouwei + kouWeiEntity.getName() + "*";
+                    kouweiId = kouweiId + kouWeiEntity.getGuId() + "*";
                 }
-                if (!TextUtils.isEmpty(remark)){
-                    kouwei = kouwei + bean.getKouwei()+ "*" ;
-                    kouweiId = kouweiId  + ""+ "*" ;
+                if (!TextUtils.isEmpty(remark)) {
+                    kouwei = kouwei + bean.getKouwei() + "*";
+                    kouweiId = kouweiId + "" + "*";
                 }
-                if (!TextUtils.isEmpty(kouwei)){
-                    kouwei = kouwei.substring(0,kouwei.length()-1);
+                if (!TextUtils.isEmpty(kouwei)) {
+                    kouwei = kouwei.substring(0, kouwei.length() - 1);
                 }
-                if (!TextUtils.isEmpty(kouweiId)){
-                    kouweiId = kouweiId.substring(0,kouweiId.length()-1);
+                if (!TextUtils.isEmpty(kouweiId)) {
+                    kouweiId = kouweiId.substring(0, kouweiId.length() - 1);
                 }
                 String addId = "";
                 String addName = "";
@@ -381,6 +413,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
             viewModel.people.set(eventOrderDishesEntity.getPeopleNum());
             viewModel.time.set(DateUtils.friendly_time(DateUtils.stringToDate(eventOrderDishesEntity.getTime())));
             viewModel.billId.set(eventOrderDishesEntity.getBillId());
+            orderFoodEntityList = eventOrderDishesEntity.getOrderFoodEntityList();
         }
     }
 

@@ -1,5 +1,7 @@
 package com.administrator.shopkeepertablet.model.entity;
 
+import java.util.List;
+
 /**
  * Description:
  * Author CC
@@ -14,6 +16,15 @@ public class EventOrderDishesEntity {
     private String time;
     private String peopleNum;
     private String billId;
+    private List<OrderFoodEntity> orderFoodEntityList;
+
+    public List<OrderFoodEntity> getOrderFoodEntityList() {
+        return orderFoodEntityList;
+    }
+
+    public void setOrderFoodEntityList(List<OrderFoodEntity> orderFoodEntityList) {
+        this.orderFoodEntityList = orderFoodEntityList;
+    }
 
     public String getTableName() {
         return tableName;

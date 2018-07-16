@@ -99,6 +99,19 @@
                 android:layout_height="48px">
 
                 <TextView
+                    android:id="@+id/tv_ordered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16px"
+                    android:gravity="center_vertical"
+                    android:text="已下单"
+                    android:textColor="@color/color23cac0"
+                    android:textSize="17px"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_shop_cart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -106,7 +119,9 @@
                     android:gravity="center_vertical"
                     android:text="购物车"
                     android:textColor="@color/color23cac0"
-                    android:textSize="17px" />
+                    android:textSize="17px"
+                    android:layout_toRightOf="@+id/tv_ordered"
+                    />
 
                 <ImageView
                     android:id="@+id/iv_more"
@@ -129,6 +144,11 @@
                 android:layout_height="0px"
                 android:layout_weight="1" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rlv_ordered"
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="1" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="72px"

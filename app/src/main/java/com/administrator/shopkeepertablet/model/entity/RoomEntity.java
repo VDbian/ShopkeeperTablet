@@ -41,6 +41,16 @@ public class RoomEntity {
     @SerializedName("Counts")
     private double counts;
 
+    private boolean select;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
     public String getId() {
         return id;
     }

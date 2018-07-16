@@ -6,6 +6,7 @@ import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.login.LoginModule;
 import com.administrator.shopkeepertablet.view.ui.activity.LoginActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
+import com.administrator.shopkeepertablet.view.ui.activity.parish.TableActivity;
 
 import dagger.Component;
 
@@ -18,4 +19,5 @@ import dagger.Component;
 @Component(dependencies = AppComponent.class, modules = ParishActivityModule.class)
 public interface ParishActivityComponent {
     void inject(OrderDishesActivity orderDishesActivity);
+    void inject(TableActivity tableActivity);
 }
