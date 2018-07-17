@@ -174,7 +174,6 @@ public class ParishFoodViewModel extends BaseViewModel {
                 });
     }
 
-
     public void changePeople(String peopleNum,String wareNum){
         parishRepertory.changePeople("2",tableId.get(),peopleNum,wareNum,billId.get(),preferenceSource.getId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
@@ -194,5 +193,23 @@ public class ParishFoodViewModel extends BaseViewModel {
 
                     }
                 });
+    }
+
+    public void pushFood(String detailId){
+        parishRepertory.pushFood("2",detailId,billId.get(),preferenceSource.getId(),tableId.get(),preferenceSource.getName(),table.get())
+         .subscribe(new Consumer<BaseEntity<String>>() {
+             @Override
+             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                Log.e("vd",stringBaseEntity.toString());
+                if (stringBaseEntity.getCode()==1){
+                    MToast.showToast(fragment.getActivity(),"催菜成功");
+                }
+             }
+         }, new Consumer<Throwable>() {
+             @Override
+             public void accept(Throwable throwable) throws Exception {
+
+             }
+         });
     }
 }

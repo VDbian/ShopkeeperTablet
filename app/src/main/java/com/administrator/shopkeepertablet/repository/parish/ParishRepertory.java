@@ -125,4 +125,18 @@ public interface ParishRepertory extends BaseRepertory {
      */
     Observable<BaseEntity<String>> changeTable(String type,String newTableId,String newTableName,String oldTableId , String billId );
 
+
+    /**
+     * 催菜
+     * @param type 2
+     * @param detailId 订单详情ID
+     * @param billId 订单ID
+     * @param id 店铺ID
+     * @param tableId 桌位ID
+     * @param name 操作员
+     * @param tableName 桌位名称
+     * @return
+     */
+    Observable<BaseEntity<String>> pushFood(String type, String detailId,String billId, String id, String tableId,String name, String tableName);
+
 }

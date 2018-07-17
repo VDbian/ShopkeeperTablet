@@ -307,6 +307,11 @@ public class ParishFoodFragment extends BaseFragment {
 
                 }
             }
+
+            @Override
+            public void item(OrderFoodEntity entity, int position) {
+
+            }
         });
     }
 

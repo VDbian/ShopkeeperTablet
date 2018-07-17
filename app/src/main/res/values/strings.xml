@@ -50,6 +50,17 @@
     <string name="urged_food">催菜</string>
     <string name="refund">退菜</string>
     <string name="giving">赠送</string>
-
-
+    
+    <string name="member_num">会员编码:%1$s</string>
+    <string name="member_name">会员姓名:%1$s</string>
+    <string name="member_phone">电话号码:%1$s</string>
+    <string name="member_balance">账户余额:￥%1$2.2f</string>
+    <string name="member_points">账户积分:%1$s</string>
+    <string name="original">原价:￥%1$2.2f</string>
+    <string name="amount_payable">应付金额:￥%1$2.2f</string>
+    <string name="ware_price">餐具费:￥%1$2.2f</string>
+    <string name="refundable_mount">应退金额:￥%1$2.2f</string>
+    <string name="discounts">优惠:￥%1$2.2f</string>
+    <string name="other_pay">还需支付:￥%1$2.2f</string>
+    <string name="earnest">定金:￥%1$2.2f</string>
 </resources>

@@ -202,9 +202,7 @@ public class PopupWindowPay extends PopupWindow {
                     }
                     break;
                 case R.id.ll_urged_food:
-                    if (onCallBackListener!=null){
-                        onCallBackListener.item(orderFood,1);
-                    }
+                    viewModel.pushFood(orderFood.getDetailId());
                     break;
                 case R.id.ll_refund_food:
                     if (onCallBackListener!=null){

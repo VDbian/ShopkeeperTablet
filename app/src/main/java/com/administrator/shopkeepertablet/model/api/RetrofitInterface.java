@@ -172,11 +172,43 @@ public interface RetrofitInterface {
             @Field("billid") String billId
     );
 
-    //    @FormUrlEncoded
-//    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
-//    Observable<BaseEntity<String>> changePeople(
-//    );
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortTakeFoodServer.ashx")
+    Observable<BaseEntity<String>> pushFood(
+            @Field("Type") String type,
+            @Field("DETAILID") String detailId,
+            @Field("billid") String billId,
+            @Field("id") String id,
+            @Field("tableid") String tableId,
+            @Field("Name") String name,
+            @Field("TableName") String tableName
+    );
 
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortPrinterManager.ashx")
+    Observable<BaseEntity<String>> pushPrint(
+            @Field("type") String type,
+            @Field("printsouce") String printSource,
+            @Field("id") String id,
+            @Field("billid") String billId,
+            @Field("tableid") String tableId,
+            @Field("tablename") String tableName,
+            @Field("foodid") String foodId,
+            @Field("Sate") String state
+
+    );
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortPrinterManager.ashx")
+    Observable<BaseEntity<String>> pushFoodAll(
+            @Field("Type") String type,
+            @Field("printsouce") String printSource,
+            @Field("id") String id,
+            @Field("billid") String billId,
+            @Field("tableid") String tableId,
+            @Field("tablename") String tableName,
+            @Field("FoodType") String foodType,
+            @Field("Name") String name,
+            @Field("Sate") String state);
 
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")

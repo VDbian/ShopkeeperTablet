@@ -91,4 +91,9 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> changeTable(String type, String newTableId, String newTableName, String oldTableId, String billId) {
         return retrofitInterface.changeTable(type, newTableId, newTableName, oldTableId, billId);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> pushFood(String type, String detailId, String billId, String id, String tableId, String name, String tableName) {
+        return retrofitInterface.pushFood(type, detailId, billId, id, tableId, name, tableName);
+    }
 }
