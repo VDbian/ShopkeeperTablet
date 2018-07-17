@@ -18,6 +18,7 @@ import com.administrator.shopkeepertablet.R;;
 import com.administrator.shopkeepertablet.databinding.PopupwindowOrderPayBinding;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderFoodAdapter;
+import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
 import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class PopupWindowPay extends PopupWindow {
     private DisplayMetrics metrics;
     private PopupwindowOrderPayBinding binding;
     private List<OrderFoodEntity> mList;
+    private OrderFoodEntity orderFood;
 
 
     private OnCallBackListener onCallBackListener;
@@ -99,7 +101,16 @@ public class PopupWindowPay extends PopupWindow {
         binding.rlvOrder.setAdapter(adapter);
         binding.rlvOrder.setLayoutManager(new LinearLayoutManager(context));
         binding.rlvOrder.addItemDecoration(new RecyclerViewItemDecoration(5));
+        adapter.setOnItemClick(new AdapterOnItemClick<OrderFoodEntity>() {
+            @Override
+            public void onItemClick(OrderFoodEntity orderFoodEntity, int position) {
+                orderFood = orderFoodEntity;
+                binding.llMore.setVisibility(View.GONE);
+                binding.llItem.setVisibility(View.VISIBLE);
+            }
+        });
         binding.llMore.setVisibility(View.INVISIBLE);
+        binding.llItem.setVisibility(View.INVISIBLE);
         setListener();
     }
 
@@ -108,13 +119,17 @@ public class PopupWindowPay extends PopupWindow {
         binding.llCancel.setOnClickListener(listener);
         binding.tvPay.setOnClickListener(listener);
         binding.tvScanPay.setOnClickListener(listener);
-        binding.llAddFood.setOnClickListener(listener);//加菜
-        binding.llPushFood.setOnClickListener(listener);//催菜
-        binding.llChangeTable.setOnClickListener(listener);//换桌
-        binding.llCancelOrder.setOnClickListener(listener);//撤单
-        binding.llFoodPrinter.setOnClickListener(listener);//商品补打
-        binding.llMergeOrder.setOnClickListener(listener);//并单
-        binding.llChangePeople.setOnClickListener(listener);//修改人数
+        binding.llAddFood.setOnClickListener(listener);//加菜 0
+        binding.llPushFood.setOnClickListener(listener);//催菜 1
+        binding.llChangeTable.setOnClickListener(listener);//换桌 2
+        binding.llCancelOrder.setOnClickListener(listener);//撤单 3
+        binding.llFoodPrinter.setOnClickListener(listener);//商品补打 4
+        binding.llMergeOrder.setOnClickListener(listener);//并单 5
+        binding.llChangePeople.setOnClickListener(listener);//修改人数 6
+        binding.llTransferFood.setOnClickListener(listener);//转菜 0
+        binding.llUrgedFood.setOnClickListener(listener);// 单品催菜 1
+        binding.llRefundFood.setOnClickListener(listener);//退菜 2
+        binding.llGivingFood.setOnClickListener(listener);//赠送 3
 
     }
 
@@ -141,6 +156,7 @@ public class PopupWindowPay extends PopupWindow {
                     }else{
                         binding.llMore.setVisibility(View.VISIBLE);
                     }
+                    binding.llItem.setVisibility(View.INVISIBLE);
                     break;
                 case R.id.ll_add_food:
                     dismiss();
@@ -180,6 +196,25 @@ public class PopupWindowPay extends PopupWindow {
                         onCallBackListener.more(6);
                     }
                     break;
+                case R.id.ll_transfer_food:
+                    if (onCallBackListener!=null){
+                        onCallBackListener.item(orderFood,0);
+                    }
+                    break;
+                case R.id.ll_urged_food:
+                    if (onCallBackListener!=null){
+                        onCallBackListener.item(orderFood,1);
+                    }
+                    break;
+                case R.id.ll_refund_food:
+                    if (onCallBackListener!=null){
+                        onCallBackListener.item(orderFood,2);
+                    }
+                    break;
+                case R.id.ll_giving_food:
+                    if (onCallBackListener!=null){
+                        onCallBackListener.item(orderFood,3);
+                    }
             }
         }
     };
@@ -239,6 +274,8 @@ public class PopupWindowPay extends PopupWindow {
         void scanPay();
 
         void more(int position);
+
+        void item(OrderFoodEntity entity,int position);
     }
 
     public void setOnCallBackListener(OnCallBackListener onCallBackListener) {

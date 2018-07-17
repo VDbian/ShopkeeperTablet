@@ -46,6 +46,10 @@
     <string name="food_printer">商品补打</string>
     <string name="push_food">整单催菜</string>
     <string name="change_peopel">修改人数</string>
+    <string name="transfer_food">转菜</string>
+    <string name="urged_food">催菜</string>
+    <string name="refund">退菜</string>
+    <string name="giving">赠送</string>
 
 
 </resources>
