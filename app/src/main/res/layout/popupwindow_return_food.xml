@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    
-    
+    <data>
+        <variable
+            name="viewModel"
+            type="com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel"/>
+    </data>
+
     <LinearLayout
         android:layout_width="380px"
         android:layout_height="448px"
@@ -14,6 +18,7 @@
             android:layout_height="52px">
 
             <TextView
+                android:id="@+id/tv_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="退菜"
@@ -75,7 +80,7 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:id="@+id/rl_dinners_num_reduce"
+                        android:id="@+id/rl_reduce"
                         android:layout_width="44px"
                         android:layout_height="match_parent">
 
@@ -87,7 +92,7 @@
                     </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/tv_dinners_num"
+                        android:id="@+id/tv_num"
                         android:layout_width="42px"
                         android:layout_height="match_parent"
                         android:background="@color/colore5e5e5"
@@ -97,7 +102,7 @@
                         android:textSize="18px" />
 
                     <RelativeLayout
-                        android:id="@+id/rl_dinners_num_plus"
+                        android:id="@+id/rl_plus"
                         android:layout_width="44px"
                         android:layout_height="match_parent">
 

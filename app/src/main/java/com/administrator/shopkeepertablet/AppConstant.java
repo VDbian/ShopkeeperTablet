@@ -6,8 +6,8 @@ package com.administrator.shopkeepertablet;
  * Time 2018/6/11
  */
 public class AppConstant {
-    public static final String PORT_URL ="Port/";
-    public static final String MASTE_URL ="Maste/";
+    public static final String PORT_URL = "Port/";
+    public static final String MASTE_URL = "Maste/";
 
 
     public static final int REQUEST_SUCCESS = 1;
@@ -18,6 +18,7 @@ public class AppConstant {
 
     public static final int EVENT_ORDER_DISHES = 0;
     public static final int EVENT_TABLE = 1;
+    public static final int EVENT_TRANSFER = 2;
 
 
     public static final int EVENT_LOGOUT_PWD = 2;

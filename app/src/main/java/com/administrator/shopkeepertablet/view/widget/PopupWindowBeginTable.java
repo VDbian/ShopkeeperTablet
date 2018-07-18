@@ -84,7 +84,7 @@ public class PopupWindowBeginTable extends PopupWindow {
         // 实例化一个ColorDrawable颜色为半透明
         ColorDrawable dw = new ColorDrawable(00000000);
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
-        this.setBackgroundDrawable(dw);
+//        this.setBackgroundDrawable(dw);
         this.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {

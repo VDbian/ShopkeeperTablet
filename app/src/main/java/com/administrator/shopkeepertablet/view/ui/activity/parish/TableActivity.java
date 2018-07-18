@@ -96,7 +96,13 @@ public class TableActivity extends BaseActivity {
         parishTableAdapter.setOnItemClick(new ParishTableAdapter.OnItemClick() {
             @Override
             public void onItemClick(TableEntity entity, int position) {
-                showDialog(entity, viewModel.title.get().equals("换桌"));
+                if (viewModel.title.get().equals("换桌")) {
+                    showDialog(entity, 0);
+                } else if (viewModel.title.get().equals("并单")) {
+                    showDialog(entity, 1);
+                } else {
+                    showDialog(entity, 2);
+                }
             }
         });
 
@@ -109,21 +115,30 @@ public class TableActivity extends BaseActivity {
 
     }
 
-    private void showDialog(final TableEntity entity, final boolean flag) {
+    private void showDialog(final TableEntity entity, final int flag) {
         final ConfirmDialog confirmDialog = new ConfirmDialog();
-        if (flag) {
-            confirmDialog.setMessage("是否换桌到" + roomName + entity.getTableName());
-        } else {
-            confirmDialog.setMessage("是否将（" + viewModel.roomName.get() + viewModel.tableEntity.get().getTableName() + ")-" +
-                    "(" + roomName + entity.getTableName() + ") 并单处理");
+        switch (flag) {
+            case 0:
+                confirmDialog.setMessage("是否换桌到" + roomName + entity.getTableName());
+                break;
+            case 1:
+                confirmDialog.setMessage("是否将（" + viewModel.roomName.get() + viewModel.tableEntity.get().getTableName() + ")-" +
+                        "(" + roomName + entity.getTableName() + ") 并单处理");
+                break;
         }
         confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
             @Override
             public void confirm() {
-                if (flag) {
-                    viewModel.changeTable(entity);
-                } else {
-                    MToast.showToast(TableActivity.this, "并单");
+                switch (flag) {
+                    case 0:
+                        viewModel.changeTable(entity);
+                        break;
+                    case 1:
+                        MToast.showToast(TableActivity.this, "并单");
+                        break;
+                    case 2:
+                        MToast.showToast(TableActivity.this, "转菜");
+                        break;
                 }
             }
 
@@ -151,11 +166,10 @@ public class TableActivity extends BaseActivity {
         for (TableEntity table : tableEntities) {
             if (viewModel.title.get().equals("换桌") && table.getIsOpen().equals("0")) {
                 tableEntityList.add(table);
-            } else if (viewModel.title.get().equals("并单") && table.getIsOpen().equals("2")) {
+            } else if (table.getIsOpen().equals("2") && !viewModel.tableEntity.get().getRoomTableId().equals(table.getRoomTableId())) {
                 tableEntityList.add(table);
             }
         }
-
         parishTableAdapter.notifyDataSetChanged();
     }
 

@@ -267,7 +267,7 @@ public class ParishFoodFragment extends BaseFragment {
                         eventTable(entity,"换桌",viewModel.room.get());
                         break;
                     case 2:
-                        final ConfirmDialog confirmDialog = new ConfirmDialog();
+                        ConfirmDialog confirmDialog = new ConfirmDialog();
                         confirmDialog.setTitle("撤单");
                         confirmDialog.setMessage("是否要进行撤单操作");
                         confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
@@ -309,7 +309,12 @@ public class ParishFoodFragment extends BaseFragment {
             }
 
             @Override
-            public void item(OrderFoodEntity entity, int position) {
+            public void item(OrderFoodEntity orderFoodEntity, int position) {
+                switch (position){
+                    case 0:
+                        eventTable(entity,"转菜("+orderFoodEntity.getProductName()+")",viewModel.room.get());
+                        break;
+                }
 
             }
         });
@@ -324,6 +329,8 @@ public class ParishFoodFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(), TableActivity.class);
         startActivity(intent);
     }
+
+
 
     public void cancelOrderSuccess() {
         if (popupWindowPay != null && popupWindowPay.isShowing()) {

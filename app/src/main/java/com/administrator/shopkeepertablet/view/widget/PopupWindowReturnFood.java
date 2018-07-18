@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,7 +15,8 @@ import android.widget.PopupWindow;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.PopupwindowBeginTableBinding;
-import com.administrator.shopkeepertablet.databinding.PopupwindowOrderDiasherBinding;
+import com.administrator.shopkeepertablet.databinding.PopupwindowReturnFoodBinding;
+import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
 
@@ -25,18 +27,19 @@ import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
  * Time 2018/7/7
  */
 
-public class PopupWindowOrderAndClear extends PopupWindow {
+public class PopupWindowReturnFood extends PopupWindow {
 
     private Context context;
-    private ParishFoodViewModel viewModel;
     private DisplayMetrics metrics;
-    private PopupwindowOrderDiasherBinding binding;
-
+    private PopupwindowReturnFoodBinding binding;
+    private OrderFoodEntity orderFoodEntity;
+    private ParishFoodViewModel viewModel;
 
     private OnCallBackListener onCallBackListener;
 
-    public PopupWindowOrderAndClear(Context context, ParishFoodViewModel viewModel) {
+    public PopupWindowReturnFood(Context context,OrderFoodEntity orderFoodEntity,ParishFoodViewModel viewModel) {
         this.context = context;
+        this.orderFoodEntity = orderFoodEntity;
         this.viewModel = viewModel;
         initPopupWindow();
     }
@@ -44,10 +47,9 @@ public class PopupWindowOrderAndClear extends PopupWindow {
     private void initPopupWindow() {
         //使用view来引入布局
         binding = DataBindingUtil.inflate(
-                LayoutInflater.from(context), R.layout.popupwindow_order_diasher, null, false);
+                LayoutInflater.from(context), R.layout.popupwindow_return_food, null, false);
 //        setContentView((Activity) context, R.layout.popupwindow_begin_table)
-        binding.setViewModel(viewModel);
-        setListener();
+        initView();
         int width = View.MeasureSpec.makeMeasureSpec(0,
                 View.MeasureSpec.UNSPECIFIED);
         int height = View.MeasureSpec.makeMeasureSpec(0,
@@ -72,7 +74,7 @@ public class PopupWindowOrderAndClear extends PopupWindow {
 //        }
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
-        this.setOutsideTouchable(true);
+        this.setOutsideTouchable(false);
         // 刷新状态
         this.update();
         // 实例化一个ColorDrawable颜色为半透明
@@ -88,29 +90,35 @@ public class PopupWindowOrderAndClear extends PopupWindow {
 
     }
 
-    private void setListener() {
-        binding.llCancel.setOnClickListener(listener);
-        binding.tvOrderDishes.setOnClickListener(listener);
-        binding.tvClearTable.setOnClickListener(listener);
+    private void initView() {
+        String title = String.format("退菜 <font color=\"#FBBC05\">（%s）", orderFoodEntity.getProductName());
+        binding.tvReturn.setText(Html.fromHtml(title));
 
+        binding.rlPlus.setOnClickListener(listener);
+        binding.rlReduce.setOnClickListener(listener);
+        binding.tvConfirm.setOnClickListener(listener);
     }
 
     View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.ll_cancel:
-                    dismiss();
-                    break;
-                case R.id.tv_order_dishes:
-                    if (onCallBackListener != null) {
-                        onCallBackListener.order();
+                case R.id.rl_plus:
+                    double num = Double.valueOf(binding.tvNum.getText().toString());
+                    if (num + 1 <= orderFoodEntity.getCount()) {
+                        num = num + 1;
+                        binding.tvNum.setText(String.valueOf(num));
                     }
                     break;
-                case R.id.tv_clear_table:
-                    if (onCallBackListener != null) {
-                        onCallBackListener.clear();
+                case R.id.rl_reduce:
+                    double numReduce = Double.valueOf(binding.tvNum.getText().toString());
+                    if (numReduce - 1 > 0) {
+                        numReduce -= 1;
+                        binding.tvNum.setText(String.valueOf(numReduce));
                     }
+                    break;
+                case R.id.tv_confirm:
+
                     break;
             }
         }
@@ -127,13 +135,9 @@ public class PopupWindowOrderAndClear extends PopupWindow {
         }
     }
 
-    public void showPopupWindowUp(View parent) {
+    public void showPopupWindowUp() {
         if (!this.isShowing()) {
-            // 以下拉方式显示popupwindow
-            int[] location = new int[2];
-            parent.getLocationOnScreen(location);
-            this.showAtLocation(parent, Gravity.NO_GRAVITY,
-                    location[0], location[1] - this.getHeight());
+            this.showAtLocation(((Activity) context).getWindow().getDecorView(), Gravity.CENTER, 0, 0);
             backgroundAlpha(0.5f);
         } else {
             this.dismiss();
@@ -166,9 +170,7 @@ public class PopupWindowOrderAndClear extends PopupWindow {
 
 
     public interface OnCallBackListener {
-        void clear();
-
-        void order();
+        void confirm(String num,String reason);
     }
 
     public void setOnCallBackListener(OnCallBackListener onCallBackListener) {

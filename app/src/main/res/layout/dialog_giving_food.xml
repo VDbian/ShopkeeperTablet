@@ -13,6 +13,7 @@
             android:layout_height="52px">
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="赠送"
@@ -72,7 +73,7 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:id="@+id/rl_dinners_num_reduce"
+                        android:id="@+id/rl_reduce"
                         android:layout_width="44px"
                         android:layout_height="match_parent">
 
@@ -84,17 +85,17 @@
                     </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/tv_dinners_num"
+                        android:id="@+id/tv_num"
                         android:layout_width="42px"
                         android:layout_height="match_parent"
                         android:background="@color/colore5e5e5"
                         android:gravity="center"
-                        android:text=""
+                        android:text="1"
                         android:textColor="@color/color333333"
                         android:textSize="18px" />
 
                     <RelativeLayout
-                        android:id="@+id/rl_dinners_num_plus"
+                        android:id="@+id/rl_plus"
                         android:layout_width="44px"
                         android:layout_height="match_parent">
 

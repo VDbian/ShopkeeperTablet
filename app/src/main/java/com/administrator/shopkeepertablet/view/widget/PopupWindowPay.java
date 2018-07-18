@@ -73,20 +73,16 @@ public class PopupWindowPay extends PopupWindow {
         // 设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(viewWidth);
         // 设置SelectPicPopupWindow弹出窗体的高
-//        if (viewHeight > h / 2) {
-//            this.setHeight(h / 2);
-//        } else {
         this.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
-//        }
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
-        this.setOutsideTouchable(true);
+        this.setOutsideTouchable(false);
         // 刷新状态
         this.update();
         // 实例化一个ColorDrawable颜色为半透明
         ColorDrawable dw = new ColorDrawable(00000000);
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
-        this.setBackgroundDrawable(dw);
+//        this.setBackgroundDrawable(dw);
         this.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -104,9 +100,15 @@ public class PopupWindowPay extends PopupWindow {
         adapter.setOnItemClick(new AdapterOnItemClick<OrderFoodEntity>() {
             @Override
             public void onItemClick(OrderFoodEntity orderFoodEntity, int position) {
-                orderFood = orderFoodEntity;
-                binding.llMore.setVisibility(View.GONE);
-                binding.llItem.setVisibility(View.VISIBLE);
+                if (orderFood != null && orderFood.getId().equals(orderFoodEntity.getId())) {
+                    orderFood = null;
+                    binding.llMore.setVisibility(View.GONE);
+                    binding.llItem.setVisibility(View.GONE);
+                } else {
+                    orderFood = orderFoodEntity;
+                    binding.llMore.setVisibility(View.GONE);
+                    binding.llItem.setVisibility(View.VISIBLE);
+                }
             }
         });
         binding.llMore.setVisibility(View.INVISIBLE);
@@ -151,9 +153,9 @@ public class PopupWindowPay extends PopupWindow {
                     }
                     break;
                 case R.id.iv_more:
-                    if (binding.llMore.getVisibility() == View.VISIBLE){
+                    if (binding.llMore.getVisibility() == View.VISIBLE) {
                         binding.llMore.setVisibility(View.INVISIBLE);
-                    }else{
+                    } else {
                         binding.llMore.setVisibility(View.VISIBLE);
                     }
                     binding.llItem.setVisibility(View.INVISIBLE);
@@ -197,22 +199,31 @@ public class PopupWindowPay extends PopupWindow {
                     }
                     break;
                 case R.id.ll_transfer_food:
-                    if (onCallBackListener!=null){
-                        onCallBackListener.item(orderFood,0);
+                    if (onCallBackListener != null) {
+                        onCallBackListener.item(orderFood, 0);
                     }
                     break;
                 case R.id.ll_urged_food:
                     viewModel.pushFood(orderFood.getDetailId());
+                    orderFood=null;
+                    binding.llItem.setVisibility(View.GONE);
                     break;
                 case R.id.ll_refund_food:
-                    if (onCallBackListener!=null){
-                        onCallBackListener.item(orderFood,2);
-                    }
+                    PopupWindowReturnFood popupWindowReturnFood = new PopupWindowReturnFood(context, orderFood, viewModel);
+                    popupWindowReturnFood.showPopupWindowUp();
                     break;
                 case R.id.ll_giving_food:
-                    if (onCallBackListener!=null){
-                        onCallBackListener.item(orderFood,3);
-                    }
+                    GivingFoodDialog givingFoodDialog = new GivingFoodDialog();
+                    givingFoodDialog.setFoodNum(orderFood.getCount());
+                    givingFoodDialog.setTitle(orderFood.getProductName());
+                    givingFoodDialog.setOnConfirmClick(new GivingFoodDialog.OnConfirmClick() {
+                        @Override
+                        public void confirm(String giving) {
+
+                        }
+                    });
+                    givingFoodDialog.show(((Activity) context).getFragmentManager(), "");
+                    break;
             }
         }
     };
@@ -273,7 +284,7 @@ public class PopupWindowPay extends PopupWindow {
 
         void more(int position);
 
-        void item(OrderFoodEntity entity,int position);
+        void item(OrderFoodEntity entity, int position);
     }
 
     public void setOnCallBackListener(OnCallBackListener onCallBackListener) {
