@@ -172,6 +172,7 @@ public interface RetrofitInterface {
             @Field("billid") String billId
     );
 
+    //单个菜品催菜
     @FormUrlEncoded
     @POST(AppConstant.PORT_URL + "PortTakeFoodServer.ashx")
     Observable<BaseEntity<String>> pushFood(
@@ -197,6 +198,9 @@ public interface RetrofitInterface {
             @Field("Sate") String state
 
     );
+
+
+    //催菜
     @FormUrlEncoded
     @POST(AppConstant.PORT_URL + "PortPrinterManager.ashx")
     Observable<BaseEntity<String>> pushFoodAll(
@@ -210,9 +214,68 @@ public interface RetrofitInterface {
             @Field("Name") String name,
             @Field("Sate") String state);
 
+    //商品补打
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortPrinterManager.ashx")
+    Observable<BaseEntity<String>> printAfter(
+            @Field("type") String type,
+            @Field("printsouce") String printSource,
+            @Field("id") String id,
+            @Field("billid") String billId,
+            @Field("tableid") String tableId,
+            @Field("tablename") String tableName,
+            @Field("personcount") String personCount,
+            @Field("Sate") String state,
+            @Field("FoodType") String foodType,
+            @Field("Name") String name);
+
+    //获取退菜原因
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortTakeFoodServer.ashx")
+    Observable<BaseEntity<String>> getReason(
+            @Field("id") String id,
+            @Field("type") String type);
+
+    //赠菜
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
+    Observable<BaseEntity<String>> givingFood(
+            @Field("type") String type,
+            @Field("DETAILID") String detailId,
+            @Field("sum") String sum);
+
+    //退菜
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortTakeFoodServer.ashx")
+    Observable<BaseEntity<String>> returnFood(
+            @Field("Id") String id,
+            @Field("Type") String type,
+            @Field("DETAILID") String detailId,
+            @Field("billid") String billId,
+            @Field("TABLEID") String tableId,
+            @Field("Name") String name,
+            @Field("TableName") String tableName,
+            @Field("count") String count,
+            @Field("pice") String price,
+            @Field("tuicount") String tuiCount,
+            @Field("zencount") String zenCount,
+            @Field("zidinyi") String remark,
+            @Field("dirtoatal") String reasonId,
+            @Field("toasttoatal") String reasonName
+    );
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
 //    Observable<BaseEntity<String>> changePeople(
 //    );
+
+
+
+
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortPrinterManager.ashx")
+    Observable<BaseEntity<String>> updatePrint(
+            @Field("type") String type,
+            @Field("BILLID") String billId,
+            @Field("IPADDRESS") String ipAddress);
 
 }

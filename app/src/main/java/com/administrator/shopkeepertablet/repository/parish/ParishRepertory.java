@@ -139,4 +139,73 @@ public interface ParishRepertory extends BaseRepertory {
      */
     Observable<BaseEntity<String>> pushFood(String type, String detailId,String billId, String id, String tableId,String name, String tableName);
 
+
+    /**
+     * 整单催菜"1","1",preferenceSource.getId(),billId.get(),tableId.get(),table.get(),"2","1","2"
+     * @param type 类型 1
+     * @param printSource 是否本地打印 1
+     * @param id 店铺Id
+     * @param billId 订单ID
+     * @param tableId 桌位ID
+     * @param tableName 桌位名称
+     * @param foodType 2
+     * @param name 1
+     * @param state 2
+     * @return
+     */
+    Observable<BaseEntity<String>> pushFoodAll( String type,String printSource, String id, String billId, String tableId, String tableName, String foodType, String name, String state);
+
+
+    /**
+     * 商品打印//"1", "1", App.INSTANCE().getShopID(), billid, tableId, tableName, personcount, "6", "0", App.INSTANCE().getUser().getName()
+     * @param type 类型 1
+     * @param printSource 本地打印 1
+     * @param id 店铺ID
+     * @param billId 订单Id
+     * @param tableId 桌位ID
+     * @param tableName 桌位名称
+     * @param personCount 人数
+     * @param state 状态 6
+     * @param foodType 0
+     * @param name 操作员
+     * @return
+     */
+    Observable<BaseEntity<String>> printAfter(String type,String printSource,String id,String billId,String tableId,String tableName,String personCount, String state,String foodType,String name);
+
+    /**
+     * 获取退菜原因列表
+     * @param id 店铺id
+     * @param type 7
+     * @return
+     */
+    Observable<BaseEntity<String>> getReason(String id,String type);
+
+    /**
+     * 赠菜
+     * @param type 14
+     * @param detailId 订单详情ID
+     * @param sum 赠送数量
+     * @return
+     */
+    Observable<BaseEntity<String>> givingFood(String type,String detailId,String sum);
+
+    /**
+     * 退菜
+     * @param id 店铺ID
+     * @param type 3
+     * @param detailId 订单详情ID
+     * @param billId 订单Id
+     * @param tableId 桌位ID
+     * @param name 操作人
+     * @param tableName 桌位名称
+     * @param count 剩余数量
+     * @param price 价格
+     * @param tuiCount 退菜数量
+     * @param zenCount 赠送数量
+     * @param remark 退菜自定义原因
+     * @param reasonId 退菜原因ID
+     * @param reasonName 退菜原因
+     * @return
+     */
+    Observable<BaseEntity<String>> returnFood(String id,String type,String detailId,String billId,String tableId, String name,String tableName,String count,String price,String tuiCount,String zenCount,String remark, String reasonId, String reasonName);
 }

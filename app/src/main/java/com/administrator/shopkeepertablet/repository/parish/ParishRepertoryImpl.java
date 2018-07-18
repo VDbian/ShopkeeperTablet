@@ -88,4 +88,34 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
         return apiSource.pushFood(type, detailId, billId, id, tableId, name, tableName).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<BaseEntity<String>> pushFoodAll(String type, String printSource, String id, String billId, String tableId, String tableName, String foodType, String name, String state) {
+        return apiSource.pushFoodAll(type, printSource, id, billId, tableId, tableName, foodType, name, state).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> printAfter(String type, String printSource, String id, String billId, String tableId, String tableName, String personCount, String state, String foodType, String name) {
+        return apiSource.printAfter(type, printSource, id, billId, tableId, tableName, personCount, state, foodType, name).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getReason(String id, String type) {
+        return apiSource.getReason(id, type).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> givingFood(String type, String detailId, String sum) {
+        return apiSource.givingFood(type, detailId, sum).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> returnFood(String id, String type, String detailId, String billId, String tableId, String name, String tableName, String count, String price, String tuiCount, String zenCount, String remark, String reasonId, String reasonName) {
+        return apiSource.returnFood(id, type, detailId, billId, tableId, name, tableName, count, price, tuiCount, zenCount, remark, reasonId, reasonName).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

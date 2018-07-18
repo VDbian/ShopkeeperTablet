@@ -34,4 +34,6 @@ public interface BaseRepertory {
      * @return
      */
     Observable<BaseEntity<String>> getTables(String type,String leibie, String id, int index, int size);
+
+    Observable<BaseEntity<String>> updatePrint(String type, String billId,String ipAddress);
 }

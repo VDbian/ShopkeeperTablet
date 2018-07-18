@@ -167,6 +167,8 @@ public class PopupWindowPay extends PopupWindow {
                     }
                     break;
                 case R.id.ll_change_table:
+                    binding.llMore.setVisibility(View.INVISIBLE);
+                    dismiss();
                     if (onCallBackListener != null) {
                         onCallBackListener.more(1);
                     }
@@ -178,16 +180,20 @@ public class PopupWindowPay extends PopupWindow {
                     }
                     break;
                 case R.id.ll_merge_order:
+                    dismiss();
+                    binding.llMore.setVisibility(View.INVISIBLE);
                     if (onCallBackListener != null) {
                         onCallBackListener.more(3);
                     }
                     break;
                 case R.id.ll_food_printer:
+                    binding.llMore.setVisibility(View.INVISIBLE);
                     if (onCallBackListener != null) {
                         onCallBackListener.more(4);
                     }
                     break;
                 case R.id.ll_push_food:
+                    binding.llMore.setVisibility(View.INVISIBLE);
                     if (onCallBackListener != null) {
                         onCallBackListener.more(5);
                     }
@@ -209,8 +215,10 @@ public class PopupWindowPay extends PopupWindow {
                     binding.llItem.setVisibility(View.GONE);
                     break;
                 case R.id.ll_refund_food:
-                    PopupWindowReturnFood popupWindowReturnFood = new PopupWindowReturnFood(context, orderFood, viewModel);
-                    popupWindowReturnFood.showPopupWindowUp();
+                    dismiss();
+                    if (onCallBackListener != null) {
+                        onCallBackListener.item(orderFood, 1);
+                    }
                     break;
                 case R.id.ll_giving_food:
                     GivingFoodDialog givingFoodDialog = new GivingFoodDialog();
@@ -227,6 +235,7 @@ public class PopupWindowPay extends PopupWindow {
             }
         }
     };
+
 
 
     public void showPopupWindow(View parent) {

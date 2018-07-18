@@ -8,17 +8,21 @@ import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
+import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
+import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
 import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
 import com.google.gson.Gson;
 import com.zhy.autolayout.utils.L;
+
+import org.greenrobot.greendao.annotation.Id;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +53,16 @@ public class ParishFoodViewModel extends BaseViewModel {
         this.fragment = fragment;
         this.parishRepertory = parishRepertory;
         this.preferenceSource = preferenceSource;
+    }
+
+    private void printResult(final String result) {
+       final Print print =new Print(parishRepertory);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                print.socketDataArrivalHandler(result);
+            }
+        }).start();
     }
 
     public void getRooms() {
@@ -141,7 +155,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                                 a += entity.getChargeMoney();
                             }
                             price.set(a);
-                            fragment.initPayPop(mList,entity);
+                            fragment.initPayPop(mList, entity);
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -153,38 +167,38 @@ public class ParishFoodViewModel extends BaseViewModel {
         );
     }
 
-    public void cancelOrder(){
-        parishRepertory.cancelOrder("4",tableId.get(),billId.get(),preferenceSource.getId(),table.get(),preferenceSource.getName(),preferenceSource.getUserId())
+    public void cancelOrder() {
+        parishRepertory.cancelOrder("4", tableId.get(), billId.get(), preferenceSource.getId(), table.get(), preferenceSource.getName(), preferenceSource.getUserId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.toString());
-                        if (stringBaseEntity.getCode()==1){
-                            MToast.showToast(fragment.getActivity(),"撤单成功");
+                        Log.e("vd", stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode() == 1) {
+                            MToast.showToast(fragment.getActivity(), "撤单成功");
                             fragment.cancelOrderSuccess();
-                        }else {
-                            MToast.showToast(fragment.getActivity(),"撤单失败");
+                        } else {
+                            MToast.showToast(fragment.getActivity(), "撤单失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        MToast.showToast(fragment.getActivity(),"撤单失败");
+                        MToast.showToast(fragment.getActivity(), "撤单失败");
                     }
                 });
     }
 
-    public void changePeople(String peopleNum,String wareNum){
-        parishRepertory.changePeople("2",tableId.get(),peopleNum,wareNum,billId.get(),preferenceSource.getId())
+    public void changePeople(String peopleNum, String wareNum) {
+        parishRepertory.changePeople("2", tableId.get(), peopleNum, wareNum, billId.get(), preferenceSource.getId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.toString());
-                        if (stringBaseEntity.getCode()==1){
-                            MToast.showToast(fragment.getActivity(),"修改成功");
+                        Log.e("vd", stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode() == 1) {
+                            MToast.showToast(fragment.getActivity(), "修改成功");
                             fragment.cancelOrderSuccess();
-                        }else {
-                            MToast.showToast(fragment.getActivity(),"修改失败");
+                        } else {
+                            MToast.showToast(fragment.getActivity(), "修改失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -195,21 +209,83 @@ public class ParishFoodViewModel extends BaseViewModel {
                 });
     }
 
-    public void pushFood(String detailId){
-        parishRepertory.pushFood("2",detailId,billId.get(),preferenceSource.getId(),tableId.get(),preferenceSource.getName(),table.get())
-         .subscribe(new Consumer<BaseEntity<String>>() {
-             @Override
-             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                Log.e("vd",stringBaseEntity.toString());
-                if (stringBaseEntity.getCode()==1){
-                    MToast.showToast(fragment.getActivity(),"催菜成功");
-                }
-             }
-         }, new Consumer<Throwable>() {
-             @Override
-             public void accept(Throwable throwable) throws Exception {
+    public void pushFood(String detailId) {
+        parishRepertory.pushFood("2", detailId, billId.get(), preferenceSource.getId(), tableId.get(), preferenceSource.getName(), table.get())
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd", stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode() == 1) {
+                            MToast.showToast(fragment.getActivity(), "催菜成功");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
 
-             }
-         });
+                    }
+                });
     }
+
+    public void pushFoodAll() {
+//        Log.e("vd",billId.get()+"**"+tableId.get()+"**"+table.get());
+        parishRepertory.pushFoodAll("1", "1", preferenceSource.getId(), billId.get(), tableId.get(), table.get(), "2", "1", "2")
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        if (stringBaseEntity.getCode() == 1) {
+                            MToast.showToast(fragment.getActivity(), "催菜成功");
+                        } else {
+                            MToast.showToast(fragment.getActivity(), "催菜失败");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        MToast.showToast(fragment.getActivity(), "催菜失败");
+                    }
+                });
+    }
+
+    //"1", "1", App.INSTANCE().getShopID(), billid, tableId, tableName, personcount, "6", "0", App.INSTANCE().getUser().getName()
+    public void print() {
+        parishRepertory.printAfter("1", "1", preferenceSource.getId(), billId.get(), tableId.get(), table.get(), people.get(), "6", "0", preferenceSource.getName())
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd", stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode() == 1) {
+                            MToast.showToast(fragment.getActivity(), "打印成功");
+                        } else {
+                            MToast.showToast(fragment.getActivity(), "打印失败");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        MToast.showToast(fragment.getActivity(), "打印失败");
+                    }
+                });
+    }
+
+    public void getReason(OrderFoodEntity orderFoodEntity){
+        parishRepertory.getReason(preferenceSource.getId(),"7")
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd",stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode() == 1) {
+                            List<ReturnReasonEntity> reasonEntities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), ReturnReasonEntity[].class));
+                            fragment.showReturn(orderFoodEntity, reasonEntities);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("vd",throwable.getMessage());
+                    }
+                });
+    }
+
+
 }

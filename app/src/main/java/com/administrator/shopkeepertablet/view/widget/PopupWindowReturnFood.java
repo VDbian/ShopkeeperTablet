@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.GridLayoutManager;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -17,8 +18,14 @@ import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.PopupwindowBeginTableBinding;
 import com.administrator.shopkeepertablet.databinding.PopupwindowReturnFoodBinding;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
+import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
+import com.administrator.shopkeepertablet.model.entity.bean.ChooseBean;
 import com.administrator.shopkeepertablet.utils.MLog;
+import com.administrator.shopkeepertablet.view.ui.adapter.ReturnFoodReasonAdapter;
 import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -33,14 +40,14 @@ public class PopupWindowReturnFood extends PopupWindow {
     private DisplayMetrics metrics;
     private PopupwindowReturnFoodBinding binding;
     private OrderFoodEntity orderFoodEntity;
-    private ParishFoodViewModel viewModel;
+    private List<ReturnReasonEntity> mList=new ArrayList<>();
 
     private OnCallBackListener onCallBackListener;
 
-    public PopupWindowReturnFood(Context context,OrderFoodEntity orderFoodEntity,ParishFoodViewModel viewModel) {
+    public PopupWindowReturnFood(Context context,OrderFoodEntity orderFoodEntity,List<ReturnReasonEntity> mList) {
         this.context = context;
         this.orderFoodEntity = orderFoodEntity;
-        this.viewModel = viewModel;
+        this.mList = mList;
         initPopupWindow();
     }
 
@@ -65,12 +72,12 @@ public class PopupWindowReturnFood extends PopupWindow {
         // 设置SelectPicPopupWindow的View
         this.setContentView(binding.getRoot());
         // 设置SelectPicPopupWindow弹出窗体的宽
-        this.setWidth(viewWidth);
+        this.setWidth(380);
         // 设置SelectPicPopupWindow弹出窗体的高
 //        if (viewHeight > h / 2) {
 //            this.setHeight(h / 2);
 //        } else {
-        this.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        this.setHeight(448);
 //        }
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
@@ -94,6 +101,18 @@ public class PopupWindowReturnFood extends PopupWindow {
         String title = String.format("退菜 <font color=\"#FBBC05\">（%s）", orderFoodEntity.getProductName());
         binding.tvReturn.setText(Html.fromHtml(title));
 
+        ReturnFoodReasonAdapter adapter =new ReturnFoodReasonAdapter(context,mList);
+        binding.rlvReason.setAdapter(adapter);
+        binding.rlvReason.setLayoutManager(new GridLayoutManager(context,3));
+        binding.rlvReason.addItemDecoration(new RecyclerViewItemDecoration(5));
+        adapter.setOnItemClick(new ReturnFoodReasonAdapter.OnItemClick() {
+            @Override
+            public void onItemClick(ReturnReasonEntity entity, int position) {
+
+            }
+        });
+
+        binding.ivCancel.setOnClickListener(listener);
         binding.rlPlus.setOnClickListener(listener);
         binding.rlReduce.setOnClickListener(listener);
         binding.tvConfirm.setOnClickListener(listener);
@@ -119,6 +138,9 @@ public class PopupWindowReturnFood extends PopupWindow {
                     break;
                 case R.id.tv_confirm:
 
+                    break;
+                case R.id.iv_cancel:
+                    dismiss();
                     break;
             }
         }

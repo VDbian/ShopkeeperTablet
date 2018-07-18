@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.model.api;
 
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
@@ -9,6 +10,8 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
 /**
  * Description:
@@ -46,4 +49,16 @@ public interface ApiSource {
     Observable<BaseEntity<String>> changeTable(String type,String newTableId,String newTableName,String oldTableId , String billId );
 
     Observable<BaseEntity<String>> pushFood(String type, String detailId,String billId, String id, String tableId,String name, String tableName);
+
+    Observable<BaseEntity<String>> pushFoodAll( String type,String printSource, String id, String billId, String tableId, String tableName, String foodType, String name, String state);
+
+    Observable<BaseEntity<String>> printAfter(String type,String printSource,String id,String billId,String tableId,String tableName,String personCount, String state,String foodType,String name);
+
+    Observable<BaseEntity<String>> getReason(String id,String type);
+
+    Observable<BaseEntity<String>> givingFood(String type,String detailId,String sum);
+
+    Observable<BaseEntity<String>> returnFood(String id,String type,String detailId,String billId,String tableId, String name,String tableName,String count,String price,String tuiCount,String zenCount,String remark, String reasonId, String reasonName);
+
+    Observable<BaseEntity<String>> updatePrint(String type, String billId,String ipAddress);
 }

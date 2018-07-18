@@ -96,4 +96,34 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> pushFood(String type, String detailId, String billId, String id, String tableId, String name, String tableName) {
         return retrofitInterface.pushFood(type, detailId, billId, id, tableId, name, tableName);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> pushFoodAll(String type, String printSource, String id, String billId, String tableId, String tableName, String foodType, String name, String state) {
+        return retrofitInterface.pushFoodAll(type, printSource, id, billId, tableId, tableName, foodType, name, state);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> printAfter(String type, String printSource, String id, String billId, String tableId, String tableName, String personCount, String state, String foodType, String name) {
+        return retrofitInterface.printAfter(type, printSource, id, billId, tableId, tableName, personCount, state, foodType, name);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getReason(String id, String type) {
+        return retrofitInterface.getReason(id, type);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> givingFood(String type, String detailId, String sum) {
+        return retrofitInterface.givingFood(type, detailId, sum);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> returnFood(String id, String type, String detailId, String billId, String tableId, String name, String tableName, String count, String price, String tuiCount, String zenCount, String remark, String reasonId, String reasonName) {
+        return retrofitInterface.returnFood(id, type, detailId, billId, tableId, name, tableName, count, price, tuiCount, zenCount, remark, reasonId, reasonName);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> updatePrint(String type, String billId, String ipAddress) {
+        return retrofitInterface.updatePrint(type, billId, ipAddress);
+    }
 }

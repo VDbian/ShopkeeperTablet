@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.administrator.shopkeepertablet.di.parish.DaggerParishFragmentComponen
 import com.administrator.shopkeepertablet.di.parish.ParishFragmentModule;
 import com.administrator.shopkeepertablet.model.entity.EventOrderDishesEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
+import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.EventTableBean;
@@ -33,6 +35,7 @@ import com.administrator.shopkeepertablet.view.widget.ConfirmDialog;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowBeginTable;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderAndClear;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowPay;
+import com.administrator.shopkeepertablet.view.widget.PopupWindowReturnFood;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
 
@@ -287,10 +290,10 @@ public class ParishFoodFragment extends BaseFragment {
                         eventTable(entity,"并单",viewModel.room.get());
                         break;
                     case 4:
-                        MLog.e("VD", "4");
+                        viewModel.print();
                         break;
                     case 5:
-                        MLog.e("VD", "5");
+                        viewModel.pushFoodAll();
                         break;
                     case 6:
                         final ChangePeopleDialog changePeopleDialog = new ChangePeopleDialog();
@@ -314,10 +317,20 @@ public class ParishFoodFragment extends BaseFragment {
                     case 0:
                         eventTable(entity,"转菜("+orderFoodEntity.getProductName()+")",viewModel.room.get());
                         break;
+                    case 1:
+                        Log.e("vd","tuicai");
+                        viewModel.getReason(orderFoodEntity);
+                        break;
                 }
 
             }
         });
+    }
+
+    public void showReturn(OrderFoodEntity orderFoodEntity, List<ReturnReasonEntity> mList){
+
+        PopupWindowReturnFood popupWindowReturnFood =new PopupWindowReturnFood(getActivity(),orderFoodEntity,mList);
+        popupWindowReturnFood.showPopupWindowUp();
     }
 
     public void eventTable(TableEntity tableEntity,String title,String room){
