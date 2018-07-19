@@ -40,14 +40,17 @@ public class PopupWindowReturnFood extends PopupWindow {
     private DisplayMetrics metrics;
     private PopupwindowReturnFoodBinding binding;
     private OrderFoodEntity orderFoodEntity;
-    private List<ReturnReasonEntity> mList=new ArrayList<>();
+    private List<ReturnReasonEntity> mList = new ArrayList<>();
+    private ReturnReasonEntity returnReasonEntity;
+    private ParishFoodViewModel viewModel;
 
     private OnCallBackListener onCallBackListener;
 
-    public PopupWindowReturnFood(Context context,OrderFoodEntity orderFoodEntity,List<ReturnReasonEntity> mList) {
+    public PopupWindowReturnFood(Context context, OrderFoodEntity orderFoodEntity, List<ReturnReasonEntity> mList,ParishFoodViewModel viewModel) {
         this.context = context;
         this.orderFoodEntity = orderFoodEntity;
         this.mList = mList;
+        this.viewModel =viewModel;
         initPopupWindow();
     }
 
@@ -101,14 +104,14 @@ public class PopupWindowReturnFood extends PopupWindow {
         String title = String.format("退菜 <font color=\"#FBBC05\">（%s）", orderFoodEntity.getProductName());
         binding.tvReturn.setText(Html.fromHtml(title));
 
-        ReturnFoodReasonAdapter adapter =new ReturnFoodReasonAdapter(context,mList);
+        ReturnFoodReasonAdapter adapter = new ReturnFoodReasonAdapter(context, mList);
         binding.rlvReason.setAdapter(adapter);
-        binding.rlvReason.setLayoutManager(new GridLayoutManager(context,3));
+        binding.rlvReason.setLayoutManager(new GridLayoutManager(context, 3));
         binding.rlvReason.addItemDecoration(new RecyclerViewItemDecoration(5));
         adapter.setOnItemClick(new ReturnFoodReasonAdapter.OnItemClick() {
             @Override
             public void onItemClick(ReturnReasonEntity entity, int position) {
-
+                returnReasonEntity = entity;
             }
         });
 
@@ -137,7 +140,8 @@ public class PopupWindowReturnFood extends PopupWindow {
                     }
                     break;
                 case R.id.tv_confirm:
-
+                    dismiss();
+                    viewModel.returnFood(orderFoodEntity,binding.etRemark.getText().toString(),returnReasonEntity,binding.tvNum.getText().toString());
                     break;
                 case R.id.iv_cancel:
                     dismiss();
@@ -192,7 +196,7 @@ public class PopupWindowReturnFood extends PopupWindow {
 
 
     public interface OnCallBackListener {
-        void confirm(String num,String reason);
+        void confirm(String num, String reason);
     }
 
     public void setOnCallBackListener(OnCallBackListener onCallBackListener) {

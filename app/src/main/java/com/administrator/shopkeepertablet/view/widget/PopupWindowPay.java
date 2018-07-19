@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +96,7 @@ public class PopupWindowPay extends PopupWindow {
         binding.rlvOrder.setAdapter(adapter);
         binding.rlvOrder.setLayoutManager(new LinearLayoutManager(context));
         binding.rlvOrder.addItemDecoration(new RecyclerViewItemDecoration(5));
-        adapter.setOnItemClick(new AdapterOnItemClick<OrderFoodEntity>() {
+        adapter.setOnItemClick(new OrderFoodAdapter.OnItemClick() {
             @Override
             public void onItemClick(OrderFoodEntity orderFoodEntity, int position) {
                 if (orderFood != null && orderFood.getId().equals(orderFoodEntity.getId())) {
@@ -227,7 +226,7 @@ public class PopupWindowPay extends PopupWindow {
                     givingFoodDialog.setOnConfirmClick(new GivingFoodDialog.OnConfirmClick() {
                         @Override
                         public void confirm(String giving) {
-
+                            viewModel.givingFood(orderFood.getDetailId(),giving);
                         }
                     });
                     givingFoodDialog.show(((Activity) context).getFragmentManager(), "");

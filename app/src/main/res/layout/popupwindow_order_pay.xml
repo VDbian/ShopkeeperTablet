@@ -118,7 +118,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="16px"
                         android:gravity="center_vertical"
-                        android:text="@{@string/total_price(viewModel.price)}"
+                        android:text="@{@string/total_price(viewModel.totalPrice)}"
                         android:textColor="@color/colorffb001"
                         android:textSize="17px" />
 

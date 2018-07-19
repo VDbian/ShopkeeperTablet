@@ -125,6 +125,9 @@ public class TableActivity extends BaseActivity {
                 confirmDialog.setMessage("是否将（" + viewModel.roomName.get() + viewModel.tableEntity.get().getTableName() + ")-" +
                         "(" + roomName + entity.getTableName() + ") 并单处理");
                 break;
+            case 2:
+                confirmDialog.setMessage("是否转菜到" +roomName + entity.getTableName());
+                break;
         }
         confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
             @Override
@@ -137,7 +140,7 @@ public class TableActivity extends BaseActivity {
                         MToast.showToast(TableActivity.this, "并单");
                         break;
                     case 2:
-                        MToast.showToast(TableActivity.this, "转菜");
+                        viewModel.transferFood(entity.getRoomTableId());
                         break;
                 }
             }
@@ -181,6 +184,7 @@ public class TableActivity extends BaseActivity {
             viewModel.title.set(bean.getTitle());
             viewModel.tableEntity.set(bean.getTableEntity());
             viewModel.roomName.set(bean.getRoomName());
+            viewModel.detailId.set(bean.getDetailId());
             viewModel.time.set(viewModel.getTime(bean.getTableEntity().getKaiTime()));
         }
     }

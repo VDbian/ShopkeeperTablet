@@ -208,4 +208,23 @@ public interface ParishRepertory extends BaseRepertory {
      * @return
      */
     Observable<BaseEntity<String>> returnFood(String id,String type,String detailId,String billId,String tableId, String name,String tableName,String count,String price,String tuiCount,String zenCount,String remark, String reasonId, String reasonName);
+
+    /**
+     * 取消结账状态
+     * @param type 19
+     * @param billId 订单Id
+     * @return
+     */
+    Observable<BaseEntity<String>> cancelPay(String type,String billId);
+
+    /**
+     * 转菜
+     * @param type 2
+     * @param id 店铺ID
+     * @param tableId 转到桌位id
+     * @param detailId 菜品ID
+     * @return
+     */
+    Observable<BaseEntity<String>> TransferFood(String type,String id,String tableId,String detailId);
+
 }

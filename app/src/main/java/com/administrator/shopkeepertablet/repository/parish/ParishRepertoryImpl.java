@@ -118,4 +118,16 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
         return apiSource.returnFood(id, type, detailId, billId, tableId, name, tableName, count, price, tuiCount, zenCount, remark, reasonId, reasonName).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<BaseEntity<String>> cancelPay(String type, String billId) {
+        return apiSource.cancelPay(type, billId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> TransferFood(String type, String id, String tableId, String detailId) {
+        return apiSource.TransferFood(type, id, tableId, detailId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

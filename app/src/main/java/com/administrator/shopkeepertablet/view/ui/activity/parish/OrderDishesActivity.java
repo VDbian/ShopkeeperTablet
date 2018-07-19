@@ -3,14 +3,10 @@ package com.administrator.shopkeepertablet.view.ui.activity.parish;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.administrator.shopkeepertablet.AppConstant;
@@ -29,7 +25,6 @@ import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
 import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
-import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.FoodTypeAdapter;
@@ -37,7 +32,6 @@ import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesCartAdapter
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesVarietyAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderFoodAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
-import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowAllKouwei;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChange;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChoose;
@@ -48,7 +42,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 

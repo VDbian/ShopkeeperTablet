@@ -68,7 +68,7 @@ public class OrderFoodEntity {
     private String seasonName;
     @SerializedName("SeasonPrice")
     private double seasonPrice;
-    @SerializedName("giving")
+    @SerializedName("Giving")
     private double giving;
     @SerializedName("PRODUCTSHUXIN")
     private String productShuXin;
@@ -203,11 +203,11 @@ public class OrderFoodEntity {
     }
 
     public double getGiving() {
-        return giving;
+        return this.giving;
     }
 
     public void setGiving(double giving) {
-        giving = giving;
+        this.giving = giving;
     }
 
     public String getProductShuXin() {
@@ -251,7 +251,7 @@ public class OrderFoodEntity {
     }
 
     public int giveShow() {
-        return giving == 0 ? View.GONE : View.VISIBLE;
+        return this.giving == 0 ? View.GONE : View.VISIBLE;
     }
 
     public int seasonShow() {

@@ -35,6 +35,7 @@ public class TableViewModel extends BaseViewModel {
     public ObservableField<String> title = new ObservableField<>("");
     public ObservableField<String> roomName = new ObservableField<>("");
     public ObservableField<String> time = new ObservableField<>("");
+    public ObservableField<String> detailId =new ObservableField<>("");
 
     public TableViewModel(ParishRepertory parishRepertory, PreferenceSource preferenceSource, TableActivity activity) {
         this.parishRepertory = parishRepertory;
@@ -92,6 +93,27 @@ public class TableViewModel extends BaseViewModel {
                             activity.finish();
                         }else {
                             MToast.showToast(activity,"换桌失败");
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("vd",throwable.getMessage());
+                    }
+                });
+    }
+
+    public void transferFood(String tableId){
+        parishRepertory.TransferFood("2",preferenceSource.getId(),tableId,detailId.get())
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd",stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode()==1){
+                            MToast.showToast(activity,"转菜成功");
+                            activity.finish();
+                        }else {
+                            MToast.showToast(activity,"转菜失败");
                         }
                     }
                 }, new Consumer<Throwable>() {

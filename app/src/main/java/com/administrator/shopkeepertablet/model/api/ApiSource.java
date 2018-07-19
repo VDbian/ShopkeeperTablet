@@ -61,4 +61,8 @@ public interface ApiSource {
     Observable<BaseEntity<String>> returnFood(String id,String type,String detailId,String billId,String tableId, String name,String tableName,String count,String price,String tuiCount,String zenCount,String remark, String reasonId, String reasonName);
 
     Observable<BaseEntity<String>> updatePrint(String type, String billId,String ipAddress);
+
+    Observable<BaseEntity<String>> cancelPay(String type,String billId);
+
+    Observable<BaseEntity<String>> TransferFood(String type,String id,String tableId,String detailId);
 }

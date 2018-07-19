@@ -62,8 +62,7 @@ public class ReturnFoodReasonAdapter extends RecyclerView.Adapter<ReturnFoodReas
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               chooseBean.setSelect(!chooseBean.isSelect());
-               notifyDataSetChanged();
+               selectClick(position);
                 if (onItemClick != null) {
                     onItemClick.onItemClick(chooseBean, position);
                 }
@@ -76,16 +75,16 @@ public class ReturnFoodReasonAdapter extends RecyclerView.Adapter<ReturnFoodReas
         return selectList.size();
     }
 
-//    private void selectClick(int pos) {
-//        for (int i = 0; i < selectList.size(); i++) {
-//            if (i == pos) {
-//                selectList.get(i).setChoose(true);
-//            } else {
-//                selectList.get(i).setChoose(false);
-//            }
-//        }
-//        notifyDataSetChanged();
-//    }
+    private void selectClick(int pos) {
+        for (int i = 0; i < selectList.size(); i++) {
+            if (i == pos) {
+                selectList.get(i).setSelect(true);
+            } else {
+                selectList.get(i).setSelect(false);
+            }
+        }
+        notifyDataSetChanged();
+    }
 
 
     public interface OnItemClick {

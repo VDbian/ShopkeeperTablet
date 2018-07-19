@@ -157,7 +157,24 @@ public class ParishFoodFragment extends BaseFragment {
                         viewModel.tableware.set(entity.getTableWareCount());
                         viewModel.time.set(entity.getTime());
                         viewModel.billId.set(entity.getBillId());
+                        viewModel.totalPrice.set(entity.getPrice());
                         viewModel.getOrderFoodList(entity);
+                        break;
+                    case "4":
+                        viewModel.billId.set(entity.getBillId());
+                        ConfirmDialog confirmDialog =new ConfirmDialog();
+                        confirmDialog.setMessage("是否取消结账");
+                        confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
+                            @Override
+                            public void confirm() {
+                                viewModel.cancelPay();
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
                         break;
                     default:
                         break;
@@ -267,7 +284,7 @@ public class ParishFoodFragment extends BaseFragment {
                         startActivity(intent);
                         break;
                     case 1:
-                        eventTable(entity,"换桌",viewModel.room.get());
+                        eventTable(entity,"换桌",viewModel.room.get(),"");
                         break;
                     case 2:
                         ConfirmDialog confirmDialog = new ConfirmDialog();
@@ -287,7 +304,7 @@ public class ParishFoodFragment extends BaseFragment {
                         confirmDialog.show(getActivity().getFragmentManager(), "");
                         break;
                     case 3:
-                        eventTable(entity,"并单",viewModel.room.get());
+                        eventTable(entity,"并单",viewModel.room.get(),"");
                         break;
                     case 4:
                         viewModel.print();
@@ -315,10 +332,9 @@ public class ParishFoodFragment extends BaseFragment {
             public void item(OrderFoodEntity orderFoodEntity, int position) {
                 switch (position){
                     case 0:
-                        eventTable(entity,"转菜("+orderFoodEntity.getProductName()+")",viewModel.room.get());
+                        eventTable(entity,"转菜("+orderFoodEntity.getProductName()+")",viewModel.room.get(),orderFoodEntity.getDetailId());
                         break;
                     case 1:
-                        Log.e("vd","tuicai");
                         viewModel.getReason(orderFoodEntity);
                         break;
                 }
@@ -328,16 +344,16 @@ public class ParishFoodFragment extends BaseFragment {
     }
 
     public void showReturn(OrderFoodEntity orderFoodEntity, List<ReturnReasonEntity> mList){
-
-        PopupWindowReturnFood popupWindowReturnFood =new PopupWindowReturnFood(getActivity(),orderFoodEntity,mList);
+        PopupWindowReturnFood popupWindowReturnFood =new PopupWindowReturnFood(getActivity(),orderFoodEntity,mList,viewModel);
         popupWindowReturnFood.showPopupWindowUp();
     }
 
-    public void eventTable(TableEntity tableEntity,String title,String room){
+    public void eventTable(TableEntity tableEntity,String title,String room,String detailId){
         EventTableBean bean = new EventTableBean();
         bean.setTableEntity(tableEntity);
         bean.setRoomName(room);
         bean.setTitle(title);
+        bean.setDetailId(detailId);
         EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_TABLE).setMessageData(bean));
         Intent intent = new Intent(getActivity(), TableActivity.class);
         startActivity(intent);

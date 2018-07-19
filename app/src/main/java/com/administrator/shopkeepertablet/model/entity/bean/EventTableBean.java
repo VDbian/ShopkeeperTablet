@@ -13,6 +13,15 @@ public class EventTableBean {
     private TableEntity tableEntity;
     private String title;
     private String roomName;
+    private String detailId;
+
+    public String getDetailId() {
+        return detailId;
+    }
+
+    public void setDetailId(String detailId) {
+        this.detailId = detailId;
+    }
 
     public TableEntity getTableEntity() {
         return tableEntity;
