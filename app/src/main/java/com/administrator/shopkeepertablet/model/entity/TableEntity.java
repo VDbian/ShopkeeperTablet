@@ -58,6 +58,15 @@ public class TableEntity {
     @SerializedName("PERSONCOUNTS")
     private String personCounts;
 
+    private boolean select;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
 
     public String getRoomTableId() {
         return RoomTableId;

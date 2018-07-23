@@ -32,4 +32,13 @@ public interface PreferenceSource {
 
     @Favor("userId")
     void setUserId(String userId);
+
+
+    @Favor("permissionName")
+    @Default("")
+    String getPermissionName();
+
+    @Favor("permissionName")
+    void setPermissionName(String permissionName);
+
 }

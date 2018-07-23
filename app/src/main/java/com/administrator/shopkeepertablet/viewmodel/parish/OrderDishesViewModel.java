@@ -17,6 +17,7 @@ import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
+import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
 import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
 import com.google.gson.Gson;
@@ -50,6 +51,7 @@ public class OrderDishesViewModel extends BaseViewModel {
     public ObservableField<String> billId = new ObservableField<>("");
     public ObservableField<String> time = new ObservableField<>("");
     public ObservableField<Double> price = new ObservableField<>(0.00);
+    private Print print;
 
 
     public OrderDishesViewModel(OrderDishesActivity activity, ParishRepertory repertory, PreferenceSource preferenceSource) {
@@ -57,6 +59,16 @@ public class OrderDishesViewModel extends BaseViewModel {
         this.repertory = repertory;
         this.preferenceSource = preferenceSource;
         this.dao = AppApplication.get(activity).getDaoSession();
+        this.print = new Print(repertory);
+    }
+
+    private void printResult(final String result) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                print.socketDataArrivalHandler(result);
+            }
+        }).start();
     }
 
     public void getFoodList() {
@@ -99,6 +111,7 @@ public class OrderDishesViewModel extends BaseViewModel {
                 Log.e("vd",stringBaseEntity.toString());
                 if (stringBaseEntity.getCode()==1){
                     MToast.showToast(activity,"下单成功");
+                    printResult(stringBaseEntity.getResult());
                     activity.finish();
                 }else {
                     MToast.showToast(activity,"下单失败");
@@ -111,25 +124,6 @@ public class OrderDishesViewModel extends BaseViewModel {
             }
         });
     }
-
-//    public void getAllKouwei(){
-//        repertory.getFoodKouweiList(preferenceSource.getId(),1,50).subscribe(
-//                new Consumer<BaseEntity<String>>() {
-//                    @Override
-//                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-//                        Log.e("VD",stringBaseEntity.getResult());
-//                        if (stringBaseEntity.getCode()==0){
-//                            List<KouWeiEntity> list = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(),KouWeiEntity[].class));
-//                            activity.showPopAllKouwei(list);
-//                        }
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                    Log.e("vd",throwable.getMessage());
-//                    }
-//                });
-//    }
 
     public void  getAllKouwei(){
         List<KouWeiEntity> list = AppApplication.get(activity).getDaoSession().getKouWeiEntityDao().loadAll();

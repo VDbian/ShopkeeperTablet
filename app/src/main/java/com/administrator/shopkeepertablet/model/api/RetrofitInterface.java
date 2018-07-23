@@ -281,7 +281,30 @@ public interface RetrofitInterface {
             @Field("DETAILID") String detailId
     );
 
-    //    @FormUrlEncoded
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> getMember(
+            @Field("Type") String type,
+            @Field("Phone") String phone
+    );
+
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> getDiscount(
+            @Field("Type") String type,
+            @Field("id") String billId,
+            @Field("coue") String discountNum
+
+    );
+
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> getWarePrice(
+            @Field("Type") String type,
+            @Field("Rid") String id
+    );
+
+//    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
 //    Observable<BaseEntity<String>> changePeople(
 //    );

@@ -30,6 +30,7 @@
         <activity android:name=".view.ui.activity.MainActivity" android:screenOrientation="landscape"/>
         <activity android:name=".view.ui.activity.setting.SettingActivity" android:screenOrientation="landscape" />
         <activity android:name=".view.ui.activity.parish.TableActivity" android:screenOrientation="landscape"  />
+        <activity android:name=".view.ui.activity.parish.PayActivity" android:screenOrientation="landscape" />
     </application>
 
 </manifest>

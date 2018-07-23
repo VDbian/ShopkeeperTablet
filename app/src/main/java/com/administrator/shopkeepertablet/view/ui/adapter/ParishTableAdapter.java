@@ -57,11 +57,16 @@ public class ParishTableAdapter extends RecyclerView.Adapter<ParishTableAdapter.
                 holder.binding.llNoLeisure.setVisibility(View.VISIBLE);
                 break;
             default:
-                holder.binding.rlMain.setBackgroundResource(R.drawable.shape_table_order_bg);
+                if (tableEntity.isSelect()){
+                    holder.binding.rlMain.setBackgroundResource(R.drawable.shape_table_order_select_bg);
+                }else {
+                    holder.binding.rlMain.setBackgroundResource(R.drawable.shape_table_order_bg);
+                }
                 holder.binding.tvLeisure.setVisibility(View.GONE);
                 holder.binding.llNoLeisure.setVisibility(View.VISIBLE);
                 break;
         }
+
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

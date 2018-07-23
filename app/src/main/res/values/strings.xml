@@ -63,4 +63,10 @@
     <string name="discounts">优惠:￥%1$2.2f</string>
     <string name="other_pay">还需支付:￥%1$2.2f</string>
     <string name="earnest">定金:￥%1$2.2f</string>
+
+    <string name="card_num">卡号:%1$s</string>
+    <string name="name">姓名:%1$s</string>
+    <string name="phone">手机:%1$s</string>
+    <string name="balance">余额:￥%1$2.2f</string>
+    <string name="points">积分:%1$s</string>
 </resources>

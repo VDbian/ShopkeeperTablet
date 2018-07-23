@@ -22,12 +22,14 @@ import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
+import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
 import com.administrator.shopkeepertablet.model.entity.bean.EventTableBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
+import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.TableActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.ParishTableAdapter;
 import com.administrator.shopkeepertablet.view.widget.ChangePeopleDialog;
@@ -259,7 +261,13 @@ public class ParishFoodFragment extends BaseFragment {
         popupWindowPay.setOnCallBackListener(new PopupWindowPay.OnCallBackListener() {
             @Override
             public void pay() {
-
+                EventPayBean bean =new EventPayBean();
+                bean.setTableEntity(entity);
+                bean.setmList(mList);
+                bean.setRoomName(viewModel.room.get());
+                EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY,bean));
+                Intent intent = new Intent(ParishFoodFragment.this.getActivity(), PayActivity.class);
+                startActivity(intent);
             }
 
             @Override

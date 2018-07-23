@@ -314,6 +314,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                         Log.e("vd", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode()==1){
                             MToast.showToast(fragment.getActivity(),"退菜成功");
+                            printResult(stringBaseEntity.getResult());
                             fragment.clearSuccess();
                         }
                     }
@@ -332,6 +333,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                 Log.e("vd",stringBaseEntity.getResult());
                 if (stringBaseEntity.getCode()==1){
                     MToast.showToast(fragment.getActivity(),"赠送成功");
+                    printResult(stringBaseEntity.getResult());
                 }
             }
         }, new Consumer<Throwable>() {

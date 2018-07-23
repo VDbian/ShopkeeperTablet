@@ -10,9 +10,11 @@ import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertoryImpl;
 import com.administrator.shopkeepertablet.view.ui.activity.LoginActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
+import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.TableActivity;
 import com.administrator.shopkeepertablet.viewmodel.LoginViewModel;
 import com.administrator.shopkeepertablet.viewmodel.parish.OrderDishesViewModel;
+import com.administrator.shopkeepertablet.viewmodel.parish.PayViewModel;
 import com.administrator.shopkeepertablet.viewmodel.parish.TableViewModel;
 
 import dagger.Module;
@@ -27,6 +29,7 @@ import dagger.Provides;
 public class ParishActivityModule {
     private OrderDishesActivity orderDishesActivity;
     private TableActivity tableActivity;
+    private PayActivity payActivity;
 
 
     public ParishActivityModule(OrderDishesActivity orderDishesActivity) {
@@ -35,6 +38,10 @@ public class ParishActivityModule {
 
     public ParishActivityModule(TableActivity tableActivity) {
         this.tableActivity = tableActivity;
+    }
+
+    public ParishActivityModule(PayActivity payActivity) {
+        this.payActivity = payActivity;
     }
 
     @Provides
@@ -55,4 +62,9 @@ public class ParishActivityModule {
         return new TableViewModel(parishRepertory,preferenceSource,tableActivity);
     }
 
+    @Provides
+    @Activity
+    PayViewModel providePayViewModel(ParishRepertory parishRepertory,PreferenceSource preferenceSource){
+        return new PayViewModel(parishRepertory,preferenceSource,payActivity);
+    }
 }

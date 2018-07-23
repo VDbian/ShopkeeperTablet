@@ -227,4 +227,28 @@ public interface ParishRepertory extends BaseRepertory {
      */
     Observable<BaseEntity<String>> TransferFood(String type,String id,String tableId,String detailId);
 
+    /**
+     * 搜索会员
+     * @param type 1
+     * @param phone 电话号码或者会员号
+     * @return
+     */
+    Observable<BaseEntity<String>> getMember(String type,String phone);
+
+    /**
+     * 搜索优惠券
+     * @param type 2
+     * @param billId 订单ID
+     * @param discountNum 优惠券号码
+     * @return
+     */
+    Observable<BaseEntity<String>> getDiscount(String type,String billId,String discountNum);
+
+    /**
+     * 获取餐具价格
+     * @param type 6
+     * @param id 店铺Id
+     * @return
+     */
+    Observable<BaseEntity<String>> getWarePrice(String type,String id);
 }

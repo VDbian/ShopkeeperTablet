@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.view.ui.activity.parish;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,8 +17,10 @@ import com.administrator.shopkeepertablet.di.parish.ParishActivityModule;
 import com.administrator.shopkeepertablet.model.entity.EventOrderDishesEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
+import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
 import com.administrator.shopkeepertablet.model.entity.bean.EventTableBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
@@ -25,6 +28,7 @@ import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.ParishTableAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.TableRoomAdapter;
+import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
 import com.administrator.shopkeepertablet.view.widget.ConfirmDialog;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.parish.TableViewModel;
@@ -55,7 +59,11 @@ public class TableActivity extends BaseActivity {
     private List<RoomEntity> roomEntityList = new ArrayList<>();
     private ParishTableAdapter parishTableAdapter;
     private List<TableEntity> tableEntityList = new ArrayList<>();
+    private List<TableEntity> tableSelectList = new ArrayList<>();
     private String roomName = "";
+    public List<OrderFoodEntity> orderFoodEntityList = new ArrayList<>();
+    private String str = "";
+    private int index = 0;
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -77,6 +85,9 @@ public class TableActivity extends BaseActivity {
     }
 
     private void initView() {
+        if (viewModel.title.get().equals("并单")) {
+            binding.tvConfirm.setVisibility(View.VISIBLE);
+        }
         tableRoomAdapter = new TableRoomAdapter(this, roomEntityList);
         binding.rlvRoom.setAdapter(tableRoomAdapter);
         binding.rlvRoom.setLayoutManager(new LinearLayoutManager(this));
@@ -99,9 +110,16 @@ public class TableActivity extends BaseActivity {
                 if (viewModel.title.get().equals("换桌")) {
                     showDialog(entity, 0);
                 } else if (viewModel.title.get().equals("并单")) {
-                    showDialog(entity, 1);
+                    tableEntityList.get(position).setSelect(!tableEntityList.get(position).isSelect());
+                    if (tableEntityList.get(position).isSelect()) {
+                        tableSelectList.add(tableEntityList.get(position));
+                    } else {
+                        tableSelectList.remove(tableEntityList.get(position));
+                    }
+                    parishTableAdapter.notifyDataSetChanged();
+
                 } else {
-                    showDialog(entity, 2);
+                    showDialog(entity, 1);
                 }
             }
         });
@@ -113,6 +131,55 @@ public class TableActivity extends BaseActivity {
             }
         });
 
+        binding.tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tableSelectList.size() > 0) {
+                    confirm();
+                } else {
+                    MToast.showToast(TableActivity.this, "请先选择需要并单处理的桌位");
+                }
+            }
+        });
+
+    }
+
+    private void confirm() {
+        viewModel.getOrderFoodList(viewModel.tableEntity.get());
+        str = viewModel.tableEntity.get().getTableName();
+        index = 0;
+        binding.tvConfirm.setEnabled(false);
+    }
+
+    public void showDialogMerge() {
+        if (index < tableSelectList.size()) {
+            str += "、" + tableSelectList.get(index).getTableName();
+            viewModel.getOrderFoodList(tableEntityList.get(index));
+            index++;
+        } else {
+            ConfirmDialog confirmDialog = new ConfirmDialog();
+            confirmDialog.setMessage("是否将" + str + "并单处理");
+            confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
+                @Override
+                public void confirm() {
+                    EventPayBean bean = new EventPayBean();
+                    bean.setTableEntity(viewModel.tableEntity.get());
+                    bean.setmList(orderFoodEntityList);
+                    bean.setRoomName(viewModel.roomName.get());
+                    bean.setTableEntityList(tableSelectList);
+                    EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY, bean));
+                    Intent intent = new Intent(TableActivity.this, PayActivity.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void cancel() {
+                    orderFoodEntityList.clear();
+                }
+            });
+            confirmDialog.show(getFragmentManager(), "");
+        }
+
     }
 
     private void showDialog(final TableEntity entity, final int flag) {
@@ -122,11 +189,7 @@ public class TableActivity extends BaseActivity {
                 confirmDialog.setMessage("是否换桌到" + roomName + entity.getTableName());
                 break;
             case 1:
-                confirmDialog.setMessage("是否将（" + viewModel.roomName.get() + viewModel.tableEntity.get().getTableName() + ")-" +
-                        "(" + roomName + entity.getTableName() + ") 并单处理");
-                break;
-            case 2:
-                confirmDialog.setMessage("是否转菜到" +roomName + entity.getTableName());
+                confirmDialog.setMessage("是否转菜到" + roomName + entity.getTableName());
                 break;
         }
         confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
@@ -137,9 +200,6 @@ public class TableActivity extends BaseActivity {
                         viewModel.changeTable(entity);
                         break;
                     case 1:
-                        MToast.showToast(TableActivity.this, "并单");
-                        break;
-                    case 2:
                         viewModel.transferFood(entity.getRoomTableId());
                         break;
                 }
@@ -169,9 +229,21 @@ public class TableActivity extends BaseActivity {
         for (TableEntity table : tableEntities) {
             if (viewModel.title.get().equals("换桌") && table.getIsOpen().equals("0")) {
                 tableEntityList.add(table);
-            } else if (table.getIsOpen().equals("2") && !viewModel.tableEntity.get().getRoomTableId().equals(table.getRoomTableId())) {
+            } else if (table.getIsOpen().equals("2") && !viewModel.tableEntity.get().getRoomTableId().equals(table.getRoomTableId()) && viewModel.title.get().equals("转菜")) {
+                tableEntityList.add(table);
+            } else if (table.getIsOpen().equals("2") && !viewModel.tableEntity.get().getRoomTableId().equals(table.getRoomTableId()) && viewModel.title.get().equals("并单")) {
+                for (TableEntity tableEntity : tableSelectList) {
+                    if (table.getRoomTableId().equals(tableEntity.getRoomTableId())) {
+                        table.setSelect(true);
+                    }
+                }
                 tableEntityList.add(table);
             }
+        }
+        if (tableEntityList.size() <= 0 && viewModel.title.get().equals("换桌")) {
+            MToast.showToast(this, "该房间暂无空闲的桌位");
+        } else if (tableEntityList.size() <= 0) {
+            MToast.showToast(this, "该房间暂无已下单的桌位");
         }
         parishTableAdapter.notifyDataSetChanged();
     }

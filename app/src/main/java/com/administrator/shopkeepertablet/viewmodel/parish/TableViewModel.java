@@ -4,6 +4,7 @@ import android.databinding.ObservableField;
 import android.util.Log;
 
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
@@ -122,5 +123,27 @@ public class TableViewModel extends BaseViewModel {
                         Log.e("vd",throwable.getMessage());
                     }
                 });
+    }
+
+    public void getOrderFoodList(TableEntity entity) {
+        parishRepertory.getOrderFoodList("13", preferenceSource.getId(), entity.getBillId()).subscribe(
+                new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd_order", stringBaseEntity.getCode() + "--" + stringBaseEntity.getResult());
+                        if (stringBaseEntity.getCode() == 1) {
+                            OrderFoodEntity[] orderFoodEntities = new Gson().fromJson(stringBaseEntity.getResult(), OrderFoodEntity[].class);
+                            List<OrderFoodEntity> mList = Arrays.asList(orderFoodEntities);
+                            activity.orderFoodEntityList.addAll(mList);
+                            activity.showDialogMerge();
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("VD", throwable.getMessage());
+                    }
+                }
+        );
     }
 }

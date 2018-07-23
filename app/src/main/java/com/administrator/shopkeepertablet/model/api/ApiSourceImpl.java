@@ -136,4 +136,19 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> TransferFood(String type, String id, String tableId, String detailId) {
         return retrofitInterface.TransferFood(type, id, tableId, detailId);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getMember(String type, String phone) {
+        return retrofitInterface.getMember(type, phone);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getDiscount(String type, String billId, String discountNum) {
+        return retrofitInterface.getDiscount(type, billId, discountNum);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getWarePrice(String type, String id) {
+        return retrofitInterface.getWarePrice(type, id);
+    }
 }
