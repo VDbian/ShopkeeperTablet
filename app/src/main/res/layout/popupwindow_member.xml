@@ -82,11 +82,13 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_member_info"
                     android:layout_width="320px"
                     android:layout_height="168px"
                     android:layout_marginTop="16px"
                     android:orientation="vertical"
                     android:background="#F3F8F9"
+                    android:visibility="invisible"
                     >
                     <TextView
                         android:layout_width="wrap_content"
@@ -146,11 +148,13 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_integral"
                     android:layout_width="320px"
                     android:layout_height="48px"
                     android:layout_marginTop="16px"
                     android:background="@drawable/shape_login_edit"
                     android:orientation="horizontal"
+                    android:visibility="invisible"
                     >
                     <EditText
                         android:id="@+id/et_integral"
@@ -218,7 +222,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/colore5e5e5" />
+            android:background="@color/colore5e5e5"
+            android:layout_marginTop="16px"
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"

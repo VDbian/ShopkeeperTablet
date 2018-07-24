@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="16px"
-                    android:text="￥156.00"
+                    android:text="@{@string/price_prefix(viewModel.price)}"
                     android:textColor="@color/colorWhite"
                     android:textSize="28px"
                     android:layout_centerVertical="true"
@@ -159,7 +159,7 @@
                     android:textSize="18px" />
 
                 <TextView
-                    android:id="@+id/tv_order"
+                    android:id="@+id/tv_other_pay"
                     android:layout_width="0px"
                     android:layout_height="52px"
                     android:layout_weight="1"

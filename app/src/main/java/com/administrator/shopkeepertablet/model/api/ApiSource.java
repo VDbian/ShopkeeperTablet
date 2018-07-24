@@ -66,7 +66,7 @@ public interface ApiSource {
 
     Observable<BaseEntity<String>> TransferFood(String type,String id,String tableId,String detailId);
 
-    Observable<BaseEntity<String>> getMember(String type,String phone);
+    Observable<BaseEntity<String>> getMember(String type,String phone,String billId,String id);
 
     Observable<BaseEntity<String>> getDiscount(String type,String billId,String discountNum);
 

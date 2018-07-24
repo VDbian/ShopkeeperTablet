@@ -138,8 +138,8 @@ public class ApiSourceImpl implements ApiSource {
     }
 
     @Override
-    public Observable<BaseEntity<String>> getMember(String type, String phone) {
-        return retrofitInterface.getMember(type, phone);
+    public Observable<BaseEntity<String>> getMember(String type, String phone,String billId,String id) {
+        return retrofitInterface.getMember(type, phone,billId,id);
     }
 
     @Override

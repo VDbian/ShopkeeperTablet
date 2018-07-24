@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.administrator.shopkeepertablet.R;
@@ -128,14 +129,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    public void displayFrg(int index) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame_layout, myFragment[index]).commitAllowingStateLoss();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tab_parish_food:
                 showTabView(FRAGMENT_PARISH);
+                displayFrg(FRAGMENT_PARISH);
                 break;
             case R.id.tab_fast_food:
                 showTabView(FRAGMENT_FAST);
+                displayFrg(FRAGMENT_FAST);
                 break;
             case R.id.tab_lineup:
                 break;

@@ -285,7 +285,9 @@ public interface RetrofitInterface {
     @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
     Observable<BaseEntity<String>> getMember(
             @Field("Type") String type,
-            @Field("Phone") String phone
+            @Field("coue") String num,
+            @Field("id") String billId,
+            @Field("rid") String id
     );
 
     @FormUrlEncoded

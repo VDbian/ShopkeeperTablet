@@ -1,7 +1,9 @@
 package com.administrator.shopkeepertablet.viewmodel.parish;
 
 import android.databinding.ObservableField;
+import android.util.Log;
 
+import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
@@ -10,6 +12,8 @@ import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
 import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
 
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * Description:
@@ -41,8 +45,25 @@ public class PayViewModel extends BaseViewModel {
         return DateUtils.friendly_time(DateUtils.stringToDate(time));
     }
 
-    public void getMember() {
+    public void getMember(String num) {
+        String bill = tableEntity.get().getBillId();
+        if (tableList.get()!=null&&!tableList.get().isEmpty()){
+           for (TableEntity entity :tableList.get()){
+               bill += ","+entity.getBillId();
+           }
+        }
+        parishRepertory.getMember("15",num,bill,preferenceSource.getId())
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd",stringBaseEntity.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
 
+                    }
+                });
     }
 
     public Double getShouldPay() {

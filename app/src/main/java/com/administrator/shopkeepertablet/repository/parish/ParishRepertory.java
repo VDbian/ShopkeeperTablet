@@ -15,8 +15,6 @@ import io.reactivex.Observable;
 
 public interface ParishRepertory extends BaseRepertory {
 
-
-
     /**
      *开台
      * @param type 类型 1
@@ -228,12 +226,14 @@ public interface ParishRepertory extends BaseRepertory {
     Observable<BaseEntity<String>> TransferFood(String type,String id,String tableId,String detailId);
 
     /**
-     * 搜索会员
-     * @param type 1
-     * @param phone 电话号码或者会员号
+     * 会员搜索
+     * @param type 15
+     * @param phone 会员号
+     * @param billId 订单号，多个订单号用，隔开
+     * @param id 店铺Id
      * @return
      */
-    Observable<BaseEntity<String>> getMember(String type,String phone);
+    Observable<BaseEntity<String>> getMember(String type,String phone,String billId,String id);
 
     /**
      * 搜索优惠券

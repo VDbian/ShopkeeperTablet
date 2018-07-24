@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.administrator.shopkeepertablet.databinding.PopupwindowMemberBinding;
 import com.administrator.shopkeepertablet.databinding.PopupwindowReturnFoodBinding;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
+import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.adapter.ReturnFoodReasonAdapter;
 import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
 import com.administrator.shopkeepertablet.viewmodel.parish.PayViewModel;
@@ -97,7 +99,6 @@ public class PopupWindowMember extends PopupWindow {
 //        String title = String.format("退菜 <font color=\"#FBBC05\">（%s）", orderFoodEntity.getProductName());
 //        binding.tvReturn.setText(Html.fromHtml(title));
 
-
         binding.ivCancel.setOnClickListener(listener);
         binding.tvSearchMember.setOnClickListener(listener);
         binding.tvIntegral.setOnClickListener(listener);
@@ -109,6 +110,12 @@ public class PopupWindowMember extends PopupWindow {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tv_search_member:
+                    String num = binding.etMemberNum.getText().toString().trim();
+                    if (TextUtils.isEmpty(num)){
+                        MToast.showToast(context,"请输入会员号");
+                    }else {
+                        viewModel.getMember(num);
+                    }
                     break;
                 case R.id.tv_integral:
                     break;
