@@ -69,4 +69,11 @@
     <string name="phone">手机:%1$s</string>
     <string name="balance">余额:￥%1$2.2f</string>
     <string name="points">积分:%1$s</string>
+    <string name="order_num">订单编号: %1$s</string>
+    <string name="order_time">下单时间: %1$s</string>
+    <string name="order_table">桌台编号: %1$s</string>
+    <string name="order_people">点餐员: %1$s</string>
+    <string name="order_price">订单金额: ￥%1$2.2f</string>
+    <string name="order_discount">优惠金额: ￥%1$2.2f</string>
+    <string name="order_pay">实付金额: ￥%1$2.2f</string>
 </resources>

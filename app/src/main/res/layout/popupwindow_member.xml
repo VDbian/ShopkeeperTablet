@@ -88,7 +88,7 @@
                     android:layout_marginTop="16px"
                     android:orientation="vertical"
                     android:background="#F3F8F9"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     >
                     <TextView
                         android:layout_width="wrap_content"

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    
+    
+    <LinearLayout
+        android:layout_width="340px"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#F0F3F6"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64px">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="会员详情"
+                android:textSize="22px"
+                android:textColor="@color/color97a3aa"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="24px"
+                />
+
+            <ImageView
+                android:layout_width="24px"
+                android:layout_height="24px"
+                android:src="@mipmap/ic_expand_close"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="24px"
+                android:layout_centerVertical="true"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_member_info"
+            android:layout_width="320px"
+            android:layout_height="168px"
+            android:layout_marginTop="16px"
+            android:orientation="vertical"
+            android:background="#FFFAF2"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/card_num"
+                android:layout_marginTop="12px"
+                android:layout_marginLeft="12px"
+                android:textSize="16px"
+                android:textColor="@color/color848d95"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:layout_marginTop="12px"
+                android:layout_marginLeft="12px"
+                android:textSize="16px"
+                android:textColor="@color/color848d95"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/phone"
+                android:layout_marginTop="12px"
+                android:layout_marginLeft="12px"
+                android:textSize="16px"
+                android:textColor="@color/color848d95"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16px"
+                android:layout_marginLeft="12px"
+                android:layout_marginRight="12px"
+                >
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/balance"
+                    android:textColor="@color/color666666"
+                    android:textSize="18px"
+                    />
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/points"
+                    android:textColor="@color/color666666"
+                    android:textSize="18px"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</layout>
