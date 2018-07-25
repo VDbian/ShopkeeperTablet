@@ -7,7 +7,6 @@ import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 
 import javax.inject.Singleton;
 
-
 import dagger.Component;
 
 /**

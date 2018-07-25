@@ -36,7 +36,7 @@ import com.administrator.shopkeepertablet.view.widget.PopupWindowAllKouwei;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChange;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChoose;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
-import com.administrator.shopkeepertablet.viewmodel.parish.OrderDishesViewModel;
+import com.administrator.shopkeepertablet.viewmodel.OrderDishesViewModel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,7 +47,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import static com.administrator.shopkeepertablet.R.*;
+import static com.administrator.shopkeepertablet.R.color;
 
 /**
  * Description:

@@ -2,7 +2,6 @@ package com.administrator.shopkeepertablet.repository.login;
 
 import com.administrator.shopkeepertablet.model.api.ApiSource;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
-import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.BaseRepertoryImpl;
 

@@ -15,7 +15,12 @@ import com.administrator.shopkeepertablet.di.mian.DaggerMainComponent;
 import com.administrator.shopkeepertablet.di.mian.MainModule;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.fragment.FastFoodFragment;
+import com.administrator.shopkeepertablet.view.ui.fragment.LineUpFragment;
+import com.administrator.shopkeepertablet.view.ui.fragment.MessageFragment;
+import com.administrator.shopkeepertablet.view.ui.fragment.OrderFragment;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
+import com.administrator.shopkeepertablet.view.ui.fragment.RechargeFragment;
+import com.administrator.shopkeepertablet.view.ui.fragment.SettingFragment;
 import com.administrator.shopkeepertablet.viewmodel.MainViewModel;
 
 import javax.inject.Inject;
@@ -36,16 +41,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public static final int FRAGMENT_PARISH = 0;
     public static final int FRAGMENT_FAST = 1;
-//    public static final int FRAGMENT_ORDER = 2;
-//    public static final int FRAGMENT_RESERVE = 3;
-//    public static final int FRAGMENT_LINEUP = 4;
-//    public static final int FRAGMENT_RECHARGE = 5;
-//    public static final int FRAGMENT_MESSAGE = 6;
-//    public static final int FRAGMENT_PRINTER = 7;
-//    public static final int FRAGMENT_SETTING = 8;
+    public static final int FRAGMENT_ORDER = 2;
+    public static final int FRAGMENT_RESERVE = 3;
+    public static final int FRAGMENT_LINEUP = 4;
+    public static final int FRAGMENT_RECHARGE = 5;
+    public static final int FRAGMENT_MESSAGE = 6;
+    public static final int FRAGMENT_PRINTER = 7;
+    public static final int FRAGMENT_SETTING = 8;
 
     protected FragmentManager fragmentManager;
-    private Fragment myFragment[] = new Fragment[2];
+    private Fragment myFragment[] = new Fragment[8];
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -82,7 +87,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager = getSupportFragmentManager();
         myFragment[FRAGMENT_PARISH] = new ParishFoodFragment();
         myFragment[FRAGMENT_FAST] = new FastFoodFragment();
-//        myFragment[FRAGMENT_SELF] = new SelfFragment();
+        myFragment[FRAGMENT_ORDER] = new OrderFragment();
+        myFragment[FRAGMENT_RESERVE] = new FastFoodFragment();
+        myFragment[FRAGMENT_LINEUP] = new LineUpFragment();
+        myFragment[FRAGMENT_RECHARGE] = new RechargeFragment();
+        myFragment[FRAGMENT_MESSAGE] = new MessageFragment();
+//        myFragment[FRAGMENT_PRINTER] = new OrderFragment();
+        myFragment[FRAGMENT_SETTING] = new SettingFragment();
         fragmentManager.beginTransaction().add(R.id.frame_layout, myFragment[FRAGMENT_PARISH]).commit();
         showTabView(FRAGMENT_PARISH);
     }
@@ -101,31 +112,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (index) {
             case FRAGMENT_PARISH:
                 binding.tabParishFood.setViewSelect(true);
+                displayFrg(FRAGMENT_PARISH);
                 break;
             case FRAGMENT_FAST:
                 binding.tabFastFood.setViewSelect(true);
+                displayFrg(FRAGMENT_FAST);
                 break;
-//            case FRAGMENT_ORDER:
-//                binding.tabOrderList.setViewSelect(true);
-//                break;
-//            case FRAGMENT_RESERVE:
-//                binding.tabReserve.setViewSelect(true);
-//                break;
-//            case FRAGMENT_LINEUP:
-//                binding.tabLineup.setViewSelect(true);
-//                break;
-//            case FRAGMENT_RECHARGE:
-//                binding.tabRecharge.setViewSelect(true);
-//                break;
-//            case FRAGMENT_MESSAGE:
-//                binding.tabMessage.setViewSelect(true);
-//                break;
-//            case FRAGMENT_PRINTER:
-//                binding.tabPrinter.setViewSelect(true);
-//                break;
-//            case FRAGMENT_SETTING:
-//                binding.tabSetting.setViewSelect(true);
-//                break;
+            case FRAGMENT_ORDER:
+                binding.tabOrderList.setViewSelect(true);
+                displayFrg(FRAGMENT_ORDER);
+                break;
+            case FRAGMENT_RESERVE:
+                binding.tabReserve.setViewSelect(true);
+                displayFrg(FRAGMENT_RESERVE);
+                break;
+            case FRAGMENT_LINEUP:
+                binding.tabLineup.setViewSelect(true);
+                displayFrg(FRAGMENT_LINEUP);
+                break;
+            case FRAGMENT_RECHARGE:
+                binding.tabRecharge.setViewSelect(true);
+                displayFrg(FRAGMENT_RECHARGE);
+                break;
+            case FRAGMENT_MESSAGE:
+                binding.tabMessage.setViewSelect(true);
+                displayFrg(FRAGMENT_MESSAGE);
+                break;
+            case FRAGMENT_PRINTER:
+                binding.tabPrinter.setViewSelect(true);
+                break;
+            case FRAGMENT_SETTING:
+                binding.tabSetting.setViewSelect(true);
+                displayFrg(FRAGMENT_SETTING);
+                break;
         }
     }
 

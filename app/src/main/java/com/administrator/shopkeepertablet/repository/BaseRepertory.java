@@ -2,10 +2,6 @@ package com.administrator.shopkeepertablet.repository;
 
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-
 import io.reactivex.Observable;
 
 /**

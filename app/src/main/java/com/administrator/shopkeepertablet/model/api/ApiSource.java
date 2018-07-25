@@ -1,17 +1,9 @@
 package com.administrator.shopkeepertablet.model.api;
 
-import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
-import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
-
-import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
 
 /**
  * Description:

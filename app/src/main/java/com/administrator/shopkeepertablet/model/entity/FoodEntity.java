@@ -1,21 +1,19 @@
 package com.administrator.shopkeepertablet.model.entity;
 
+import com.administrator.shopkeepertablet.model.greendao.DaoSession;
+import com.administrator.shopkeepertablet.model.greendao.FoodEntityDao;
+import com.administrator.shopkeepertablet.model.greendao.ProductKouWeiEntityDao;
+import com.administrator.shopkeepertablet.model.greendao.SeasonEntityDao;
+import com.administrator.shopkeepertablet.model.greendao.SpecEntityDao;
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 
 import java.util.List;
-import java.util.jar.Attributes;
-
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import com.administrator.shopkeepertablet.model.greendao.DaoSession;
-import com.administrator.shopkeepertablet.model.greendao.SeasonEntityDao;
-import com.administrator.shopkeepertablet.model.greendao.SpecEntityDao;
-import com.administrator.shopkeepertablet.model.greendao.FoodEntityDao;
-import com.administrator.shopkeepertablet.model.greendao.ProductKouWeiEntityDao;
 
 
 /**

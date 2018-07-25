@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.ButtonBarLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,14 +11,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.PopupwindowBeginTableBinding;
 import com.administrator.shopkeepertablet.utils.MLog;
-import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
-
-import java.util.List;
+import com.administrator.shopkeepertablet.viewmodel.ParishFoodViewModel;
 
 
 /**

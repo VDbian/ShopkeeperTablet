@@ -1,7 +1,6 @@
 package com.administrator.shopkeepertablet.repository.login;
 
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
-import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
 import com.administrator.shopkeepertablet.repository.BaseRepertory;
 
 import io.reactivex.Observable;

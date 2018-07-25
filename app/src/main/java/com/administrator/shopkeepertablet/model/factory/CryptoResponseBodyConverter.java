@@ -5,7 +5,6 @@ import com.google.gson.TypeAdapter;
 
 import java.io.IOException;
 
-
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 

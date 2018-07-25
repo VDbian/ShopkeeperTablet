@@ -1,9 +1,8 @@
-package com.administrator.shopkeepertablet.viewmodel.order;
+package com.administrator.shopkeepertablet.viewmodel;
 
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.order.OrderRepository;
 import com.administrator.shopkeepertablet.view.ui.fragment.OrderFragment;
-import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
 
 /**
  * Description:

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.GridLayoutManager;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -16,16 +14,8 @@ import android.widget.PopupWindow;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.PopupwindowMemberBinding;
-import com.administrator.shopkeepertablet.databinding.PopupwindowReturnFoodBinding;
-import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
-import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
 import com.administrator.shopkeepertablet.utils.MToast;
-import com.administrator.shopkeepertablet.view.ui.adapter.ReturnFoodReasonAdapter;
-import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
-import com.administrator.shopkeepertablet.viewmodel.parish.PayViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.administrator.shopkeepertablet.viewmodel.PayViewModel;
 
 
 /**

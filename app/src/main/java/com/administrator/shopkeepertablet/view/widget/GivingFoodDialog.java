@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 
 import com.administrator.shopkeepertablet.R;
-import com.administrator.shopkeepertablet.databinding.DialogChangePeopleBinding;
 import com.administrator.shopkeepertablet.databinding.DialogGivingFoodBinding;
 
 

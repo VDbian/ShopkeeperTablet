@@ -4,22 +4,14 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
-import com.administrator.shopkeepertablet.BR;
 import com.administrator.shopkeepertablet.R;
-import com.administrator.shopkeepertablet.databinding.ItemFoodTypeBinding;
-import com.administrator.shopkeepertablet.databinding.ItemRlvAddBinding;
 import com.administrator.shopkeepertablet.databinding.ItemRlvOrderFoodBinding;
-import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
-import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

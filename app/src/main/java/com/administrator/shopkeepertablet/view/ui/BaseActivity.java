@@ -3,7 +3,6 @@ package com.administrator.shopkeepertablet.view.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -11,8 +10,6 @@ import com.administrator.shopkeepertablet.AppApplication;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.gyf.barlibrary.ImmersionBar;
 import com.zhy.autolayout.AutoLayoutActivity;
-
-import java.util.List;
 
 
 /**

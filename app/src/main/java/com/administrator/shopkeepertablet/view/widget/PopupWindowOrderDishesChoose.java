@@ -16,13 +16,13 @@ import android.widget.PopupWindow;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.DilogOrderDishesBinding;
-import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
-import com.administrator.shopkeepertablet.model.entity.bean.ChooseBean;
-import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity;
 import com.administrator.shopkeepertablet.model.entity.SeasonEntity;
 import com.administrator.shopkeepertablet.model.entity.SpecEntity;
+import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
+import com.administrator.shopkeepertablet.model.entity.bean.ChooseBean;
+import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesAddAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesChooseAdapter;
 

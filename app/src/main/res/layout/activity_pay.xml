@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.administrator.shopkeepertablet.viewmodel.parish.PayViewModel"/>
+            type="com.administrator.shopkeepertablet.viewmodel.PayViewModel"/>
     </data>
 
 

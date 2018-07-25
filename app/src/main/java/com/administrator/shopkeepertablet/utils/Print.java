@@ -3,12 +3,10 @@ package com.administrator.shopkeepertablet.utils;
 
 import android.util.Log;
 
-
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.repository.BaseRepertory;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 

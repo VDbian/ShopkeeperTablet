@@ -10,19 +10,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.DialogAllKouweiBinding;
-import com.administrator.shopkeepertablet.databinding.PopupwindowBeginTableBinding;
 import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
-import com.administrator.shopkeepertablet.model.entity.SeasonEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.ChooseBean;
-import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
-import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesChooseAdapter;
-import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

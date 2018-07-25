@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel"/>
+            type="com.administrator.shopkeepertablet.viewmodel.ParishFoodViewModel"/>
     </data>
     
     <RelativeLayout

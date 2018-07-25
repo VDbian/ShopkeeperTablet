@@ -2,9 +2,7 @@ package com.administrator.shopkeepertablet;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
-
 
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.app.AppModule;
@@ -12,9 +10,6 @@ import com.administrator.shopkeepertablet.di.app.DaggerAppComponent;
 import com.administrator.shopkeepertablet.di.app.NetworkModule;
 import com.administrator.shopkeepertablet.model.greendao.DaoMaster;
 import com.administrator.shopkeepertablet.model.greendao.DaoSession;
-
-
-import java.util.Map;
 
 
 /**

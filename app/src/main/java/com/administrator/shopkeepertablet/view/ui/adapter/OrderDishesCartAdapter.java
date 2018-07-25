@@ -12,10 +12,8 @@ import android.widget.TextView;
 
 import com.administrator.shopkeepertablet.BR;
 import com.administrator.shopkeepertablet.R;
-import com.administrator.shopkeepertablet.databinding.ItemRlvChooseBinding;
 import com.administrator.shopkeepertablet.databinding.ItemRlvOrderDishesOrderBinding;
 import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
-import com.administrator.shopkeepertablet.model.entity.bean.ChooseBean;
 import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.view.widget.OrderRemarkView;
 

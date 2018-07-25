@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
 import com.administrator.shopkeepertablet.model.entity.bean.EventTableBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
-import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
@@ -39,7 +37,7 @@ import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderAndClear;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowPay;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowReturnFood;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
-import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
+import com.administrator.shopkeepertablet.viewmodel.ParishFoodViewModel;
 
 import org.greenrobot.eventbus.EventBus;
 

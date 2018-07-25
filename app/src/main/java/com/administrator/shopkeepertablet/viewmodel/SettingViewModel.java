@@ -1,9 +1,7 @@
 package com.administrator.shopkeepertablet.viewmodel;
 
-import android.app.Application;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.administrator.shopkeepertablet.AppApplication;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;

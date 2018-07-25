@@ -17,5 +17,7 @@ public class FastRepositoryImpl extends BaseRepertoryImpl implements FastReposit
 
     public FastRepositoryImpl(ApiSource apiSource, PreferenceSource preferenceSource) {
         super(apiSource, preferenceSource);
+        this.apiSource = apiSource;
+        this.preferenceSource =preferenceSource;
     }
 }

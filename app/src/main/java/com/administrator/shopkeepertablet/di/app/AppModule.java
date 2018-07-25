@@ -7,7 +7,6 @@ import com.cocosw.favor.FavorAdapter;
 
 import javax.inject.Singleton;
 
-
 import dagger.Module;
 import dagger.Provides;
 

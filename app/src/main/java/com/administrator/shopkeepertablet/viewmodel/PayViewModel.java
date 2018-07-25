@@ -1,4 +1,4 @@
-package com.administrator.shopkeepertablet.viewmodel.parish;
+package com.administrator.shopkeepertablet.viewmodel;
 
 import android.databinding.ObservableField;
 import android.util.Log;
@@ -9,7 +9,6 @@ import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.utils.DateUtils;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
-import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
 
 import java.util.List;
 

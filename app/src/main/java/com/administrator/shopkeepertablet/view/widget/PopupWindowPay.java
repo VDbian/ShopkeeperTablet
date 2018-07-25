@@ -13,14 +13,15 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.administrator.shopkeepertablet.R;;
+import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.PopupwindowOrderPayBinding;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderFoodAdapter;
-import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
-import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
+import com.administrator.shopkeepertablet.viewmodel.ParishFoodViewModel;
 
 import java.util.List;
+
+;
 
 
 /**

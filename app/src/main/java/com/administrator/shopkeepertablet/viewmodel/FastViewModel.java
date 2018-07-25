@@ -1,10 +1,8 @@
-package com.administrator.shopkeepertablet.viewmodel.fast;
+package com.administrator.shopkeepertablet.viewmodel;
 
 import android.databinding.ObservableField;
-import android.util.Log;
 
 import com.administrator.shopkeepertablet.AppApplication;
-import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
@@ -15,12 +13,9 @@ import com.administrator.shopkeepertablet.repository.fast.FastRepository;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.fragment.FastFoodFragment;
-import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * Description:

@@ -23,7 +23,6 @@ import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
 import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
-import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.FoodTypeAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesCartAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesVarietyAdapter;
@@ -32,7 +31,7 @@ import com.administrator.shopkeepertablet.view.widget.PopupWindowAllKouwei;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChange;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChoose;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
-import com.administrator.shopkeepertablet.viewmodel.fast.FastViewModel;
+import com.administrator.shopkeepertablet.viewmodel.FastViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

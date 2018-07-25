@@ -2,12 +2,10 @@ package com.administrator.shopkeepertablet.repository.parish;
 
 import com.administrator.shopkeepertablet.model.api.ApiSource;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
-import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.BaseRepertoryImpl;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 

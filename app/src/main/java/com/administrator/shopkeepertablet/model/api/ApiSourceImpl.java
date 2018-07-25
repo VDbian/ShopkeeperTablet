@@ -2,8 +2,6 @@ package com.administrator.shopkeepertablet.model.api;
 
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
-import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
-
 
 import io.reactivex.Observable;
 import retrofit2.Retrofit;

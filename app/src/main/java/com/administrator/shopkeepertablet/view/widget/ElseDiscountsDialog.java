@@ -11,8 +11,7 @@ import android.view.Window;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.DialogElseDiscountsBinding;
-import com.administrator.shopkeepertablet.databinding.DialogPermissionRemissionBinding;
-import com.administrator.shopkeepertablet.viewmodel.parish.PayViewModel;
+import com.administrator.shopkeepertablet.viewmodel.PayViewModel;
 
 
 /**

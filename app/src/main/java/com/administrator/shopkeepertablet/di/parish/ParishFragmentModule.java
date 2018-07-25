@@ -1,18 +1,13 @@
 package com.administrator.shopkeepertablet.di.parish;
 
 
-import com.administrator.shopkeepertablet.di.Activity;
 import com.administrator.shopkeepertablet.di.Fragment;
 import com.administrator.shopkeepertablet.model.api.ApiSource;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
-import com.administrator.shopkeepertablet.repository.login.LoginRepertory;
-import com.administrator.shopkeepertablet.repository.login.LoginRepertoryImpl;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertoryImpl;
-import com.administrator.shopkeepertablet.view.ui.activity.LoginActivity;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
-import com.administrator.shopkeepertablet.viewmodel.LoginViewModel;
-import com.administrator.shopkeepertablet.viewmodel.parish.ParishFoodViewModel;
+import com.administrator.shopkeepertablet.viewmodel.ParishFoodViewModel;
 
 import dagger.Module;
 import dagger.Provides;

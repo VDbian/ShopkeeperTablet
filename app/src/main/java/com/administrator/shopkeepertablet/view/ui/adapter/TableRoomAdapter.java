@@ -9,10 +9,7 @@ import android.view.ViewGroup;
 
 import com.administrator.shopkeepertablet.BR;
 import com.administrator.shopkeepertablet.R;
-import com.administrator.shopkeepertablet.databinding.ItemFoodTypeBinding;
 import com.administrator.shopkeepertablet.databinding.ItemTableRoomBinding;
-import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
-import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 
 import java.util.ArrayList;

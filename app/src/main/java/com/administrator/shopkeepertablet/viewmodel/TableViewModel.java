@@ -1,4 +1,4 @@
-package com.administrator.shopkeepertablet.viewmodel.parish;
+package com.administrator.shopkeepertablet.viewmodel;
 
 import android.databinding.ObservableField;
 import android.util.Log;
@@ -13,7 +13,6 @@ import com.administrator.shopkeepertablet.utils.DateUtils;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.TableActivity;
-import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
 import com.google.gson.Gson;
 
 import java.util.Arrays;

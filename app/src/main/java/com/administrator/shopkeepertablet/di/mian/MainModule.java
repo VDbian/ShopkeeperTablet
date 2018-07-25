@@ -4,13 +4,9 @@ package com.administrator.shopkeepertablet.di.mian;
 import com.administrator.shopkeepertablet.di.Activity;
 import com.administrator.shopkeepertablet.model.api.ApiSource;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
-import com.administrator.shopkeepertablet.repository.login.LoginRepertory;
-import com.administrator.shopkeepertablet.repository.login.LoginRepertoryImpl;
 import com.administrator.shopkeepertablet.repository.main.MainRepertory;
 import com.administrator.shopkeepertablet.repository.main.MainRepertoryImpl;
-import com.administrator.shopkeepertablet.view.ui.activity.LoginActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.MainActivity;
-import com.administrator.shopkeepertablet.viewmodel.LoginViewModel;
 import com.administrator.shopkeepertablet.viewmodel.MainViewModel;
 
 import dagger.Module;

@@ -7,7 +7,6 @@ import com.google.gson.TypeAdapter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
-
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Converter;

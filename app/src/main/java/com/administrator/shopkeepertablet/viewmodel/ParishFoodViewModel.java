@@ -1,11 +1,9 @@
-package com.administrator.shopkeepertablet.viewmodel.parish;
+package com.administrator.shopkeepertablet.viewmodel;
 
-import android.content.Intent;
 import android.databinding.ObservableField;
 import android.util.Log;
 
 import com.administrator.shopkeepertablet.AppConstant;
-import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
@@ -16,13 +14,8 @@ import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
-import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
-import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
 import com.google.gson.Gson;
-import com.zhy.autolayout.utils.L;
-
-import org.greenrobot.greendao.annotation.Id;
 
 import java.util.Arrays;
 import java.util.List;

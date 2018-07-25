@@ -1,32 +1,23 @@
-package com.administrator.shopkeepertablet.viewmodel.parish;
+package com.administrator.shopkeepertablet.viewmodel;
 
 import android.databinding.ObservableField;
 import android.util.Log;
 
 import com.administrator.shopkeepertablet.AppApplication;
-import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
 import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
-import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 import com.administrator.shopkeepertablet.model.greendao.DaoSession;
-import com.administrator.shopkeepertablet.model.greendao.FoodEntityDao;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
-import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
-import com.administrator.shopkeepertablet.viewmodel.BaseViewModel;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import javax.xml.transform.sax.TemplatesHandler;
 
 import io.reactivex.functions.Consumer;
 

@@ -7,11 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.BR;
+import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.ItemRlvTableBinding;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
-import com.administrator.shopkeepertablet.utils.MLog;
 
 import java.util.List;
 

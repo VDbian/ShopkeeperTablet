@@ -13,7 +13,7 @@ import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.order.DaggerOrderComponent;
 import com.administrator.shopkeepertablet.di.order.OrderModule;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
-import com.administrator.shopkeepertablet.viewmodel.order.OrderViewModel;
+import com.administrator.shopkeepertablet.viewmodel.OrderViewModel;
 
 import javax.inject.Inject;
 

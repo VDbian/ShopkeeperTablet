@@ -1,6 +1,5 @@
 package com.administrator.shopkeepertablet.view.ui.activity.setting;
 
-import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -11,8 +11,7 @@ import android.view.Window;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.DialogCouponBinding;
-import com.administrator.shopkeepertablet.databinding.DialogDiscountBinding;
-import com.administrator.shopkeepertablet.viewmodel.parish.PayViewModel;
+import com.administrator.shopkeepertablet.viewmodel.PayViewModel;
 
 
 /**

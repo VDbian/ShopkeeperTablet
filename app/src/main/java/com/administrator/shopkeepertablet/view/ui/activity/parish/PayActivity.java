@@ -15,7 +15,6 @@ import com.administrator.shopkeepertablet.di.parish.ParishActivityModule;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
-import com.administrator.shopkeepertablet.model.entity.bean.EventTableBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderFoodAdapter;
@@ -27,7 +26,7 @@ import com.administrator.shopkeepertablet.view.widget.PermissionDiscountDialog;
 import com.administrator.shopkeepertablet.view.widget.PermissionRemissionDialog;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowMember;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
-import com.administrator.shopkeepertablet.viewmodel.parish.PayViewModel;
+import com.administrator.shopkeepertablet.viewmodel.PayViewModel;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

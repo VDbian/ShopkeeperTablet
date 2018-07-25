@@ -1,16 +1,12 @@
 package com.administrator.shopkeepertablet.di.fast;
 
-import com.administrator.shopkeepertablet.di.Activity;
 import com.administrator.shopkeepertablet.di.Fragment;
 import com.administrator.shopkeepertablet.model.api.ApiSource;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.fast.FastRepository;
 import com.administrator.shopkeepertablet.repository.fast.FastRepositoryImpl;
-import com.administrator.shopkeepertablet.repository.login.LoginRepertory;
-import com.administrator.shopkeepertablet.repository.login.LoginRepertoryImpl;
 import com.administrator.shopkeepertablet.view.ui.fragment.FastFoodFragment;
-import com.administrator.shopkeepertablet.viewmodel.LoginViewModel;
-import com.administrator.shopkeepertablet.viewmodel.fast.FastViewModel;
+import com.administrator.shopkeepertablet.viewmodel.FastViewModel;
 
 import dagger.Module;
 import dagger.Provides;

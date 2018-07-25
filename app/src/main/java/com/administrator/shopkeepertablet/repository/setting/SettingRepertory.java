@@ -1,6 +1,5 @@
 package com.administrator.shopkeepertablet.repository.setting;
 
-import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 import com.administrator.shopkeepertablet.repository.BaseRepertory;
 

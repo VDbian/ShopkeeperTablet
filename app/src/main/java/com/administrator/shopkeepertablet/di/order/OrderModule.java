@@ -3,14 +3,10 @@ package com.administrator.shopkeepertablet.di.order;
 import com.administrator.shopkeepertablet.di.Fragment;
 import com.administrator.shopkeepertablet.model.api.ApiSource;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
-import com.administrator.shopkeepertablet.repository.fast.FastRepository;
-import com.administrator.shopkeepertablet.repository.fast.FastRepositoryImpl;
 import com.administrator.shopkeepertablet.repository.order.OrderRepository;
 import com.administrator.shopkeepertablet.repository.order.OrderRepositoryImpl;
-import com.administrator.shopkeepertablet.view.ui.fragment.FastFoodFragment;
 import com.administrator.shopkeepertablet.view.ui.fragment.OrderFragment;
-import com.administrator.shopkeepertablet.viewmodel.fast.FastViewModel;
-import com.administrator.shopkeepertablet.viewmodel.order.OrderViewModel;
+import com.administrator.shopkeepertablet.viewmodel.OrderViewModel;
 
 import dagger.Module;
 import dagger.Provides;

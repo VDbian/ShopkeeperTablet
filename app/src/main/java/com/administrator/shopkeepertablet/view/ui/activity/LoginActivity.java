@@ -12,7 +12,6 @@ import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.login.DaggerLoginComponent;
 import com.administrator.shopkeepertablet.di.login.LoginModule;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
-import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.setting.SettingActivity;
 import com.administrator.shopkeepertablet.viewmodel.LoginViewModel;
 

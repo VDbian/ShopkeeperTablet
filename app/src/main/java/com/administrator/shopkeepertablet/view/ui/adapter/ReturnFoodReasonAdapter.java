@@ -10,10 +10,8 @@ import android.widget.LinearLayout;
 
 import com.administrator.shopkeepertablet.BR;
 import com.administrator.shopkeepertablet.R;
-import com.administrator.shopkeepertablet.databinding.ItemRlvChooseBinding;
 import com.administrator.shopkeepertablet.databinding.ItemRlvReturnReasonBinding;
 import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
-import com.administrator.shopkeepertablet.model.entity.bean.ChooseBean;
 
 import java.util.ArrayList;
 import java.util.List;

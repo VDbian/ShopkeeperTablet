@@ -3,8 +3,6 @@ package com.administrator.shopkeepertablet.di.parish;
 
 import com.administrator.shopkeepertablet.di.Activity;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
-import com.administrator.shopkeepertablet.di.login.LoginModule;
-import com.administrator.shopkeepertablet.view.ui.activity.LoginActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.TableActivity;

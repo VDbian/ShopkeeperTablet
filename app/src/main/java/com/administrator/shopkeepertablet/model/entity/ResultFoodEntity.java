@@ -2,8 +2,6 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  * Description:
  * Author CC
