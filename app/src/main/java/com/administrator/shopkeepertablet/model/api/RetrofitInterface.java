@@ -271,6 +271,7 @@ public interface RetrofitInterface {
             @Field("BILLId") String billId
     );
 
+    //转菜
     @FormUrlEncoded
     @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
     Observable<BaseEntity<String>> TransferFood(
@@ -280,6 +281,7 @@ public interface RetrofitInterface {
             @Field("DETAILID") String detailId
     );
 
+    //获取会员信息
     @FormUrlEncoded
     @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
     Observable<BaseEntity<String>> getMember(
@@ -289,6 +291,7 @@ public interface RetrofitInterface {
             @Field("rid") String id
     );
 
+    //获取优惠券信息
     @FormUrlEncoded
     @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
     Observable<BaseEntity<String>> getDiscount(
@@ -298,12 +301,36 @@ public interface RetrofitInterface {
 
     );
 
+    //获取餐具价格
     @FormUrlEncoded
     @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
     Observable<BaseEntity<String>> getWarePrice(
             @Field("Type") String type,
             @Field("Rid") String id
     );
+
+
+    //获取订单列表
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortOrderManagerASHX.ashx")
+    Observable<BaseEntity<String>> getOrderList(
+            @Field("Type") String type,
+            @Field("id") String id,
+            @Field("leibie") String orderType,
+            @Field("OrderSate") String orderState,
+            @Field("Phone") String phone,
+            @Field("Pindex") int index,
+            @Field("Psize") int size,
+            @Field("STATE") String state
+    );
+
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
+    Observable<BaseEntity<String>> getOrderDetail(
+            @Field("id") String id,
+            @Field("Type") String type,
+            @Field("BILLID") String billId);
+
 
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")

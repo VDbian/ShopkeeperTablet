@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.OrderEntity"/>
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50px"
@@ -10,14 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="48px"
             android:orientation="horizontal"
-            android:layout_marginLeft="20px"
-            android:layout_marginRight="20px"
             >
             <TextView
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="订单类型"
+                android:text="@{entity.type}"
                 android:textSize="17px"
                 android:textColor="@color/color666666"
                 android:gravity="center_vertical"
@@ -26,7 +30,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="订单状态"
+                android:text="@{entity.orderSate}"
                 android:textSize="17px"
                 android:textColor="@color/color666666"
                 android:gravity="center_vertical"
@@ -35,7 +39,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="桌位名称"
+                android:text="@{entity.tableName}"
                 android:textSize="17px"
                 android:textColor="@color/color666666"
                 android:gravity="center_vertical"
@@ -44,7 +48,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="下单人"
+                android:text="@{entity.username}"
                 android:textSize="17px"
                 android:textColor="@color/color666666"
                 android:gravity="center_vertical"
@@ -53,7 +57,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="结账人"
+                android:text="@{entity.username}"
                 android:textSize="17px"
                 android:textColor="@color/color666666"
                 android:gravity="center_vertical"
@@ -62,7 +66,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="结账时间"
+                android:text="@{entity.recordDate}"
                 android:textSize="15px"
                 android:textColor="@color/color666666"
                 android:gravity="center_vertical"
@@ -71,7 +75,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="结账状态"
+                android:text="@{entity.payIs}"
                 android:textSize="17px"
                 android:textColor="@color/color666666"
                 android:gravity="center_vertical"
@@ -92,8 +96,6 @@
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="@color/colore5e5e5"
-            android:layout_marginLeft="20px"
-            android:layout_marginRight="20px"
             />
 
     </LinearLayout>

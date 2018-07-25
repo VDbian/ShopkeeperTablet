@@ -1,9 +1,13 @@
 package com.administrator.shopkeepertablet.model.api;
 
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
 /**
  * Description:
@@ -63,4 +67,8 @@ public interface ApiSource {
     Observable<BaseEntity<String>> getDiscount(String type,String billId,String discountNum);
 
     Observable<BaseEntity<String>> getWarePrice(String type,String id);
+
+    Observable<BaseEntity<String>> getOrderList(String type,String id,String orderType,String orderState,String phone,int index,int size,String state);
+
+    Observable<BaseEntity<String>> getOrderDetail(String id, String type,String billId);
 }

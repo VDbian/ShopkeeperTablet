@@ -149,4 +149,14 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> getWarePrice(String type, String id) {
         return retrofitInterface.getWarePrice(type, id);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getOrderList(String type, String id, String orderType, String orderState, String phone, int index, int size, String state) {
+        return retrofitInterface.getOrderList(type, id, orderType, orderState, phone, index, size, state);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getOrderDetail(String id, String type, String billId) {
+        return retrofitInterface.getOrderDetail(id, type, billId);
+    }
 }

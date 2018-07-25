@@ -380,6 +380,9 @@ public class ParishFoodFragment extends BaseFragment {
         super.onResume();
         if (!first) {
             int selectedTabPosition = binding.tabRoom.getSelectedTabPosition();
+            if (selectedTabPosition<0){
+                selectedTabPosition =0;
+            }
             viewModel.getTables(roomEntities.get(selectedTabPosition));
         } else {
             first = false;

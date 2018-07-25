@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 26
@@ -65,4 +65,5 @@ dependencies {
     compile 'com.android.support:design:26.1.0'
 //    implementation 'org.litepal.android:core:2.0.0'
     implementation 'org.greenrobot:greendao:3.2.2' //
+    compile 'com.jcodecraeer:xrecyclerview:1.5.9'
 }

@@ -46,8 +46,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final int FRAGMENT_LINEUP = 4;
     public static final int FRAGMENT_RECHARGE = 5;
     public static final int FRAGMENT_MESSAGE = 6;
-    public static final int FRAGMENT_PRINTER = 7;
-    public static final int FRAGMENT_SETTING = 8;
+//    public static final int FRAGMENT_PRINTER = 7;
+    public static final int FRAGMENT_SETTING = 7;
 
     protected FragmentManager fragmentManager;
     private Fragment myFragment[] = new Fragment[8];
@@ -112,38 +112,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (index) {
             case FRAGMENT_PARISH:
                 binding.tabParishFood.setViewSelect(true);
-                displayFrg(FRAGMENT_PARISH);
                 break;
             case FRAGMENT_FAST:
                 binding.tabFastFood.setViewSelect(true);
-                displayFrg(FRAGMENT_FAST);
                 break;
             case FRAGMENT_ORDER:
                 binding.tabOrderList.setViewSelect(true);
-                displayFrg(FRAGMENT_ORDER);
                 break;
             case FRAGMENT_RESERVE:
                 binding.tabReserve.setViewSelect(true);
-                displayFrg(FRAGMENT_RESERVE);
                 break;
             case FRAGMENT_LINEUP:
                 binding.tabLineup.setViewSelect(true);
-                displayFrg(FRAGMENT_LINEUP);
                 break;
             case FRAGMENT_RECHARGE:
                 binding.tabRecharge.setViewSelect(true);
-                displayFrg(FRAGMENT_RECHARGE);
                 break;
             case FRAGMENT_MESSAGE:
                 binding.tabMessage.setViewSelect(true);
-                displayFrg(FRAGMENT_MESSAGE);
-                break;
-            case FRAGMENT_PRINTER:
-                binding.tabPrinter.setViewSelect(true);
                 break;
             case FRAGMENT_SETTING:
                 binding.tabSetting.setViewSelect(true);
-                displayFrg(FRAGMENT_SETTING);
                 break;
         }
     }
@@ -165,18 +154,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 displayFrg(FRAGMENT_FAST);
                 break;
             case R.id.tab_lineup:
+                showTabView(FRAGMENT_LINEUP);
+                displayFrg(FRAGMENT_LINEUP);
                 break;
             case R.id.tab_message:
+                showTabView(FRAGMENT_MESSAGE);
+                displayFrg(FRAGMENT_MESSAGE);
                 break;
             case R.id.tab_order_list:
+                showTabView(FRAGMENT_ORDER);
+                displayFrg(FRAGMENT_ORDER);
                 break;
             case R.id.tab_printer:
+
                 break;
             case R.id.tab_recharge:
+                showTabView(FRAGMENT_RECHARGE);
+                displayFrg(FRAGMENT_RECHARGE);
                 break;
             case R.id.tab_reserve:
+                showTabView(FRAGMENT_RESERVE);
+                displayFrg(FRAGMENT_RESERVE);
                 break;
             case R.id.tab_setting:
+                showTabView(FRAGMENT_SETTING);
+                displayFrg(FRAGMENT_SETTING);
                 break;
         }
     }
