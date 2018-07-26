@@ -29,8 +29,8 @@ public class OrderRepositoryImpl extends BaseRepertoryImpl implements OrderRepos
     }
 
     @Override
-    public Observable<BaseEntity<String>> getOrderList(String type, String id, String orderType, String orderState, String phone, int index, int size, String state) {
-        return apiSource.getOrderList(type, id, orderType, orderState, phone, index, size, state).subscribeOn(Schedulers.io())
+    public Observable<BaseEntity<String>> getOrderList(String type, String id, String orderType, String phone, int index, int size, String state) {
+        return apiSource.getOrderList(type, id, orderType, phone, index, size, state).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 

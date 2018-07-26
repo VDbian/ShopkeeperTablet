@@ -30,6 +30,7 @@
                 />
 
             <TextView
+                android:id="@+id/tv_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="订单类型"
@@ -41,6 +42,7 @@
                 android:drawableRight="@mipmap/arrow_down"
                 />
             <TextView
+                android:id="@+id/tv_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="订单状态"

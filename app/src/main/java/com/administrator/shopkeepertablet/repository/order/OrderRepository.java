@@ -19,14 +19,13 @@ public interface OrderRepository extends BaseRepertory{
      * @param type 0
      * @param id 店铺ID
      * @param orderType 订单类别
-     * @param orderState 订单状态
      * @param phone 电话
      * @param index 页数
      * @param size 每页数量
-     * @param state all
+     * @param state 状态
      * @return
      */
-    Observable<BaseEntity<String>> getOrderList(String type, String id, String orderType, String orderState, String phone, int index, int size,String state);
+    Observable<BaseEntity<String>> getOrderList(String type, String id, String orderType, String phone, int index, int size,String state);
 
     /**
      * 获取订单详情

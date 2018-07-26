@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.OrderFoodEntity"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50px"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48px"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="@{entity.productName}"
+                android:textSize="16px"
+                android:textColor="#999999"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@{entity.setNum()}"
+                android:textSize="16px"
+                android:textColor="#999999"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@{String.valueOf(entity.price)}"
+                android:textSize="16px"
+                android:textColor="#999999"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="0px"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@{String.valueOf(entity.chargeMoney)}"
+                android:textSize="16px"
+                android:textColor="#999999"
+                android:gravity="center_vertical"
+                />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colore5e5e5"
+            />
+
+      </LinearLayout>
+</layout>

@@ -1,8 +1,10 @@
 package com.administrator.shopkeepertablet.view.ui.fragment;
 
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderListAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
+import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDetail;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.OrderViewModel;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -36,7 +39,7 @@ import javax.inject.Inject;
  * Time 2018/7/24
  */
 
-public class OrderFragment extends BaseFragment {
+public class OrderFragment extends BaseFragment implements View.OnClickListener {
 
     FragmentOrderBinding binding;
     @Inject
@@ -83,7 +86,8 @@ public class OrderFragment extends BaseFragment {
         adapter.setOnItemClick(new AdapterOnItemClick<OrderEntity>() {
             @Override
             public void onItemClick(OrderEntity orderEntity, int position) {
-                viewModel.getOrderDetail(orderEntity.getBillid());
+                viewModel.orderEntity.set(orderEntity);
+                viewModel.getOrderDetail(orderEntity.getBillId());
             }
         });
 
@@ -98,6 +102,10 @@ public class OrderFragment extends BaseFragment {
                 viewModel.getOrderMoreList(type, state);
             }
         });
+
+        binding.tvType.setOnClickListener(this);
+        binding.tvState.setOnClickListener(this);
+
     }
 
     public void refresh(List<OrderEntity> orderEntities) {
@@ -118,5 +126,55 @@ public class OrderFragment extends BaseFragment {
             binding.rlvOrder.setLoadingMoreEnabled(false);
         }
     }
+
+    public void showPop() {
+        PopupWindowOrderDetail orderDetail = new PopupWindowOrderDetail(getActivity(), viewModel);
+        orderDetail.showPopupWindowRight(binding.getRoot());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_type:
+                AlertDialog.Builder builderType = new AlertDialog.Builder(OrderFragment.this.getActivity());
+                builderType.setSingleChoiceItems(R.array.orderType, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which==0){
+                            type ="all";
+                        }else {
+                            type = String.valueOf(which);
+                        }
+                        viewModel.getOrderList(type, state);
+                        dialog.dismiss();
+                    }
+                });
+                builderType.show();
+                break;
+            case R.id.tv_state:
+                AlertDialog.Builder builderState = new AlertDialog.Builder(OrderFragment.this.getActivity());
+                builderState.setSingleChoiceItems(R.array.orderStatus, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       switch (which){
+                           case 0:
+                               state ="all";
+                               break;
+                           case 1:
+                               state ="2";
+                               break;
+                           case 2:
+                               state ="3";
+                               break;
+                       }
+                        viewModel.getOrderList(type, state);
+                        dialog.dismiss();
+                    }
+                });
+                builderState.show();
+                break;
+        }
+    }
+
 
 }

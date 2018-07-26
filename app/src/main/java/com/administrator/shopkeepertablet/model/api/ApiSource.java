@@ -68,7 +68,7 @@ public interface ApiSource {
 
     Observable<BaseEntity<String>> getWarePrice(String type,String id);
 
-    Observable<BaseEntity<String>> getOrderList(String type,String id,String orderType,String orderState,String phone,int index,int size,String state);
+    Observable<BaseEntity<String>> getOrderList(String type,String id,String orderType,String phone,int index,int size,String state);
 
     Observable<BaseEntity<String>> getOrderDetail(String id, String type,String billId);
 }

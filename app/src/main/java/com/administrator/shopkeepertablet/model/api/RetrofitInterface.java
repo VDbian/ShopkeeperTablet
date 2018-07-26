@@ -317,11 +317,11 @@ public interface RetrofitInterface {
             @Field("Type") String type,
             @Field("id") String id,
             @Field("leibie") String orderType,
-            @Field("OrderSate") String orderState,
+//            @Field("OrderSate") String orderState,
             @Field("Phone") String phone,
             @Field("Pindex") int index,
             @Field("Psize") int size,
-            @Field("STATE") String state
+            @Field("state") String state
     );
 
     @FormUrlEncoded
