@@ -5,6 +5,8 @@ import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.BaseRepertoryImpl;
 
+import java.io.IOError;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -144,6 +146,12 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
     @Override
     public Observable<BaseEntity<String>> getWarePrice(String type, String id) {
         return apiSource.getWarePrice(type, id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> reBillTangDian(String type, String id, String foodInfo, String userId, String name, String tableId, String tableName, String types, double price, String billType, String fanBill) {
+        return apiSource.reBillTangDian(type, id, foodInfo, userId, name, tableId, tableName, types, price, billType, fanBill).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

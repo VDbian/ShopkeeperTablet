@@ -1,8 +1,10 @@
 package com.administrator.shopkeepertablet.viewmodel;
 
 import android.databinding.ObservableField;
+import android.util.Log;
 
 import com.administrator.shopkeepertablet.AppApplication;
+import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
@@ -16,6 +18,8 @@ import com.administrator.shopkeepertablet.view.ui.fragment.FastFoodFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * Description:
@@ -32,6 +36,7 @@ public class FastViewModel extends BaseViewModel {
     private DaoSession dao;
     private Print print;
     public ObservableField<Double> price =new ObservableField<>(0.0);
+    public ObservableField<String> table =new ObservableField<>("");
 
     public FastViewModel(FastFoodFragment fragment, PreferenceSource preferenceSource, FastRepository fastRepository) {
         this.fragment = fragment;
@@ -79,30 +84,62 @@ public class FastViewModel extends BaseViewModel {
 //        }
 
     }
-//
-//    public void order(String info,String foodType,String fanBill){
-//        Log.e("info",info);
-//
-//        repertory.order("6", preferenceSource.getId(), tableId.get(), billId.get(), info, preferenceSource.getUserId(), preferenceSource.getName(),
-//                table.get(),String.valueOf(price.get()), foodType, fanBill).subscribe(new Consumer<BaseEntity<String>>() {
-//            @Override
-//            public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-//                Log.e("vd",stringBaseEntity.toString());
-//                if (stringBaseEntity.getCode()==1){
-//                    MToast.showToast(activity,"下单成功");
-//                    printResult(stringBaseEntity.getResult());
-//                    activity.finish();
-//                }else {
-//                    MToast.showToast(activity,"下单失败");
-//                }
-//            }
-//        }, new Consumer<Throwable>() {
-//            @Override
-//            public void accept(Throwable throwable) throws Exception {
-//                MToast.showToast(activity,"下单失败");
-//            }
-//        });
-//    }
+
+    public void fastFood(String info,int type){
+        fastRepository.fastFood("0","",preferenceSource.getId(),info,"","","","","",
+                preferenceSource.getUserId(),preferenceSource.getName(),"",0,"",table.get(),"4",""
+        ,price.get(),"0").subscribe(new Consumer<BaseEntity<String>>() {
+            @Override
+            public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                Log.e("vd",stringBaseEntity.toString());
+                if (stringBaseEntity.getCode()==1){
+                    fragment.fastSuccess(stringBaseEntity.getResult(),type);
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e("vd",throwable.getMessage());
+            }
+        });
+    }
+
+    public void reserve(String info,String name,String phone,String remark,double money){
+        fastRepository.fastFood("0","",preferenceSource.getId(),info,"","",name,"",phone,
+                preferenceSource.getUserId(),preferenceSource.getName(),remark,money,"","","1",""
+                ,price.get(),"0").subscribe(new Consumer<BaseEntity<String>>() {
+            @Override
+            public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                Log.e("vd",stringBaseEntity.toString());
+                if (stringBaseEntity.getCode()==1){
+                    fragment.reserveSuccess(stringBaseEntity.getResult());
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e("vd",throwable.getMessage());
+            }
+        });
+    }
+
+
+    public void getPayWay(){
+        fastRepository.getPay(preferenceSource.getId(),"13")
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd",stringBaseEntity.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("vd",throwable.getMessage());
+                    }
+                });
+    }
+
+
 
     public void  getAllKouwei(){
         List<KouWeiEntity> list = AppApplication.get(fragment.getActivity()).getDaoSession().getKouWeiEntityDao().loadAll();

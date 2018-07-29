@@ -260,6 +260,7 @@ public class ParishFoodFragment extends BaseFragment {
             @Override
             public void pay() {
                 EventPayBean bean =new EventPayBean();
+                bean.setFlag(1);
                 bean.setTableEntity(entity);
                 bean.setmList(mList);
                 bean.setRoomName(viewModel.room.get());

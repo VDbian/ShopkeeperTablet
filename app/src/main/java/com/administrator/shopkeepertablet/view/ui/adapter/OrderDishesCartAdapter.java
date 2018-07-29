@@ -44,12 +44,11 @@ public class OrderDishesCartAdapter extends RecyclerView.Adapter<OrderDishesCart
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view =LayoutInflater.from(context).inflate(R.layout.item_rlv_order_dishes_order, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_rlv_order_dishes_order, null);
 //        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(116,48);
 //        view.setLayoutParams(params);
         return new ItemViewHolder(view);
     }
-
 
 
     @Override
@@ -57,16 +56,16 @@ public class OrderDishesCartAdapter extends RecyclerView.Adapter<OrderDishesCart
         final CartBean cartBean = cartBeanList.get(position);
         holder.setBinding(BR.entity, cartBean);
         holder.binding.llRemark.removeAllViews();
-        if (!cartBean.getGiveNum().equals("0")){
-            View view = LayoutInflater.from(context).inflate(R.layout.view_order_dishes_give,null);
-            ((TextView)view.findViewById(R.id.tv_num)).setText(cartBean.getGiveNum());
+        if (Double.valueOf(cartBean.getGiveNum()) != 0) {
+            View view = LayoutInflater.from(context).inflate(R.layout.view_order_dishes_give, null);
+            ((TextView) view.findViewById(R.id.tv_num)).setText(cartBean.getGiveNum());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             params.setMargins(0, 8, 0, 0);
             view.setLayoutParams(params);
             holder.binding.llRemark.addView(view);
         }
-        if (cartBean.getFoodAddBeanList().size()!=0){
-            for (FoodAddBean foodAddBean :cartBean.getFoodAddBeanList()) {
+        if (cartBean.getFoodAddBeanList().size() != 0) {
+            for (FoodAddBean foodAddBean : cartBean.getFoodAddBeanList()) {
                 OrderRemarkView view = new OrderRemarkView(context);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 params.setMargins(0, 8, 0, 0);
@@ -77,11 +76,11 @@ public class OrderDishesCartAdapter extends RecyclerView.Adapter<OrderDishesCart
         }
 
 
-        if (TextUtils.isEmpty(cartBean.getUnit())){
+        if (TextUtils.isEmpty(cartBean.getUnit())) {
             String format = context.getResources().getString(R.string.num_prefix);
             holder.binding.tvNum.setText(String.format(format, String.valueOf(cartBean.getNum())));
-        }else {
-            holder.binding.tvNum.setText(cartBean.getNum()+cartBean.getUnit());
+        } else {
+            holder.binding.tvNum.setText(cartBean.getNum() + cartBean.getUnit());
         }
 
 

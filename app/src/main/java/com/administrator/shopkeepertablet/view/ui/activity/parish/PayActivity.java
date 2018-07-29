@@ -49,6 +49,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private ActivityPayBinding binding;
     @Inject
     PayViewModel viewModel;
+    private int flag;
 
     private List<OrderFoodEntity> mList = new ArrayList<>();
 
@@ -75,6 +76,16 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         binding.llMember.setVisibility(View.INVISIBLE);
 //        binding.llDiscount.setVisibility(View.INVISIBLE);
 //        binding.llRemission.setVisibility(View.INVISIBLE);
+        switch (flag) {
+            case 1:
+                binding.llTitle.setVisibility(View.VISIBLE);
+                binding.tvReturnBill.setVisibility(View.GONE);
+                break;
+            case 2:
+                binding.llTitle.setVisibility(View.GONE);
+                binding.tvReturnBill.setVisibility(View.VISIBLE);
+                break;
+        }
 
         OrderFoodAdapter adapter = new OrderFoodAdapter(this, mList);
         binding.rlvOrder.setAdapter(adapter);
@@ -213,6 +224,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     public void onDataEvent(DataEvent event) {
         if (event.getMessageTag() == AppConstant.EVENT_PAY) {
             EventPayBean bean = (EventPayBean) event.getMessageData();
+            flag = bean.getFlag();
             mList = bean.getmList();
             viewModel.tableEntity.set(bean.getTableEntity());
             viewModel.roomName.set(bean.getRoomName());

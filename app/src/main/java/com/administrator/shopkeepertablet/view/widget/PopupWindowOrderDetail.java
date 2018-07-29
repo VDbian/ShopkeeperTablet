@@ -2,10 +2,12 @@ package com.administrator.shopkeepertablet.view.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +15,19 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.PopupwindowBeginTableBinding;
 import com.administrator.shopkeepertablet.databinding.PopupwindowOrderDetailBinding;
+import com.administrator.shopkeepertablet.model.entity.bean.EventReturnBean;
+import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.MLog;
+import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDetailAdapter;
 import com.administrator.shopkeepertablet.viewmodel.OrderViewModel;
 import com.administrator.shopkeepertablet.viewmodel.ParishFoodViewModel;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -92,8 +100,15 @@ public class PopupWindowOrderDetail extends PopupWindow {
     }
 
     private void initView() {
-        binding.rlvOrderFood.setAdapter(new OrderDetailAdapter(context,viewModel.detailFoods.get()));
+        binding.rlvOrderFood.setAdapter(new OrderDetailAdapter(context, viewModel.detailFoods.get()));
         binding.rlvOrderFood.setLayoutManager(new LinearLayoutManager(context));
+        Log.e("vd", viewModel.orderEntity.get().getOrderSate() + "");
+        if (viewModel.orderEntity.get().getOrderSate() == 3) {
+            binding.llOperation.setVisibility(View.VISIBLE);
+        } else {
+            binding.llOperation.setVisibility(View.GONE);
+        }
+
 
         binding.tvPay.setOnClickListener(listener);
         binding.tvPrint.setOnClickListener(listener);
@@ -109,10 +124,16 @@ public class PopupWindowOrderDetail extends PopupWindow {
                     dismiss();
                     break;
                 case R.id.tv_pay:
-
+                    EventReturnBean bean = new EventReturnBean();
+                    bean.setOrderEntity(viewModel.orderEntity.get());
+                    bean.setOrderFoodEntities(viewModel.detailFoods.get());
+                    EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_RETURN_BILL).setMessageData(bean));
+                    Intent intent = new Intent(context, OrderDishesActivity.class);
+                    context.startActivity(intent);
+                    dismiss();
                     break;
                 case R.id.tv_print:
-
+                    viewModel.print();
                     break;
             }
         }

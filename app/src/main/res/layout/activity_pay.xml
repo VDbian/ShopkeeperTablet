@@ -2,9 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.administrator.shopkeepertablet.viewmodel.PayViewModel"/>
+            type="com.administrator.shopkeepertablet.viewmodel.PayViewModel" />
     </data>
 
 
@@ -34,65 +35,84 @@
                     android:src="@mipmap/nav_repeat"></ImageView>
 
                 <LinearLayout
-                    android:id="@+id/ll_room_table"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8px"
-                    android:layout_toRightOf="@+id/rl_back"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_room_num"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4px"
-                        android:text="@{viewModel.tableEntity.TableName}"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="28px" />
-
-                    <TextView
-                        android:id="@+id/tv_room_location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@{viewModel.roomName}"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14px" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/ll_people_time"
+                    android:id="@+id/ll_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25px"
-                    android:layout_marginTop="4px"
-                    android:layout_toRightOf="@+id/ll_room_table"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="8px"
+                    android:layout_toRightOf="@+id/rl_back"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_people_num"
-                        android:layout_width="46px"
-                        android:layout_height="27px"
+                    <LinearLayout
+                        android:id="@+id/ll_room_table"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_room_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4px"
+                            android:text="@{viewModel.tableEntity.TableName}"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="28px" />
+
+                        <TextView
+                            android:id="@+id/tv_room_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="@{viewModel.roomName}"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="14px" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/ll_people_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25px"
                         android:layout_marginTop="4px"
-                        android:background="@drawable/shape_order_dishes_num_bg"
-                        android:gravity="center"
-                        android:text="@{@string/people_num(viewModel.tableEntity.personCounts)}"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14px" />
+                        android:layout_toRightOf="@+id/ll_room_table"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_time"
-                        android:layout_width="46px"
-                        android:layout_height="18px"
-                        android:layout_gravity="center"
-                        android:background="@color/color1ca29a"
-                        android:gravity="center"
-                        android:text="@{viewModel.time}"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="14px" />
+                        <TextView
+                            android:id="@+id/tv_people_num"
+                            android:layout_width="46px"
+                            android:layout_height="27px"
+                            android:layout_marginTop="4px"
+                            android:background="@drawable/shape_order_dishes_num_bg"
+                            android:gravity="center"
+                            android:text="@{@string/people_num(viewModel.tableEntity.personCounts)}"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="14px" />
 
+                        <TextView
+                            android:id="@+id/tv_time"
+                            android:layout_width="46px"
+                            android:layout_height="18px"
+                            android:layout_gravity="center"
+                            android:background="@color/color1ca29a"
+                            android:gravity="center"
+                            android:text="@{viewModel.time}"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="14px" />
+
+                    </LinearLayout>
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_return_bill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="24px"
+                    android:text="反结账"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="22px"
+                    android:layout_toRightOf="@+id/rl_back"
+                    />
 
                 <RelativeLayout
                     android:id="@+id/ll_cancel"
@@ -151,100 +171,98 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:layout_margin="16px"
-            >
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="120px"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:background="@color/colorWhite"
-                >
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_member"
                     android:layout_width="match_parent"
                     android:layout_height="80px"
-                    android:textSize="20px"
-                    android:textColor="@color/color97a3aa"
-                    android:text="会员识别"
                     android:gravity="center"
-                    />
+                    android:text="会员识别"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="20px" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colore5e5e5"
-                    />
+                    android:background="@color/colore5e5e5" />
+
                 <TextView
                     android:id="@+id/tv_coupon"
                     android:layout_width="match_parent"
                     android:layout_height="80px"
-                    android:textSize="20px"
-                    android:textColor="@color/color97a3aa"
-                    android:text="优惠券"
                     android:gravity="center"
-                    />
+                    android:text="优惠券"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="20px" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colore5e5e5"
-                    />
+                    android:background="@color/colore5e5e5" />
+
                 <TextView
                     android:id="@+id/tv_discount"
                     android:layout_width="match_parent"
                     android:layout_height="80px"
-                    android:textSize="20px"
-                    android:textColor="@color/color97a3aa"
-                    android:text="权限打折"
                     android:gravity="center"
-                    />
+                    android:text="权限打折"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="20px" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colore5e5e5"
-                    />
+                    android:background="@color/colore5e5e5" />
+
                 <TextView
                     android:id="@+id/tv_remission"
                     android:layout_width="match_parent"
                     android:layout_height="80px"
-                    android:textSize="20px"
-                    android:textColor="@color/color97a3aa"
-                    android:text="权限减免"
                     android:gravity="center"
-                    />
+                    android:text="权限减免"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="20px" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colore5e5e5"
-                    />
+                    android:background="@color/colore5e5e5" />
+
                 <TextView
                     android:id="@+id/tv_free"
                     android:layout_width="match_parent"
                     android:layout_height="80px"
-                    android:textSize="20px"
-                    android:textColor="@color/color97a3aa"
-                    android:text="权限免单"
                     android:gravity="center"
-                    />
+                    android:text="权限免单"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="20px" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colore5e5e5"
-                    />
+                    android:background="@color/colore5e5e5" />
+
                 <TextView
                     android:id="@+id/tv_else_discounts"
                     android:layout_width="match_parent"
                     android:layout_height="80px"
-                    android:textSize="20px"
-                    android:textColor="@color/color97a3aa"
-                    android:text="其他优惠"
                     android:gravity="center"
-                    />
+                    android:text="其他优惠"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="20px" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colore5e5e5"
-                    />
-
+                    android:background="@color/colore5e5e5" />
 
 
             </LinearLayout>
@@ -257,79 +275,77 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/ll_member"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff0d5"
-                    android:layout_marginTop="20px"
                     android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
-                    android:orientation="vertical"
-                    >
+                    android:layout_marginTop="20px"
+                    android:background="#fff0d5"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12px"
                         android:layout_marginTop="12px"
-                        android:textSize="15px"
-                        android:textColor="@color/color666666"
                         android:text="@string/member_num"
-                        />
+                        android:textColor="@color/color666666"
+                        android:textSize="15px" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8px"
                         android:layout_marginLeft="12px"
                         android:layout_marginRight="12px"
-                        >
+                        android:layout_marginTop="8px"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="15px"
-                            android:textColor="@color/color666666"
+                            android:layout_weight="1"
                             android:text="@string/member_name"
-                            />
+                            android:textColor="@color/color666666"
+                            android:textSize="15px" />
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="15px"
-                            android:textColor="@color/color666666"
+                            android:layout_weight="1"
                             android:text="@string/member_phone"
-                            />
+                            android:textColor="@color/color666666"
+                            android:textSize="15px" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="8px"
+                        android:layout_marginBottom="12px"
                         android:layout_marginLeft="12px"
                         android:layout_marginRight="12px"
-                        android:layout_marginBottom="12px"
-                        >
+                        android:layout_marginTop="8px"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="15px"
-                            android:textColor="@color/color666666"
+                            android:layout_weight="1"
                             android:text="@string/member_balance"
-                            />
+                            android:textColor="@color/color666666"
+                            android:textSize="15px" />
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="15px"
-                            android:textColor="@color/color666666"
+                            android:layout_weight="1"
                             android:text="@string/member_points"
-                            />
+                            android:textColor="@color/color666666"
+                            android:textSize="15px" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -337,206 +353,199 @@
                     android:id="@+id/ll_discount"
                     android:layout_width="match_parent"
                     android:layout_height="44px"
-                    android:orientation="horizontal"
                     android:layout_below="@+id/ll_member"
                     android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
                     android:layout_marginTop="20px"
-                    >
-                    <TextView
-                        android:layout_width="0px"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:text="权限打折"
-                        android:textSize="18px"
-                        android:textColor="@color/color97a3aa"
-                        android:gravity="center_vertical"
-                        />
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0px"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:text="8.8折"
-                        android:textSize="18px"
-                        android:textColor="@color/color97a3aa"
+                        android:layout_weight="1"
                         android:gravity="center_vertical"
-                        />
+                        android:text="权限打折"
+                        android:textColor="@color/color97a3aa"
+                        android:textSize="18px" />
+
                     <TextView
                         android:layout_width="0px"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:text="-￥15.00"
-                        android:textSize="18px"
-                        android:textColor="@color/color97a3aa"
+                        android:layout_weight="1"
                         android:gravity="center_vertical"
-                        />
+                        android:text="8.8折"
+                        android:textColor="@color/color97a3aa"
+                        android:textSize="18px" />
+
+                    <TextView
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="-￥15.00"
+                        android:textColor="@color/color97a3aa"
+                        android:textSize="18px" />
+
                     <ImageView
                         android:layout_width="0px"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@mipmap/ic_expand_close"
-                        />
+                        android:src="@mipmap/ic_expand_close" />
                 </LinearLayout>
+
                 <View
                     android:id="@+id/line_discount"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colore5e5e5"
                     android:layout_below="@+id/ll_discount"
                     android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
-                    />
+                    android:background="@color/colore5e5e5" />
+
                 <LinearLayout
                     android:id="@+id/ll_remission"
                     android:layout_width="match_parent"
                     android:layout_height="44px"
-                    android:orientation="horizontal"
                     android:layout_below="@+id/line_discount"
                     android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
                     android:layout_marginTop="20px"
-                    >
-                    <TextView
-                        android:layout_width="0px"
-                        android:layout_weight="2"
-                        android:layout_height="match_parent"
-                        android:text="权限减免"
-                        android:textSize="18px"
-                        android:textColor="@color/color97a3aa"
-                        android:gravity="center_vertical"
-                        />
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0px"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:text="-￥15.00"
-                        android:textSize="18px"
-                        android:textColor="@color/color97a3aa"
+                        android:layout_weight="2"
                         android:gravity="center_vertical"
-                        />
+                        android:text="权限减免"
+                        android:textColor="@color/color97a3aa"
+                        android:textSize="18px" />
+
+                    <TextView
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="-￥15.00"
+                        android:textColor="@color/color97a3aa"
+                        android:textSize="18px" />
+
                     <ImageView
                         android:layout_width="0px"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@mipmap/ic_expand_close"
-                        />
+                        android:src="@mipmap/ic_expand_close" />
                 </LinearLayout>
+
                 <View
                     android:id="@+id/line_remission"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colore5e5e5"
                     android:layout_below="@+id/ll_remission"
                     android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
-                    />
+                    android:background="@color/colore5e5e5" />
 
                 <LinearLayout
                     android:id="@+id/ll_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_below="@+id/line_remission"
-                    android:layout_marginTop="20px"
                     android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
-                    >
+                    android:layout_marginTop="20px"
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="18px"
-                            android:textColor="@color/color97a3aa"
+                            android:layout_weight="1"
                             android:text="@{@string/original(viewModel.price)}"
-                            />
+                            android:textColor="@color/color97a3aa"
+                            android:textSize="18px" />
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="18px"
-                            android:textColor="@color/color97a3aa"
+                            android:layout_weight="1"
                             android:text="@{@string/amount_payable(viewModel.getShouldPay())}"
-                            />
+                            android:textColor="@color/color97a3aa"
+                            android:textSize="18px" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginTop="8px"
-                        >
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="18px"
-                            android:textColor="@color/color97a3aa"
+                            android:layout_weight="1"
                             android:text="@{@string/ware_price(viewModel.warePrice)}"
-                            />
+                            android:textColor="@color/color97a3aa"
+                            android:textSize="18px" />
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="18px"
-                            android:textColor="@color/color97a3aa"
+                            android:layout_weight="1"
                             android:text="@{@string/refundable_mount(viewModel.getShouldReturn())}"
-                            />
+                            android:textColor="@color/color97a3aa"
+                            android:textSize="18px" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginTop="8px"
-                        >
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="18px"
-                            android:textColor="@color/color97a3aa"
+                            android:layout_weight="1"
                             android:text="@{@string/discounts(viewModel.discount)}"
-                            />
+                            android:textColor="@color/color97a3aa"
+                            android:textSize="18px" />
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="18px"
-                            android:textColor="@color/color97a3aa"
+                            android:layout_weight="1"
                             android:text="@{@string/other_pay(viewModel.getPay())}"
-                            />
+                            android:textColor="@color/color97a3aa"
+                            android:textSize="18px" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_marginTop="8px"
-                        >
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="18px"
-                            android:textColor="@color/color97a3aa"
+                            android:layout_weight="1"
                             android:text="@{@string/earnest(viewModel.payment)}"
-                            />
+                            android:textColor="@color/color97a3aa"
+                            android:textSize="18px" />
+
                         <TextView
                             android:layout_width="0px"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="15px"
-                            android:textColor="@color/color97a3aa"
+                            android:layout_weight="1"
                             android:text="@string/member_points"
-                            android:visibility="invisible"
-                            />
+                            android:textColor="@color/color97a3aa"
+                            android:textSize="15px"
+                            android:visibility="invisible" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -544,102 +553,101 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_below="@+id/ll_price"
-                    android:layout_marginTop="20px"
                     android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
-                    >
+                    android:layout_marginTop="20px"
+                    android:orientation="horizontal">
+
                     <LinearLayout
                         android:layout_width="128px"
                         android:layout_height="72px"
-                        android:orientation="vertical"
                         android:background="@drawable/shape_pay_way"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="8px"
                             android:text="现金"
                             android:textColor="#798795"
-                            android:textSize="17px"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="8px"
-                            />
+                            android:textSize="17px" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20px"
-                            android:textColor="#F74F45"
-                            android:text="￥50.00"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:text="￥50.00"
+                            android:textColor="#F74F45"
+                            android:textSize="20px" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="128px"
                         android:layout_height="72px"
-                        android:orientation="vertical"
                         android:layout_marginLeft="16px"
                         android:background="@drawable/shape_pay_way"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="8px"
                             android:text="银行卡"
                             android:textColor="#798795"
-                            android:textSize="17px"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="8px"
-                            />
+                            android:textSize="17px" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20px"
-                            android:textColor="#F74F45"
-                            android:text="￥50.00"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:text="￥50.00"
+                            android:textColor="#F74F45"
+                            android:textSize="20px" />
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="128px"
                         android:layout_height="72px"
-                        android:orientation="vertical"
                         android:layout_marginLeft="16px"
                         android:background="@drawable/shape_pay_way"
-                        >
+                        android:orientation="vertical">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="会员卡"
-                            android:textColor="#798795"
-                            android:textSize="17px"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="8px"
-                            />
+                            android:text="会员卡"
+                            android:textColor="#798795"
+                            android:textSize="17px" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="20px"
-                            android:textColor="#F74F45"
-                            android:text="￥50.00"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:text="￥50.00"
+                            android:textColor="#F74F45"
+                            android:textSize="20px" />
                     </LinearLayout>
 
                 </LinearLayout>
 
-                
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="72px"
-                    android:background="@color/colorWhite"
                     android:layout_alignParentBottom="true"
-                    android:orientation="horizontal"
-                    >
+                    android:background="@color/colorWhite"
+                    android:orientation="horizontal">
+
                     <RelativeLayout
                         android:layout_width="0px"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        >
+                        android:layout_weight="1">
+
                         <TextView
                             android:id="@+id/tv_pay"
                             android:layout_width="162px"
@@ -651,11 +659,12 @@
                             android:textColor="@color/colorWhite"
                             android:textSize="18px" />
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_width="0px"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        >
+                        android:layout_weight="1">
+
                         <TextView
                             android:id="@+id/tv_scan_pay"
                             android:layout_width="162px"

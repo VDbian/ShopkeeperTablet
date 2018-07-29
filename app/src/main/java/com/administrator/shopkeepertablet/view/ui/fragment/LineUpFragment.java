@@ -13,6 +13,9 @@ import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.line.DaggerLineComponent;
 import com.administrator.shopkeepertablet.di.line.LineModule;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
+import com.administrator.shopkeepertablet.viewmodel.LineUpViewModel;
+
+import javax.inject.Inject;
 
 /**
  * Description:
@@ -23,6 +26,10 @@ import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 public class LineUpFragment extends BaseFragment {
 
     FragmentLineUpBinding binding;
+    @Inject
+    LineUpViewModel viewModel;
+
+//    private SpeechSynthesizer speechSynthesizer;
 
     @Override
     protected void setupFragmentComponent(AppComponent appComponent) {

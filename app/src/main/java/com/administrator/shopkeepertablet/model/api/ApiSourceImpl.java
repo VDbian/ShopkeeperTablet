@@ -159,4 +159,49 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> getOrderDetail(String id, String type, String billId) {
         return retrofitInterface.getOrderDetail(id, type, billId);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> print(String type, String shopID, String printSouce, String sate, String billId, String name, int personCount, String tableId, String tableName, double priceOld, double price, double free, String payType) {
+        return retrofitInterface.print(type, shopID, printSouce, sate, billId, name, personCount, tableId, tableName, priceOld, price, free, payType);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> reBillTangDian(String type, String id, String foodInfo, String userId, String name, String tableId, String tableName, String types, double price, String billType, String fanBill) {
+        return retrofitInterface.reBillTangDian(type, id, foodInfo, userId, name, tableId, tableName, types, price, billType, fanBill);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> fastFood(String type, String mark, String id, String info, String data, String time, String names, String address, String phone, String userId, String name, String remark, double money, String tableId, String tableName, String types, String fanBill, double price, String billType) {
+        return retrofitInterface.fastFood(type, mark, id, info, data, time, names, address, phone, userId, name, remark, money, tableId, tableName, types, fanBill, price, billType);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getPay(String id, String type) {
+        return retrofitInterface.getPay(id,type);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getTableType(String type, String id) {
+        return retrofitInterface.getTableType(type, id);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getQueue(String type, String leibie, String phone, String shopId) {
+        return retrofitInterface.getQueue(type, leibie, phone, shopId);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> addQueue(String type, String selvalue, String shopId) {
+        return retrofitInterface.addQueue(type, selvalue, shopId);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> bindQueue(String type, String selvalue, String name, String userID, String tableId, String tableName, String tableWareCount, String orderid, String shopId) {
+        return retrofitInterface.bindQueue(type, selvalue, name, userID, tableId, tableName, tableWareCount, orderid, shopId);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> deleteQueue(String type, String orderid) {
+        return retrofitInterface.deleteQueue(type, orderid);
+    }
 }

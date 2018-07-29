@@ -14,20 +14,10 @@ public class AppConstant {
     public static final int REQUEST_FAILED = 0;//失败
     public static final int REQUEST_ERROR = -1;//数据库查询错误
 
-    public static final int RESPONSE_CODE_OK = 200;
-
     public static final int EVENT_ORDER_DISHES = 0;
     public static final int EVENT_TABLE = 1;
     public static final int EVENT_PAY = 2;
+    public static final int EVENT_RETURN_BILL =3;
     public static final int EVENT_MERGE_PAY = 3;
 
-    public static final int EVENT_LOGOUT_PWD = 2;
-    public static final int EVENT_DATA_SELFINFO = 1;
-    public static final int EVENT_DATA_SELF = 2;
-    public static final int EVENT_DATA_VARIETY = 1;
-
-    public static final int REQUEST_IMAGE = 1;
-
-    public static final int HOUSING_CHOOSE_FLAG = 0;
-    public static final int HOUSING_HAVE_COW = 0;
 }

@@ -71,4 +71,24 @@ public interface ApiSource {
     Observable<BaseEntity<String>> getOrderList(String type,String id,String orderType,String phone,int index,int size,String state);
 
     Observable<BaseEntity<String>> getOrderDetail(String id, String type,String billId);
+
+    Observable<BaseEntity<String>> print(String type,String shopID, String printSouce, String sate, String billId,String name, int personCount,String tableId, String tableName, double priceOld, double price,double free, String payType);
+
+    Observable<BaseEntity<String>> reBillTangDian(String type,String id,String foodInfo, String userId,String name,String tableId,String tableName,String types,double price,String billType,String fanBill);
+
+    Observable<BaseEntity<String>> fastFood(String type,String mark,String id,String info,String data,String time,String names,String address, String phone, String userId,String name,String remark,double money,String tableId,String tableName,String types,String fanBill,double price,String billType);
+
+    Observable<BaseEntity<String>> getPay(String id,String type);
+
+    Observable<BaseEntity<String>> getTableType(String type,String id);
+
+    Observable<BaseEntity<String>> getQueue(String type,String leibie,String Phone,String shopId);
+
+    Observable<BaseEntity<String>> addQueue(String type,String selvalue,String shopId);
+
+    Observable<BaseEntity<String>> bindQueue(String type,String selvalue,String name,String userID,String tableId,String tableName,String tableWareCount,String orderid, String shopId);
+
+    Observable<BaseEntity<String>> deleteQueue(String type,String orderid);
+
 }
+

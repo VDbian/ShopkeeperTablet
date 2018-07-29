@@ -80,7 +80,10 @@ public class OrderFoodEntity {
     private String remark;
     @SerializedName("REMARKID")
     private String remarkId;
-
+    @SerializedName("UNIT")
+    private String unit;
+    @SerializedName("SeasonSum")
+    private String seasonNum;
 
     public String getRestaurantId() {
         return restaurantId;
@@ -262,6 +265,22 @@ public class OrderFoodEntity {
         return count > weight ? count + "" : weight + "";
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getSeasonNum() {
+        return seasonNum;
+    }
+
+    public void setSeasonNum(String seasonNum) {
+        this.seasonNum = seasonNum;
+    }
+
     @Override
     public String toString() {
         return "OrderFoodEntity{" +
@@ -280,12 +299,14 @@ public class OrderFoodEntity {
                 ", seasonID='" + seasonID + '\'' +
                 ", seasonName='" + seasonName + '\'' +
                 ", seasonPrice=" + seasonPrice +
-                ", Giving=" + giving +
+                ", giving=" + giving +
                 ", productShuXin='" + productShuXin + '\'' +
                 ", productShuXinId='" + productShuXinId + '\'' +
                 ", chargeMoney=" + chargeMoney +
                 ", remark='" + remark + '\'' +
                 ", remarkId='" + remarkId + '\'' +
+                ", unit='" + unit + '\'' +
+                ", seasonNum='" + seasonNum + '\'' +
                 '}';
     }
 }

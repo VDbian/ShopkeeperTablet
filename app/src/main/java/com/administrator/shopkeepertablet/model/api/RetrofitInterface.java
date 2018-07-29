@@ -324,12 +324,126 @@ public interface RetrofitInterface {
             @Field("state") String state
     );
 
+    //获取订单详情
     @FormUrlEncoded
     @POST(AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
     Observable<BaseEntity<String>> getOrderDetail(
             @Field("id") String id,
             @Field("Type") String type,
             @Field("BILLID") String billId);
+
+
+    //补打账单
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortPrinterManager.ashx")
+    Observable<BaseEntity<String>> print(
+            @Field("type") String type,
+            @Field("id") String shopID,
+            @Field("printsouce") String printSouce,
+            @Field("Sate") String sate,
+            @Field("billid") String billId,
+            @Field("Name") String name,
+            @Field("personcount") int personCount,
+            @Field("tableid") String tableId,
+            @Field("tablename") String tableName,
+            @Field("priceold") double priceOld,
+            @Field("price") double price,
+            @Field("free") double free,
+            @Field("PayType") String payType);
+
+    //反结账
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortPlaceOrderASHX.ashx")
+    Observable<BaseEntity<String>> reBillTangDian(
+            @Field("Type") String type,
+            @Field("id") String id,
+            @Field("foodinfo") String foodInfo,
+            @Field("UserId") String userId,
+            @Field("Name") String name,
+            @Field("tableid") String tableId,
+            @Field("tablename") String tableName,
+            @Field("types") String types,
+            @Field("price") double price,
+            @Field("BillType") String billType,
+            @Field("FanBill") String fanBill);
+
+    //快餐、预定
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortPlaceOrderASHX.ashx")
+    Observable<BaseEntity<String>> fastFood(
+            @Field("Type") String type,
+            @Field("dukabiaoji") String mark,
+            @Field("id") String id,
+            @Field("foodinfo") String info,
+            @Field("pdata") String data,
+            @Field("ptime") String time,
+            @Field("names") String names,
+            @Field("address") String address,
+            @Field("phone") String phone,
+            @Field("UserID") String userId,
+            @Field("Name") String name,
+            @Field("remark") String remark,
+            @Field("monery") double money,
+            @Field("tablid") String tableId,
+            @Field("tablename") String tableName,
+            @Field("types") String types,
+            @Field("FanBill") String fanBill,
+            @Field("price") double price,
+            @Field("BillType")  String billType);//字段 BillType 0=无桌位  1=有桌位
+
+    //获取支付方式
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> getPay(
+            @Field("id") String id,
+            @Field("type") String type);
+
+    //获取桌位类别
+    @FormUrlEncoded
+    @POST(AppConstant.MASTE_URL +"TableManager.ashx")
+    Observable<BaseEntity<String>> getTableType(
+            @Field("type") String type,
+            @Field("RESTAURANTID") String id);
+
+    //获取排队信息列表
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortLineUPOrder.ashx")
+    Observable<BaseEntity<String>> getQueue(
+            @Field("Type") String type,
+            @Field("leibie") String leibie,
+            @Field("Phone") String Phone,
+            @Field("id") String shopId);
+
+    //新增排队
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortLineUPOrder.ashx")
+    Observable<BaseEntity<String>> addQueue(
+            @Field("Type") String type,
+            @Field("selvalue") String selvalue,
+            @Field("id") String shopId);
+
+    //绑定桌位
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortLineUPOrder.ashx")
+    Observable<BaseEntity<String>> bindQueue(
+            @Field("Type") String type,
+            @Field("selvalue") String selvalue,
+            @Field("Name") String name,
+            @Field("UserID") String userID,
+            @Field("TableId") String tableId,
+            @Field("TableName") String tableName,
+            @Field("TableWareCount") String tableWareCount,
+            @Field("orderid") String orderid,
+            @Field("id") String shopId);
+
+    //删除排队
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortLineUPOrder.ashx")
+    Observable<BaseEntity<String>> deleteQueue(
+            @Field("Type") String type,
+            @Field("orderid") String orderid);
+
+
 
 
 //    @FormUrlEncoded

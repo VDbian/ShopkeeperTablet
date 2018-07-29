@@ -204,8 +204,8 @@
                 android:layout_marginTop="16px"
                 >
                 <ImageView
-                    android:layout_width="60px"
-                    android:layout_height="60px"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/oprate_free"
                     android:background="@drawable/shape_oval_change_order"
@@ -229,8 +229,8 @@
                 android:layout_marginTop="16px"
                 >
                 <ImageView
-                    android:layout_width="60px"
-                    android:layout_height="60px"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/oprate_delete"
                     android:background="@drawable/shape_oval_change_order"

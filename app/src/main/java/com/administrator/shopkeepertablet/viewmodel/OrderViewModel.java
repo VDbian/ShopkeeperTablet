@@ -9,6 +9,7 @@ import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.PayTypeEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.order.OrderRepository;
+import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.fragment.OrderFragment;
 import com.google.gson.Gson;
 
@@ -34,12 +35,22 @@ public class OrderViewModel extends BaseViewModel {
     public ObservableField<List<OrderFoodEntity>> detailFoods =new ObservableField<>();
     public ObservableField<OrderEntity> orderEntity =new ObservableField<>();
     public ObservableField<String> payInfo =new ObservableField<>("");
-
+    private Print print;
 
     public OrderViewModel(OrderFragment fragment, PreferenceSource preferenceSource, OrderRepository orderRepository) {
         this.fragment = fragment;
         this.preferenceSource = preferenceSource;
         this.orderRepository = orderRepository;
+        this.print = new Print(orderRepository);
+    }
+
+    private void printResult(final String result) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                print.socketDataArrivalHandler(result);
+            }
+        }).start();
     }
 
     public void getOrderList(String type, String state) {
@@ -102,6 +113,25 @@ public class OrderViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("vd", throwable.getMessage());
+                    }
+                });
+    }
+
+    public void  print(){
+        orderRepository.print("3", preferenceSource.getId(), "1", "7", orderEntity.get().getBillId(), preferenceSource.getName(), orderEntity.get().getPersonCount(),
+                orderEntity.get().getTableId(), orderEntity.get().getTableName(), orderEntity.get().orderPrice(), orderEntity.get().getPayPrice(), orderEntity.get().getFreeMoney(), "1")
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd",stringBaseEntity.getResult());
+                        if (stringBaseEntity.getCode()==1){
+                            printResult(stringBaseEntity.getResult());
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("vd",throwable.getMessage());
                     }
                 });
     }

@@ -87,8 +87,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager = getSupportFragmentManager();
         myFragment[FRAGMENT_PARISH] = new ParishFoodFragment();
         myFragment[FRAGMENT_FAST] = new FastFoodFragment();
+        ((FastFoodFragment)myFragment[FRAGMENT_FAST]).setName("fast");
         myFragment[FRAGMENT_ORDER] = new OrderFragment();
         myFragment[FRAGMENT_RESERVE] = new FastFoodFragment();
+        ((FastFoodFragment)myFragment[FRAGMENT_RESERVE]).setName("reserve");
         myFragment[FRAGMENT_LINEUP] = new LineUpFragment();
         myFragment[FRAGMENT_RECHARGE] = new RechargeFragment();
         myFragment[FRAGMENT_MESSAGE] = new MessageFragment();

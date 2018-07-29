@@ -17,6 +17,7 @@ public class EventPayBean {
     private List<OrderFoodEntity> mList;
     private String roomName;
     private List<TableEntity> tableEntityList;
+    private int flag;
 
     public TableEntity getTableEntity() {
         return tableEntity;
@@ -48,5 +49,13 @@ public class EventPayBean {
 
     public void setTableEntityList(List<TableEntity> tableEntityList) {
         this.tableEntityList = tableEntityList;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
     }
 }

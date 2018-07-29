@@ -316,7 +316,6 @@ public class PopupWindowOrderDishesChange extends PopupWindow {
         binding.llKouwei.setVisibility(position == 1 ? View.VISIBLE : View.GONE);
         binding.llAdd.setVisibility(position == 2 ? View.VISIBLE : View.GONE);
         binding.llGiveDetail.setVisibility(position == 3 ? View.VISIBLE : View.GONE);
-
     }
 
     View.OnClickListener listener = new View.OnClickListener() {
@@ -348,6 +347,7 @@ public class PopupWindowOrderDishesChange extends PopupWindow {
                     setSelect(3);
                     break;
                 case R.id.ll_delete:
+                    dismiss();
                     if (onCallBackListener != null) {
                         onCallBackListener.delete();
                     }

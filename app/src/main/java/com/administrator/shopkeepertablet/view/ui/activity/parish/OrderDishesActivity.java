@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.view.ui.activity.parish;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,8 +21,14 @@ import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
 import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
+import com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity;
+import com.administrator.shopkeepertablet.model.entity.SeasonEntity;
+import com.administrator.shopkeepertablet.model.entity.SpecEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
+import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
+import com.administrator.shopkeepertablet.model.entity.bean.EventReturnBean;
 import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
@@ -32,6 +39,7 @@ import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesCartAdapter
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesVarietyAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderFoodAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
+import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowAllKouwei;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChange;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChoose;
@@ -69,6 +77,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
     private KouWeiEntity kouWeiEntity;
     private String remark;
     private List<OrderFoodEntity> orderFoodEntityList = new ArrayList<>();
+    public boolean isBill = false;
 
 
     @Override
@@ -92,6 +101,8 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initView() {
+        foodToCart();
+        sumPrice();
         if (orderFoodEntityList.size() > 0) {
             binding.tvOrdered.setVisibility(View.VISIBLE);
             binding.tvOrdered.setTextColor(getResources().getColor(color.colorc0c8ce));
@@ -103,6 +114,13 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         } else {
             binding.tvOrdered.setVisibility(View.GONE);
             binding.rlvOrdered.setVisibility(View.GONE);
+        }
+        if (isBill) {
+            binding.llOrderDishes.setVisibility(View.GONE);
+            binding.tvReturnBill.setVisibility(View.VISIBLE);
+        } else {
+            binding.llOrderDishes.setVisibility(View.VISIBLE);
+            binding.tvReturnBill.setVisibility(View.GONE);
         }
 
         adapter = new OrderDishesVarietyAdapter(this, mList);
@@ -180,6 +198,52 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         binding.tvShopCart.setOnClickListener(this);
     }
 
+    private void foodToCart() {
+        if (viewModel.mList.get() != null && !viewModel.mList.get().isEmpty()) {
+            for (OrderFoodEntity entity : viewModel.mList.get()) {
+                CartBean cartBean = new CartBean();
+                cartBean.setGiveNum(String.valueOf(entity.getGiving()));
+                cartBean.setFoodEntity(viewModel.getFoodEntity(entity.getProductName()));
+                if (!TextUtils.isEmpty(entity.getProductShuXinId())) {
+                    cartBean.setSpec(viewModel.getSpec(entity.getProductShuXinId()));
+                }
+                cartBean.setUnit(entity.getUnit());
+                cartBean.setPrice(entity.getPrice());
+                cartBean.setNum(entity.setNum());
+                if (TextUtils.isEmpty(entity.getRemarkId())) {
+                    cartBean.setKouwei(entity.getRemark());
+                } else {
+                    List<ProductKouWeiEntity> kouWeiEntities = new ArrayList<>();
+                    String[] kouwei = entity.getRemark().split("\\*");
+                    String[] kouweiId = entity.getRemarkId().split("\\*");
+                    for (int j = 0; j < kouweiId.length; j++) {
+                        if (TextUtils.isEmpty(kouweiId[j])) {
+                            cartBean.setKouwei(kouwei[j]);
+                        } else {
+                            kouWeiEntities.add(viewModel.getKouWei(kouweiId[j]));
+                        }
+                    }
+                    if (!kouWeiEntities.isEmpty()) {
+                        cartBean.setProductKouWeiEntity(kouWeiEntities.get(0));
+                    }
+                }
+                String[] seasonId = entity.getSeasonID().split("\\*");
+                String[] seasonNum = entity.getSeasonNum().split("\\*");
+                List<FoodAddBean> foodAddBeans = new ArrayList<>();
+                for (int k = 0; k < seasonId.length; k++) {
+                    if (!TextUtils.isEmpty(seasonId[k])) {
+                        SeasonEntity seasonEntity = viewModel.getSeason(seasonId[k]);
+                        FoodAddBean foodAddBean = new FoodAddBean(seasonEntity.getSeasonId(), seasonEntity.getName(), Double.valueOf(seasonEntity.getPrice()), Integer.valueOf(seasonNum[k]), true);
+                        foodAddBeans.add(foodAddBean);
+                    }
+                }
+                cartBean.setFoodAddBeanList(foodAddBeans);
+                cartBeanList.add(cartBean);
+            }
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -196,9 +260,11 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
             case R.id.tv_order:
                 if (cartBeanList.size() == 0) {
                     MToast.showToast(this, "购物车是空的");
-                } else {
+                } else if (!isBill){
                     String foodType = binding.tvOrdered.getVisibility() == View.GONE ? "0" : "1";
                     viewModel.order(getInfo(), foodType, "");
+                }else {
+                    viewModel.reBill(getInfo());
                 }
                 break;
             case R.id.iv_more:
@@ -224,6 +290,20 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+
+    public void intentToPay(List<OrderFoodEntity> orderFoodEntities){
+        EventPayBean bean =new EventPayBean();
+        bean.setFlag(2);
+//            bean.setTableEntity(entity);
+        bean.setmList(orderFoodEntities);
+//        bean.setRoomName(viewModel.room.get());
+        EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY,bean));
+        Intent intent = new Intent(this, PayActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+
     public void showPopAllKouwei(List<KouWeiEntity> list) {
         PopupWindowAllKouwei popupWindowAllKouwei = new PopupWindowAllKouwei(this, list, kouWeiEntity, remark);
         popupWindowAllKouwei.showPopupWindowUp();
@@ -235,7 +315,6 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
             }
         });
     }
-
 
     private void sumPrice() {
         double sum = 0;
@@ -249,7 +328,6 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         }
         viewModel.price.set(sum);
     }
-
 
     private String getInfo() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -399,6 +477,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onDataEvent(DataEvent event) {
         if (event.getMessageTag() == AppConstant.EVENT_ORDER_DISHES) {
+            isBill = false;
             EventOrderDishesEntity eventOrderDishesEntity = (EventOrderDishesEntity) event.getMessageData();
             viewModel.tableId.set(eventOrderDishesEntity.getTableId());
             viewModel.table.set(eventOrderDishesEntity.getTableName());
@@ -407,6 +486,16 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
             viewModel.time.set(DateUtils.friendly_time(DateUtils.stringToDate(eventOrderDishesEntity.getTime())));
             viewModel.billId.set(eventOrderDishesEntity.getBillId());
             orderFoodEntityList = eventOrderDishesEntity.getOrderFoodEntityList();
+        } else if (event.getMessageTag() == AppConstant.EVENT_RETURN_BILL) {
+            isBill = true;
+            EventReturnBean bean = (EventReturnBean) event.getMessageData();
+            OrderEntity orderEntity = bean.getOrderEntity();
+            viewModel.tableId.set(orderEntity.getTableId());
+            viewModel.table.set(orderEntity.getTableName());
+            viewModel.people.set(String.valueOf(orderEntity.getPersonCount()));
+            viewModel.time.set(orderEntity.getRecordDate());
+            viewModel.billId.set(orderEntity.getBillId());
+            viewModel.mList.set(bean.getOrderFoodEntities());
         }
     }
 

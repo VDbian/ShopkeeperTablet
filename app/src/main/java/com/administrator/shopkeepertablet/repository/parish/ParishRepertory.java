@@ -250,4 +250,21 @@ public interface ParishRepertory extends BaseRepertory {
      * @return
      */
     Observable<BaseEntity<String>> getWarePrice(String type,String id);
+
+    /**
+     * 反结账
+     * @param type 0
+     * @param id 店铺Id
+     * @param foodInfo 菜品信息
+     * @param userId 操作人ID
+     * @param name 操作员
+     * @param tableId 桌位Id
+     * @param tableName 桌位名称
+     * @param types 4
+     * @param price 价格
+     * @param billType 0
+     * @param fanBill 订单Id
+     * @return
+     */
+    Observable<BaseEntity<String>> reBillTangDian(String type,String id,String foodInfo, String userId,String name,String tableId,String tableName,String types,double price,String billType,String fanBill);
 }
