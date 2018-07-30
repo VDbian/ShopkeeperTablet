@@ -1,6 +1,7 @@
 package com.administrator.shopkeepertablet.view.ui.fragment;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -50,6 +51,8 @@ public class RechargeFragment extends BaseFragment {
     }
 
     private void initView() {
-
+        Drawable drawable1 = getResources().getDrawable(R.mipmap.search);
+        drawable1.setBounds(25, 0, 45, 20);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
+        binding.etSearch.setCompoundDrawables(drawable1, null, null, null);//只放左边
     }
 }

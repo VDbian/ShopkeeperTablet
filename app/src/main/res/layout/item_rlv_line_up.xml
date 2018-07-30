@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.LineUpEntity"/>
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50px"
@@ -17,7 +23,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="排号"
+                android:text="@{entity.no()}"
                 android:textSize="16px"
                 android:textColor="#999999"
                 android:gravity="center_vertical"
@@ -26,7 +32,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="姓名"
+                android:text="@{entity.username}"
                 android:textSize="16px"
                 android:textColor="#999999"
                 android:gravity="center_vertical"
@@ -35,7 +41,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="电话"
+                android:text="@{entity.phone}"
                 android:textSize="16px"
                 android:textColor="#999999"
                 android:gravity="center_vertical"
@@ -44,7 +50,7 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="桌位类别"
+                android:text="@{entity.tableName}"
                 android:textSize="16px"
                 android:textColor="#999999"
                 android:gravity="center_vertical"
@@ -56,6 +62,7 @@
                 android:orientation="horizontal"
                 >
                 <TextView
+                    android:id="@+id/tv_speak"
                     android:layout_width="80px"
                     android:layout_height="36px"
                     android:background="@drawable/shape_line_up_operation"
@@ -67,6 +74,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_bind"
                     android:layout_width="88px"
                     android:layout_height="36px"
                     android:layout_marginLeft="16px"
@@ -79,6 +87,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/tv_delete"
                     android:layout_width="80px"
                     android:layout_height="36px"
                     android:layout_marginLeft="16px"

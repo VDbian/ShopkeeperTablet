@@ -16,7 +16,7 @@ public interface LineUpRepository extends BaseRepertory {
     /**
      * 获取桌位类别
      *
-     * @param type 1
+     * @param type 6
      * @param id   店铺Id
      * @return
      */

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.TableType"/>
+    </data>
+    
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="48px"
+            android:text="@{entity.name}"
+            android:textSize="17px"
+            android:textColor="@color/color666666"
+            android:background="@color/colord2d6dc"
+            android:gravity="center"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colore5e5e5"
+            android:layout_below="@+id/tv_name"
+            />
+    </RelativeLayout>
+</layout>
