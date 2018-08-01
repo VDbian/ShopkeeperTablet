@@ -136,8 +136,8 @@ public class ApiSourceImpl implements ApiSource {
     }
 
     @Override
-    public Observable<BaseEntity<String>> getMember(String type, String phone,String billId,String id) {
-        return retrofitInterface.getMember(type, phone,billId,id);
+    public Observable<BaseEntity<String>> getMember(String type, String num,String billId,String id) {
+        return retrofitInterface.getMember(type,num,billId,id);
     }
 
     @Override
@@ -203,5 +203,35 @@ public class ApiSourceImpl implements ApiSource {
     @Override
     public Observable<BaseEntity<String>> deleteQueue(String type, String orderid) {
         return retrofitInterface.deleteQueue(type, orderid);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getRechargeMember(String type, String id, String pageIndex, String pageSize, String name, String phone) {
+        return retrofitInterface.getRechargeMember(type, id, pageIndex, pageSize, name, phone);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getRecharge(String type, String id) {
+        return retrofitInterface.getRecharge(type, id);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> addRecharge(String type, String shopId, String staffTel, String staffDepart, String staffLanguage, String staffCatalogue) {
+        return retrofitInterface.addRecharge(type, shopId, staffTel, staffDepart, staffLanguage, staffCatalogue);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> checkCode(String type, String shopId, String passWord) {
+        return retrofitInterface.checkCode(type, shopId, passWord);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> moneyCharge(String type, String userID, String shopId, String price, int payType, String operaName, String operaId) {
+        return retrofitInterface.moneyCharge(type, userID, shopId, price, payType, operaName, operaId);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> productCharge(String type, String userID, String shopId, String cardID, int payType, String operaName, String operaId) {
+        return retrofitInterface.productCharge(type, userID, shopId, cardID, payType, operaName, operaId);
     }
 }

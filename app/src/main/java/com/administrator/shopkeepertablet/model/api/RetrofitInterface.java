@@ -443,8 +443,67 @@ public interface RetrofitInterface {
             @Field("Type") String type,
             @Field("orderid") String orderid);
 
+    //获取会员列表
+    @FormUrlEncoded
+    @POST(AppConstant.MASTE_URL + "Merchants.ashx")
+    Observable<BaseEntity<String>> getRechargeMember(
+            @Field("Type") String type,
+            @Field("RESTAURANTID") String id,
+            @Field("pageIndex") String pageIndex,
+            @Field("pageSize") String pageSize,
+            @Field("Name") String name,
+            @Field("phone") String phone);
 
+    //获取充值类别
+    @FormUrlEncoded
+    @POST(AppConstant.MASTE_URL + "Merchants.ashx")
+    Observable<BaseEntity<String>> getRecharge(
+            @Field("Type") String type,
+            @Field("RESTAURANTID") String id);
 
+    //新增会员
+    @FormUrlEncoded
+    @POST(AppConstant.MASTE_URL+ "Merchants.ashx")
+    Observable<BaseEntity<String>> addRecharge(
+            @Field("Type") String type,
+            @Field("RESTAURANTID") String shopId,
+            @Field("StaffTel") String staffTel,
+            @Field("StaffDepart") String staffDepart,
+            @Field("StaffLanguage") String staffLanguage,
+            @Field("StaffCatalogue") String staffCatalogue
+    );
+
+    //验证校验码
+    @FormUrlEncoded
+    @POST(AppConstant.MASTE_URL + "Merchants.ashx")
+    Observable<BaseEntity<String>> checkCode(
+            @Field("Type") String type,
+            @Field("RESTAURANTID") String shopId,
+            @Field("PassWord") String passWord);
+
+    // 自定义充值
+    @FormUrlEncoded
+    @POST(AppConstant.MASTE_URL + "Merchants.ashx")
+    Observable<BaseEntity<String>> moneyCharge(
+            @Field("Type") String type,
+            @Field("UserID") String userID,
+            @Field("RESTAURANTID") String shopId,
+            @Field("Price") String price,
+            @Field("PayType") int payType,
+            @Field("OperaName") String operaName,
+            @Field("OperaID") String operaId);
+
+    //产品充值
+    @FormUrlEncoded
+    @POST(AppConstant.MASTE_URL + "Merchants.ashx")
+    Observable<BaseEntity<String>> productCharge(
+            @Field("Type") String type,
+            @Field("UserID") String userID,
+            @Field("RESTAURANTID") String shopId,
+            @Field("CardID") String cardID,
+            @Field("PayType") int payType,
+            @Field("OperaName") String operaName,
+            @Field("OperaID") String operaId);
 
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")

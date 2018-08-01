@@ -224,15 +224,6 @@ public interface ParishRepertory extends BaseRepertory {
      */
     Observable<BaseEntity<String>> TransferFood(String type,String id,String tableId,String detailId);
 
-    /**
-     * 会员搜索
-     * @param type 15
-     * @param phone 会员号
-     * @param billId 订单号，多个订单号用，隔开
-     * @param id 店铺Id
-     * @return
-     */
-    Observable<BaseEntity<String>> getMember(String type,String phone,String billId,String id);
 
     /**
      * 搜索优惠券

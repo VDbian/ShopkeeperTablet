@@ -41,4 +41,10 @@ public class BaseRepertoryImpl implements BaseRepertory {
         return apiSource.updatePrint(type,billId,ipAddress).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getMember(String type, String phone, String billId, String id) {
+        return apiSource.getMember(type, phone, billId, id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

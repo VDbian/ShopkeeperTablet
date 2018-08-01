@@ -90,5 +90,16 @@ public interface ApiSource {
 
     Observable<BaseEntity<String>> deleteQueue(String type,String orderid);
 
+    Observable<BaseEntity<String>> getRechargeMember(String type,String id,String pageIndex,String pageSize,String name,String phone);
+
+    Observable<BaseEntity<String>> getRecharge(String type,String id);
+
+    Observable<BaseEntity<String>> addRecharge(String type,String shopId,String staffTel,String staffDepart,String staffLanguage,String staffCatalogue);
+
+    Observable<BaseEntity<String>> checkCode(String type,String shopId,String passWord);
+
+    Observable<BaseEntity<String>> moneyCharge(String type,String userID,String shopId,String price,int payType,String operaName,String operaId);
+
+    Observable<BaseEntity<String>> productCharge(String type,String userID,String shopId,String cardID,int payType,String operaName,String operaId);
 }
 

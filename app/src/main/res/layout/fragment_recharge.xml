@@ -1,58 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.administrator.shopkeepertablet.viewmodel.RechargeViewModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="64px"
-            android:orientation="horizontal"
             android:background="@color/colorf2f2f2"
-            >
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="充值"
                 android:layout_centerVertical="true"
-                android:textSize="28px"
-                android:textColor="@color/color798795"
                 android:layout_marginLeft="16px"
-                />
+                android:text="充值"
+                android:textColor="@color/color798795"
+                android:textSize="28px" />
+
             <EditText
                 android:id="@+id/et_search"
-                android:layout_toRightOf="@+id/tv_title"
                 android:layout_width="248px"
                 android:layout_height="48px"
-                android:background="@color/colorWhite"
                 android:layout_centerVertical="true"
-                android:textColor="@color/color848d95"
-                android:textSize="18px"
-                android:hint="请输入会员电话"
-                android:gravity="center"
-                android:drawableLeft="@mipmap/search"
-                android:layout_marginLeft="24px"
                 android:layout_gravity="center_vertical"
-                />
+                android:layout_marginLeft="24px"
+                android:layout_toRightOf="@+id/tv_title"
+                android:background="@color/colorWhite"
+                android:drawableLeft="@mipmap/search"
+                android:gravity="center"
+                android:hint="请输入会员电话"
+                android:text="@={viewModel.search}"
+                android:textColor="@color/color848d95"
+                android:textSize="18px" />
 
             <TextView
                 android:id="@+id/tv_search"
-                android:layout_toRightOf="@+id/et_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="搜索"
-                android:textSize="18px"
-                android:textColor="#23CAC0"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="24px"
-                />
+                android:layout_toRightOf="@+id/et_search"
+                android:text="搜索"
+                android:textColor="#23CAC0"
+                android:textSize="18px" />
 
             <TextView
-                android:id="@+id/tv_reserve"
+                android:id="@+id/tv_add"
                 android:layout_width="118px"
                 android:layout_height="48px"
                 android:layout_alignParentRight="true"
@@ -69,65 +74,63 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="48px"
-                android:orientation="horizontal"
                 android:layout_marginLeft="24px"
                 android:layout_marginRight="24px"
-                >
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
+                    android:gravity="center_vertical"
                     android:text="姓名"
-                    android:textSize="16px"
                     android:textColor="#999999"
-                    android:gravity="center_vertical"
-                    />
+                    android:textSize="16px" />
+
                 <TextView
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="4"
+                    android:gravity="center_vertical"
                     android:text="电话"
-                    android:textSize="16px"
                     android:textColor="#999999"
-                    android:gravity="center_vertical"
-                    />
+                    android:textSize="16px" />
+
                 <TextView
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="4"
-                    android:text="会员编号"
-                    android:textSize="16px"
-                    android:textColor="#999999"
                     android:gravity="center_vertical"
-                    />
+                    android:text="会员编号"
+                    android:textColor="#999999"
+                    android:textSize="16px" />
+
                 <TextView
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:text="操作"
-                    android:textSize="16px"
-                    android:textColor="#999999"
                     android:gravity="center"
-                    />
+                    android:text="操作"
+                    android:textColor="#999999"
+                    android:textSize="16px" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/colore5e5e5"
                 android:layout_marginLeft="24px"
                 android:layout_marginRight="24px"
-                />
+                android:background="@color/colore5e5e5" />
 
-            <android.support.v7.widget.RecyclerView
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/rlv_recharge"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                ></android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
         </LinearLayout>
 

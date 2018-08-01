@@ -1,104 +1,319 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    
+    <data>
+        <variable
+            name="viewModel"
+            type="com.administrator.shopkeepertablet.viewmodel.RechargeViewModel"/>
+    </data>
     
     <LinearLayout
-        android:layout_width="340px"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#F0F3F6"
+        android:orientation="horizontal"
         >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="64px">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="会员详情"
-                android:textSize="22px"
-                android:textColor="@color/color97a3aa"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="24px"
-                />
-
-            <ImageView
-                android:layout_width="24px"
-                android:layout_height="24px"
-                android:src="@mipmap/ic_expand_close"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="24px"
-                android:layout_centerVertical="true"
-                />
-        </RelativeLayout>
-
         <LinearLayout
-            android:id="@+id/ll_member_info"
-            android:layout_width="320px"
-            android:layout_height="168px"
-            android:layout_marginTop="16px"
+            android:layout_width="340px"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="#FFFAF2"
+            android:background="#F0F3F6"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/card_num"
-                android:layout_marginTop="12px"
-                android:layout_marginLeft="12px"
-                android:textSize="16px"
-                android:textColor="@color/color848d95"
-                />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/name"
-                android:layout_marginTop="12px"
-                android:layout_marginLeft="12px"
-                android:textSize="16px"
-                android:textColor="@color/color848d95"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/phone"
-                android:layout_marginTop="12px"
-                android:layout_marginLeft="12px"
-                android:textSize="16px"
-                android:textColor="@color/color848d95"
-                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="64px">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="会员详情"
+                    android:textSize="22px"
+                    android:textColor="@color/color97a3aa"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="24px"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_cancel"
+                    android:layout_width="24px"
+                    android:layout_height="24px"
+                    android:src="@mipmap/ic_expand_close"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="24px"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:id="@+id/ll_member_info"
+                android:layout_width="320px"
+                android:layout_height="168px"
                 android:layout_marginTop="16px"
-                android:layout_marginLeft="12px"
-                android:layout_marginRight="12px"
+                android:orientation="vertical"
+                android:background="#FFFAF2"
+                android:layout_gravity="center_horizontal"
                 >
                 <TextView
-                    android:layout_width="0px"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/balance"
-                    android:textColor="@color/color666666"
-                    android:textSize="18px"
+                    android:text="@{@string/card_num(viewModel.member.no)}"
+                    android:layout_marginTop="12px"
+                    android:layout_marginLeft="12px"
+                    android:textSize="16px"
+                    android:textColor="@color/color848d95"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/name(viewModel.member.name)}"
+                    android:layout_marginTop="12px"
+                    android:layout_marginLeft="12px"
+                    android:textSize="16px"
+                    android:textColor="@color/color848d95"
                     />
                 <TextView
-                    android:layout_width="0px"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/points"
-                    android:textColor="@color/color666666"
-                    android:textSize="18px"
+                    android:text="@{@string/phone(viewModel.member.phone)}"
+                    android:layout_marginTop="12px"
+                    android:layout_marginLeft="12px"
+                    android:textSize="16px"
+                    android:textColor="@color/color848d95"
                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16px"
+                    android:layout_marginLeft="12px"
+                    android:layout_marginRight="12px"
+                    >
+                    <TextView
+                        android:layout_width="0px"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@{@string/balance(viewModel.member.money)}"
+                        android:textColor="@color/color666666"
+                        android:textSize="18px"
+                        />
+                    <TextView
+                        android:layout_width="0px"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@{@string/points(viewModel.member.score)}"
+                        android:textColor="@color/color666666"
+                        android:textSize="18px"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
 
+            <RelativeLayout
+                android:layout_width="320px"
+                android:layout_height="360px"
+                android:background="@color/colorWhite"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10px"
+                >
+                <LinearLayout
+                    android:id="@+id/ll_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="48px"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:id="@+id/tv_diy"
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="自定义充值"
+                        android:textSize="17px"
+                        android:gravity="center"
+                        />
+                    <TextView
+                        android:id="@+id/tv_pro"
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="产品充值"
+                        android:textSize="17px"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
+                <View
+                    android:id="@+id/view_line"
+                    android:layout_below="@+id/ll_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colore5e5e5"/>
+
+                <LinearLayout
+                    android:id="@+id/rl_pro_recharge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/view_line"
+                    android:orientation="vertical"
+                    >
+                    <LinearLayout
+                        android:id="@+id/ll_name"
+                        android:layout_width="280px"
+                        android:layout_height="50px"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="32px"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/shape_login_edit"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        >
+
+                        <TextView
+                            android:layout_width="100px"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="充值方案"
+                            android:textColor="@color/color666666"
+                            android:textSize="18px" />
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/colore5e5e5" />
+
+                        <Spinner
+                            android:id="@+id/spinner_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2px"
+                            android:layout_marginBottom="2px"
+                            android:spinnerMode="dialog"
+                            ></Spinner>
+                    </LinearLayout>
+                    <LinearLayout
+                    android:id="@+id/ll_diy_money"
+                    android:layout_width="280px"
+                    android:layout_height="50px"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="32px"
+                    android:background="@drawable/shape_login_edit"
+                    android:orientation="horizontal">
+
+                    <TextView
+                    android:layout_width="100px"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="充值金额"
+                    android:textColor="@color/color666666"
+                    android:textSize="18px" />
+
+                    <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/colore5e5e5" />
+
+                    <EditText
+                    android:id="@+id/et_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:padding="8px"
+                    android:text="@={viewModel.money}"
+                    android:textColor="@color/color666666"
+                    android:textCursorDrawable="@drawable/shape_edit_cursor"
+                    android:textSize="18px"
+                    android:inputType="number"
+                    />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_type"
+                        android:layout_below="@+id/ll_name"
+                        android:layout_width="280px"
+                        android:layout_height="50px"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16px"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/shape_login_edit"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100px"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="支付方式"
+                            android:textColor="@color/color666666"
+                            android:textSize="18px" />
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/colore5e5e5" />
+
+                        <Spinner
+                            android:id="@+id/spinner_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="2px"
+                            android:layout_marginBottom="2px"
+                            android:spinnerMode="dialog"
+                            ></Spinner>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_pro_code"
+                        android:layout_width="280px"
+                        android:layout_height="50px"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="16px"
+                        android:background="@drawable/shape_login_edit"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="100px"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="校验码"
+                            android:textColor="@color/color666666"
+                            android:textSize="18px" />
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/colore5e5e5" />
+
+                        <EditText
+                            android:id="@+id/et_code"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:padding="8px"
+                            android:text="@={viewModel.proCode}"
+                            android:textColor="@color/color666666"
+                            android:textCursorDrawable="@drawable/shape_edit_cursor"
+                            android:textSize="18px"
+                            />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_recharge"
+                        android:layout_below="@+id/ll_pro_code"
+                        android:layout_width="280px"
+                        android:layout_height="48px"
+                        android:background="@drawable/shape_order_dishes_order_bg"
+                        android:gravity="center"
+                        android:text="充值"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="22px"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="16px"
+                        />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
         </LinearLayout>
-
-
-
     </LinearLayout>
 </layout>
