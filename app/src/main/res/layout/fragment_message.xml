@@ -1,9 +1,347 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.administrator.shopkeepertablet.viewmodel.MessageViewModel"/>
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        ></LinearLayout>
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+            android:layout_width="354px"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="64px"
+                android:background="@color/color23cac0"
+                android:text="@string/message"
+                android:textSize="28px"
+                android:textColor="@color/colorWhite"
+                android:paddingLeft="16px"
+                android:gravity="center_vertical"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colore5e5e5"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="48px"
+                android:background="@color/colorf7f7f7"
+                >
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="32px"
+                    android:drawableRight="@mipmap/arrow_down"
+                    android:gravity="center"
+                    android:text="订单类型"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="17px" />
+
+            </RelativeLayout>
+            
+            <com.jcodecraeer.xrecyclerview.XRecyclerView
+                android:id="@+id/rlv_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colore5e5e5"/>
+        <LinearLayout
+            android:id="@+id/ll_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16px"
+                    android:layout_marginRight="16px"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0px"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8px"
+                        android:layout_marginTop="8px"
+                        android:layout_weight="1"
+                        android:text="@{@string/order_num(viewModel.orderEntity.orderNumber)}"
+                        android:textColor="#C0C8CE"
+                        android:textSize="16px" />
+
+                    <TextView
+                        android:layout_width="0px"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8px"
+                        android:layout_marginTop="8px"
+                        android:layout_weight="1"
+                        android:text="@{@string/order_time(viewModel.orderEntity.recordDate)}"
+                        android:textColor="#C0C8CE"
+                        android:textSize="16px" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16px"
+                    android:layout_marginRight="16px"
+                    android:background="@drawable/shape_order_bg"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48px"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@{@string/order_table(viewModel.orderEntity.tableName)}"
+                            android:textColor="@color/color666666"
+                            android:textSize="16px" />
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@{@string/order_people(viewModel.orderEntity.userName)}"
+                            android:textColor="@color/color666666"
+                            android:textSize="16px" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"
+                        android:background="@color/colore5e5e5" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48px"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@{@string/order_price(viewModel.orderEntity.orderPrice())}"
+                            android:textColor="@color/color666666"
+                            android:textSize="16px" />
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@string/order_discount"
+                            android:textColor="@color/color666666"
+                            android:textSize="16px"
+                            android:visibility="gone"
+                            />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"
+                        android:background="@color/colore5e5e5" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="48px"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="18px"
+                        android:text="@{@string/order_pay(viewModel.orderEntity.payPrice)}"
+                        android:textColor="#97A3AA"
+                        android:textSize="20px"
+                        android:gravity="center_vertical"
+                        />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"
+                        android:background="@color/colore5e5e5" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48px"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="18px"
+                            android:text="@{@string/message_remark(viewModel.orderEntity.remark)}"
+                            android:textColor="#97A3AA"
+                            android:textSize="20px" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8px"
+                    android:layout_marginLeft="16px"
+                    android:layout_marginTop="8px"
+                    android:text="菜品信息"
+                    android:textColor="#C0C8CE"
+                    android:textSize="16px" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_marginBottom="32px"
+                    android:layout_marginLeft="16px"
+                    android:layout_marginRight="16px"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_order_bg"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48px"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2"
+                            android:gravity="center_vertical"
+                            android:text="菜品名称"
+                            android:textColor="#999999"
+                            android:textSize="16px" />
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="数量/重量"
+                            android:textColor="#999999"
+                            android:textSize="16px" />
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="单价"
+                            android:textColor="#999999"
+                            android:textSize="16px" />
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="价格"
+                            android:textColor="#999999"
+                            android:textSize="16px" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"
+                        android:background="@color/colore5e5e5" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rlv_order_food"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"></android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_operation"
+                    android:layout_width="match_parent"
+                    android:layout_height="72px"
+                    android:background="@color/colore5e5e5"
+                    android:orientation="horizontal">
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_confirm"-->
+                        <!--android:layout_width="162px"-->
+                        <!--android:layout_height="52px"-->
+                        <!--android:layout_marginLeft="10px"-->
+                        <!--android:layout_marginTop="10px"-->
+                        <!--android:background="@drawable/shape_order_dishes_order_bg"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="确认"-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18px" />-->
+
+                    <TextView
+                        android:id="@+id/tv_bind"
+                        android:layout_width="162px"
+                        android:layout_height="52px"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginTop="10px"
+                        android:background="@drawable/shape_order_dishes_order_bg"
+                        android:gravity="center"
+                        android:text="绑定桌台"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18px" />
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_print"-->
+                        <!--android:layout_width="162px"-->
+                        <!--android:layout_height="52px"-->
+                        <!--android:layout_marginLeft="10px"-->
+                        <!--android:layout_marginRight="10px"-->
+                        <!--android:layout_marginTop="10px"-->
+                        <!--android:background="@drawable/shape_scan_pay_bg"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="取消"-->
+                        <!--android:textColor="@color/colorWhite"-->
+                        <!--android:textSize="18px" />-->
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </layout>

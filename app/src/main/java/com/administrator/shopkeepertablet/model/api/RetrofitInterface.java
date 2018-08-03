@@ -505,6 +505,20 @@ public interface RetrofitInterface {
             @Field("OperaName") String operaName,
             @Field("OperaID") String operaId);
 
+    //获取消息列表
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortOrderManagerASHX.ashx")
+    Observable<BaseEntity<String>> getMessage(
+            @Field("Type") String type,
+            @Field("id") String id,
+            @Field("leibie") String leibie,
+            @Field("OrderSate") String status,
+            @Field("Phone") String phone,
+            @Field("Pindex") int index,
+            @Field("Psize") int size
+    );
+
+
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
 //    Observable<BaseEntity<String>> changePeople(

@@ -1,5 +1,7 @@
 package com.administrator.shopkeepertablet;
 
+import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
+
 /**
  * Description:
  * Author CC
@@ -20,4 +22,13 @@ public class AppConstant {
     public static final int EVENT_RETURN_BILL =3;
     public static final int EVENT_MERGE_PAY = 3;
 
+    private static UserInfoEntity user;
+
+    public static UserInfoEntity getUser() {
+        return user;
+    }
+
+    public static void setUser(UserInfoEntity userInfoEntity) {
+        user = user;
+    }
 }

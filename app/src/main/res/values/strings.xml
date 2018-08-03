@@ -76,4 +76,6 @@
     <string name="order_price">订单金额: ￥%1$2.2f</string>
     <string name="order_discount">优惠金额: ￥%1$2.2f</string>
     <string name="order_pay">实付金额: ￥%1$2.2f</string>
+    <string name="message_user">点餐员-%1$s</string>
+    <string name="message_remark">备注: %1$s</string>
 </resources>

@@ -234,4 +234,9 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> productCharge(String type, String userID, String shopId, String cardID, int payType, String operaName, String operaId) {
         return retrofitInterface.productCharge(type, userID, shopId, cardID, payType, operaName, operaId);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getMessage(String type, String id, String leibie, String status, String phone, int index, int size) {
+        return retrofitInterface.getMessage(type, id, leibie, status, phone, index, size);
+    }
 }

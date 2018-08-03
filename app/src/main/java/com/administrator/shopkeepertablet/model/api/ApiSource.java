@@ -101,5 +101,7 @@ public interface ApiSource {
     Observable<BaseEntity<String>> moneyCharge(String type,String userID,String shopId,String price,int payType,String operaName,String operaId);
 
     Observable<BaseEntity<String>> productCharge(String type,String userID,String shopId,String cardID,int payType,String operaName,String operaId);
+
+    Observable<BaseEntity<String>> getMessage(String type,String id,String leibie,String status,String phone,int index,int size);
 }
 

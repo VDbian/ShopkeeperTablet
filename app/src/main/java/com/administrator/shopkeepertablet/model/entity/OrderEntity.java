@@ -2,6 +2,7 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import android.text.TextUtils;
 
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
 import com.google.gson.annotations.SerializedName;
 
@@ -78,6 +79,16 @@ public class OrderEntity {
     @SerializedName("FREEMONEY")
     private double freeMoney;
 
+    private boolean select;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
     public String showOrderType() {
         String orderType = "";
 //        Type  1.预定菜品 2 预定桌位  3.外卖  4.快餐 5.扫码点餐 6.排队点餐 7.店内点餐
@@ -89,7 +100,11 @@ public class OrderEntity {
                 orderType = "预定桌位";
                 break;
             case 3:
-                orderType = "外卖";
+                if(!TextUtils.isEmpty(AppConstant.getUser().getMasterType())&&AppConstant.getUser().getMasterType().equals("1")) {
+                    orderType = "商家采购";
+                }else {
+                    orderType = "外卖";
+                }
                 break;
             case 4:
                 orderType = "快餐";

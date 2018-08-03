@@ -33,14 +33,13 @@
                 android:id="@+id/tv_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="订单类型"
                 android:layout_gravity="center_vertical"
-                android:gravity="center"
                 android:layout_marginLeft="32px"
-                android:textColor="@color/color97a3aa"
-                android:textSize="17px"
                 android:drawableRight="@mipmap/arrow_down"
-                />
+                android:gravity="center"
+                android:text="订单类型"
+                android:textColor="@color/color97a3aa"
+                android:textSize="17px" />
             <TextView
                 android:id="@+id/tv_state"
                 android:layout_width="wrap_content"

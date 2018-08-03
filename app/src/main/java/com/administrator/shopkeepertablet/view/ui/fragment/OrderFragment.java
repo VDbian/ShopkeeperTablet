@@ -74,10 +74,10 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener 
         super.onActivityCreated(savedInstanceState);
 //        EventBus.getDefault().register(this);
         initView();
+        viewModel.getOrderList(type, state);
     }
 
     private void initView() {
-        viewModel.getOrderList(type, state);
 
         adapter = new OrderListAdapter(getActivity(), mList);
         binding.rlvOrder.setLayoutManager(new LinearLayoutManager(getActivity()));

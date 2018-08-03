@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.model.preference;
 
+import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
 import com.cocosw.favor.AllFavor;
 import com.cocosw.favor.Default;
 import com.cocosw.favor.Favor;
@@ -33,12 +34,11 @@ public interface PreferenceSource {
     @Favor("userId")
     void setUserId(String userId);
 
-
-    @Favor("permissionName")
+    @Favor("user")
     @Default("")
-    String getPermissionName();
+    Object getUser();
 
-    @Favor("permissionName")
-    void setPermissionName(String permissionName);
+    @Favor("user")
+    void setUser(Object user);
 
 }

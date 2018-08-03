@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.OrderEntity"/>
+    </data>
+    
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16px"
+        android:layout_marginRight="16px"
+        >
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{entity.showOrderType()}"
+            android:textColor="@color/color666666"
+            android:textSize="20px"
+            android:layout_marginTop="12px"
+            />
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/price_prefix(entity.orderPrice())}"
+            android:textColor="@color/color666666"
+            android:textSize="20px"
+            android:layout_marginTop="12px"
+            android:layout_alignParentRight="true"
+            />
+        <TextView
+            android:id="@+id/tv_pay_state"
+            android:layout_below="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{entity.showPayState()}"
+            android:textColor="@color/colorc0c8ce"
+            android:textSize="14px"
+            android:layout_marginTop="12px"
+            />
+        <TextView
+            android:id="@+id/tv_message_state"
+            android:layout_below="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{entity.showOrderState()}"
+            android:textColor="#FFB001"
+            android:textSize="14px"
+            android:layout_marginTop="12px"
+            android:layout_alignParentRight="true"
+            />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_below="@+id/tv_pay_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{entity.recordDate}"
+            android:textColor="@color/colorc0c8ce"
+            android:textSize="14px"
+            android:layout_marginTop="8px"
+            />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_below="@+id/tv_message_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/message_user(entity.userName)}"
+            android:textColor="@color/colorc0c8ce"
+            android:textSize="14px"
+            android:layout_marginTop="8px"
+            android:layout_alignParentRight="true"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colore5e5e5"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginTop="16px"
+            />
+
+    </RelativeLayout>
+    
+</layout>
