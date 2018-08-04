@@ -37,4 +37,22 @@ public class MessageRepositoryImpl extends BaseRepertoryImpl implements MessageR
         return apiSource.getOrderDetail(id, type, billId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<BaseEntity<String>> confirm(String type, String shopID, String orderId, String billId, String types) {
+        return apiSource.confirm(type, shopID, orderId, billId, types).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> cancel(String type, String shopID, String orderId) {
+        return apiSource.cancel(type, shopID, orderId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> bindTable(String type, String orderId, String tableId, String id, String tableWareCount, String name, String tableName) {
+        return apiSource.bindTable(type, orderId, tableId, id, tableWareCount, name, tableName).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

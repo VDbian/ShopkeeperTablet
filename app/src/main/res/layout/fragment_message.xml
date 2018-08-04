@@ -36,18 +36,24 @@
                 android:layout_height="48px"
                 android:background="@color/colorf7f7f7"
                 >
-                <TextView
-                    android:id="@+id/tv_type"
-                    android:layout_width="wrap_content"
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_type"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_marginLeft="32px"-->
+                    <!--android:drawableRight="@mipmap/arrow_down"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="订单类型"-->
+                    <!--android:textColor="@color/color97a3aa"-->
+                    <!--android:textSize="17px" />-->
+                <Spinner
+                    android:id="@+id/spinner_type"
+                    android:layout_width="156px"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="32px"
-                    android:drawableRight="@mipmap/arrow_down"
-                    android:gravity="center"
-                    android:text="订单类型"
-                    android:textColor="@color/color97a3aa"
-                    android:textSize="17px" />
-
+                    android:shadowColor="@color/colorf7f7f7"
+                    ></Spinner>
             </RelativeLayout>
             
             <com.jcodecraeer.xrecyclerview.XRecyclerView
@@ -303,17 +309,17 @@
                     android:background="@color/colore5e5e5"
                     android:orientation="horizontal">
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/tv_confirm"-->
-                        <!--android:layout_width="162px"-->
-                        <!--android:layout_height="52px"-->
-                        <!--android:layout_marginLeft="10px"-->
-                        <!--android:layout_marginTop="10px"-->
-                        <!--android:background="@drawable/shape_order_dishes_order_bg"-->
-                        <!--android:gravity="center"-->
-                        <!--android:text="确认"-->
-                        <!--android:textColor="@color/colorWhite"-->
-                        <!--android:textSize="18px" />-->
+                    <TextView
+                        android:id="@+id/tv_confirm"
+                        android:layout_width="162px"
+                        android:layout_height="52px"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginTop="10px"
+                        android:background="@drawable/shape_order_dishes_order_bg"
+                        android:gravity="center"
+                        android:text="确认"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18px" />
 
                     <TextView
                         android:id="@+id/tv_bind"
@@ -327,18 +333,18 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="18px" />
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/tv_print"-->
-                        <!--android:layout_width="162px"-->
-                        <!--android:layout_height="52px"-->
-                        <!--android:layout_marginLeft="10px"-->
-                        <!--android:layout_marginRight="10px"-->
-                        <!--android:layout_marginTop="10px"-->
-                        <!--android:background="@drawable/shape_scan_pay_bg"-->
-                        <!--android:gravity="center"-->
-                        <!--android:text="取消"-->
-                        <!--android:textColor="@color/colorWhite"-->
-                        <!--android:textSize="18px" />-->
+                    <TextView
+                        android:id="@+id/tv_cancel"
+                        android:layout_width="162px"
+                        android:layout_height="52px"
+                        android:layout_marginLeft="10px"
+                        android:layout_marginRight="10px"
+                        android:layout_marginTop="10px"
+                        android:background="@drawable/shape_table_leisure_bg"
+                        android:gravity="center"
+                        android:text="取消"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18px" />
 
                 </LinearLayout>
             </LinearLayout>

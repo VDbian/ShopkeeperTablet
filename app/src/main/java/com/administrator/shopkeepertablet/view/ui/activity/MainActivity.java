@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.view.ui.activity;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.ActivityMainBinding;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
@@ -168,7 +170,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 displayFrg(FRAGMENT_ORDER);
                 break;
             case R.id.tab_printer:
-
+                if (AppConstant.getUser().getPermissionValue().contains(""))
                 break;
             case R.id.tab_recharge:
                 showTabView(FRAGMENT_RECHARGE);
@@ -183,5 +185,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 displayFrg(FRAGMENT_SETTING);
                 break;
         }
+    }
+
+    public void intentToLogin(){
+        Intent intent =new Intent(MainActivity.this,LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

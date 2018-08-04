@@ -109,65 +109,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/colorf2f2f2" />
-
-
         </LinearLayout>
 
         <View
             android:layout_width="2px"
             android:layout_height="match_parent"
             android:background="@color/color19000000" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48px"
-            android:layout_marginTop="54px">
-
-            <LinearLayout
-                android:id="@+id/ll_id"
-                android:layout_width="480px"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/shape_login_edit"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="100px"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/setting_id"
-                    android:textColor="@color/color666666"
-                    android:textSize="18px" />
-
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="match_parent"
-                    android:background="@color/colore5e5e5" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:paddingLeft="16px"
-                    android:text="@={viewModel.id}"
-                    android:textColor="@color/color333333"
-                    android:textSize="18px" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_confirm"
-                android:layout_width="118px"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16px"
-                android:layout_toRightOf="@+id/ll_id"
-                android:background="@drawable/shape_login_button"
-                android:gravity="center"
-                android:text="@string/setting_confirm"
-                android:textColor="@color/colorWhite"
-                android:textSize="22px" />
-
-        </RelativeLayout>
 
     </LinearLayout>
 

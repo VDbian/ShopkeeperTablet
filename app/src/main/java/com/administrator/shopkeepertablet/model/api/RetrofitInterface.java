@@ -518,6 +518,47 @@ public interface RetrofitInterface {
             @Field("Psize") int size
     );
 
+    //消息确认
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortOrderManagerASHX.ashx")
+    Observable<BaseEntity<String>> confirm(
+            @Field("Type") String type,
+            @Field("Id") String shopID,
+            @Field("OrderId") String orderId,
+            @Field("BILLID") String billId,
+            @Field("Types") String types);
+
+    //消息取消
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortOrderManagerASHX.ashx")
+    Observable<BaseEntity<String>> cancel(
+            @Field("Type") String type,
+            @Field("ID") String shopID,
+            @Field("OrderID") String orderId);
+
+    //绑定桌位
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortOrderManagerASHX.ashx")
+    Observable<BaseEntity<String>> bindTable(
+            @Field("type") String s,
+            @Field("OrderID") String orderId,
+            @Field("TableID") String tableId,
+            @Field("id") String id,
+            @Field("TableWareCount") String tableWareCount,
+            @Field("Name") String name,
+            @Field("TableName") String tableName);
+
+    //交班打印
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortPrinterManager.ashx")
+    Observable<BaseEntity<String>> jiaoBanPrint(
+            @Field("type") String s,
+            @Field("printsouce") String s1,
+            @Field("id") String shopID,
+            @Field("Name") String name,
+            @Field("price") String s2,
+            @Field("userid") String id);
+
 
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.PopupWindow;
 
 import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
@@ -52,6 +53,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private int flag;
 
     private List<OrderFoodEntity> mList = new ArrayList<>();
+    private PopupWindowMember popupWindowMember;
 
 
     @Override
@@ -144,14 +146,25 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void showPopMember() {
-        PopupWindowMember popupWindowMember = new PopupWindowMember(this, viewModel);
+        popupWindowMember = new PopupWindowMember(this, viewModel);
         popupWindowMember.setOnCallBackListener(new PopupWindowMember.OnCallBackListener() {
             @Override
             public void confirm() {
+                binding.llMember.setVisibility(View.VISIBLE);
+            }
 
+            @Override
+            public void dismiss() {
+                popupWindowMember = null;
             }
         });
         popupWindowMember.showPopupWindowUp();
+    }
+
+    public void searchSuccess() {
+        if (popupWindowMember != null && popupWindowMember.isShowing()) {
+            popupWindowMember.searchSuccess();
+        }
     }
 
     private void showDialogCoupon() {

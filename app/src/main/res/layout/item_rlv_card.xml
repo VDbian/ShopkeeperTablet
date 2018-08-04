@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.CardEntity"/>
+    </data>
+
     <LinearLayout
+        android:id="@+id/ll_main"
         android:layout_width="320px"
         android:layout_height="100px"
         android:orientation="horizontal"
@@ -18,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
                 android:textSize="28px"
-                android:text="￥20"
+                android:text="@{@string/price_prefix(entity.money)}"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="16px"
                 />
@@ -45,7 +52,7 @@
                 android:textSize="16px"
                 android:textColor="#74787B"
                 android:layout_marginLeft="10px"
-                android:text="满100减20"
+                android:text="@{entity.name}"
                 android:layout_marginTop="16px"
                 />
             <TextView

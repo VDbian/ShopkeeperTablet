@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.administrator.shopkeepertablet.viewmodel.PayViewModel"/>
+    </data>
+
     <LinearLayout
         android:layout_width="720px"
         android:layout_height="520px"
@@ -91,9 +97,10 @@
                     android:visibility="visible"
                     >
                     <TextView
+                        android:id="@+id/tv_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/card_num"
+                        android:text="@{@string/card_num(viewModel.member.no)}"
                         android:layout_marginTop="12px"
                         android:layout_marginLeft="12px"
                         android:textSize="16px"
@@ -101,18 +108,20 @@
                         />
 
                     <TextView
+                        android:id="@+id/tv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/name"
+                        android:text="@{@string/name(viewModel.member.name)}"
                         android:layout_marginTop="12px"
                         android:layout_marginLeft="12px"
                         android:textSize="16px"
                         android:textColor="@color/color848d95"
                         />
                     <TextView
+                        android:id="@+id/tv_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/phone"
+                        android:text="@{@string/phone(viewModel.member.phone)}"
                         android:layout_marginTop="12px"
                         android:layout_marginLeft="12px"
                         android:textSize="16px"
@@ -128,18 +137,20 @@
                         android:layout_marginRight="12px"
                         >
                         <TextView
+                            android:id="@+id/tv_money"
                             android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/balance"
+                            android:text="@{@string/balance(viewModel.member.money)}"
                             android:textColor="@color/color666666"
                             android:textSize="18px"
                             />
                         <TextView
+                            android:id="@+id/tv_score"
                             android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/points"
+                            android:text="@{@string/points(viewModel.member.score)}"
                             android:textColor="@color/color666666"
                             android:textSize="18px"
                             />
@@ -154,7 +165,6 @@
                     android:layout_marginTop="16px"
                     android:background="@drawable/shape_login_edit"
                     android:orientation="horizontal"
-                    android:visibility="invisible"
                     >
                     <EditText
                         android:id="@+id/et_integral"

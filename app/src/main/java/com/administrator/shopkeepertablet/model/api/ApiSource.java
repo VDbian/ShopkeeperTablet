@@ -103,5 +103,13 @@ public interface ApiSource {
     Observable<BaseEntity<String>> productCharge(String type,String userID,String shopId,String cardID,int payType,String operaName,String operaId);
 
     Observable<BaseEntity<String>> getMessage(String type,String id,String leibie,String status,String phone,int index,int size);
+
+    Observable<BaseEntity<String>> confirm(String type,String shopID,String orderId,String billId,String types);
+
+    Observable<BaseEntity<String>> cancel(String type,String shopID,String orderId);
+
+    Observable<BaseEntity<String>> bindTable(String type,String orderId,String tableId,String id,String tableWareCount,String name,String tableName);
+
+    Observable<BaseEntity<String>> jiaoBanPrint(String s,String s1,String shopID,String name,String s2,String id);
 }
 

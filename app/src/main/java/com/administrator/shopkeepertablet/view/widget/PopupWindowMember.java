@@ -80,19 +80,34 @@ public class PopupWindowMember extends PopupWindow {
             @Override
             public void onDismiss() {
                 backgroundAlpha(1f);
+                if (onCallBackListener!=null){
+                    onCallBackListener.dismiss();
+                }
             }
         });
 
     }
 
     private void initView() {
-//        String title = String.format("退菜 <font color=\"#FBBC05\">（%s）", orderFoodEntity.getProductName());
-//        binding.tvReturn.setText(Html.fromHtml(title));
-
+        if (viewModel.member.get()!=null){
+            searchSuccess();
+        }
+        binding.llMemberInfo.setVisibility(View.INVISIBLE);
+        binding.llIntegral.setVisibility(View.INVISIBLE);
         binding.ivCancel.setOnClickListener(listener);
         binding.tvSearchMember.setOnClickListener(listener);
         binding.tvIntegral.setOnClickListener(listener);
         binding.tvConfirm.setOnClickListener(listener);
+    }
+
+    public void searchSuccess(){
+        binding.llMemberInfo.setVisibility(View.VISIBLE);
+        binding.llIntegral.setVisibility(View.VISIBLE);
+        binding.tvNo.setText(String.format(context.getResources().getString(R.string.member_num), viewModel.member.get().getNo()));
+        binding.tvName.setText(String.format(context.getResources().getString(R.string.member_name), viewModel.member.get().getName()));
+        binding.tvMoney.setText(String.format(context.getResources().getString(R.string.member_balance), viewModel.member.get().getMoney()));
+        binding.tvPhone.setText(String.format(context.getResources().getString(R.string.member_phone), viewModel.member.get().getPhone()));
+        binding.tvScore.setText(String.format(context.getResources().getString(R.string.member_points), viewModel.member.get().getScore()));
     }
 
     View.OnClickListener listener = new View.OnClickListener() {
@@ -108,9 +123,16 @@ public class PopupWindowMember extends PopupWindow {
                     }
                     break;
                 case R.id.tv_integral:
+                    String integral =binding.etIntegral.getText().toString().trim();
+                    if (!TextUtils.isEmpty(integral)&&Integer.getInteger(integral)<=viewModel.member.get().getScore()){
+                        viewModel.integral.set(integral);
+                    }
                     break;
                 case R.id.tv_confirm:
                     dismiss();
+                    if (onCallBackListener!=null){
+                        onCallBackListener.confirm();
+                    }
                     break;
                 case R.id.iv_cancel:
                     dismiss();
@@ -166,6 +188,8 @@ public class PopupWindowMember extends PopupWindow {
 
     public interface OnCallBackListener {
         void confirm();
+
+        void dismiss();
     }
 
     public void setOnCallBackListener(OnCallBackListener onCallBackListener) {

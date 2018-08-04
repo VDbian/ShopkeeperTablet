@@ -292,7 +292,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12px"
                         android:layout_marginTop="12px"
-                        android:text="@string/member_num"
+                        android:text="@{@string/member_num(viewModel.member.no)}"
                         android:textColor="@color/color666666"
                         android:textSize="15px" />
 
@@ -308,7 +308,7 @@
                             android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/member_name"
+                            android:text="@{@string/member_name(viewModel.member.name)}"
                             android:textColor="@color/color666666"
                             android:textSize="15px" />
 
@@ -316,7 +316,7 @@
                             android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/member_phone"
+                            android:text="@{@string/member_phone(viewModel.member.phone)}"
                             android:textColor="@color/color666666"
                             android:textSize="15px" />
 
@@ -335,7 +335,7 @@
                             android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/member_balance"
+                            android:text="@{@string/member_balance(viewModel.member.money)}"
                             android:textColor="@color/color666666"
                             android:textSize="15px" />
 
@@ -343,7 +343,7 @@
                             android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/member_points"
+                            android:text="@{@string/member_points(viewModel.member.score)}"
                             android:textColor="@color/color666666"
                             android:textSize="15px" />
                     </LinearLayout>

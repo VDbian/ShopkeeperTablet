@@ -43,21 +43,6 @@ public interface LineUpRepository extends BaseRepertory {
      */
     Observable<BaseEntity<String>> addQueue(String type, String selvalue, String shopId);
 
-    /**
-     * 绑定桌位
-     *
-     * @param type           3
-     * @param selvalue       桌位类别Id
-     * @param name           操作员
-     * @param userID         操作员Id
-     * @param tableId        桌位Id
-     * @param tableName      桌位名称
-     * @param tableWareCount 用餐人数
-     * @param orderid        排号Id
-     * @param shopId         店铺Id
-     * @return
-     */
-    Observable<BaseEntity<String>> bindQueue(String type, String selvalue, String name, String userID, String tableId, String tableName, String tableWareCount, String orderid, String shopId);
 
     /**
      * 删除排队

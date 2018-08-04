@@ -44,11 +44,6 @@ public class LineUpRepositoryImpl extends BaseRepertoryImpl implements LineUpRep
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    @Override
-    public Observable<BaseEntity<String>> bindQueue(String type, String selvalue, String name, String userID, String tableId, String tableName, String tableWareCount, String orderid, String shopId) {
-        return apiSource.bindQueue(type, selvalue, name, userID, tableId, tableName, tableWareCount, orderid, shopId).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
 
     @Override
     public Observable<BaseEntity<String>> deleteQueue(String type, String orderid) {

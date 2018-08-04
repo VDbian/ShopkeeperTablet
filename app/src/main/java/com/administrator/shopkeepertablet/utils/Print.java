@@ -22,7 +22,7 @@ public class Print {
         this.baseRepertory = baseRepertory;
     }
 
-    public  void rxPrint(String data) {
+    public void rxPrint(String data) {
         Observable.just(data).map(s -> {
             socketDataArrivalHandler(s);
             return true;
