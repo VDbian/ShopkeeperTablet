@@ -85,6 +85,8 @@ public class OrderFoodEntity {
     @SerializedName("SeasonSum")
     private String seasonNum;
 
+    private int discount;
+
     public String getRestaurantId() {
         return restaurantId;
     }
@@ -279,6 +281,14 @@ public class OrderFoodEntity {
 
     public void setSeasonNum(String seasonNum) {
         this.seasonNum = seasonNum;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
     @Override

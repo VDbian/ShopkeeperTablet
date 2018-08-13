@@ -6,8 +6,10 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -69,8 +71,15 @@ public class BindLineUpDialog extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        binding = DataBindingUtil.setContentView(getActivity(),R.layout.layout_confirm_info);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setCancelable(false);
+        setStyle(STYLE_NO_FRAME,R.style.Theme_AppCompat_Dialog);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View customView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_bind_line_up, null);
         binding = DataBindingUtil.bind(customView);
@@ -123,10 +132,10 @@ public class BindLineUpDialog extends DialogFragment {
                 }
         );
 
-        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(binding.getRoot()).create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
+//        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(binding.getRoot()).create();
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setCancelable(false);
+//        dialog.setCanceledOnTouchOutside(false);
 
         binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +153,7 @@ public class BindLineUpDialog extends DialogFragment {
                 }
             }
         });
-        return dialog;
+        return binding.getRoot();
     }
 
     @Override

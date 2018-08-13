@@ -111,5 +111,11 @@ public interface ApiSource {
     Observable<BaseEntity<String>> bindTable(String type,String orderId,String tableId,String id,String tableWareCount,String name,String tableName);
 
     Observable<BaseEntity<String>> jiaoBanPrint(String s,String s1,String shopID,String name,String s2,String id);
+
+    Observable<BaseEntity<String>> getDiscountList(String shopID,String type);
+
+    Observable<BaseEntity<String>> getDazhe(String s,String billid,String shopId,String chengdazhe,int dazhe,String daId);
+
+    Observable<BaseEntity<String>> getMergeOrderList(String s,String shopID,String tableId);
 }
 

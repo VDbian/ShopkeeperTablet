@@ -559,6 +559,32 @@ public interface RetrofitInterface {
             @Field("price") String s2,
             @Field("userid") String id);
 
+    //获取打折列表
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> getDiscountList(
+            @Field("id") String shopID,
+            @Field("type") String type);
+
+    //权限打折
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> getDazhe(
+            @Field("Type") String s,
+            @Field("id") String billid,
+            @Field("mid") String shopId,
+            @Field("chengdazhe") String chengdazhe,
+            @Field("dazhe") int dazhe,
+            @Field("daid") String daId
+    );
+
+    //获取并单后菜品信息
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortKaiDanAshx.ashx")
+    Observable<BaseEntity<String>> getMergeOrderList(
+            @Field("type") String s,
+            @Field("id") String shopID,
+            @Field("TABLEID") String tableId);
 
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")

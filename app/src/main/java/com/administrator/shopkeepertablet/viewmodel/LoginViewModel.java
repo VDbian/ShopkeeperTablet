@@ -43,7 +43,8 @@ public class LoginViewModel extends BaseViewModel {
                 MToast.showToast(loginActivity,"请先设置店铺ID");
                 return;
             }
-            loginRepertory.login("收银", preferenceSource.getId(), "111")
+//            loginRepertory.login("收银", preferenceSource.getId(), "111")
+            loginRepertory.login(username.get(), preferenceSource.getId(), password.get())
                     .subscribe(new Consumer<BaseEntity<String>>() {
                         @Override
                         public void accept(BaseEntity<String> baseEntity) throws Exception {

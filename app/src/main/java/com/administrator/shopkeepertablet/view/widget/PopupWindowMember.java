@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +16,15 @@ import android.widget.PopupWindow;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.PopupwindowMemberBinding;
+import com.administrator.shopkeepertablet.model.entity.CardEntity;
 import com.administrator.shopkeepertablet.utils.MToast;
+import com.administrator.shopkeepertablet.view.ui.adapter.CardAdapter;
 import com.administrator.shopkeepertablet.viewmodel.PayViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.icu.lang.UProperty.MATH;
 
 
 /**
@@ -30,12 +39,14 @@ public class PopupWindowMember extends PopupWindow {
     private DisplayMetrics metrics;
     private PopupwindowMemberBinding binding;
     private PayViewModel viewModel;
+    private CardAdapter adapter;
+    private List<CardEntity> cardEntityList = new ArrayList<>();
 
     private OnCallBackListener onCallBackListener;
 
     public PopupWindowMember(Context context, PayViewModel viewModel) {
         this.context = context;
-        this.viewModel =viewModel;
+        this.viewModel = viewModel;
         initPopupWindow();
     }
 
@@ -44,6 +55,7 @@ public class PopupWindowMember extends PopupWindow {
         binding = DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.popupwindow_member, null, false);
 //        setContentView((Activity) context, R.layout.popupwindow_begin_table)
+        binding.setViewModel(viewModel);
         initView();
         int width = View.MeasureSpec.makeMeasureSpec(0,
                 View.MeasureSpec.UNSPECIFIED);
@@ -60,12 +72,12 @@ public class PopupWindowMember extends PopupWindow {
         // 设置SelectPicPopupWindow的View
         this.setContentView(binding.getRoot());
         // 设置SelectPicPopupWindow弹出窗体的宽
-        this.setWidth(720);
+        this.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体的高
 //        if (viewHeight > h / 2) {
 //            this.setHeight(h / 2);
 //        } else {
-        this.setHeight(520);
+        this.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 //        }
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
@@ -80,7 +92,7 @@ public class PopupWindowMember extends PopupWindow {
             @Override
             public void onDismiss() {
                 backgroundAlpha(1f);
-                if (onCallBackListener!=null){
+                if (onCallBackListener != null) {
                     onCallBackListener.dismiss();
                 }
             }
@@ -89,25 +101,42 @@ public class PopupWindowMember extends PopupWindow {
     }
 
     private void initView() {
-        if (viewModel.member.get()!=null){
+        adapter = new CardAdapter(context, cardEntityList);
+        binding.rlvCard.setAdapter(adapter);
+        binding.rlvCard.setLayoutManager(new LinearLayoutManager(context));
+        binding.rlvCard.addItemDecoration(new RecyclerViewItemDecoration(5));
+        adapter.setOnItemClick(new CardAdapter.OnItemClick() {
+            @Override
+            public void onItemClick(CardEntity entity, int position) {
+
+            }
+        });
+
+        if (viewModel.member.get() != null) {
             searchSuccess();
+        } else {
+            binding.llMemberInfo.setVisibility(View.INVISIBLE);
+            binding.llIntegral.setVisibility(View.INVISIBLE);
         }
-        binding.llMemberInfo.setVisibility(View.INVISIBLE);
-        binding.llIntegral.setVisibility(View.INVISIBLE);
         binding.ivCancel.setOnClickListener(listener);
         binding.tvSearchMember.setOnClickListener(listener);
         binding.tvIntegral.setOnClickListener(listener);
         binding.tvConfirm.setOnClickListener(listener);
+
+
     }
 
-    public void searchSuccess(){
+    public void searchSuccess() {
+//        binding.tvNo.setText(String.format(context.getResources().getString(R.string.member_num), viewModel.member.get().getNo()));
+//        binding.tvName.setText(String.format(context.getResources().getString(R.string.member_name), viewModel.member.get().getName()));
+//        binding.tvMoney.setText(String.format(context.getResources().getString(R.string.member_balance), viewModel.member.get().getMoney()));
+//        binding.tvPhone.setText(String.format(context.getResources().getString(R.string.member_phone), viewModel.member.get().getPhone()));
+//        binding.tvScore.setText(String.format(context.getResources().getString(R.string.member_points), viewModel.member.get().getScore()));
         binding.llMemberInfo.setVisibility(View.VISIBLE);
         binding.llIntegral.setVisibility(View.VISIBLE);
-        binding.tvNo.setText(String.format(context.getResources().getString(R.string.member_num), viewModel.member.get().getNo()));
-        binding.tvName.setText(String.format(context.getResources().getString(R.string.member_name), viewModel.member.get().getName()));
-        binding.tvMoney.setText(String.format(context.getResources().getString(R.string.member_balance), viewModel.member.get().getMoney()));
-        binding.tvPhone.setText(String.format(context.getResources().getString(R.string.member_phone), viewModel.member.get().getPhone()));
-        binding.tvScore.setText(String.format(context.getResources().getString(R.string.member_points), viewModel.member.get().getScore()));
+        cardEntityList.clear();
+        cardEntityList.addAll(viewModel.cardList.get());
+        adapter.notifyDataSetChanged();
     }
 
     View.OnClickListener listener = new View.OnClickListener() {
@@ -116,21 +145,21 @@ public class PopupWindowMember extends PopupWindow {
             switch (v.getId()) {
                 case R.id.tv_search_member:
                     String num = binding.etMemberNum.getText().toString().trim();
-                    if (TextUtils.isEmpty(num)){
-                        MToast.showToast(context,"请输入会员号");
-                    }else {
+                    if (TextUtils.isEmpty(num)) {
+                        MToast.showToast(context, "请输入会员号");
+                    } else {
                         viewModel.getMember(num);
                     }
                     break;
                 case R.id.tv_integral:
-                    String integral =binding.etIntegral.getText().toString().trim();
-                    if (!TextUtils.isEmpty(integral)&&Integer.getInteger(integral)<=viewModel.member.get().getScore()){
+                    String integral = binding.etIntegral.getText().toString().trim();
+                    if (!TextUtils.isEmpty(integral) && Integer.getInteger(integral) <= viewModel.member.get().getScore()) {
                         viewModel.integral.set(integral);
                     }
                     break;
                 case R.id.tv_confirm:
                     dismiss();
-                    if (onCallBackListener!=null){
+                    if (onCallBackListener != null) {
                         onCallBackListener.confirm();
                     }
                     break;

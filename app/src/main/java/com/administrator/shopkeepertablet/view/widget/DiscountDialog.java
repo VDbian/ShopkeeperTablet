@@ -5,8 +5,10 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 
 import com.administrator.shopkeepertablet.R;
@@ -24,6 +26,7 @@ public class DiscountDialog extends DialogFragment {
     private String title;
     private DialogDiscountBinding binding;
     private OnConfirmClick onConfirmClick;
+    private String discount;
 
 
     public void setOnConfirmClick(OnConfirmClick onConfirmClick) {
@@ -38,16 +41,29 @@ public class DiscountDialog extends DialogFragment {
         this.title = title;
     }
 
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = String.valueOf(discount);
+    }
+
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        binding = DataBindingUtil.setContentView(getActivity(),R.layout.layout_confirm_info);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setCancelable(false);
+        setStyle(STYLE_NO_FRAME,R.style.Theme_AppCompat_Dialog);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View customView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_discount, null);
         binding = DataBindingUtil.bind(customView);
         binding.tvTitle.setText(title);
-
-        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(binding.getRoot()).create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        binding.etDiscountNum.setText(discount);
 
         binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +81,7 @@ public class DiscountDialog extends DialogFragment {
                 }
             }
         });
-        return dialog;
+        return binding.getRoot();
     }
 
     public interface OnConfirmClick {

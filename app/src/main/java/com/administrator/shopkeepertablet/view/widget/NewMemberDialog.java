@@ -5,9 +5,11 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 
 import com.administrator.shopkeepertablet.R;
@@ -32,17 +34,19 @@ public class NewMemberDialog extends DialogFragment {
         this.onConfirmClick = onConfirmClick;
     }
 
-
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        binding = DataBindingUtil.setContentView(getActivity(),R.layout.layout_confirm_info);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setCancelable(false);
+        setStyle(STYLE_NO_FRAME,R.style.Theme_AppCompat_Dialog);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View customView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_new_member, null);
         binding = DataBindingUtil.bind(customView);
-
-        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(binding.getRoot()).create();
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +68,7 @@ public class NewMemberDialog extends DialogFragment {
                 }
             }
         });
-        return dialog;
+        return binding.getRoot();
     }
 
     public interface OnConfirmClick {

@@ -29,6 +29,6 @@ public class AppConstant {
     }
 
     public static void setUser(UserInfoEntity userInfoEntity) {
-        user = user;
+        user = userInfoEntity;
     }
 }

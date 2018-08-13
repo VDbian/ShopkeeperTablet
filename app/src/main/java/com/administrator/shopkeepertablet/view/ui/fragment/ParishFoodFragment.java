@@ -109,7 +109,7 @@ public class ParishFoodFragment extends BaseFragment {
                         viewModel.people.set("1");
                         viewModel.tableware.set("1");
                         popBeginTable = new PopupWindowBeginTable(getActivity(), viewModel);
-                        popBeginTable.showPopupWindowUp(binding.tabRoom);
+                        popBeginTable.showPopupWindow(binding.tabRoom);
                         popBeginTable.setOnCallBackListener(new PopupWindowBeginTable.OnCallBackListener() {
                             @Override
                             public void open() {

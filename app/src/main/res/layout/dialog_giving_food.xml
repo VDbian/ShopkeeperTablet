@@ -1,142 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_width="360px"
-        android:layout_height="360px"
-        android:orientation="vertical"
-        android:background="@color/colorWhite"
-        >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="52px">
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="赠送"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="16px"
-                android:textSize="20px"
-                android:layout_centerVertical="true"
-                android:textColor="@color/color666666"
-                />
-            <ImageView
-                android:id="@+id/iv_cancel"
-                android:layout_width="24px"
-                android:layout_height="24px"
-                android:src="@mipmap/ic_expand_close"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16px"
-                />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/colore5e5e5" />
-
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
+            android:layout_width="360px"
+            android:layout_height="360px"
             android:orientation="vertical"
+            android:background="@color/colorWhite"
             >
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60px"
-                android:background="@drawable/shape_login_edit"
-                android:layout_marginLeft="16px"
-                android:layout_marginRight="16px"
-                android:layout_marginTop="16px"
+                android:layout_height="52px">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="赠送"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="16px"
+                    android:textSize="20px"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/color666666"
+                    />
+                <ImageView
+                    android:id="@+id/iv_cancel"
+                    android:layout_width="24px"
+                    android:layout_height="24px"
+                    android:src="@mipmap/ic_expand_close"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16px"
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colore5e5e5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="60px"
+                    android:background="@drawable/shape_login_edit"
+                    android:layout_marginLeft="16px"
+                    android:layout_marginRight="16px"
+                    android:layout_marginTop="16px"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="29px"
+                        android:text="赠送份数"
+                        android:textColor="@color/color333333"
+                        android:textSize="20px" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="48px"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="8px"
+                        android:background="@drawable/shape_count_bg"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_reduce"
+                            android:layout_width="44px"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="16px"
+                                android:layout_height="16px"
+                                android:layout_centerInParent="true"
+                                android:src="@mipmap/form_reduce" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tv_num"
+                            android:layout_width="42px"
+                            android:layout_height="match_parent"
+                            android:background="@color/colore5e5e5"
+                            android:gravity="center"
+                            android:text="1"
+                            android:textColor="@color/color333333"
+                            android:textSize="18px" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl_plus"
+                            android:layout_width="44px"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="16px"
+                                android:layout_height="16px"
+                                android:layout_centerInParent="true"
+                                android:src="@mipmap/form_plus" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/view_line_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colore5e5e5" />
+
+            <RelativeLayout
+                android:id="@+id/rl_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="52px"
                 >
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="29px"
-                    android:text="赠送份数"
-                    android:textColor="@color/color333333"
-                    android:textSize="20px" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="48px"
+                    android:id="@+id/tv_confirm"
+                    android:layout_width="120px"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="8px"
-                    android:background="@drawable/shape_count_bg"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:id="@+id/rl_reduce"
-                        android:layout_width="44px"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="16px"
-                            android:layout_height="16px"
-                            android:layout_centerInParent="true"
-                            android:src="@mipmap/form_reduce" />
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/tv_num"
-                        android:layout_width="42px"
-                        android:layout_height="match_parent"
-                        android:background="@color/colore5e5e5"
-                        android:gravity="center"
-                        android:text="1"
-                        android:textColor="@color/color333333"
-                        android:textSize="18px" />
-
-                    <RelativeLayout
-                        android:id="@+id/rl_plus"
-                        android:layout_width="44px"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="16px"
-                            android:layout_height="16px"
-                            android:layout_centerInParent="true"
-                            android:src="@mipmap/form_plus" />
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-
+                    android:background="@color/color4ab6f6"
+                    android:gravity="center"
+                    android:text="@string/confirm"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18px" />
             </RelativeLayout>
 
         </LinearLayout>
+    </RelativeLayout>
 
-
-        <View
-            android:id="@+id/view_line_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/colore5e5e5" />
-
-        <RelativeLayout
-            android:id="@+id/rl_confirm"
-            android:layout_width="match_parent"
-            android:layout_height="52px"
-            >
-
-            <TextView
-                android:id="@+id/tv_confirm"
-                android:layout_width="120px"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="@color/color4ab6f6"
-                android:gravity="center"
-                android:text="@string/confirm"
-                android:textColor="@color/colorWhite"
-                android:textSize="18px" />
-        </RelativeLayout>
-
-    </LinearLayout>
 </layout>

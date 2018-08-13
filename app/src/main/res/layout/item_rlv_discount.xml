@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.DiscountEntity"/>
+    </data>
+    
     <TextView
         android:layout_width="100px"
         android:layout_height="36px"
         android:background="@drawable/shape_discount"
-        android:text="全单五折"
+        android:text="@{entity.name}"
         android:textColor="@color/color848d95"
         android:textSize="16px"
         android:gravity="center"

@@ -259,4 +259,19 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> jiaoBanPrint(String s, String s1, String shopID, String name, String s2, String id) {
         return retrofitInterface.jiaoBanPrint(s, s1, shopID, name, s2, id);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getDiscountList(String shopID, String type) {
+        return retrofitInterface.getDiscountList(shopID, type);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getDazhe(String s, String billid, String shopId, String chengdazhe, int dazhe, String daId) {
+        return retrofitInterface.getDazhe(s, billid, shopId, chengdazhe, dazhe, daId);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getMergeOrderList(String s, String shopID, String tableId) {
+        return retrofitInterface.getMergeOrderList(s, shopID, tableId);
+    }
 }

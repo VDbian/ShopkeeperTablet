@@ -78,4 +78,6 @@
     <string name="order_pay">实付金额: ￥%1$2.2f</string>
     <string name="message_user">点餐员-%1$s</string>
     <string name="message_remark">备注: %1$s</string>
+    <string name="permission_price_prefix">-￥%1$2.2f</string>
+
 </resources>

@@ -8,72 +8,80 @@
     </data>
 
     <LinearLayout
-        android:id="@+id/ll_main"
-        android:layout_width="320px"
-        android:layout_height="100px"
-        android:orientation="horizontal"
-        android:background="@drawable/shape_card_normal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         >
         <LinearLayout
-            android:layout_width="128px"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="#FF8C29"
+            android:id="@+id/ll_main"
+            android:layout_width="320px"
+            android:layout_height="100px"
+            android:orientation="horizontal"
+            android:background="@drawable/shape_card_normal"
             >
-            <TextView
+            <LinearLayout
+                android:layout_width="128px"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#FF8C29"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="28px"
+                    android:text="@{@string/price_prefix(entity.money)}"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="16px"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="14px"
+                    android:text="优惠券"
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="16px"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
-                android:textSize="28px"
-                android:text="@{@string/price_prefix(entity.money)}"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="16px"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
-                android:textSize="14px"
-                android:text="优惠券"
-                android:gravity="center_horizontal"
-                android:paddingLeft="16px"
-                />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginRight="2px"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16px"
+                    android:textColor="#74787B"
+                    android:layout_marginLeft="10px"
+                    android:text="@{entity.name}"
+                    android:layout_marginTop="16px"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12px"
+                    android:textColor="#86898A"
+                    android:layout_marginLeft="10px"
+                    android:text="有效日期:"
+                    android:layout_marginTop="4px"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12px"
+                    android:textColor="#86898A"
+                    android:layout_marginLeft="10px"
+                    android:text="2018.07.22-2018.07.23"
+                    />
+            </LinearLayout>
+
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16px"
-                android:textColor="#74787B"
-                android:layout_marginLeft="10px"
-                android:text="@{entity.name}"
-                android:layout_marginTop="16px"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12px"
-                android:textColor="#86898A"
-                android:layout_marginLeft="10px"
-                android:text="有效日期:"
-                android:layout_marginTop="4px"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12px"
-                android:textColor="#86898A"
-                android:layout_marginLeft="10px"
-                android:text="2018.07.22-2018.07.23"
-                />
-        </LinearLayout>
-        
-        
     </LinearLayout>
+
 </layout>

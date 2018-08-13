@@ -2,122 +2,124 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <LinearLayout
-        android:id="@+id/ll_kouwei"
-        android:layout_width="380px"
-        android:layout_height="581px"
-        android:orientation="vertical"
-        android:background="@color/colorWhite"
-        >
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="52px">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_kouwei"
+            android:layout_width="380px"
+            android:layout_height="581px"
+            android:orientation="vertical"
+            android:background="@color/colorWhite"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="52px">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all_kouwei"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="16px"
+                    android:textSize="20px"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/color666666"
+                    />
+                <ImageView
+                    android:id="@+id/iv_cancel"
+                    android:layout_width="24px"
+                    android:layout_height="24px"
+                    android:src="@mipmap/ic_expand_close"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16px"
+                    />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/colore5e5e5" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="24px"
+                android:drawableLeft="@drawable/shape_oval_c0c8ce"
+                android:drawablePadding="8px"
                 android:text="@string/all_kouwei"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="16px"
-                android:textSize="20px"
-                android:layout_centerVertical="true"
-                android:textColor="@color/color666666"
-                />
-            <ImageView
-                android:id="@+id/iv_cancel"
-                android:layout_width="24px"
-                android:layout_height="24px"
-                android:src="@mipmap/ic_expand_close"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16px"
-                />
-
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/colore5e5e5" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24px"
-            android:layout_marginTop="24px"
-            android:drawableLeft="@drawable/shape_oval_c0c8ce"
-            android:drawablePadding="8px"
-            android:text="@string/all_kouwei"
-            android:textColor="@color/color97a3aa"
-            android:textSize="18px" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48px"
-            android:layout_marginLeft="16px"
-            android:layout_marginTop="16px"
-            android:layout_marginRight="16px"
-            android:background="@drawable/shape_login_edit"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100px"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="自定义"
-                android:textColor="@color/color333333"
+                android:textColor="@color/color97a3aa"
                 android:textSize="18px" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48px"
+                android:layout_marginLeft="16px"
+                android:layout_marginTop="16px"
+                android:layout_marginRight="16px"
+                android:background="@drawable/shape_login_edit"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="100px"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="自定义"
+                    android:textColor="@color/color333333"
+                    android:textSize="18px" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/colore5e5e5" />
+
+                <EditText
+                    android:id="@+id/et_kouwei"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:paddingLeft="16px"
+                    android:text=""
+                    android:textColor="@color/color333333"
+                    android:textSize="18px" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rlv_kouwei"
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:layout_marginLeft="8px"
+                android:layout_marginBottom="16px"
+                android:layout_marginTop="16px"></android.support.v7.widget.RecyclerView>
             <View
-                android:layout_width="1px"
-                android:layout_height="match_parent"
+                android:id="@+id/view_line_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
                 android:background="@color/colore5e5e5" />
 
-            <EditText
-                android:id="@+id/et_kouwei"
+            <RelativeLayout
+                android:id="@+id/rl_confirm"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:paddingLeft="16px"
-                android:text=""
-                android:textColor="@color/color333333"
-                android:textSize="18px" />
+                android:layout_height="52px"
+                >
+
+                <TextView
+                    android:id="@+id/tv_confirm"
+                    android:layout_width="120px"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/color4ab6f6"
+                    android:gravity="center"
+                    android:text="@string/confirm"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18px" />
+            </RelativeLayout>
+
 
         </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rlv_kouwei"
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1"
-            android:layout_marginLeft="8px"
-            android:layout_marginBottom="16px"
-            android:layout_marginTop="16px"></android.support.v7.widget.RecyclerView>
-        <View
-            android:id="@+id/view_line_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/colore5e5e5" />
-
-        <RelativeLayout
-            android:id="@+id/rl_confirm"
-            android:layout_width="match_parent"
-            android:layout_height="52px"
-            >
-
-            <TextView
-                android:id="@+id/tv_confirm"
-                android:layout_width="120px"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="@color/color4ab6f6"
-                android:gravity="center"
-                android:text="@string/confirm"
-                android:textColor="@color/colorWhite"
-                android:textSize="18px" />
-        </RelativeLayout>
-
-
-    </LinearLayout>
-
-
+    </RelativeLayout>
 </layout>

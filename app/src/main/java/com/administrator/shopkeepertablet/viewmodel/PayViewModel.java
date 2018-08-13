@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.CardEntity;
+import com.administrator.shopkeepertablet.model.entity.DiscountEntity;
 import com.administrator.shopkeepertablet.model.entity.MemberEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
@@ -13,8 +14,10 @@ import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.utils.DateUtils;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -38,9 +41,17 @@ public class PayViewModel extends BaseViewModel {
     public ObservableField<Double> discount = new ObservableField<>(0.0);
     public ObservableField<Double> payment = new ObservableField<>(0.0);
     public ObservableField<List<TableEntity>> tableList = new ObservableField<>();
+    public ObservableField<String> memberNum = new ObservableField<>("");
     public ObservableField<MemberEntity> member = new ObservableField<>();
-    public ObservableField<String> integral =new ObservableField<>("");
-    public ObservableField<List<CardEntity>> cardList =new ObservableField<>();
+    public ObservableField<String> integral = new ObservableField<>("");
+    public ObservableField<List<CardEntity>> cardList = new ObservableField<>();
+    public ObservableField<CardEntity> cardEntity = new ObservableField<>();
+    public ObservableField<String> couponNum = new ObservableField<>("");
+    public ObservableField<CardEntity> cardSearch = new ObservableField<>();
+    public ObservableField<String> discountNum = new ObservableField<>();
+    public ObservableField<List<DiscountEntity>> discountList = new ObservableField<>();
+    public ObservableField<Double> permissionDiscount = new ObservableField<>(0.0);
+    public ObservableField<Double> permissionRemission = new ObservableField<>(0.0);
 
     public PayViewModel(ParishRepertory parishRepertory, PreferenceSource preferenceSource, PayActivity activity) {
         this.parishRepertory = parishRepertory;
@@ -54,16 +65,16 @@ public class PayViewModel extends BaseViewModel {
 
     public void getMember(String num) {
         String bill = tableEntity.get().getBillId();
-        if (tableList.get()!=null&&!tableList.get().isEmpty()){
-           for (TableEntity entity :tableList.get()){
-               bill += ","+entity.getBillId();
-           }
+        if (tableList.get() != null && !tableList.get().isEmpty()) {
+            for (TableEntity entity : tableList.get()) {
+                bill += "," + entity.getBillId();
+            }
         }
-        parishRepertory.getMember("15",num,bill,preferenceSource.getId())
+        parishRepertory.getMember("15", num, bill, preferenceSource.getId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.toString());
+                        Log.e("vd", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             if (stringBaseEntity.getResult().equals("0")) {
                                 MToast.showToast(activity, "查询失败");
@@ -79,7 +90,7 @@ public class PayViewModel extends BaseViewModel {
                                 memberBean.setId(memberStrs[5]);
                                 memberBean.setRate(Double.parseDouble(memberStrs[6]));
                                 member.set(memberBean);
-                                Log.e("vd",member.get().toString());
+//                                Log.e("vd",member.get().toString());
                                 //笑笑@满30送5块@5.00@908fe556-e5b7-4446-ac26-0848c991061c@1^
                                 List<CardEntity> cardBeanList = new ArrayList<CardEntity>();
                                 if (split.length >= 2 && !TextUtils.isEmpty(split[1])) {
@@ -92,13 +103,14 @@ public class PayViewModel extends BaseViewModel {
                                         cardBean.setType(cardStr[4]);
                                         cardBean.setName(cardStr[1]);
                                         cardBean.setUsername(cardStr[0]);
+                                        Log.e("vd", cardBean.toString());
                                         cardBeanList.add(cardBean);
                                     }
                                 }
                                 cardList.set(cardBeanList);
                                 activity.searchSuccess();
                             }
-                        }else {
+                        } else {
                             MToast.showToast(activity, "查询失败");
                         }
                     }
@@ -118,7 +130,75 @@ public class PayViewModel extends BaseViewModel {
         return (payment.get() - getShouldPay()) > 0 ? payment.get() - getShouldPay() : 0;
     }
 
-    public Double getPay(){
-        return (getShouldPay()-payment.get()) > 0 ? getShouldPay()-payment.get() : 0;
+    public Double getPay() {
+        return (getShouldPay() - payment.get()) > 0 ? getShouldPay() - payment.get() : 0;
     }
+
+    public void getDiscount(String num) {
+        String bill = tableEntity.get().getBillId();
+        if (tableList.get() != null && !tableList.get().isEmpty()) {
+            for (TableEntity entity : tableList.get()) {
+                bill += "," + entity.getBillId();
+            }
+        }
+        parishRepertory.getDiscount("2", bill, num).subscribe(
+                new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd", stringBaseEntity.toString());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                }
+        );
+    }
+
+    public void getDiscountList() {
+        parishRepertory.getDiscountList(preferenceSource.getId(), "12")
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd", stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode() == 1) {
+                            DiscountEntity[] discountEntities = new Gson().fromJson(stringBaseEntity.getResult(), DiscountEntity[].class);
+                            discountList.set(Arrays.asList(discountEntities));
+                            activity.showDialogDiscount();
+                        } else {
+                            activity.showDialogDiscount();
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        activity.showDialogDiscount();
+                    }
+                });
+    }
+
+    public void getDazhe(String billId, int num, String id) {
+        parishRepertory.getDazhe("24", billId, preferenceSource.getId(), "0", num, id)
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd", stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode() == 1) {
+                            if (stringBaseEntity.getResult().equals("0")) {
+                                MToast.showToast(activity, "存在无法打折菜品");
+                            } else {
+                                MToast.showToast(activity, "打折优惠价格为" + stringBaseEntity.getResult());
+                                activity.discountSuccess(stringBaseEntity.getResult());
+                            }
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+    }
+
 }
