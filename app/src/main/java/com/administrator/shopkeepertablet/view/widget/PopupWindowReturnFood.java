@@ -37,7 +37,7 @@ public class PopupWindowReturnFood extends PopupWindow {
     private PopupwindowReturnFoodBinding binding;
     private OrderFoodEntity orderFoodEntity;
     private List<ReturnReasonEntity> mList = new ArrayList<>();
-    private ReturnReasonEntity returnReasonEntity;
+    private ReturnReasonEntity returnReasonEntity = new ReturnReasonEntity();
     private ParishFoodViewModel viewModel;
 
     private OnCallBackListener onCallBackListener;

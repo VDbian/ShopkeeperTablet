@@ -32,6 +32,9 @@ import com.administrator.shopkeepertablet.view.widget.ConfirmDialog;
 import com.administrator.shopkeepertablet.view.widget.LineUpDialog;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.LineUpViewModel;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechSynthesizer;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -59,6 +62,7 @@ public class LineUpFragment extends BaseFragment implements View.OnClickListener
     private BindLineUpDialog bindLineUpDialog;
     private LineUpEntity lineUpEntity;
 
+    private SpeechSynthesizer speechSynthesizer;
 
     @Override
     protected void setupFragmentComponent(AppComponent appComponent) {
@@ -89,6 +93,15 @@ public class LineUpFragment extends BaseFragment implements View.OnClickListener
         Drawable drawable1 = getResources().getDrawable(R.mipmap.search);
         drawable1.setBounds(25, 0, 45, 20);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
         binding.etSearch.setCompoundDrawables(drawable1, null, null, null);//只放左边
+        speechSynthesizer = SpeechSynthesizer.createSynthesizer(getActivity(), new InitListener() {
+            @Override
+            public void onInit(int i) {
+
+            }
+        });
+
+        speechSynthesizer.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+        speechSynthesizer.setParameter(SpeechConstant.VOICE_NAME, "aisjying");
 
         tableTypeAdapter = new TableTypeAdapter(getActivity(), tableTypeList);
         binding.rlvTableType.setAdapter(tableTypeAdapter);
@@ -106,7 +119,8 @@ public class LineUpFragment extends BaseFragment implements View.OnClickListener
         lineUpAdapter.setOnItemClick(new LineUpAdapter.OnClick() {
             @Override
             public void speak(LineUpEntity entity, int position) {
-
+                String speakText = "请 " + entity.no() + " 号就餐";
+                speechSynthesizer.startSpeaking(speakText, null);
             }
 
             @Override
@@ -151,6 +165,7 @@ public class LineUpFragment extends BaseFragment implements View.OnClickListener
 
         viewModel.getTableType();
         viewModel.getLineUp();
+
     }
 
     public void refreshType(List<TableType> tableTypes) {

@@ -13,6 +13,7 @@ import android.view.Window;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.DialogPermissionRemissionBinding;
+import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.viewmodel.PayViewModel;
 
 
@@ -45,7 +46,7 @@ public class PermissionRemissionDialog extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setCancelable(false);
-        setStyle(STYLE_NO_FRAME,R.style.Theme_AppCompat_Dialog);
+        setStyle(STYLE_NO_FRAME, R.style.Theme_AppCompat_Dialog);
     }
 
     @Nullable
@@ -56,8 +57,6 @@ public class PermissionRemissionDialog extends DialogFragment {
                 R.layout.dialog_permission_remission, null);
         binding = DataBindingUtil.bind(customView);
 
-//        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(binding.getRoot()).create();
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,12 +64,55 @@ public class PermissionRemissionDialog extends DialogFragment {
             }
         });
 
-        binding.tvConfirm.setOnClickListener(new View.OnClickListener() {
+        binding.tvYuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
                 if (onConfirmClick != null) {
-                    onConfirmClick.confirm();
+                    onConfirmClick.click(0);
+                }
+            }
+        });
+        binding.tvJiao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                if (onConfirmClick != null) {
+                    onConfirmClick.click(1);
+                }
+            }
+        });
+        binding.tvFen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                if (onConfirmClick != null) {
+                    onConfirmClick.click(2);
+                }
+            }
+        });
+        binding.tvRound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                if (onConfirmClick != null) {
+                    onConfirmClick.click(3);
+                }
+            }
+        });
+
+        binding.tvConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String num = binding.etDiscountNum.getText().toString().trim();
+                Double dou = Double.valueOf(num);
+                if (dou > 0 && dou < viewModel.getShouldPay()) {
+                    dismiss();
+                    if (onConfirmClick != null) {
+                        onConfirmClick.confirm(dou);
+                    }
+                }else {
+                    MToast.showToast(getActivity(),"请输入正确的减免金额");
                 }
             }
         });
@@ -78,7 +120,9 @@ public class PermissionRemissionDialog extends DialogFragment {
     }
 
     public interface OnConfirmClick {
-        void confirm();
+        void confirm(double d);
+
+        void click(int i);
     }
 
 }

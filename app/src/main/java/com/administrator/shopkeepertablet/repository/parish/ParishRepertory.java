@@ -279,4 +279,30 @@ public interface ParishRepertory extends BaseRepertory {
      */
     Observable<BaseEntity<String>> getDazhe(String s,String billid,String shopId,String chengdazhe,int dazhe,String daId);
 
+    /**
+     * 获取其他优惠列表
+     * @param type 5
+     * @param shopId 店铺ID
+     * @param pageSize 每页条数
+     * @param pageIndex 页码
+     * @param product 模糊查询  传空
+     * @return
+     */
+    Observable<BaseEntity<String>> getLineDownInfo(String type,String shopId,int pageSize,int pageIndex,String product);
+
+    /**
+     * 提交其他优惠
+      * @param type 23
+     * @param couponId 其他优惠卷ID
+     * @param billId 订单ID
+     * @param shopId 店铺ID
+     * @param xiaPrice 优惠金额
+     * @param yinFu 应付金额
+     * @param json 权限json
+     * @param json 权限json
+     * @return
+     */
+    Observable<BaseEntity<String>> getOherYouhui(String type,String couponId,String billId,String shopId,double xiaPrice,double yinFu,String json);
+
+
 }

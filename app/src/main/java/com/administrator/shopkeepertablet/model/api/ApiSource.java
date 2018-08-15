@@ -117,5 +117,9 @@ public interface ApiSource {
     Observable<BaseEntity<String>> getDazhe(String s,String billid,String shopId,String chengdazhe,int dazhe,String daId);
 
     Observable<BaseEntity<String>> getMergeOrderList(String s,String shopID,String tableId);
+
+    Observable<BaseEntity<String>> getLineDownInfo(String type,String shopId,int pageSize,int pageIndex,String product);
+
+    Observable<BaseEntity<String>> getOherYouhui(String type,String couponId,String billId,String shopId,double xiaPrice,double yinFu,String json);
 }
 

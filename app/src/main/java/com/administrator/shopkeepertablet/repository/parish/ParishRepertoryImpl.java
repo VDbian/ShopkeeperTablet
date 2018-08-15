@@ -160,4 +160,16 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
         return apiSource.getDazhe(s, billid, shopId, chengdazhe, dazhe, daId)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getLineDownInfo(String type, String shopId, int pageSize, int pageIndex, String product) {
+        return apiSource.getLineDownInfo(type, shopId, pageSize, pageIndex, product).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getOherYouhui(String type, String couponId, String billId, String shopId, double xiaPrice, double yinFu, String json) {
+        return apiSource.getOherYouhui(type, couponId, billId, shopId, xiaPrice, yinFu, json).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

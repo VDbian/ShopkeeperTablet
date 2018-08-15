@@ -11,6 +11,7 @@ import com.administrator.shopkeepertablet.di.app.NetworkModule;
 import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
 import com.administrator.shopkeepertablet.model.greendao.DaoMaster;
 import com.administrator.shopkeepertablet.model.greendao.DaoSession;
+import com.iflytek.cloud.SpeechUtility;
 
 
 /**
@@ -39,6 +40,7 @@ public class AppApplication extends MultiDexApplication {
         //SugarContext.init(new SugarContextWrapper(this, AppConstant.DB_PATH));  //数据库保存指定路径下
         initComponent();
         setDatabase();
+        SpeechUtility.createUtility(this, "appid=59c1e9f6");
     }
 
     @Override

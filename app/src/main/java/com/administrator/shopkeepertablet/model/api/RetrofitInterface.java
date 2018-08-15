@@ -586,6 +586,30 @@ public interface RetrofitInterface {
             @Field("id") String shopID,
             @Field("TABLEID") String tableId);
 
+    //获取其他优惠
+    @FormUrlEncoded
+    @POST(AppConstant.MASTE_URL + "NewCardManagerQiTaASHX.ashx")
+    Observable<BaseEntity<String>> getLineDownInfo(
+            @Field("Type") String type,
+            @Field("RID") String shopId,
+            @Field("pageSize") int pageSize,
+            @Field("pageIndex") int pageIndex,
+            @Field("Product") String product
+    );
+
+    //其他优惠
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> getOherYouhui(
+            @Field("Type") String type,
+            @Field("daid") String couponId,
+            @Field("bilid") String billId,
+            @Field("id") String shopId,
+            @Field("xiapice") double xiaPrice,
+            @Field("yingfu") double yinFu,
+            @Field("jsonObjquanxian") String json
+    );
+
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
 //    Observable<BaseEntity<String>> changePeople(

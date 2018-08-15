@@ -7,6 +7,7 @@ import android.util.Log;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.CardEntity;
 import com.administrator.shopkeepertablet.model.entity.DiscountEntity;
+import com.administrator.shopkeepertablet.model.entity.ElseCouponEntity;
 import com.administrator.shopkeepertablet.model.entity.MemberEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
@@ -61,6 +62,10 @@ public class PayViewModel extends BaseViewModel {
 
     public String getTime(String time) {
         return DateUtils.friendly_time(DateUtils.stringToDate(time));
+    }
+
+    public double discountPer() {
+        return permissionDiscount.get() + permissionRemission.get();
     }
 
     public void getMember(String num) {
@@ -192,6 +197,50 @@ public class PayViewModel extends BaseViewModel {
                                 activity.discountSuccess(stringBaseEntity.getResult());
                             }
                         }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+    }
+
+    public void getElseCoupon(){
+        parishRepertory.getLineDownInfo("5",preferenceSource.getId(),20,1,"")
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        Log.e("vd",stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode()==1) {
+                            List<ElseCouponEntity> elseCouponEntities =Arrays.asList( new Gson().fromJson(stringBaseEntity.getResult(), ElseCouponEntity[].class));
+                            activity.showDialogElseDiscount(elseCouponEntities);
+                        } else {
+                           MToast.showToast(activity,"加载失败");
+                        }
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        MToast.showToast(activity,"加载失败");
+                    }
+                });
+    }
+
+    public void getOtherYouhui(String couponId, String billId, double couponPrice, double yingFu, String json){
+        parishRepertory.getOherYouhui("23",couponId,billId,preferenceSource.getId(),couponPrice,yingFu,json)
+                .subscribe(new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                           Log.e("vd",stringBaseEntity.toString());
+                            if (stringBaseEntity.getCode() ==1){
+                                if (stringBaseEntity.getResult().equals("0")){
+                                    MToast.showToast(activity,"获取其他优惠金额失败");
+                                }else {
+                                    activity.elseCouponSuccess(Double.parseDouble(stringBaseEntity.getResult()));
+                                }
+                            }
                     }
                 }, new Consumer<Throwable>() {
                     @Override

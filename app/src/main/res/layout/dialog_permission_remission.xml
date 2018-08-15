@@ -84,14 +84,66 @@
                         />
                 </LinearLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rlv_remission"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="32px"
+                    android:layout_marginRight="16px"
+                    android:layout_marginLeft="32px"
+                    >
+                    <TextView
+                        android:id="@+id/tv_yuan"
+                        android:layout_width="100px"
+                        android:layout_height="36px"
+                        android:background="@drawable/shape_discount"
+                        android:text="抹元"
+                        android:textColor="@color/color848d95"
+                        android:textSize="16px"
+                        android:gravity="center"
+                        />
+                    <TextView
+                        android:id="@+id/tv_jiao"
+                        android:layout_width="100px"
+                        android:layout_height="36px"
+                        android:background="@drawable/shape_discount"
+                        android:text="抹角"
+                        android:textColor="@color/color848d95"
+                        android:textSize="16px"
+                        android:gravity="center"
+                        android:layout_marginLeft="32px"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_marginTop="16px"
                     android:layout_marginRight="16px"
-                    android:layout_marginLeft="16px"
-                    ></android.support.v7.widget.RecyclerView>
+                    android:layout_marginLeft="32px"
+                    >
+                    <TextView
+                        android:id="@+id/tv_fen"
+                        android:layout_width="100px"
+                        android:layout_height="36px"
+                        android:background="@drawable/shape_discount"
+                        android:text="抹分"
+                        android:textColor="@color/color848d95"
+                        android:textSize="16px"
+                        android:gravity="center"
+                        />
+                    <TextView
+                        android:id="@+id/tv_round"
+                        android:layout_width="100px"
+                        android:layout_height="36px"
+                        android:background="@drawable/shape_discount"
+                        android:text="四舍五入"
+                        android:textColor="@color/color848d95"
+                        android:textSize="16px"
+                        android:gravity="center"
+                        android:layout_marginLeft="32px"
+                        />
+                </LinearLayout>
 
             </LinearLayout>
 
