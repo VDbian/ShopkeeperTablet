@@ -4,6 +4,7 @@ apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.administrator.shopkeepertablet"
         minSdkVersion 15
@@ -27,7 +28,13 @@ android {
     dataBinding {
         enabled true
     }
-    buildToolsVersion '26.0.2'
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+
+    }
 }
 
 
@@ -66,4 +73,5 @@ dependencies {
 //    implementation 'org.litepal.android:core:2.0.0'
     implementation 'org.greenrobot:greendao:3.2.2' //
     compile 'com.jcodecraeer:xrecyclerview:1.5.9'
+    compile 'cn.yipianfengye.android:zxing-library:2.2'
 }
