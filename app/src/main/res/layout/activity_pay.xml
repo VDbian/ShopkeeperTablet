@@ -475,7 +475,7 @@
                             android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@{@string/amount_payable(viewModel.price + viewModel.warePrice - viewModel.discount)}"
+                            android:text="@{@string/amount_payable(viewModel.shouldPay)}"
                             android:textColor="@color/color97a3aa"
                             android:textSize="18px" />
                     </LinearLayout>
@@ -498,7 +498,7 @@
                             android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@{@string/refundable_mount((viewModel.payment- (viewModel.price + viewModel.warePrice - viewModel.discount)) > 0? (viewModel.payment- (viewModel.price + viewModel.warePrice - viewModel.discount)) : 0)}"
+                            android:text="@{@string/refundable_mount(viewModel.shouldReturn)}"
                             android:textColor="@color/color97a3aa"
                             android:textSize="18px" />
                     </LinearLayout>
@@ -521,7 +521,7 @@
                             android:layout_width="0px"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@{@string/other_pay(((viewModel.price + viewModel.warePrice - viewModel.discount) - viewModel.payment) > 0? ((viewModel.price + viewModel.warePrice - viewModel.discount) - viewModel.payment) : 0)}"
+                            android:text="@{@string/other_pay(viewModel.needPay)}"
                             android:textColor="@color/color97a3aa"
                             android:textSize="18px" />
                     </LinearLayout>
@@ -552,90 +552,15 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rlv_pay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ll_price"
                     android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
                     android:layout_marginTop="20px"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="128px"
-                        android:layout_height="72px"
-                        android:background="@drawable/shape_pay_way"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="8px"
-                            android:text="现金"
-                            android:textColor="#798795"
-                            android:textSize="17px" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="￥50.00"
-                            android:textColor="#F74F45"
-                            android:textSize="20px" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="128px"
-                        android:layout_height="72px"
-                        android:layout_marginLeft="16px"
-                        android:background="@drawable/shape_pay_way"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="8px"
-                            android:text="银行卡"
-                            android:textColor="#798795"
-                            android:textSize="17px" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="￥50.00"
-                            android:textColor="#F74F45"
-                            android:textSize="20px" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="128px"
-                        android:layout_height="72px"
-                        android:layout_marginLeft="16px"
-                        android:background="@drawable/shape_pay_way"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="8px"
-                            android:text="会员卡"
-                            android:textColor="#798795"
-                            android:textSize="17px" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:text="￥50.00"
-                            android:textColor="#F74F45"
-                            android:textSize="20px" />
-                    </LinearLayout>
-
-                </LinearLayout>
+                   ></android.support.v7.widget.RecyclerView>
 
 
                 <LinearLayout

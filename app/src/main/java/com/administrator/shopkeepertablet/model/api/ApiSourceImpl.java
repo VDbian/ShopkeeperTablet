@@ -284,4 +284,19 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> getOherYouhui(String type, String couponId, String billId, String shopId, double xiaPrice, double yinFu, String json) {
         return retrofitInterface.getOherYouhui(type, couponId, billId, shopId, xiaPrice, yinFu, json);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> bill(String type, String id, String rid, String memberID, String tableId, double zon, double can, double pei, double daBao, String types, String jsonQuanXian, String jsonObj, String payType, String jsonPay, String guaID, String personMoney, String id1, String name, String zonwWeight, String zonPrice, String zonState, int personCount, double price, String tableName, double maLing, double rounding, double free) {
+        return retrofitInterface.bill(type, id, rid, memberID, tableId, zon, can, pei, daBao, types, jsonQuanXian, jsonObj, payType, jsonPay, guaID, personMoney, id1, name, zonwWeight, zonPrice, zonState, personCount, price, tableName, maLing, rounding, free);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> reBill(String type, String id, String rid, String memberID, String tableId, double zon, double can, double pei, double daBao, String types, String jsonObjquanxian, String jsonObj, String payType, String jsonPay, String guaID, String personMonery, String userId, String name, String zonweight, String zonprice, String zonstate, double free, double price, double maLing, double rounding, String fnaBill) {
+        return retrofitInterface.reBill(type, id, rid, memberID, tableId, zon, can, pei, daBao, types, jsonObjquanxian, jsonObj, payType, jsonPay, guaID, personMonery, userId, name, zonweight, zonprice, zonstate, free, price, maLing, rounding, fnaBill);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> scanBill(String type, String code, double price, String shopId, String payId) {
+        return retrofitInterface.scanBill(type, code, price, shopId, payId);
+    }
 }

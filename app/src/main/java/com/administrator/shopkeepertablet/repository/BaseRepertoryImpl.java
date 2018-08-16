@@ -53,4 +53,23 @@ public class BaseRepertoryImpl implements BaseRepertory {
         return apiSource.bindQueue(type, selvalue, name, userID, tableId, tableName, tableWareCount, orderid, shopId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<BaseEntity<String>> reBill(String type, String id, String rid, String memberID, String tableId, double zon, double can, double pei, double daBao, String types, String jsonObjquanxian, String jsonObj, String payType, String jsonPay, String guaID, String personMoney, String userId, String name, String zonWeight, String zonPrice, String zonState, double free, double price, double maLing, double rounding, String fnaBill) {
+        return apiSource.reBill(type, id, rid, memberID, tableId, zon, can, pei, daBao, types, jsonObjquanxian, jsonObj, payType, jsonPay, guaID, personMoney, userId, name, zonWeight, zonPrice, zonState, free, price, maLing, rounding, fnaBill)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> bill(String type, String id, String rid, String memberID, String tableId, double zon, double can, double pei, double daBao, String types, String jsonQuanXian, String jsonObj, String payType, String jsonPay, String guaID, String personMoney, String id1, String name, String zonwWeight, String zonPrice, String zonState, int personCount, double price, String tableName, double maLing, double rounding, double free) {
+        return apiSource.bill(type, id, rid, memberID, tableId, zon, can, pei, daBao, types, jsonQuanXian, jsonObj, payType, jsonPay, guaID, personMoney, id1, name, zonwWeight, zonPrice, zonState, personCount, price, tableName, maLing, rounding, free)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    @Override
+    public Observable<BaseEntity<String>> scanBill(String type, String code, double price, String shopId, String payId) {
+        return apiSource.scanBill(type, code, price, shopId, payId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

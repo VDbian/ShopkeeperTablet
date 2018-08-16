@@ -2,6 +2,8 @@ package com.administrator.shopkeepertablet.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Description:
  * Author CC
@@ -9,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 
-public class UserInfoEntity {
+public class UserInfoEntity implements Serializable{
 
     /**
      * Names : 智慧餐厅

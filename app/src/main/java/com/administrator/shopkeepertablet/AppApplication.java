@@ -12,6 +12,7 @@ import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
 import com.administrator.shopkeepertablet.model.greendao.DaoMaster;
 import com.administrator.shopkeepertablet.model.greendao.DaoSession;
 import com.iflytek.cloud.SpeechUtility;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 
 /**
@@ -41,6 +42,7 @@ public class AppApplication extends MultiDexApplication {
         initComponent();
         setDatabase();
         SpeechUtility.createUtility(this, "appid=59c1e9f6");
+        ZXingLibrary.initDisplayOpinion(this);
     }
 
     @Override

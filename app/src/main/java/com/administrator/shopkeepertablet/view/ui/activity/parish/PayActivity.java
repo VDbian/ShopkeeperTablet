@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.administrator.shopkeepertablet.AppConstant;
@@ -13,9 +14,11 @@ import com.administrator.shopkeepertablet.databinding.ActivityPayBinding;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.parish.DaggerParishActivityComponent;
 import com.administrator.shopkeepertablet.di.parish.ParishActivityModule;
+import com.administrator.shopkeepertablet.model.entity.CardEntity;
 import com.administrator.shopkeepertablet.model.entity.DiscountEntity;
 import com.administrator.shopkeepertablet.model.entity.ElseCouponEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
+import com.administrator.shopkeepertablet.model.entity.PayMeEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.BillJson;
 import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
@@ -23,10 +26,12 @@ import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderFoodAdapter;
+import com.administrator.shopkeepertablet.view.ui.adapter.PayWayAdapter;
 import com.administrator.shopkeepertablet.view.widget.ConfirmDialog;
 import com.administrator.shopkeepertablet.view.widget.CouponDialog;
 import com.administrator.shopkeepertablet.view.widget.DiscountDialog;
 import com.administrator.shopkeepertablet.view.widget.ElseDiscountsDialog;
+import com.administrator.shopkeepertablet.view.widget.PayMoneyDialog;
 import com.administrator.shopkeepertablet.view.widget.PermissionDiscountDialog;
 import com.administrator.shopkeepertablet.view.widget.PermissionRemissionDialog;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowMember;
@@ -61,10 +66,15 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private List<OrderFoodEntity> mList = new ArrayList<>();
     private PopupWindowMember popupWindowMember;
     private String billId;
-    private Double oneDiscount = 0.0;
+    private Double oneDiscount = 0.0;//单个菜品打折金额
     private boolean isFree = false;
     private List<ElseCouponEntity> elseCouponEntities = new ArrayList<>();
-    private Double elseCouponMoney = 0.0;
+    private Double elseCouponMoney = 0.0; //其他优惠金额
+    private Double payMoney = 0.0; //结账方式所有金额
+    private Double scoreMoney = 0.0; //积分抵用金额
+    private Double memberMoney = 0.0; //会员优惠
+    private PayWayAdapter payWayAdapter;
+    private List<PayMeEntity> payMeEntityList = new ArrayList<>();
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -87,8 +97,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private void initView() {
         binding.llMember.setVisibility(View.INVISIBLE);
         binding.tvDiscountNum.setVisibility(View.INVISIBLE);
-//        binding.llDiscount.setVisibility(View.INVISIBLE);
-//        binding.llRemission.setVisibility(View.INVISIBLE);
         switch (flag) {
             case 1:
                 binding.llTitle.setVisibility(View.VISIBLE);
@@ -126,7 +134,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                                         orderFoodEntity.setDiscount(num);
                                         oneDiscount += twoDecimal(orderFoodEntity.getPrice() * (100 - num) / 100);
                                     }
-                                    viewModel.discount.set(discountCount());
+                                    changedMoney();
                                 } else {
                                     MToast.showToast(PayActivity.this, "请输入正确的打折数");
                                 }
@@ -140,6 +148,19 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
+        payWayAdapter = new PayWayAdapter(this, payMeEntityList);
+        binding.rlvPay.setAdapter(payWayAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        binding.rlvPay.setLayoutManager(linearLayoutManager);
+        binding.rlvPay.addItemDecoration(new RecyclerViewItemDecoration(6));
+        payWayAdapter.setOnItemClick(new PayWayAdapter.OnItemClick() {
+            @Override
+            public void onItemClick(PayMeEntity entity, int position) {
+                showDialogPayMoney(entity,position);
+            }
+        });
+
         binding.tvMember.setOnClickListener(this);
         binding.tvCoupon.setOnClickListener(this);
         binding.tvDiscount.setOnClickListener(this);
@@ -147,7 +168,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         binding.tvRemission.setOnClickListener(this);
         binding.tvElseDiscounts.setOnClickListener(this);
         binding.rlBack.setOnClickListener(this);
-
+        changedMoney();
     }
 
     @Override
@@ -165,7 +186,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                         MToast.showToast(this, "您已进行单个菜品打折");
                     } else {
                         viewModel.getDiscountList();
-//                        showDialogDiscount();
                     }
                 } else {
                     MToast.showToast(this, "没有打折权限");
@@ -265,27 +285,27 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void confirm(double d) {
                 viewModel.permissionRemission.set(d);
-                viewModel.discount.set(discountCount());
+                changedMoney();
             }
 
             @Override
             public void click(int i) {
-                Double pay = viewModel.getShouldPay() + viewModel.permissionRemission.get();
+                Double pay = viewModel.shouldPay.get() + viewModel.permissionRemission.get();
 //                Log.e("vd", twoDecimal(pay % 10) + "");
 //                Log.e("vd", twoDecimal(pay % 1) + "");
 //                Log.e("vd", twoDecimal(pay % 0.1) + "");
                 switch (i) {
                     case 0:
                         viewModel.permissionRemission.set(twoDecimal(pay % 10));
-                        viewModel.discount.set(discountCount());
+                        changedMoney();
                         break;
                     case 1:
                         viewModel.permissionRemission.set(twoDecimal(pay % 1));
-                        viewModel.discount.set(discountCount());
+                        changedMoney();
                         break;
                     case 2:
                         viewModel.permissionRemission.set(twoDecimal(pay % 0.1));
-                        viewModel.discount.set(discountCount());
+                        changedMoney();
                         break;
                     case 3:
                         double k = pay % 1;
@@ -294,7 +314,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                         } else {
                             viewModel.permissionRemission.set(k);
                         }
-                        viewModel.discount.set(discountCount());
+                        changedMoney();
                         break;
                 }
             }
@@ -303,23 +323,24 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void showDialogFree() {
-
         ConfirmDialog confirmDialog = new ConfirmDialog();
         confirmDialog.setMessage(isFree ? "是否取消免单" : "是否免单");
         confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
             @Override
             public void confirm() {
-                if (isFree) {
-                    viewModel.discount.set(0.0);
-                } else {
+                if (!isFree) {
+                    isFree = true;
                     oneDiscount = 0.0;
+                    memberMoney = 0.0;
+                    elseCouponMoney = 0.0;
                     viewModel.permissionRemission.set(0.0);
                     viewModel.permissionDiscount.set(0.0);
                     viewModel.discountNum.set("");
-                    viewModel.discount.set(0.0);
                     binding.tvDiscountNum.setVisibility(View.INVISIBLE);
+                } else {
+                    isFree = false;
                 }
-                isFree = !isFree;
+                changedMoney();
             }
 
             @Override
@@ -338,7 +359,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void confirm(List<ElseCouponEntity> mList) {
                 if (mList != null && !mList.isEmpty()) {
-                  Double  elseCouponMoneyTemp = 0.0;
+                    Double elseCouponMoneyTemp = 0.0;
                     elseCouponEntities = mList;
                     String couponId = "";
                     for (ElseCouponEntity bean : mList) {
@@ -366,13 +387,31 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     }
                     quanxian.setQuanxian(q);
                     String qStr = new Gson().toJson(quanxian);
-                    viewModel.getOtherYouhui(couponId, billId, elseCouponMoneyTemp, viewModel.getShouldPay(), qStr);
+                    viewModel.getOtherYouhui(couponId, billId, elseCouponMoneyTemp, viewModel.shouldPay.get(), qStr);
                 }
             }
         });
         elseDiscountsDialog.show(getFragmentManager(), "");
     }
 
+    public void showDialogPayMoney(PayMeEntity payMeEntity, int position) {
+        PayMoneyDialog payMoneyDialog = new PayMoneyDialog();
+        payMoneyDialog.setTitle(payMeEntity.getName());
+        payMoneyDialog.setMoney(payMeEntity.getMoney() == 0 ? viewModel.shouldPay.get() : payMeEntity.getMoney());
+        payMoneyDialog.setOnConfirmClick(new PayMoneyDialog.OnConfirmClick() {
+            @Override
+            public void confirm(Double money) {
+                payMeEntityList.get(position).setMoney(money);
+                if (money == 0) {
+                    payMeEntityList.get(position).setSelected(false);
+                } else {
+                    payMeEntityList.get(position).setSelected(true);
+                }
+                payWayAdapter.notifyDataSetChanged();
+            }
+        });
+        payMoneyDialog.show(getFragmentManager(), "");
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onDataEvent(DataEvent event) {
@@ -401,22 +440,205 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         if (d > 0) {
             viewModel.permissionDiscount.set(d);
             viewModel.permissionRemission.set(0.0);
-            viewModel.discount.set(discountCount());
+            changedMoney();
         }
     }
 
     public void elseCouponSuccess(Double elseCoupon) {
         MToast.showToast(this, "其他优惠金额为" + elseCoupon + "元");
         elseCouponMoney = elseCoupon;
-        viewModel.discount.set(discountCount());
-    }
-
-    public Double discountCount() {
-       return elseCouponMoney + oneDiscount + viewModel.permissionDiscount.get() + viewModel.permissionRemission.get();
+        changedMoney();
     }
 
     private double twoDecimal(double d) {
         return new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
+    private void bill() {
+        if (!AppConstant.getUser().getPermissionValue().contains("queren")) {
+            MToast.showToast(this, "没有确认结账权限");
+            return;
+        }
+        if (viewModel.needPay.get() == 0) {
+            List<BillJson.BillJsonBase> t = new ArrayList<>();
+            BillJson.BillJsonBase base = new BillJson.BillJsonBase();
+            t.add(base);
+            if (scoreMoney > 0) {
+                BillJson.BillJsonBase jsonBase = new BillJson.BillJsonBase();
+                jsonBase.setType("1");
+                jsonBase.setPice(scoreMoney + "");
+                jsonBase.setSate("0");
+                jsonBase.setGuid(System.currentTimeMillis() + "00");
+                jsonBase.setPiceGuid(viewModel.integral + "");
+                t.add(jsonBase);
+            }
+            for (int i = 0; i < viewModel.cardList.get().size(); i++) {
+                CardEntity bean = viewModel.cardList.get().get(i);
+                if (bean.isSelect()) {
+                    BillJson.BillJsonBase jsonBase = new BillJson.BillJsonBase();
+                    if (bean.getType().equals("1") || bean.getType().equals("2")) {
+                        jsonBase.setType("2");
+                    } else {
+                        jsonBase.setType("4");
+                    }
+                    jsonBase.setGuid(System.currentTimeMillis() + "0" + i);
+                    jsonBase.setPiceGuid(bean.getId());
+                    jsonBase.setPice(bean.getMoney() + "");
+                    jsonBase.setSate("0");
+                    t.add(jsonBase);
+                }
+            }
+
+            BillJson.TeacherJson teacherJson = new BillJson.TeacherJson();
+            teacherJson.setTeacher(t);
+            String tStr = new Gson().toJson(teacherJson);
+
+            BillJson.Quanxian quanxian = new BillJson.Quanxian();
+            List<BillJson.BillJsonBase> q = new ArrayList<>();
+            q.add(base);
+
+            if (oneDiscount + viewModel.permissionDiscount.get() > 0) {
+                BillJson.BillJsonBase d = new BillJson.BillJsonBase();
+                d.setGuid(System.currentTimeMillis() + "");
+                d.setPice(oneDiscount + viewModel.permissionDiscount.get() + "");
+                if (oneDiscount > 0) {
+                    d.setType("6");
+                } else {
+                    d.setType("1");
+                }
+                q.add(d);
+            }
+            if (viewModel.permissionRemission.get() > 0) {
+                BillJson.BillJsonBase j = new BillJson.BillJsonBase();
+                j.setGuid(System.currentTimeMillis() + "");
+                j.setPice(viewModel.permissionRemission.get() + "");
+                j.setType("2");
+                q.add(j);
+            }
+            if (isFree) {
+                BillJson.BillJsonBase m = new BillJson.BillJsonBase();
+                m.setGuid(System.currentTimeMillis() + "");
+//                m.setPice(weixinOrderBean.getYinfu() + "");
+                m.setPice(viewModel.shouldPay.get() + "");
+                m.setType("3");
+                q.add(m);
+            }
+            if (elseCouponMoney > 0) {
+                for (int k = 0; k < elseCouponEntities.size(); k++) {
+                    ElseCouponEntity entity = elseCouponEntities.get(k);
+                    if (entity != null) {
+                        BillJson.BillJsonBase pe = new BillJson.BillJsonBase();
+                        pe.setGuid(System.currentTimeMillis() + "");
+                        pe.setPice(entity.getPrice() + "");
+                        pe.setPiceGuid("");
+                        pe.setSate(entity.getName() + "");
+                        pe.setType(5 + "");
+                        pe.setIsSql(entity.getId() + "");
+                        q.add(pe);
+                    }
+                }
+            }
+            quanxian.setQuanxian(q);
+            String qStr = new Gson().toJson(quanxian);
+            Log.d("ttt", "quanxian:" + qStr);
+
+            BillJson.Pays pays = new BillJson.Pays();
+            List<BillJson.BillJsonBase> p = new ArrayList<>();
+            p.add(base);
+
+            for (int k = 0; k < payMeEntityList.size(); k++) {
+                PayMeEntity entity =payMeEntityList.get(k);
+                if (entity != null && entity.isSelected()) {
+                    BillJson.BillJsonBase pe = new BillJson.BillJsonBase();
+                    pe.setGuid(System.currentTimeMillis() + "");
+                    pe.setPice(entity.getMoney() + "");
+                    pe.setPiceGuid(entity.getGuid() + "");
+                    p.add(pe);
+                }
+            }
+
+            pays.setQuanxian(p);
+            String pStr = new Gson().toJson(pays);
+
+            double result = viewModel.shouldPay.get();
+            double free = viewModel.discount.get();
+
+            Log.i("ttt", "totleMoney:" + result);
+
+            Double moLing = 0.0;
+            Double rounding = 0.0;
+            if (viewModel.permissionRemission.get() > 0) {
+                moLing = viewModel.permissionRemission.get();
+            } else {
+                rounding = -viewModel.permissionRemission.get();
+            }
+
+            viewModel.bill(billId, "", viewModel.price.get(), viewModel.warePrice.get(), qStr, tStr, pStr, 1, result, "",
+                    free, "4", "", "", moLing, rounding);
+//            if (type == P3) {
+//                if (!TextUtils.isEmpty(tabName)) {
+//                    presenter.bill(billId, App.INSTANCE().getShopID(), tableEntity != null ? tableEntity.getRoomTableID() : "",
+//                            memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr, tStr, pStr, 1, result, tabName,
+//                            free, "4", guiId, "", mading, rounding);
+//                } else {
+//                    presenter.bill(billId, App.INSTANCE().getShopID(), tableEntity != null ? tableEntity.getRoomTableID() : "",
+//                            memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr, tStr, pStr, 1, result, tableEntity != null ? tableEntity.getTableName() : "",
+//                            free, "4", guiId, "", mading, rounding);
+//                }
+//            } else if (type == P4) {
+//                presenter.bill(billId, App.INSTANCE().getShopID(), tableEntity != null ? tableEntity.getRoomTableID() : "",
+//                        memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr
+//                        , tStr, pStr, 1, result, tableEntity != null ? tableEntity.getTableName() : "", free, "3", guiId, "", mading, rounding);
+//            } else if (type == P6) {
+//                presenter.rebill(order.getBillid(), App.INSTANCE().getShopID(), order.getTableId(), memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr
+//                        , tStr, pStr, order.getType().equals("7") ? "7" : "4", free, order.getBillid(), result, mading, rounding);
+//            } else {
+//                presenter.bill(order.getBillid(), App.INSTANCE().getShopID(), order.getTableId(), memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr
+//                        , tStr, pStr, order.getPeopleCount(), result, order.getTableName(), free, "7", guiId, "", mading, rounding);
+//            }
+        }
+    }
+
+    private void initPayWay() {
+        payMeEntityList.clear();
+        String[] payTypes = getResources().getStringArray(R.array.payType);
+        for (int i = 0; i < payTypes.length; i++) {
+            if (AppConstant.getUser().getCashPayType().contains(i + 1 + "")) {
+                String anA = payTypes[i];
+                if (anA.equals("现金")) {
+                    payMeEntityList.add(new PayMeEntity(anA, true, i + 1));
+                } else {
+                    payMeEntityList.add(new PayMeEntity(anA, false, i + 1));
+                }
+            }
+        }
+        payWayAdapter.notifyDataSetChanged();
+    }
+
+    private Double getPayMoney() {
+        payMoney = 0.0;
+        if (payMeEntityList != null && !payMeEntityList.isEmpty()) {
+            for (PayMeEntity entity : payMeEntityList) {
+                payMoney += entity.getMoney();
+            }
+        }
+        return payMoney;
+    }
+
+    private void initMoney() {
+        if (isFree) {
+            viewModel.discount.set(viewModel.price.get());
+        } else {
+            viewModel.discount.set(oneDiscount + viewModel.permissionRemission.get() + viewModel.permissionDiscount.get() + elseCouponMoney + memberMoney);
+        }
+        viewModel.shouldPay.set(viewModel.price.get() + viewModel.warePrice.get() - viewModel.discount.get());
+        viewModel.shouldReturn.set(viewModel.payment.get() - viewModel.shouldPay.get() > 0 ? viewModel.payment.get() - viewModel.shouldPay.get() : 0.0);
+        viewModel.needPay.set(viewModel.shouldPay.get() - viewModel.payment.get() > 0 ? viewModel.shouldPay.get() - viewModel.payment.get() : 0.0);
+    }
+
+    private void changedMoney() {
+        initMoney();
+        initPayWay();
     }
 
     @Override

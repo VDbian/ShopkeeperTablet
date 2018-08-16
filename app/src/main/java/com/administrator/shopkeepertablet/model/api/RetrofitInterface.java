@@ -610,6 +610,80 @@ public interface RetrofitInterface {
             @Field("jsonObjquanxian") String json
     );
 
+   //结账
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> bill(
+            @Field("Type") String type,
+            @Field("id") String id,
+            @Field("Rid") String rid,
+            @Field("MenberID") String memberID,
+            @Field("TableId") String tableId,
+            @Field("zon") double zon,
+            @Field("can") double can,
+            @Field("pei") double pei,
+            @Field("dabao") double daBao,
+            @Field("types") String types,
+            @Field("jsonObjquanxian") String jsonQuanXian,
+            @Field("jsonObj") String jsonObj,
+            @Field("PayType") String payType,
+            @Field("jsonPay") String jsonPay,
+            @Field("GuaID") String guaID,
+            @Field("PersonMonery") String personMoney,
+            @Field("Changeid") String id1,
+            @Field("Username") String name,
+            @Field("zonweight") String zonwWeight,
+            @Field("zonprice") String zonPrice,
+            @Field("zonstate") String zonState,
+            @Field("personcount") int personCount,
+            @Field("price") double price,
+            @Field("tablename") String tableName,
+            @Field("MaLing") double maLing,
+            @Field("Rounding") double rounding,
+            @Field("free") double free);
+
+    //反结账
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> reBill(
+            @Field("Type") String type,
+            @Field("id") String id,
+            @Field("Rid") String rid,
+            @Field("MenberID") String menberID,
+            @Field("TableId") String tableId,
+            @Field("zon") double zon,
+            @Field("can") double can,
+            @Field("pei") double pei,
+            @Field("dabao") double dabao,
+            @Field("types") String types,
+            @Field("jsonObjquanxian") String jsonObjquanxian,
+            @Field("jsonObj") String jsonObj,
+            @Field("PayType") String payType,
+            @Field("jsonPay") String jsonPay,
+            @Field("GuaID") String guaID,
+            @Field("PersonMonery") String personMonery,
+            @Field("Changeid") String id1,
+            @Field("Username") String name,
+            @Field("zonweight") String zonweight,
+            @Field("zonprice") String zonprice,
+            @Field("zonstate") String zonstate,
+            @Field("free") double free,
+            @Field("price") double price,
+            @Field("MaLing") double maLing,
+            @Field("Rounding") double rounding,
+            @Field("FnaBill") String fnaNill);
+
+    //扫码支付
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> scanBill(
+            @Field("type") String type,
+            @Field("Code") String code,
+            @Field("Pice") double price,
+            @Field("id") String shopId,
+            @Field("PayID") String payId
+    );
+
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
 //    Observable<BaseEntity<String>> changePeople(

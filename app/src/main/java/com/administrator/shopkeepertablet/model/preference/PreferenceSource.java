@@ -35,10 +35,9 @@ public interface PreferenceSource {
     void setUserId(String userId);
 
     @Favor("user")
-    @Default("")
-    Object getUser();
+    UserInfoEntity getUser();
 
     @Favor("user")
-    void setUser(Object user);
+    void setUser(UserInfoEntity user);
 
 }

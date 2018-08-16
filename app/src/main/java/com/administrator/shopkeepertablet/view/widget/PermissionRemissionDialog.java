@@ -106,7 +106,7 @@ public class PermissionRemissionDialog extends DialogFragment {
             public void onClick(View v) {
                 String num = binding.etDiscountNum.getText().toString().trim();
                 Double dou = Double.valueOf(num);
-                if (dou > 0 && dou < viewModel.getShouldPay()) {
+                if (dou > 0 && dou < viewModel.shouldPay.get()) {
                     dismiss();
                     if (onConfirmClick != null) {
                         onConfirmClick.confirm(dou);

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.PayMeEntity"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_main"
+            android:layout_width="128px"
+            android:layout_height="72px"
+            android:background="@drawable/shape_pay_way"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8px"
+                android:text="@{entity.name}"
+                android:textColor="#798795"
+                android:textSize="17px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@{@string/price_prefix(entity.money)}"
+                android:textColor="#F74F45"
+                android:textSize="20px" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

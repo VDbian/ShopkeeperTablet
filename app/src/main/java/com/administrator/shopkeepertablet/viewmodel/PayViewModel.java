@@ -37,10 +37,13 @@ public class PayViewModel extends BaseViewModel {
     public ObservableField<TableEntity> tableEntity = new ObservableField<>();
     public ObservableField<String> roomName = new ObservableField<>("");
     public ObservableField<String> time = new ObservableField<>("");
-    public ObservableField<Double> price = new ObservableField<>(0.0);
-    public ObservableField<Double> warePrice = new ObservableField<>(0.0);
-    public ObservableField<Double> discount = new ObservableField<>(0.0);
-    public ObservableField<Double> payment = new ObservableField<>(0.0);
+    public ObservableField<Double> price = new ObservableField<>(0.0);//原价
+    public ObservableField<Double> warePrice = new ObservableField<>(0.0);//餐具
+    public ObservableField<Double> discount = new ObservableField<>(0.0);//优惠
+    public ObservableField<Double> payment = new ObservableField<>(0.0);//预定
+    public ObservableField<Double> shouldPay =new ObservableField<>(0.0);//应付
+    public ObservableField<Double> shouldReturn =new ObservableField<>(0.0);//应退
+    public ObservableField<Double> needPay = new ObservableField<>(0.0);//还需支付
     public ObservableField<List<TableEntity>> tableList = new ObservableField<>();
     public ObservableField<String> memberNum = new ObservableField<>("");
     public ObservableField<MemberEntity> member = new ObservableField<>();
@@ -51,8 +54,8 @@ public class PayViewModel extends BaseViewModel {
     public ObservableField<CardEntity> cardSearch = new ObservableField<>();
     public ObservableField<String> discountNum = new ObservableField<>();
     public ObservableField<List<DiscountEntity>> discountList = new ObservableField<>();
-    public ObservableField<Double> permissionDiscount = new ObservableField<>(0.0);
-    public ObservableField<Double> permissionRemission = new ObservableField<>(0.0);
+    public ObservableField<Double> permissionDiscount = new ObservableField<>(0.0);//权限打折
+    public ObservableField<Double> permissionRemission = new ObservableField<>(0.0);//权限优惠
 
     public PayViewModel(ParishRepertory parishRepertory, PreferenceSource preferenceSource, PayActivity activity) {
         this.parishRepertory = parishRepertory;
@@ -127,18 +130,6 @@ public class PayViewModel extends BaseViewModel {
                 });
     }
 
-    public Double getShouldPay() {
-        return price.get() + warePrice.get() - discount.get();
-    }
-
-    public Double getShouldReturn() {
-        return (payment.get() - getShouldPay()) > 0 ? payment.get() - getShouldPay() : 0;
-    }
-
-    public Double getPay() {
-        return (getShouldPay() - payment.get()) > 0 ? getShouldPay() - payment.get() : 0;
-    }
-
     public void getDiscount(String num) {
         String bill = tableEntity.get().getBillId();
         if (tableList.get() != null && !tableList.get().isEmpty()) {
@@ -206,41 +197,41 @@ public class PayViewModel extends BaseViewModel {
                 });
     }
 
-    public void getElseCoupon(){
-        parishRepertory.getLineDownInfo("5",preferenceSource.getId(),20,1,"")
+    public void getElseCoupon() {
+        parishRepertory.getLineDownInfo("5", preferenceSource.getId(), 20, 1, "")
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.toString());
-                        if (stringBaseEntity.getCode()==1) {
-                            List<ElseCouponEntity> elseCouponEntities =Arrays.asList( new Gson().fromJson(stringBaseEntity.getResult(), ElseCouponEntity[].class));
+                        Log.e("vd", stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode() == 1) {
+                            List<ElseCouponEntity> elseCouponEntities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), ElseCouponEntity[].class));
                             activity.showDialogElseDiscount(elseCouponEntities);
                         } else {
-                           MToast.showToast(activity,"加载失败");
+                            MToast.showToast(activity, "加载失败");
                         }
 
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        MToast.showToast(activity,"加载失败");
+                        MToast.showToast(activity, "加载失败");
                     }
                 });
     }
 
-    public void getOtherYouhui(String couponId, String billId, double couponPrice, double yingFu, String json){
-        parishRepertory.getOherYouhui("23",couponId,billId,preferenceSource.getId(),couponPrice,yingFu,json)
+    public void getOtherYouhui(String couponId, String billId, double couponPrice, double yingFu, String json) {
+        parishRepertory.getOherYouhui("23", couponId, billId, preferenceSource.getId(), couponPrice, yingFu, json)
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                           Log.e("vd",stringBaseEntity.toString());
-                            if (stringBaseEntity.getCode() ==1){
-                                if (stringBaseEntity.getResult().equals("0")){
-                                    MToast.showToast(activity,"获取其他优惠金额失败");
-                                }else {
-                                    activity.elseCouponSuccess(Double.parseDouble(stringBaseEntity.getResult()));
-                                }
+                        Log.e("vd", stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode() == 1) {
+                            if (stringBaseEntity.getResult().equals("0")) {
+                                MToast.showToast(activity, "获取其他优惠金额失败");
+                            } else {
+                                activity.elseCouponSuccess(Double.parseDouble(stringBaseEntity.getResult()));
                             }
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -250,4 +241,22 @@ public class PayViewModel extends BaseViewModel {
                 });
     }
 
+
+    public void bill(String id, String tableId, double zon, double can, String jsonObjquanxian,
+                     String jsonObj, String jsonPay, int peoplecount, double price, String tablename, double free,
+                     String types, String guiId, String payType, double maling, double rounding) {
+        parishRepertory.bill("3", id, preferenceSource.getId(), member.get().getId(), tableId, zon, can, 0, 0, types, jsonObjquanxian, jsonObj,
+                payType, jsonPay, guiId, "", preferenceSource.getId(), preferenceSource.getName(), "", "", "",
+                peoplecount, price, tablename, maling, rounding, free).subscribe(new Consumer<BaseEntity<String>>() {
+            @Override
+            public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+
+            }
+        });
+    }
 }

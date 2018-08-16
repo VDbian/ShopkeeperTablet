@@ -121,5 +121,15 @@ public interface ApiSource {
     Observable<BaseEntity<String>> getLineDownInfo(String type,String shopId,int pageSize,int pageIndex,String product);
 
     Observable<BaseEntity<String>> getOherYouhui(String type,String couponId,String billId,String shopId,double xiaPrice,double yinFu,String json);
+
+    Observable<BaseEntity<String>> bill(String type,String id,String rid,String memberID,String tableId,double zon,double can,double pei,double daBao,
+         String types,String jsonQuanXian,String jsonObj,String payType,String jsonPay,String guaID,String personMoney,String id1, String name,String zonwWeight,
+                                        String zonPrice,String zonState, int personCount,double price,String tableName, double maLing,double rounding,double free);
+
+    Observable<BaseEntity<String>> reBill(String type,String id,String rid,String memberID,String tableId,double zon,double can,double pei, double daBao, String types,
+       String jsonObjquanxian,String jsonObj, String payType,String jsonPay,String guaID,String personMonery,String userId,String name,String zonweight,
+           String zonprice,String zonstate,double free, double price,double maLing,double rounding,String fnaBill);
+
+    Observable<BaseEntity<String>> scanBill(String type,String code,double price,String shopId,String payId);
 }
 
