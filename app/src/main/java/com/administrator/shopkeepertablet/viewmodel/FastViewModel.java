@@ -9,14 +9,19 @@ import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
 import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.greendao.DaoSession;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
+import com.administrator.shopkeepertablet.repository.BaseRepertory;
 import com.administrator.shopkeepertablet.repository.fast.FastRepository;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.fragment.FastFoodFragment;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -63,7 +68,6 @@ public class FastViewModel extends BaseViewModel {
             MToast.showToast(fragment.getActivity(), "请先刷新菜品");
         }
     }
-
 
     public void getFoodType() {
         List<FoodTypeEntity> foodTypeEntities = dao.getFoodTypeEntityDao().loadAll();
@@ -123,7 +127,6 @@ public class FastViewModel extends BaseViewModel {
         });
     }
 
-
     public void getPayWay(){
         fastRepository.getPay(preferenceSource.getId(),"13")
                 .subscribe(new Consumer<BaseEntity<String>>() {
@@ -139,10 +142,9 @@ public class FastViewModel extends BaseViewModel {
                 });
     }
 
-
-
     public void  getAllKouwei(){
         List<KouWeiEntity> list = AppApplication.get(fragment.getActivity()).getDaoSession().getKouWeiEntityDao().loadAll();
         fragment.showPopAllKouwei(list);
     }
+
 }

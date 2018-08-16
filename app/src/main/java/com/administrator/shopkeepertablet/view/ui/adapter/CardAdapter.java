@@ -55,7 +55,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectClick(position);
                 if (onItemClick != null) {
                     onItemClick.onItemClick(cardEntity, position);
                 }
@@ -68,13 +67,23 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ItemViewHolder
         return mList.size();
     }
 
-    private void selectClick(int pos) {
-        for (int i = 0; i < mList.size(); i++) {
-            if (i == pos) {
-                mList.get(i).setSelect(true);
+    public void selectClick(int pos) {
+        CardEntity entity = mList.get(pos);
+        if (entity.isSelect()) {
+            entity.setSelect(false);
+        } else {
+            if (entity.getType().equals("1") || entity.getType().equals("2")) {
+                for (CardEntity card : mList) {
+                    card.setSelect(false);
+                }
             } else {
-                mList.get(i).setSelect(false);
+                for (CardEntity card : mList) {
+                    if (card.getType().equals("1") || card.getType().equals("2")) {
+                        card.setSelect(false);
+                    }
+                }
             }
+            entity.setSelect(true);
         }
         notifyDataSetChanged();
     }

@@ -304,5 +304,13 @@ public interface ParishRepertory extends BaseRepertory {
      */
     Observable<BaseEntity<String>> getOherYouhui(String type,String couponId,String billId,String shopId,double xiaPrice,double yinFu,String json);
 
+    /** 获取订单价格相关
+     * @param type 17
+     * @param shopId 店铺ID
+     * @param billId 订单ID
+     * @param types 类型
+     * @return
+     */
+    Observable<BaseEntity<String>> getOrderData(String type,String shopId,String billId,String types);
 
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
@@ -40,7 +41,7 @@ public class ParishFoodViewModel extends BaseViewModel {
     public ObservableField<String> time = new ObservableField<>("");
     public ObservableField<String> billId = new ObservableField<>("");
     public ObservableField<Double> price = new ObservableField<>(0.00);
-    public ObservableField<Double> totalPrice =new ObservableField<>(0.00);
+    public ObservableField<Double> totalPrice = new ObservableField<>(0.00);
 
     public ParishFoodViewModel(ParishFoodFragment fragment, ParishRepertory parishRepertory, PreferenceSource preferenceSource) {
         this.fragment = fragment;
@@ -148,7 +149,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                                 a += entity.getChargeMoney();
                             }
                             price.set(a);
-                            fragment.initPayPop(mList, entity);
+//                            fragment.initPayPop(mList,entity);
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -287,6 +288,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "取消成功");
+                            fragment.clearSuccess();
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -305,8 +307,8 @@ public class ParishFoodViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         Log.e("vd", stringBaseEntity.toString());
-                        if (stringBaseEntity.getCode()==1){
-                            MToast.showToast(fragment.getActivity(),"退菜成功");
+                        if (stringBaseEntity.getCode() == 1) {
+                            MToast.showToast(fragment.getActivity(), "退菜成功");
                             printResult(stringBaseEntity.getResult());
                             fragment.clearSuccess();
                         }
@@ -319,13 +321,13 @@ public class ParishFoodViewModel extends BaseViewModel {
                 });
     }
 
-    public void givingFood(String orderDetailId,String num){
-        parishRepertory.givingFood("14",orderDetailId,num).subscribe(new Consumer<BaseEntity<String>>() {
+    public void givingFood(String orderDetailId, String num) {
+        parishRepertory.givingFood("14", orderDetailId, num).subscribe(new Consumer<BaseEntity<String>>() {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                Log.e("vd",stringBaseEntity.getResult());
-                if (stringBaseEntity.getCode()==1){
-                    MToast.showToast(fragment.getActivity(),"赠送成功");
+                Log.e("vd", stringBaseEntity.getResult());
+                if (stringBaseEntity.getCode() == 1) {
+                    MToast.showToast(fragment.getActivity(), "赠送成功");
                     printResult(stringBaseEntity.getResult());
                 }
             }
@@ -337,4 +339,47 @@ public class ParishFoodViewModel extends BaseViewModel {
         });
     }
 
+    public void getOrder(TableEntity entity) {
+        parishRepertory.getOrder("9", entity.getRoomTableId()).subscribe(
+                new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        if (stringBaseEntity.getCode() == 1) {
+                            String[] result = stringBaseEntity.getResult().split("∞");
+                            OrderEntity order = new Gson().fromJson(result[0], OrderEntity.class);
+                            List<OrderFoodEntity> mList = Arrays.asList(new Gson().fromJson(result[1], OrderFoodEntity[].class));
+                            double a = 0;
+                            for (OrderFoodEntity entity : mList) {
+                                a += entity.getChargeMoney();
+                            }
+                            price.set(a);
+                            fragment.initPayPop(mList, order, entity);
+                            Log.e("vd", order.toString());
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                }
+        );
+    }
+
+    public void inBill(int state,List<OrderFoodEntity> mList, OrderEntity orderEntity,final TableEntity entity) {
+        parishRepertory.inBill("18", billId.get()).subscribe(
+                new Consumer<BaseEntity<String>>() {
+                    @Override
+                    public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        if (stringBaseEntity.getCode()==1){
+                            fragment.inBillSuccess(state,mList,orderEntity,entity);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+    }
 }

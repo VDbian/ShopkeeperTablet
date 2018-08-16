@@ -684,6 +684,29 @@ public interface RetrofitInterface {
             @Field("PayID") String payId
     );
 
+    //获取价格信息
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> getOrderData(
+            @Field("Type") String type,
+            @Field("id") String shopId,
+            @Field("BILLID") String billId,
+            @Field("Types") String types);
+
+    //修改订单状态
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> inBill(
+            @Field("Type") String type,
+            @Field("BILLId") String billID);
+
+    //获取订单信息
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortOrderManagerASHX.ashx")
+    Observable<BaseEntity<String>> getOrder(
+            @Field("type") String s,
+            @Field("Tableid") String roomTableID);
+
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
 //    Observable<BaseEntity<String>> changePeople(

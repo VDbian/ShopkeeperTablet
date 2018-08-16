@@ -72,4 +72,16 @@ public class BaseRepertoryImpl implements BaseRepertory {
         return apiSource.scanBill(type, code, price, shopId, payId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<BaseEntity<String>> inBill(String type, String billID) {
+        return apiSource.inBill(type, billID).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getOrder(String s, String roomTableID) {
+        return apiSource.getOrder(s, roomTableID).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

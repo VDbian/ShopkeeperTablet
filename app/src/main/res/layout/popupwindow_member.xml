@@ -227,7 +227,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="16px"
-                        android:layout_marginRight="16px"
+                        android:layout_marginRight="8px"
                         >
                     </android.support.v7.widget.RecyclerView>
                 </LinearLayout>

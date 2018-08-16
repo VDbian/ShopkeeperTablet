@@ -9,6 +9,7 @@ import com.administrator.shopkeepertablet.model.entity.CardEntity;
 import com.administrator.shopkeepertablet.model.entity.DiscountEntity;
 import com.administrator.shopkeepertablet.model.entity.ElseCouponEntity;
 import com.administrator.shopkeepertablet.model.entity.MemberEntity;
+import com.administrator.shopkeepertablet.model.entity.PriceEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
@@ -35,6 +36,7 @@ public class PayViewModel extends BaseViewModel {
     private PreferenceSource preferenceSource;
     private PayActivity activity;
     public ObservableField<TableEntity> tableEntity = new ObservableField<>();
+    public ObservableField<String> billId = new ObservableField<>();
     public ObservableField<String> roomName = new ObservableField<>("");
     public ObservableField<String> time = new ObservableField<>("");
     public ObservableField<Double> price = new ObservableField<>(0.0);//原价
@@ -56,6 +58,7 @@ public class PayViewModel extends BaseViewModel {
     public ObservableField<List<DiscountEntity>> discountList = new ObservableField<>();
     public ObservableField<Double> permissionDiscount = new ObservableField<>(0.0);//权限打折
     public ObservableField<Double> permissionRemission = new ObservableField<>(0.0);//权限优惠
+    public ObservableField<PriceEntity> priceEntity = new ObservableField<>();
 
     public PayViewModel(ParishRepertory parishRepertory, PreferenceSource preferenceSource, PayActivity activity) {
         this.parishRepertory = parishRepertory;
@@ -72,13 +75,7 @@ public class PayViewModel extends BaseViewModel {
     }
 
     public void getMember(String num) {
-        String bill = tableEntity.get().getBillId();
-        if (tableList.get() != null && !tableList.get().isEmpty()) {
-            for (TableEntity entity : tableList.get()) {
-                bill += "," + entity.getBillId();
-            }
-        }
-        parishRepertory.getMember("15", num, bill, preferenceSource.getId())
+        parishRepertory.getMember("15", num, billId.get(), preferenceSource.getId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
@@ -241,7 +238,6 @@ public class PayViewModel extends BaseViewModel {
                 });
     }
 
-
     public void bill(String id, String tableId, double zon, double can, String jsonObjquanxian,
                      String jsonObj, String jsonPay, int peoplecount, double price, String tablename, double free,
                      String types, String guiId, String payType, double maling, double rounding) {
@@ -259,4 +255,28 @@ public class PayViewModel extends BaseViewModel {
             }
         });
     }
+
+
+    public void getOrderData(int type){
+        parishRepertory.getOrderData("17",preferenceSource.getId(),billId.get(),String.valueOf(type))
+        .subscribe(new Consumer<BaseEntity<String>>() {
+            @Override
+            public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                Log.e("vd",stringBaseEntity.toString());
+                if (stringBaseEntity.getCode() == 1){
+                    List<PriceEntity> priceEntities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(),PriceEntity[].class));
+                    if (!priceEntities.isEmpty()){
+                        priceEntity.set(priceEntities.get(0));
+                        Log.e("vd",priceEntity.get().toString());
+                    }
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+
+            }
+        });
+    }
+
 }

@@ -172,4 +172,10 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
         return apiSource.getOherYouhui(type, couponId, billId, shopId, xiaPrice, yinFu, json).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getOrderData(String type, String shopId, String billId, String types) {
+        return apiSource.getOrderData(type, shopId, billId, types).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

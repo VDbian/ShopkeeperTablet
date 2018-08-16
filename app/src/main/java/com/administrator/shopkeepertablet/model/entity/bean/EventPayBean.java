@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.model.entity.bean;
 
+import com.administrator.shopkeepertablet.model.entity.OrderEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 
@@ -17,6 +18,7 @@ public class EventPayBean {
     private List<OrderFoodEntity> mList;
     private String roomName;
     private List<TableEntity> tableEntityList;
+    private OrderEntity order;
     private int flag;
 
     public TableEntity getTableEntity() {
@@ -57,5 +59,13 @@ public class EventPayBean {
 
     public void setFlag(int flag) {
         this.flag = flag;
+    }
+
+    public OrderEntity getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderEntity order) {
+        this.order = order;
     }
 }

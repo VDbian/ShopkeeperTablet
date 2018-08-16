@@ -137,8 +137,21 @@ public interface BaseRepertory {
      */
     Observable<BaseEntity<String>> scanBill(String type,String code,double price,String shopId,String payId);
 
+    /**
+     * 修改订单结账状态
+     * @param type 18 结账  19取消结账
+     * @param billID 订单ID
+     * @return
+     */
+    Observable<BaseEntity<String>> inBill(String type,String billID);
 
-
+    /**
+     * 获取订单信息
+     * @param s 9
+     * @param roomTableID 桌位ID
+     * @return
+     */
+    Observable<BaseEntity<String>> getOrder(String s,String roomTableID);
 
     Observable<BaseEntity<String>> updatePrint(String type, String billId,String ipAddress);
 }

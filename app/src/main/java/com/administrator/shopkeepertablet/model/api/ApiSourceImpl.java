@@ -299,4 +299,19 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> scanBill(String type, String code, double price, String shopId, String payId) {
         return retrofitInterface.scanBill(type, code, price, shopId, payId);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getOrderData(String type, String shopId, String billId, String types) {
+        return retrofitInterface.getOrderData(type, shopId, billId, types);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> inBill(String type, String billID) {
+        return retrofitInterface.inBill(type, billID);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getOrder(String s, String roomTableID) {
+        return retrofitInterface.getOrder(s, roomTableID);
+    }
 }

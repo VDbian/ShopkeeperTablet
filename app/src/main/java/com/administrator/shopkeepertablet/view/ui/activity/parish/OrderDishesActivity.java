@@ -293,7 +293,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
 
     public void intentToPay(List<OrderFoodEntity> orderFoodEntities){
         EventPayBean bean =new EventPayBean();
-        bean.setFlag(2);
+        bean.setFlag(3);
 //            bean.setTableEntity(entity);
         bean.setmList(orderFoodEntities);
 //        bean.setRoomName(viewModel.room.get());

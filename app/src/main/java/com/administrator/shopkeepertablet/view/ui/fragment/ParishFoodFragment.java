@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.parish.DaggerParishFragmentComponent;
 import com.administrator.shopkeepertablet.di.parish.ParishFragmentModule;
 import com.administrator.shopkeepertablet.model.entity.EventOrderDishesEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
@@ -104,6 +106,7 @@ public class ParishFoodFragment extends BaseFragment {
             public void onItemClick(final TableEntity entity, final int position) {
                 viewModel.table.set(entity.getTableName());
                 viewModel.tableId.set(entity.getRoomTableId());
+                Log.e("vd",entity.getIsOpen());
                 switch (entity.getIsOpen()) {
                     case "0":
                         viewModel.people.set("1");
@@ -158,7 +161,8 @@ public class ParishFoodFragment extends BaseFragment {
                         viewModel.time.set(entity.getTime());
                         viewModel.billId.set(entity.getBillId());
                         viewModel.totalPrice.set(entity.getPrice());
-                        viewModel.getOrderFoodList(entity);
+//                        viewModel.getOrderFoodList(entity);
+                        viewModel.getOrder(entity);
                         break;
                     case "4":
                         viewModel.billId.set(entity.getBillId());
@@ -175,6 +179,7 @@ public class ParishFoodFragment extends BaseFragment {
 
                             }
                         });
+                        confirmDialog.show(getActivity().getFragmentManager(),"");
                         break;
                     default:
                         break;
@@ -253,25 +258,18 @@ public class ParishFoodFragment extends BaseFragment {
         viewModel.getTables(roomEntities.get(selectedTabPosition));
     }
 
-    public void initPayPop(final List<OrderFoodEntity> mList, final TableEntity entity) {
+    public void initPayPop(final List<OrderFoodEntity> mList, OrderEntity orderEntity,final TableEntity entity) {
         popupWindowPay = new PopupWindowPay(getActivity(), viewModel, mList);
         popupWindowPay.showPopupWindow(binding.tabRoom);
         popupWindowPay.setOnCallBackListener(new PopupWindowPay.OnCallBackListener() {
             @Override
             public void pay() {
-                EventPayBean bean =new EventPayBean();
-                bean.setFlag(1);
-                bean.setTableEntity(entity);
-                bean.setmList(mList);
-                bean.setRoomName(viewModel.room.get());
-                EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY,bean));
-                Intent intent = new Intent(ParishFoodFragment.this.getActivity(), PayActivity.class);
-                startActivity(intent);
+               viewModel.inBill(0,mList,orderEntity,entity);
             }
 
             @Override
             public void scanPay() {
-
+                viewModel.inBill(1,mList,orderEntity,entity);
             }
 
             @Override
@@ -366,7 +364,26 @@ public class ParishFoodFragment extends BaseFragment {
         startActivity(intent);
     }
 
-
+    public void inBillSuccess(int state,List<OrderFoodEntity> mList, OrderEntity orderEntity,final TableEntity entity){
+        if (popupWindowPay != null && popupWindowPay.isShowing()) {
+            popupWindowPay.dismiss();
+        }
+        switch (state){
+            case 0:
+                EventPayBean bean =new EventPayBean();
+                bean.setFlag(1);
+                bean.setOrder(orderEntity);
+                bean.setTableEntity(entity);
+                bean.setmList(mList);
+                bean.setRoomName(viewModel.room.get());
+                EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY,bean));
+                Intent intent = new Intent(ParishFoodFragment.this.getActivity(), PayActivity.class);
+                startActivity(intent);
+                break;
+            case 1:
+                break;
+        }
+    }
 
     public void cancelOrderSuccess() {
         if (popupWindowPay != null && popupWindowPay.isShowing()) {

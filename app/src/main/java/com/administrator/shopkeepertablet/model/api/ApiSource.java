@@ -131,5 +131,11 @@ public interface ApiSource {
            String zonprice,String zonstate,double free, double price,double maLing,double rounding,String fnaBill);
 
     Observable<BaseEntity<String>> scanBill(String type,String code,double price,String shopId,String payId);
+
+    Observable<BaseEntity<String>> getOrderData(String type,String shopId,String billId,String types);
+
+    Observable<BaseEntity<String>> inBill(String type,String billID);
+
+    Observable<BaseEntity<String>> getOrder(String s,String roomTableID);
 }
 

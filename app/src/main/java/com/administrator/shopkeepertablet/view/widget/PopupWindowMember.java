@@ -41,6 +41,8 @@ public class PopupWindowMember extends PopupWindow {
     private PayViewModel viewModel;
     private CardAdapter adapter;
     private List<CardEntity> cardEntityList = new ArrayList<>();
+    private Double scoreMoney = 0.0;
+    private Double cardMoney = 0.0;
 
     private OnCallBackListener onCallBackListener;
 
@@ -92,9 +94,6 @@ public class PopupWindowMember extends PopupWindow {
             @Override
             public void onDismiss() {
                 backgroundAlpha(1f);
-                if (onCallBackListener != null) {
-                    onCallBackListener.dismiss();
-                }
             }
         });
 
@@ -108,7 +107,16 @@ public class PopupWindowMember extends PopupWindow {
         adapter.setOnItemClick(new CardAdapter.OnItemClick() {
             @Override
             public void onItemClick(CardEntity entity, int position) {
-
+                if (scoreMoney > 0) {
+                    MToast.showToast(context, "使用积分后不能使用卡券");
+                    return;
+                }
+                for (CardEntity card : cardEntityList) {
+                    if (card.isSelect()) {
+                        viewModel.cardEntity.set(card);
+                        cardMoney = card.getMoney();
+                    }
+                }
             }
         });
 
@@ -123,15 +131,9 @@ public class PopupWindowMember extends PopupWindow {
         binding.tvIntegral.setOnClickListener(listener);
         binding.tvConfirm.setOnClickListener(listener);
 
-
     }
 
     public void searchSuccess() {
-//        binding.tvNo.setText(String.format(context.getResources().getString(R.string.member_num), viewModel.member.get().getNo()));
-//        binding.tvName.setText(String.format(context.getResources().getString(R.string.member_name), viewModel.member.get().getName()));
-//        binding.tvMoney.setText(String.format(context.getResources().getString(R.string.member_balance), viewModel.member.get().getMoney()));
-//        binding.tvPhone.setText(String.format(context.getResources().getString(R.string.member_phone), viewModel.member.get().getPhone()));
-//        binding.tvScore.setText(String.format(context.getResources().getString(R.string.member_points), viewModel.member.get().getScore()));
         binding.llMemberInfo.setVisibility(View.VISIBLE);
         binding.llIntegral.setVisibility(View.VISIBLE);
         cardEntityList.clear();
@@ -152,9 +154,26 @@ public class PopupWindowMember extends PopupWindow {
                     }
                     break;
                 case R.id.tv_integral:
+                    if (cardMoney>0) {
+                        MToast.showToast(context, "已选择卡券状态下不能进行积分兑换");
+                        return;
+                    }
                     String integral = binding.etIntegral.getText().toString().trim();
-                    if (!TextUtils.isEmpty(integral) && Integer.getInteger(integral) <= viewModel.member.get().getScore()) {
-                        viewModel.integral.set(integral);
+                    if (!TextUtils.isEmpty(integral)) {
+                        if (viewModel.priceEntity.get().getMemberpice() > 0 || viewModel.member.get().getRate() == 0) {
+                            MToast.showToast(context, "不能积分兑换");
+                            return;
+                        }
+                        int scoreNum = Integer.parseInt(integral);
+                        if (scoreNum > viewModel.member.get().getScore()) {
+                            MToast.showToast(context, "积分不足");
+                            return;
+                        }
+                        scoreMoney = (scoreNum * viewModel.member.get().getRate());
+                        if (scoreMoney > viewModel.priceEntity.get().getYinfu()) {
+                            MToast.showToast(context, "优惠金额不能大于应付金额");
+                            return;
+                        }
                     }
                     break;
                 case R.id.tv_confirm:
@@ -217,8 +236,6 @@ public class PopupWindowMember extends PopupWindow {
 
     public interface OnCallBackListener {
         void confirm();
-
-        void dismiss();
     }
 
     public void setOnCallBackListener(OnCallBackListener onCallBackListener) {

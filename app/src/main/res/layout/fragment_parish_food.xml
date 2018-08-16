@@ -74,9 +74,24 @@
                 android:textColor="@color/color666666"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8px"
+                />
+            <View
+                android:layout_width="12px"
+                android:layout_height="12px"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16px"
+                android:background="@drawable/shape_table_state_bill"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/state_bill"
+                android:textSize="12px"
+                android:textColor="@color/color666666"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8px"
                 android:layout_marginRight="16px"
                 />
-
         </LinearLayout>
 
         <android.support.design.widget.TabLayout

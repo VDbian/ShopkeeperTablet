@@ -17,6 +17,7 @@ import com.administrator.shopkeepertablet.di.parish.ParishActivityModule;
 import com.administrator.shopkeepertablet.model.entity.CardEntity;
 import com.administrator.shopkeepertablet.model.entity.DiscountEntity;
 import com.administrator.shopkeepertablet.model.entity.ElseCouponEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.PayMeEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
@@ -63,9 +64,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     PayViewModel viewModel;
     private int flag;
 
+    private OrderEntity orderEntity;
     private List<OrderFoodEntity> mList = new ArrayList<>();
     private PopupWindowMember popupWindowMember;
-    private String billId;
     private Double oneDiscount = 0.0;//单个菜品打折金额
     private boolean isFree = false;
     private List<ElseCouponEntity> elseCouponEntities = new ArrayList<>();
@@ -95,16 +96,21 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
+        viewModel.getOrderData(orderEntity.getType());
         binding.llMember.setVisibility(View.INVISIBLE);
         binding.tvDiscountNum.setVisibility(View.INVISIBLE);
         switch (flag) {
-            case 1:
+            case 1://堂点
                 binding.llTitle.setVisibility(View.VISIBLE);
                 binding.tvReturnBill.setVisibility(View.GONE);
                 break;
-            case 2:
+            case 2://并单
+                break;
+            case 3://反结账
                 binding.llTitle.setVisibility(View.GONE);
                 binding.tvReturnBill.setVisibility(View.VISIBLE);
+                break;
+            case 4://快餐
                 break;
         }
 
@@ -157,7 +163,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         payWayAdapter.setOnItemClick(new PayWayAdapter.OnItemClick() {
             @Override
             public void onItemClick(PayMeEntity entity, int position) {
-                showDialogPayMoney(entity,position);
+                showDialogPayMoney(entity, position);
             }
         });
 
@@ -222,11 +228,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void confirm() {
                 binding.llMember.setVisibility(View.VISIBLE);
-            }
 
-            @Override
-            public void dismiss() {
-                popupWindowMember = null;
             }
         });
         popupWindowMember.showPopupWindowUp();
@@ -259,7 +261,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 if (!TextUtils.isEmpty(viewModel.discountNum.get())) {
                     int num = Integer.valueOf(viewModel.discountNum.get());
                     if (num > 0 && num < 100) {
-                        viewModel.getDazhe(billId, num, "");
+                        viewModel.getDazhe(viewModel.billId.get(), num, "");
                         binding.tvDiscountNum.setText(num / 10.0 + "折");
                         binding.tvDiscountNum.setVisibility(View.VISIBLE);
                     } else {
@@ -272,7 +274,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             public void itemClick(DiscountEntity discountEntity) {
                 binding.tvDiscountNum.setText(Double.valueOf(discountEntity.getCount()) / 10.0 + "折");
                 binding.tvDiscountNum.setVisibility(View.VISIBLE);
-                viewModel.getDazhe(billId, 0, discountEntity.getId());
+                viewModel.getDazhe(viewModel.billId.get(), 0, discountEntity.getId());
             }
         });
         permissionDiscountDialog.show(getFragmentManager(), "PermissionDiscount");
@@ -387,7 +389,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     }
                     quanxian.setQuanxian(q);
                     String qStr = new Gson().toJson(quanxian);
-                    viewModel.getOtherYouhui(couponId, billId, elseCouponMoneyTemp, viewModel.shouldPay.get(), qStr);
+                    viewModel.getOtherYouhui(couponId, viewModel.billId.get(), elseCouponMoneyTemp, viewModel.shouldPay.get(), qStr);
                 }
             }
         });
@@ -419,18 +421,20 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             EventPayBean bean = (EventPayBean) event.getMessageData();
             flag = bean.getFlag();
             mList = bean.getmList();
+            orderEntity = bean.getOrder();
             viewModel.tableEntity.set(bean.getTableEntity());
             viewModel.roomName.set(bean.getRoomName());
             viewModel.time.set(viewModel.getTime(bean.getTableEntity().getKaiTime()));
             viewModel.tableList.set(bean.getTableEntityList());
             Double price = bean.getTableEntity().getPrice();
-            billId = bean.getTableEntity().getBillId();
+            String billId = bean.getTableEntity().getBillId();
             if (bean.getTableEntityList() != null && bean.getTableEntityList().size() != 0) {
                 for (TableEntity tableEntity : bean.getTableEntityList()) {
                     price += tableEntity.getPrice();
                     billId += "," + tableEntity.getBillId();
                 }
             }
+            viewModel.billId.set(billId);
             viewModel.price.set(price);
         }
     }
@@ -547,7 +551,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             p.add(base);
 
             for (int k = 0; k < payMeEntityList.size(); k++) {
-                PayMeEntity entity =payMeEntityList.get(k);
+                PayMeEntity entity = payMeEntityList.get(k);
                 if (entity != null && entity.isSelected()) {
                     BillJson.BillJsonBase pe = new BillJson.BillJsonBase();
                     pe.setGuid(System.currentTimeMillis() + "");
@@ -573,7 +577,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 rounding = -viewModel.permissionRemission.get();
             }
 
-            viewModel.bill(billId, "", viewModel.price.get(), viewModel.warePrice.get(), qStr, tStr, pStr, 1, result, "",
+            viewModel.bill(viewModel.billId.get(), "", viewModel.price.get(), viewModel.warePrice.get(), qStr, tStr, pStr, 1, result, "",
                     free, "4", "", "", moLing, rounding);
 //            if (type == P3) {
 //                if (!TextUtils.isEmpty(tabName)) {
@@ -603,6 +607,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         payMeEntityList.clear();
         String[] payTypes = getResources().getStringArray(R.array.payType);
         for (int i = 0; i < payTypes.length; i++) {
+            Log.e("vd", AppConstant.getUser().getCashPayType());
             if (AppConstant.getUser().getCashPayType().contains(i + 1 + "")) {
                 String anA = payTypes[i];
                 if (anA.equals("现金")) {

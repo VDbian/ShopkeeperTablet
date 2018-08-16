@@ -158,6 +158,7 @@ public class TableActivity extends BaseActivity {
                 @Override
                 public void confirm() {
                     EventPayBean bean = new EventPayBean();
+                    bean.setFlag(2);
                     bean.setTableEntity(viewModel.tableEntity.get());
                     bean.setmList(orderFoodEntityList);
                     bean.setRoomName(viewModel.roomName.get());
