@@ -107,10 +107,15 @@ public class PopupWindowMember extends PopupWindow {
         adapter.setOnItemClick(new CardAdapter.OnItemClick() {
             @Override
             public void onItemClick(CardEntity entity, int position) {
+                if (viewModel.cardSearch.get()!=null){
+                    MToast.showToast(context, "已选择其他优惠券状态下不能使用卡券");
+                    return;
+                }
                 if (scoreMoney > 0) {
                     MToast.showToast(context, "使用积分后不能使用卡券");
                     return;
                 }
+                adapter.selectClick(position);
                 for (CardEntity card : cardEntityList) {
                     if (card.isSelect()) {
                         viewModel.cardEntity.set(card);
@@ -154,7 +159,11 @@ public class PopupWindowMember extends PopupWindow {
                     }
                     break;
                 case R.id.tv_integral:
-                    if (cardMoney>0) {
+                    if (viewModel.cardSearch.get()!=null){
+                        MToast.showToast(context, "已选择其他优惠券状态下不能进行积分兑换");
+                        return;
+                    }
+                    if (cardMoney > 0) {
                         MToast.showToast(context, "已选择卡券状态下不能进行积分兑换");
                         return;
                     }
@@ -174,12 +183,13 @@ public class PopupWindowMember extends PopupWindow {
                             MToast.showToast(context, "优惠金额不能大于应付金额");
                             return;
                         }
+                        MToast.showToast(context, "已兑换" + scoreNum + "积分");
                     }
                     break;
                 case R.id.tv_confirm:
                     dismiss();
                     if (onCallBackListener != null) {
-                        onCallBackListener.confirm();
+                        onCallBackListener.confirm(scoreMoney, cardMoney);
                     }
                     break;
                 case R.id.iv_cancel:
@@ -235,7 +245,7 @@ public class PopupWindowMember extends PopupWindow {
 
 
     public interface OnCallBackListener {
-        void confirm();
+        void confirm(double score, double card);
     }
 
     public void setOnCallBackListener(OnCallBackListener onCallBackListener) {

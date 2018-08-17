@@ -4,6 +4,9 @@ import android.app.DialogFragment;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.DialogDiscountBinding;
 import com.administrator.shopkeepertablet.databinding.DialogPayMoneyBinding;
+import com.administrator.shopkeepertablet.databinding.ItemFoodTypeBinding;
 import com.administrator.shopkeepertablet.utils.MToast;
 
 
@@ -26,6 +30,7 @@ public class PayMoneyDialog extends DialogFragment {
     private DialogPayMoneyBinding binding;
     private OnConfirmClick onConfirmClick;
     private Double money;
+    private Double max;
 
 
     public void setOnConfirmClick(OnConfirmClick onConfirmClick) {
@@ -46,6 +51,14 @@ public class PayMoneyDialog extends DialogFragment {
 
     public void setMoney(Double money) {
         this.money = money;
+    }
+
+    public Double getMax() {
+        return max;
+    }
+
+    public void setMax(Double max) {
+        this.max = max;
     }
 
     @Override
@@ -78,7 +91,12 @@ public class PayMoneyDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String str = binding.etMoney.getText().toString().trim();
-                Double aDouble = Double.valueOf(str);
+                Double aDouble;
+                if (TextUtils.isEmpty(str)) {
+                    aDouble = 0.0;
+                } else {
+                    aDouble = Double.valueOf(str);
+                }
                 if (aDouble >= 0 && aDouble <= money) {
                     dismiss();
                     if (onConfirmClick != null) {
@@ -86,6 +104,29 @@ public class PayMoneyDialog extends DialogFragment {
                     }
                 } else {
                     MToast.showToast(getActivity(), "输入的金额不符合规范");
+                }
+            }
+        });
+
+        binding.etMoney.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String str = s.toString().trim();
+                if (!TextUtils.isEmpty(str)) {
+                    Double d = Double.valueOf(str);
+                    if (d > max) {
+                        binding.etMoney.setText(String.valueOf(max));
+                    }
                 }
             }
         });

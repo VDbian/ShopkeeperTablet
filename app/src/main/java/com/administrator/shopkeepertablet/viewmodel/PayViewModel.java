@@ -60,6 +60,7 @@ public class PayViewModel extends BaseViewModel {
     public ObservableField<Double> permissionRemission = new ObservableField<>(0.0);//权限优惠
     public ObservableField<PriceEntity> priceEntity = new ObservableField<>();
 
+
     public PayViewModel(ParishRepertory parishRepertory, PreferenceSource preferenceSource, PayActivity activity) {
         this.parishRepertory = parishRepertory;
         this.preferenceSource = preferenceSource;
@@ -128,17 +129,21 @@ public class PayViewModel extends BaseViewModel {
     }
 
     public void getDiscount(String num) {
-        String bill = tableEntity.get().getBillId();
-        if (tableList.get() != null && !tableList.get().isEmpty()) {
-            for (TableEntity entity : tableList.get()) {
-                bill += "," + entity.getBillId();
-            }
-        }
-        parishRepertory.getDiscount("2", bill, num).subscribe(
+        parishRepertory.getDiscount("2", billId.get(), num).subscribe(
                 new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         Log.e("vd", stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode()==1){
+                            String[] cardStr = stringBaseEntity.getResult().split("@");
+                            CardEntity cardBean = new CardEntity();
+                            cardBean.setId(cardStr[3]);
+                            cardBean.setMoney(Double.parseDouble(cardStr[2]));
+                            cardBean.setType(cardStr[4]);
+                            cardBean.setName(cardStr[1]);
+                            cardBean.setUsername(cardStr[0]);
+                            cardSearch.set(cardBean);
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
