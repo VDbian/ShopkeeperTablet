@@ -13,6 +13,9 @@ public class CardEntity {
     private double money;
     private String id;
     private String type;
+    private double manPrice;
+    private String beginTime;
+    private String endTime;
     private boolean select;
 
     public String getUsername() {
@@ -61,5 +64,33 @@ public class CardEntity {
 
     public void setSelect(boolean select) {
         this.select = select;
+    }
+
+    public double getManPrice() {
+        return manPrice;
+    }
+
+    public void setManPrice(double manPrice) {
+        this.manPrice = manPrice;
+    }
+
+    public String getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(String beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String time(){
+        return this.beginTime +"-"+this.endTime;
     }
 }

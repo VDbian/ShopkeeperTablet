@@ -20,7 +20,7 @@ public class AppConstant {
     public static final int EVENT_TABLE = 1;
     public static final int EVENT_PAY = 2;
     public static final int EVENT_RETURN_BILL =3;
-    public static final int EVENT_MERGE_PAY = 3;
+    public static final int EVENT_FAST_PAY = 4;
 
     private static UserInfoEntity user;
 

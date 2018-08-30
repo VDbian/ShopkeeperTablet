@@ -36,4 +36,10 @@ public class FastRepositoryImpl extends BaseRepertoryImpl implements FastReposit
     public Observable<BaseEntity<String>> getPay(String id, String type) {
         return apiSource.getPay(id, type).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getOrderFoodList(String type, String id, String billId) {
+        return apiSource.getOrderFoodList(type,id,billId).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 }

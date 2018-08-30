@@ -39,7 +39,7 @@ public class Print {
         });
     }
 
-    public  void socketDataArrivalHandler(String data) {
+    public void socketDataArrivalHandler(String data) {
         try {
             //调用打印机打印数据
             String[] enty = null;

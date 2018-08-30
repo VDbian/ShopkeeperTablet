@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.view.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.administrator.shopkeepertablet.databinding.ActivityMainBinding;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.mian.DaggerMainComponent;
 import com.administrator.shopkeepertablet.di.mian.MainModule;
+import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.fragment.FastFoodFragment;
 import com.administrator.shopkeepertablet.view.ui.fragment.LineUpFragment;
@@ -23,6 +25,7 @@ import com.administrator.shopkeepertablet.view.ui.fragment.OrderFragment;
 import com.administrator.shopkeepertablet.view.ui.fragment.ParishFoodFragment;
 import com.administrator.shopkeepertablet.view.ui.fragment.RechargeFragment;
 import com.administrator.shopkeepertablet.view.ui.fragment.SettingFragment;
+import com.administrator.shopkeepertablet.view.widget.ConfirmDialog;
 import com.administrator.shopkeepertablet.viewmodel.MainViewModel;
 
 import javax.inject.Inject;
@@ -48,7 +51,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public static final int FRAGMENT_LINEUP = 4;
     public static final int FRAGMENT_RECHARGE = 5;
     public static final int FRAGMENT_MESSAGE = 6;
-//    public static final int FRAGMENT_PRINTER = 7;
+    //    public static final int FRAGMENT_PRINTER = 7;
     public static final int FRAGMENT_SETTING = 7;
 
     protected FragmentManager fragmentManager;
@@ -89,10 +92,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         fragmentManager = getSupportFragmentManager();
         myFragment[FRAGMENT_PARISH] = new ParishFoodFragment();
         myFragment[FRAGMENT_FAST] = new FastFoodFragment();
-        ((FastFoodFragment)myFragment[FRAGMENT_FAST]).setName("fast");
+        ((FastFoodFragment) myFragment[FRAGMENT_FAST]).setName("fast");
         myFragment[FRAGMENT_ORDER] = new OrderFragment();
         myFragment[FRAGMENT_RESERVE] = new FastFoodFragment();
-        ((FastFoodFragment)myFragment[FRAGMENT_RESERVE]).setName("reserve");
+        ((FastFoodFragment) myFragment[FRAGMENT_RESERVE]).setName("reserve");
         myFragment[FRAGMENT_LINEUP] = new LineUpFragment();
         myFragment[FRAGMENT_RECHARGE] = new RechargeFragment();
         myFragment[FRAGMENT_MESSAGE] = new MessageFragment();
@@ -143,12 +146,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     public void displayFrg(int index) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, myFragment[index]).commitAllowingStateLoss();
+        transaction.replace(R.id.frame_layout, myFragment[index]).commit();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tab_parish_food:
                 showTabView(FRAGMENT_PARISH);
                 displayFrg(FRAGMENT_PARISH);
@@ -170,7 +173,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 displayFrg(FRAGMENT_ORDER);
                 break;
             case R.id.tab_printer:
-                if (AppConstant.getUser().getPermissionValue().contains(""))
+                if (AppConstant.getUser().getPermissionValue().contains("jiaoban")) {
+                    ConfirmDialog dialog = new ConfirmDialog();
+                    dialog.setTitle("提示");
+                    dialog.setMessage("是否交班打印？");
+                    dialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
+                        @Override
+                        public void confirm() {
+                            viewModel.jiaoBan();
+                        }
+
+                        @Override
+                        public void cancel() {
+
+                        }
+                    });
+                    dialog.show(getFragmentManager(), "");
+                } else {
+                    MToast.showToast(this, "没有交班权限");
+                }
                 break;
             case R.id.tab_recharge:
                 showTabView(FRAGMENT_RECHARGE);
@@ -187,8 +208,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    public void intentToLogin(){
-        Intent intent =new Intent(MainActivity.this,LoginActivity.class);
+    public void intentToLogin() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

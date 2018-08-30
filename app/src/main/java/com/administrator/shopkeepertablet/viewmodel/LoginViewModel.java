@@ -6,10 +6,12 @@ import android.text.TextUtils;
 
 import com.administrator.shopkeepertablet.AppApplication;
 import com.administrator.shopkeepertablet.AppConstant;
+import com.administrator.shopkeepertablet.di.Activity;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.login.LoginRepertory;
+import com.administrator.shopkeepertablet.utils.DialogUtils;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.activity.LoginActivity;
@@ -43,12 +45,14 @@ public class LoginViewModel extends BaseViewModel {
                 MToast.showToast(loginActivity,"请先设置店铺ID");
                 return;
             }
+            DialogUtils.showDialog(loginActivity, "登录中");
 //            loginRepertory.login("收银", preferenceSource.getId(), "111")
             loginRepertory.login(username.get(), preferenceSource.getId(), password.get())
                     .subscribe(new Consumer<BaseEntity<String>>() {
                         @Override
                         public void accept(BaseEntity<String> baseEntity) throws Exception {
                             MLog.d("api", baseEntity.toString());
+                            DialogUtils.hintDialog();
                             if (baseEntity.getCode() == AppConstant.REQUEST_SUCCESS) {
                                 UserInfoEntity entity = new Gson().fromJson(baseEntity.getResult(), UserInfoEntity.class);
                                 MLog.d("api", entity.toString());
@@ -58,13 +62,15 @@ public class LoginViewModel extends BaseViewModel {
                                 AppConstant.setUser(entity);
                                 loginActivity.intentToMain();
                             } else {
-                                MToast.showToast(loginActivity, baseEntity.getMessage());
+                                MToast.showToast(loginActivity, "登录失败");
                             }
                         }
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
                             MLog.e("api", throwable.getMessage());
+                            DialogUtils.hintDialog();
+                            MToast.showToast(loginActivity,"登录失败");
                         }
                     });
 

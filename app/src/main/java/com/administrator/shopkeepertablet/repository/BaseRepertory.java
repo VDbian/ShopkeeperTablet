@@ -153,5 +153,17 @@ public interface BaseRepertory {
      */
     Observable<BaseEntity<String>> getOrder(String s,String roomTableID);
 
+    /**
+     * 微信支付
+     * @param type 9
+     * @param id 店铺Id
+     * @param orderID 订单Id
+     * @param types 微信交易编码
+     * @param Price 交易金额
+     * @return
+     */
+    Observable<BaseEntity<String>> weixinBill(String type,String id,String orderID, String types,int Price);
+
+
     Observable<BaseEntity<String>> updatePrint(String type, String billId,String ipAddress);
 }

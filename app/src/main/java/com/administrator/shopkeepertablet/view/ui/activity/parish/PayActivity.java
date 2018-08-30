@@ -1,8 +1,10 @@
 package com.administrator.shopkeepertablet.view.ui.activity.parish;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,9 +16,11 @@ import com.administrator.shopkeepertablet.databinding.ActivityPayBinding;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.parish.DaggerParishActivityComponent;
 import com.administrator.shopkeepertablet.di.parish.ParishActivityModule;
+import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.CardEntity;
 import com.administrator.shopkeepertablet.model.entity.DiscountEntity;
 import com.administrator.shopkeepertablet.model.entity.ElseCouponEntity;
+import com.administrator.shopkeepertablet.model.entity.GuaZhangEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.PayMeEntity;
@@ -24,6 +28,7 @@ import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.BillJson;
 import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
+import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderFoodAdapter;
@@ -32,6 +37,7 @@ import com.administrator.shopkeepertablet.view.widget.ConfirmDialog;
 import com.administrator.shopkeepertablet.view.widget.CouponDialog;
 import com.administrator.shopkeepertablet.view.widget.DiscountDialog;
 import com.administrator.shopkeepertablet.view.widget.ElseDiscountsDialog;
+import com.administrator.shopkeepertablet.view.widget.GuaZhangDialog;
 import com.administrator.shopkeepertablet.view.widget.PayMoneyDialog;
 import com.administrator.shopkeepertablet.view.widget.PermissionDiscountDialog;
 import com.administrator.shopkeepertablet.view.widget.PermissionRemissionDialog;
@@ -39,6 +45,8 @@ import com.administrator.shopkeepertablet.view.widget.PopupWindowMember;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.PayViewModel;
 import com.google.gson.Gson;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,10 +54,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionHandler;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Description:
@@ -64,10 +76,15 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     @Inject
     PayViewModel viewModel;
     private int flag;
+    private String tableId = "";
+    private String tableName = "";
+    private int peopleCount = 1;
+    private String guid = "";
 
     private OrderEntity orderEntity;
     private List<OrderFoodEntity> mList = new ArrayList<>();
     private PopupWindowMember popupWindowMember;
+    private CouponDialog couponDialog;
     private Double oneDiscount = 0.0;//单个菜品打折金额
     private boolean isFree = false;
     private List<ElseCouponEntity> elseCouponEntities = new ArrayList<>();
@@ -98,7 +115,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
-        viewModel.getOrderData(orderEntity.getType());
+        viewModel.getOrderData(orderEntity == null ? 4 : orderEntity.getType());
         binding.llMember.setVisibility(View.INVISIBLE);
         binding.tvDiscountNum.setVisibility(View.INVISIBLE);
         switch (flag) {
@@ -107,12 +124,18 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 binding.tvReturnBill.setVisibility(View.GONE);
                 break;
             case 2://并单
+                binding.llTitle.setVisibility(View.GONE);
+                binding.tvReturnBill.setVisibility(View.VISIBLE);
+                binding.tvReturnBill.setText("并单");
                 break;
             case 3://反结账
                 binding.llTitle.setVisibility(View.GONE);
                 binding.tvReturnBill.setVisibility(View.VISIBLE);
                 break;
             case 4://快餐
+                binding.llTitle.setVisibility(View.GONE);
+                binding.tvReturnBill.setVisibility(View.VISIBLE);
+                binding.tvReturnBill.setText("快餐");
                 break;
         }
 
@@ -178,6 +201,10 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         binding.tvRemission.setOnClickListener(this);
         binding.tvElseDiscounts.setOnClickListener(this);
         binding.rlBack.setOnClickListener(this);
+        binding.tvPay.setOnClickListener(this);
+        binding.tvScanPay.setOnClickListener(this);
+        binding.ivPermissionDiscount.setOnClickListener(this);
+        binding.ivPermissionRemission.setOnClickListener(this);
         changedMoney(true);
     }
 
@@ -227,9 +254,21 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.tv_scan_pay:
+                initPayWay();
+                Intent intent = new Intent(PayActivity.this, CaptureActivity.class);
+                startActivityForResult(intent, 3);
                 break;
             case R.id.tv_pay:
                 bill();
+                break;
+            case R.id.iv_permission_discount:
+                viewModel.permissionDiscount.set(0.0);
+                binding.tvDiscountNum.setVisibility(View.INVISIBLE);
+                changedMoney(false);
+                break;
+            case R.id.iv_permission_remission:
+                viewModel.permissionRemission.set(0.0);
+                changedMoney(false);
                 break;
         }
     }
@@ -253,10 +292,14 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         if (popupWindowMember != null && popupWindowMember.isShowing()) {
             popupWindowMember.searchSuccess();
         }
+        if (couponDialog != null && couponDialog.isVisible()) {
+            couponDialog.searchSuccess();
+        }
+
     }
 
     private void showDialogCoupon() {
-        CouponDialog couponDialog = new CouponDialog();
+        couponDialog = new CouponDialog();
         couponDialog.setViewModel(viewModel);
         couponDialog.setOnConfirmClick(new CouponDialog.OnConfirmClick() {
             @Override
@@ -420,23 +463,85 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private void choosePayWay(PayMeEntity payMeEntity, int position) {
         switch (payMeEntity.getName()) {
             case "会员卡":
+                if (viewModel.member.get() == null) {
+                    MToast.showToast(this, "请先选择会员");
+                } else if (viewModel.member.get().getMoney() < viewModel.shouldPay.get()) {
+                    MToast.showToast(this, "会员卡余额不足");
+                } else {
+                    payMeEntity.setMoney(viewModel.shouldPay.get());
+                    choosePayWayOnly(payMeEntity);
+                    bill();
+                }
                 break;
             case "主扫微信":
+                payMeEntity.setMoney(viewModel.shouldPay.get());
+                choosePayWayOnly(payMeEntity);
+                Intent intent = new Intent(PayActivity.this, CaptureActivity.class);
+                startActivityForResult(intent, 1);
                 break;
             case "主扫支付宝":
+                payMeEntity.setMoney(viewModel.shouldPay.get());
+                choosePayWayOnly(payMeEntity);
+                Intent intent2 = new Intent(PayActivity.this, CaptureActivity.class);
+                startActivityForResult(intent2, 2);
                 break;
             case "挂账":
+                viewModel.guaZhang(payMeEntity);
                 break;
             default:
-                showDialogPayMoney(payMeEntity, position);
+                if (viewModel.needPay.get()!=0) {
+                    showDialogPayMoney(payMeEntity, position);
+                }
                 break;
         }
     }
 
+    public void guazhangSuccess(List<GuaZhangEntity> result, PayMeEntity payMeEntity) {
+        MLog.e("vd", "qqweweqeqqqeqwe");
+        GuaZhangDialog guaZhangDialog = new GuaZhangDialog();
+        guaZhangDialog.setmList(result);
+        guaZhangDialog.setOnConfirmClick(new GuaZhangDialog.OnConfirmClick() {
+            @Override
+            public void confirm(GuaZhangEntity entity, double money) {
+                if (money <= (viewModel.needPay.get() + payMeEntity.getMoney()) && money >= 0) {
+                    if (money == 0) {
+                        payMeEntity.setSelected(false);
+                        guid = "";
+                    } else {
+                        guid = entity.getGuid();
+                        payMeEntity.setSelected(true);
+                    }
+                    payMeEntity.setMoney(money);
+                    payWayAdapter.notifyDataSetChanged();
+                    initMoney(false);
+                } else {
+                    MToast.showToast(PayActivity.this, "挂账金额不正确");
+                    guid = "";
+                    payMeEntity.setMoney(0);
+                    entity.setSelected(false);
+                    payWayAdapter.notifyDataSetChanged();
+                    initMoney(false);
+                }
+            }
+
+            @Override
+            public void cancel() {
+                guid = "";
+                payMeEntity.setMoney(0);
+                payMeEntity.setSelected(false);
+                payWayAdapter.notifyDataSetChanged();
+                initMoney(false);
+            }
+        });
+        guaZhangDialog.show(getFragmentManager(), "");
+    }
+
+
     public void showDialogPayMoney(PayMeEntity payMeEntity, int position) {
         PayMoneyDialog payMoneyDialog = new PayMoneyDialog();
         payMoneyDialog.setTitle(payMeEntity.getName());
-        payMoneyDialog.setMoney(payMeEntity.getMoney() == 0 ? viewModel.shouldPay.get() : payMeEntity.getMoney());
+        payMoneyDialog.setMoney(payMeEntity.getMoney() == 0 ? viewModel.needPay.get() : payMeEntity.getMoney());
+        payMoneyDialog.setMax(viewModel.needPay.get());
         payMoneyDialog.setOnConfirmClick(new PayMoneyDialog.OnConfirmClick() {
             @Override
             public void confirm(Double money) {
@@ -445,6 +550,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     payMeEntityList.get(position).setSelected(false);
                 } else {
                     payMeEntityList.get(position).setSelected(true);
+                    initMoney(false);
                 }
                 payWayAdapter.notifyDataSetChanged();
             }
@@ -452,27 +558,57 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         payMoneyDialog.show(getFragmentManager(), "");
     }
 
+    private void choosePayWayOnly(PayMeEntity payMeEntity) {
+        for (PayMeEntity entity : payMeEntityList) {
+            if (entity.getGuid() == payMeEntity.getGuid()) {
+                entity.setSelected(true);
+            } else {
+                entity.setSelected(false);
+                entity.setMoney(0);
+            }
+        }
+        payWayAdapter.notifyDataSetChanged();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onDataEvent(DataEvent event) {
         if (event.getMessageTag() == AppConstant.EVENT_PAY) {
             EventPayBean bean = (EventPayBean) event.getMessageData();
+            Double price =0.0;
+            String billId ="";
             flag = bean.getFlag();
             mList = bean.getmList();
             orderEntity = bean.getOrder();
             viewModel.tableEntity.set(bean.getTableEntity());
             viewModel.roomName.set(bean.getRoomName());
-            viewModel.time.set(viewModel.getTime(bean.getTableEntity().getKaiTime()));
+            billId = bean.getId();
+            if (bean.getTableEntity()!=null) {
+                viewModel.time.set(viewModel.getTime(bean.getTableEntity().getKaiTime()));
+                price = bean.getTableEntity().getPrice();
+                billId = bean.getTableEntity().getBillId();
+                tableId = bean.getTableEntity().getRoomTableId();
+                tableName = bean.getTableEntity().getTableName();
+            }
             viewModel.tableList.set(bean.getTableEntityList());
-            Double price = bean.getTableEntity().getPrice();
-            String billId = bean.getTableEntity().getBillId();
+           if (bean.getOrder()!=null) {
+               peopleCount = bean.getOrder().getPersonCount();
+               billId =bean.getOrder().getBillId();
+           }
             if (bean.getTableEntityList() != null && bean.getTableEntityList().size() != 0) {
                 for (TableEntity tableEntity : bean.getTableEntityList()) {
                     price += tableEntity.getPrice();
                     billId += "," + tableEntity.getBillId();
+                    tableId += "," + tableEntity.getRoomTableId();
+                    tableName += "," + tableEntity.getTableName();
                 }
             }
             viewModel.billId.set(billId);
             viewModel.price.set(price);
+            Double p = bean.getPrice();
+            if (p > 0) {
+                viewModel.price.set(p);
+            }
+
         }
     }
 
@@ -513,22 +649,36 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 jsonBase.setPiceGuid(viewModel.integral + "");
                 t.add(jsonBase);
             }
-            for (int i = 0; i < viewModel.cardList.get().size(); i++) {
-                CardEntity bean = viewModel.cardList.get().get(i);
-                if (bean.isSelect()) {
-                    BillJson.BillJsonBase jsonBase = new BillJson.BillJsonBase();
-                    if (bean.getType().equals("1") || bean.getType().equals("2")) {
-                        jsonBase.setType("2");
-                    } else {
-                        jsonBase.setType("4");
-                    }
-                    jsonBase.setGuid(System.currentTimeMillis() + "0" + i);
-                    jsonBase.setPiceGuid(bean.getId());
-                    jsonBase.setPice(bean.getMoney() + "");
-                    jsonBase.setSate("0");
-                    t.add(jsonBase);
+            if (viewModel.cardEntity.get() != null) {
+                CardEntity bean = viewModel.cardEntity.get();
+                BillJson.BillJsonBase jsonBase = new BillJson.BillJsonBase();
+                if (bean.getType().equals("1") || bean.getType().equals("2")) {
+                    jsonBase.setType("2");
+                } else {
+                    jsonBase.setType("4");
                 }
+                jsonBase.setGuid(System.currentTimeMillis() + "0" + 1);
+                jsonBase.setPiceGuid(bean.getId());
+                jsonBase.setPice(bean.getMoney() + "");
+                jsonBase.setSate("0");
+                t.add(jsonBase);
+
             }
+            if (viewModel.cardSearch.get() != null) {
+                CardEntity bean = viewModel.cardSearch.get();
+                BillJson.BillJsonBase jsonBase = new BillJson.BillJsonBase();
+                if (bean.getType().equals("1") || bean.getType().equals("2")) {
+                    jsonBase.setType("2");
+                } else {
+                    jsonBase.setType("4");
+                }
+                jsonBase.setGuid(System.currentTimeMillis() + "0" + 2);
+                jsonBase.setPiceGuid(bean.getId());
+                jsonBase.setPice(bean.getMoney() + "");
+                jsonBase.setSate("0");
+                t.add(jsonBase);
+            }
+
 
             BillJson.TeacherJson teacherJson = new BillJson.TeacherJson();
             teacherJson.setTeacher(t);
@@ -614,29 +764,16 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 rounding = -viewModel.permissionRemission.get();
             }
 
-            viewModel.bill(viewModel.billId.get(), "", viewModel.price.get(), viewModel.warePrice.get(), qStr, tStr, pStr, 1, result, "",
-                    free, "4", "", "", moLing, rounding);
-//            if (type == P3) {
-//                if (!TextUtils.isEmpty(tabName)) {
-//                    presenter.bill(billId, App.INSTANCE().getShopID(), tableEntity != null ? tableEntity.getRoomTableID() : "",
-//                            memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr, tStr, pStr, 1, result, tabName,
-//                            free, "4", guiId, "", mading, rounding);
-//                } else {
-//                    presenter.bill(billId, App.INSTANCE().getShopID(), tableEntity != null ? tableEntity.getRoomTableID() : "",
-//                            memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr, tStr, pStr, 1, result, tableEntity != null ? tableEntity.getTableName() : "",
-//                            free, "4", guiId, "", mading, rounding);
-//                }
-//            } else if (type == P4) {
-//                presenter.bill(billId, App.INSTANCE().getShopID(), tableEntity != null ? tableEntity.getRoomTableID() : "",
-//                        memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr
-//                        , tStr, pStr, 1, result, tableEntity != null ? tableEntity.getTableName() : "", free, "3", guiId, "", mading, rounding);
-//            } else if (type == P6) {
-//                presenter.rebill(order.getBillid(), App.INSTANCE().getShopID(), order.getTableId(), memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr
-//                        , tStr, pStr, order.getType().equals("7") ? "7" : "4", free, order.getBillid(), result, mading, rounding);
-//            } else {
-//                presenter.bill(order.getBillid(), App.INSTANCE().getShopID(), order.getTableId(), memberId, weixinOrderBean.getYuanjia(), weixinOrderBean.getCanju(), qStr
-//                        , tStr, pStr, order.getPeopleCount(), result, order.getTableName(), free, "7", guiId, "", mading, rounding);
-//            }
+            if (flag == 4) {
+                viewModel.rebill(viewModel.billId.get(), tableId, viewModel.priceEntity.get().getYuanjia(), viewModel.priceEntity.get().getCanju(), qStr
+                        , tStr, pStr, orderEntity.getType() == 7 ? "7" : "4", free, viewModel.billId.get(), result, moLing, rounding);
+            } else if (flag == 3) {//快餐
+                viewModel.bill(viewModel.billId.get(), tableId, viewModel.priceEntity.get().getYuanjia(), viewModel.priceEntity.get().getCanju(), qStr, tStr, pStr, 1, result, tableName,
+                        free, "4", "", "", moLing, rounding);
+            } else {
+                viewModel.bill(viewModel.billId.get(), tableId, viewModel.priceEntity.get().getYuanjia(), viewModel.priceEntity.get().getCanju(), qStr
+                        , tStr, pStr, peopleCount, result, tableName, free, "7", "", "", moLing, rounding);
+            }
         }
     }
 
@@ -644,14 +781,10 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         payMeEntityList.clear();
         String[] payTypes = getResources().getStringArray(R.array.payType);
         for (int i = 0; i < payTypes.length; i++) {
-//            Log.e("vd", AppConstant.getUser().getCashPayType());
+            Log.e("vd", AppConstant.getUser().getCashPayType());
             if (AppConstant.getUser().getCashPayType().contains(i + 1 + "")) {
                 String anA = payTypes[i];
-                if (anA.equals("现金")) {
-                    payMeEntityList.add(new PayMeEntity(anA, true, i + 1));
-                } else {
-                    payMeEntityList.add(new PayMeEntity(anA, false, i + 1));
-                }
+                payMeEntityList.add(new PayMeEntity(anA, false, i + 1));
             }
         }
         payWayAdapter.notifyDataSetChanged();
@@ -692,6 +825,255 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private void changedMoney(boolean bool) {
         initMoney(bool);
         initPayWay();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            initPayWay();
+            return;
+        }
+        if (requestCode == 2) {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                return;
+            }
+            if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                String result = bundle.getString(CodeUtils.RESULT_STRING);
+                viewModel.weixinBill(viewModel.billId.get(), result, viewModel.shouldPay.get());
+            } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                MToast.showToast(this, "解析二维码失败");
+            }
+        } else if (requestCode == 1) {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                return;
+            }
+            if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                String result = bundle.getString(CodeUtils.RESULT_STRING);
+                viewModel.scanBill(result, viewModel.shouldPay.get(), viewModel.billId.get());
+            } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                MToast.showToast(this, "解析二维码失败");
+            }
+        } else if (requestCode == 3) {
+            Bundle bundle = data.getExtras();
+            if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+                String result = bundle.getString(CodeUtils.RESULT_STRING);
+                viewModel.scanBill(result, viewModel.shouldPay.get(), viewModel.billId.get());
+            } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+                MToast.showToast(this, "解析二维码失败");
+            }
+        }
+    }
+
+    public void billSuccess(String msg) {
+        MToast.showToast(this, msg);
+        finish();
+    }
+
+    private void scanBill(String payType, String result, double money, String memberId) {
+        List<BillJson.BillJsonBase> t = new ArrayList<>();
+        BillJson.BillJsonBase base = new BillJson.BillJsonBase();
+        t.add(base);
+        BillJson.TeacherJson teacherJson = new BillJson.TeacherJson();
+        teacherJson.setTeacher(t);
+        String tStr = new Gson().toJson(teacherJson);
+
+        BillJson.Quanxian quanxian = new BillJson.Quanxian();
+        List<BillJson.BillJsonBase> q = new ArrayList<>();
+        q.add(base);
+
+        if (oneDiscount + viewModel.permissionDiscount.get() > 0) {
+            BillJson.BillJsonBase d = new BillJson.BillJsonBase();
+            d.setGuid(System.currentTimeMillis() + "");
+            d.setPice(oneDiscount + viewModel.permissionDiscount.get() + "");
+            if (oneDiscount > 0) {
+                d.setType("6");
+            } else {
+                d.setType("1");
+            }
+            q.add(d);
+        }
+        if (viewModel.permissionRemission.get() > 0) {
+            BillJson.BillJsonBase j = new BillJson.BillJsonBase();
+            j.setGuid(System.currentTimeMillis() + "");
+            j.setPice(viewModel.permissionRemission.get() + "");
+            j.setType("2");
+            q.add(j);
+        }
+        if (isFree) {
+            BillJson.BillJsonBase m = new BillJson.BillJsonBase();
+            m.setGuid(System.currentTimeMillis() + "");
+//                m.setPice(weixinOrderBean.getYinfu() + "");
+            m.setPice(viewModel.shouldPay.get() + "");
+            m.setType("3");
+            q.add(m);
+        }
+        if (elseCouponMoney > 0) {
+            for (int k = 0; k < elseCouponEntities.size(); k++) {
+                ElseCouponEntity entity = elseCouponEntities.get(k);
+                if (entity != null) {
+                    BillJson.BillJsonBase pe = new BillJson.BillJsonBase();
+                    pe.setGuid(System.currentTimeMillis() + "");
+                    pe.setPice(entity.getPrice() + "");
+                    pe.setPiceGuid("");
+                    pe.setSate(entity.getName() + "");
+                    pe.setType(5 + "");
+                    pe.setIsSql(entity.getId() + "");
+                    q.add(pe);
+                }
+            }
+        }
+        quanxian.setQuanxian(q);
+        String qStr = new Gson().toJson(quanxian);
+        BillJson.Pays pays = new BillJson.Pays();
+        List<BillJson.BillJsonBase> p = new ArrayList<>();
+        p.add(base);
+
+        for (int k = 0; k < payMeEntityList.size(); k++) {
+            PayMeEntity entity = payMeEntityList.get(k);
+            if (entity != null && entity.isSelected()) {
+                BillJson.BillJsonBase pe = new BillJson.BillJsonBase();
+                pe.setGuid(System.currentTimeMillis() + "");
+                pe.setPice(entity.getMoney() + "");
+                pe.setPiceGuid(entity.getGuid() + "");
+                p.add(pe);
+            }
+        }
+
+        pays.setQuanxian(p);
+        String pStr = new Gson().toJson(pays);
+
+        double free = viewModel.discount.get();
+
+        Log.i("ttt", "totleMoney:" + result);
+
+        Double moLing = 0.0;
+        Double rounding = 0.0;
+        if (viewModel.permissionRemission.get() > 0) {
+            moLing = viewModel.permissionRemission.get();
+        } else {
+            rounding = -viewModel.permissionRemission.get();
+        }
+
+        if (flag == 4) {//快餐
+            viewModel.bill(viewModel.billId.get(), tableId, viewModel.price.get(), viewModel.priceEntity.get().getCanju(), qStr
+                    , tStr, pStr, 1, viewModel.shouldPay.get(), tableName, free, "4", guid, payType, moLing, rounding);
+        } else if (flag == 1) {
+            viewModel.bill(viewModel.billId.get(), tableId, viewModel.price.get(), viewModel.priceEntity.get().getCanju(), qStr
+                    , tStr, pStr, 1, viewModel.shouldPay.get(), tableName, free, "7", guid, payType, moLing, rounding);
+        }
+    }
+
+    public void scanBillSuccess(String payType, String result, double money, final String memberId, String str) {
+        if (str.contains("支付中")) {
+            ConfirmDialog confirmDialog = new ConfirmDialog();
+            confirmDialog.setTitle("支付中");
+            confirmDialog.setMessage("用户正在支付中，是否确认已支付");
+            confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
+                @Override
+                public void confirm() {
+                    scanBill(payType, result, money, memberId);
+                }
+
+                @Override
+                public void cancel() {
+
+                }
+            });
+            confirmDialog.show(getFragmentManager(), "");
+        } else {
+            scanBill(payType, result, money, memberId);
+        }
+    }
+
+    public void weixinSuccess() {
+        double result = viewModel.shouldPay.get();
+        List<BillJson.BillJsonBase> t = new ArrayList<>();
+        BillJson.BillJsonBase base = new BillJson.BillJsonBase();
+        t.add(base);
+        BillJson.TeacherJson teacherJson = new BillJson.TeacherJson();
+        teacherJson.setTeacher(t);
+        String tStr = new Gson().toJson(teacherJson);
+
+
+        BillJson.Quanxian quanxian = new BillJson.Quanxian();
+        List<BillJson.BillJsonBase> q = new ArrayList<>();
+        q.add(base);
+        if (oneDiscount + viewModel.permissionDiscount.get() > 0) {
+            BillJson.BillJsonBase d = new BillJson.BillJsonBase();
+            d.setGuid(System.currentTimeMillis() + "");
+            d.setPice(oneDiscount + viewModel.permissionDiscount.get() + "");
+            if (oneDiscount > 0) {
+                d.setType("6");
+            } else {
+                d.setType("1");
+            }
+            q.add(d);
+        }
+        if (viewModel.permissionRemission.get() > 0) {
+            BillJson.BillJsonBase j = new BillJson.BillJsonBase();
+            j.setGuid(System.currentTimeMillis() + "");
+            j.setPice(viewModel.permissionRemission.get() + "");
+            j.setType("2");
+            q.add(j);
+        }
+        if (isFree) {
+            BillJson.BillJsonBase m = new BillJson.BillJsonBase();
+            m.setGuid(System.currentTimeMillis() + "");
+//                m.setPice(weixinOrderBean.getYinfu() + "");
+            m.setPice(viewModel.shouldPay.get() + "");
+            m.setType("3");
+            q.add(m);
+        }
+        if (elseCouponMoney > 0) {
+            for (int k = 0; k < elseCouponEntities.size(); k++) {
+                ElseCouponEntity entity = elseCouponEntities.get(k);
+                if (entity != null) {
+                    BillJson.BillJsonBase pe = new BillJson.BillJsonBase();
+                    pe.setGuid(System.currentTimeMillis() + "");
+                    pe.setPice(entity.getPrice() + "");
+                    pe.setPiceGuid("");
+                    pe.setSate(entity.getName() + "");
+                    pe.setType(5 + "");
+                    pe.setIsSql(entity.getId() + "");
+                    q.add(pe);
+                }
+            }
+        }
+        quanxian.setQuanxian(q);
+        String qStr = new Gson().toJson(quanxian);
+
+
+        BillJson.Pays pays = new BillJson.Pays();
+        List<BillJson.BillJsonBase> p = new ArrayList<>();
+        p.add(base);
+
+        BillJson.BillJsonBase pe = new BillJson.BillJsonBase();
+        pe.setGuid(System.currentTimeMillis() + "");
+        pe.setPice(result + "");
+        pe.setPiceGuid("7");
+        p.add(pe);
+        pays.setQuanxian(p);
+        String pStr = new Gson().toJson(pays);
+
+        double free = viewModel.discount.get();
+        Double moLing = 0.0;
+        Double rounding = 0.0;
+        if (viewModel.permissionRemission.get() > 0) {
+            moLing = viewModel.permissionRemission.get();
+        } else {
+            rounding = -viewModel.permissionRemission.get();
+        }
+
+        if (flag == 4) {//快餐
+            viewModel.bill(viewModel.billId.get(), tableId, viewModel.price.get(), viewModel.priceEntity.get().getCanju(), qStr
+                    , tStr, pStr, 1, viewModel.shouldPay.get(), tableName, free, "4", guid, "", moLing, rounding);
+        } else {
+            viewModel.bill(viewModel.billId.get(), tableId, viewModel.price.get(), viewModel.priceEntity.get().getCanju(), qStr
+                    , tStr, pStr, 1, viewModel.shouldPay.get(), tableName, free, "7", guid, "", moLing, rounding);
+        }
     }
 
     @Override

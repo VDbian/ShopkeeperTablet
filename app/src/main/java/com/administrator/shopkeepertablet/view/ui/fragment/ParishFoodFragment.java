@@ -23,10 +23,12 @@ import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ReturnReasonEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
+import com.administrator.shopkeepertablet.model.entity.bean.BillJson;
 import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
 import com.administrator.shopkeepertablet.model.entity.bean.EventTableBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
+import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
@@ -40,6 +42,9 @@ import com.administrator.shopkeepertablet.view.widget.PopupWindowPay;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowReturnFood;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.viewmodel.ParishFoodViewModel;
+import com.google.gson.Gson;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -270,6 +275,7 @@ public class ParishFoodFragment extends BaseFragment {
             @Override
             public void scanPay() {
                 viewModel.inBill(1,mList,orderEntity,entity);
+
             }
 
             @Override
@@ -376,14 +382,101 @@ public class ParishFoodFragment extends BaseFragment {
                 bean.setTableEntity(entity);
                 bean.setmList(mList);
                 bean.setRoomName(viewModel.room.get());
+                bean.setPrice(viewModel.price.get());
                 EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY,bean));
                 Intent intent = new Intent(ParishFoodFragment.this.getActivity(), PayActivity.class);
                 startActivity(intent);
                 break;
             case 1:
+                Intent intent1 = new Intent(getActivity(), CaptureActivity.class);
+                startActivityForResult(intent1, 1001);
                 break;
         }
     }
+
+    private void scanOrQuickbill(String payType, String result, double money, String memberId) {
+        List<BillJson.BillJsonBase> t = new ArrayList<>();
+        BillJson.BillJsonBase base2 = new BillJson.BillJsonBase();
+        t.add(base2);
+
+        BillJson.BillJsonBase base = new BillJson.BillJsonBase();
+        base.setGuid(String.valueOf(System.currentTimeMillis()) + result);
+        base.setPice(String.valueOf(money));
+        base.setPiceGuid(payType);
+        base.setSate("0");
+        base.setType("1");
+        base.setIsSql("1");
+        t.add(base);
+
+        BillJson.TeacherJson teacherJson = new BillJson.TeacherJson();
+        List<BillJson.BillJsonBase> youHui = new ArrayList<>();
+        youHui.add(base2);
+        teacherJson.setTeacher(youHui);
+        String tStr = new Gson().toJson(teacherJson);
+        Log.i("ttt", "---tStr:" + tStr);
+
+        BillJson.Quanxian quanxian = new BillJson.Quanxian();
+        List<BillJson.BillJsonBase> q = new ArrayList<>();
+        q.add(base2);
+        quanxian.setQuanxian(q);
+        String qStr = new Gson().toJson(quanxian);
+        Log.i("ttt", "---qStr:" + qStr);
+        BillJson.Pays pays = new BillJson.Pays();
+        List<BillJson.BillJsonBase> p = new ArrayList<>();
+        p.add(base);
+        pays.setQuanxian(p);
+        String pStr = new Gson().toJson(pays);
+        Log.i("ttt", "---pStr:" + pStr);
+
+        viewModel.bill(result, "", money, 0, qStr
+                , tStr, pStr, payType, 1, money, "", 0, "4", memberId);
+    }
+
+    public void billSuccess(String msg) {
+        MToast.showToast(getActivity(), msg);
+
+    }
+
+    public void bill(String payType, String result, double money, String memberId, String str) {
+        if (str.contains("支付中")) {
+            ConfirmDialog confirmDialog = new ConfirmDialog();
+            confirmDialog.setTitle("支付中");
+            confirmDialog.setMessage("用户正在支付中，是否确认已支付");
+            confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
+                @Override
+                public void confirm() {
+                    scanOrQuickbill(payType, result, money, memberId);
+                }
+
+                @Override
+                public void cancel() {
+
+                }
+            });
+            confirmDialog.show(getActivity().getFragmentManager(), "");
+        } else {
+            scanOrQuickbill(payType, result, money, memberId);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        Bundle bundle = data.getExtras();
+        if (bundle == null) {
+            return;
+        }
+        if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+            String result = bundle.getString(CodeUtils.RESULT_STRING);
+            viewModel.scanBill(result, viewModel.price.get(), viewModel.billId.get());
+        } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+            MToast.showToast(getActivity(), "解析二维码失败");
+        }
+    }
+
 
     public void cancelOrderSuccess() {
         if (popupWindowPay != null && popupWindowPay.isShowing()) {

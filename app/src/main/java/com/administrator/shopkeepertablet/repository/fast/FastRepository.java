@@ -47,5 +47,12 @@ public interface FastRepository extends BaseRepertory{
      */
     Observable<BaseEntity<String>> getPay(String id,String type);
 
-
+    /**
+     *获取订单菜品列表
+     * @param type 13
+     * @param id 店铺ID
+     * @param billId 订单ID
+     * @return
+     */
+    Observable<BaseEntity<String>> getOrderFoodList(String type, String id, String billId);
 }

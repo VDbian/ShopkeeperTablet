@@ -20,6 +20,9 @@ public class EventPayBean {
     private List<TableEntity> tableEntityList;
     private OrderEntity order;
     private int flag;
+    private String id;
+    private String name;
+    private Double price;
 
     public TableEntity getTableEntity() {
         return tableEntity;
@@ -67,5 +70,29 @@ public class EventPayBean {
 
     public void setOrder(OrderEntity order) {
         this.order = order;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

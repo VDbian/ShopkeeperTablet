@@ -11,6 +11,7 @@ import com.administrator.shopkeepertablet.model.entity.RechargeEntity;
 import com.administrator.shopkeepertablet.model.entity.RechargeTypeEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.recharge.RechargeRepository;
+import com.administrator.shopkeepertablet.utils.DialogUtils;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.fragment.RechargeFragment;
 import com.google.gson.Gson;
@@ -56,49 +57,61 @@ public class RechargeViewModel extends BaseViewModel {
             pageIndex = index + "";
             pageSize = size + "";
         }
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.getRechargeMember("1", preferenceSource.getId(), pageIndex, pageSize, name, phone)
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         Log.e("api", stringBaseEntity.toString());
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             List<RechargeEntity> entities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), RechargeEntity[].class));
                             fragment.refreshRecharge(entities);
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"获取会员信息失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"获取会员信息失败");
                     }
                 });
     }
 
     public void getMoreRecharge(String name, String phone) {
         index += 1;
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.getRechargeMember("1", preferenceSource.getId(), index * size + "", size + "", name, phone)
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        DialogUtils.hintDialog();
                         Log.e("api", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             List<RechargeEntity> entities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), RechargeEntity[].class));
                             fragment.loadMoreRecharge(entities);
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"获取更多会员信息失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"获取更多会员信息失败");
                     }
                 });
     }
 
     public void addRecharge(String name, String phone) {
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.addRecharge("8", preferenceSource.getId(), phone, name, preferenceSource.getName(), preferenceSource.getUserId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getResult().equals("1")) {
                             getRecharge("", "");
                             MToast.showToast(fragment.getActivity(), "提交成功");
@@ -111,6 +124,7 @@ public class RechargeViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(), "提交失败");
                     }
                 });
@@ -121,10 +135,12 @@ public class RechargeViewModel extends BaseViewModel {
             MToast.showToast(fragment.getActivity(),"无会员信息");
             return;
         }
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.getMember("15", recharge.get().getStaffTel(), "", preferenceSource.getId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             if (stringBaseEntity.getResult().equals("0")) {
                                 MToast.showToast(fragment.getActivity(), "查询失败");
@@ -164,6 +180,7 @@ public class RechargeViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(), "查询失败");
                     }
                 });
@@ -171,10 +188,12 @@ public class RechargeViewModel extends BaseViewModel {
     }
 
     public void getRechargeType(){
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.getRecharge("6",preferenceSource.getId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode()==1){
                             List<RechargeTypeEntity> typeEntities =Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(),RechargeTypeEntity[].class));
                             fragment.setSpinnerName(typeEntities);
@@ -185,18 +204,21 @@ public class RechargeViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"获取充值方案失败");
                     }
                 });
     }
 
     public void checkCode(String typeId,int payType){
         Log.e("vd",proCode.get());
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.checkCode("10",preferenceSource.getId(),proCode.get())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         Log.e("vd",stringBaseEntity.toString());
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getResult().equals("1")){
                             if (TextUtils.isEmpty(typeId)){
                                 moneyCharge(payType);
@@ -210,44 +232,55 @@ public class RechargeViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(),"校验失败");
                     }
                 });
     }
 
     public void moneyCharge(int payType){
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.moneyCharge("9",member.get().getId(),preferenceSource.getId(),money.get(),payType,preferenceSource.getName(),preferenceSource.getUserId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        DialogUtils.hintDialog();
                         Log.e("vd",stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() ==1){
                           fragment.success();
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"充值失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"充值失败");
                     }
                 });
 
     }
 
     public void proCharge(int payType,String typeId){
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.productCharge("7",member.get().getId(),preferenceSource.getId(),typeId,payType,preferenceSource.getName(),preferenceSource.getUserId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        DialogUtils.hintDialog();
                         Log.e("vd",stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() ==1){
                             fragment.success();
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"充值失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"充值失败");
                     }
                 });
     }

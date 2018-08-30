@@ -68,11 +68,6 @@ public class CouponDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 viewModel.getDiscount(viewModel.couponNum.get());
-                if (viewModel.cardSearch.get() != null) {
-                    binding.llCoupon.setVisibility(View.VISIBLE);
-                } else {
-                    binding.llCoupon.setVisibility(View.INVISIBLE);
-                }
             }
         });
 
@@ -95,6 +90,13 @@ public class CouponDialog extends DialogFragment {
         return binding.getRoot();
     }
 
+    public void searchSuccess(){
+        if (viewModel.cardSearch.get() != null) {
+            binding.llCoupon.setVisibility(View.VISIBLE);
+        } else {
+            binding.llCoupon.setVisibility(View.INVISIBLE);
+        }
+    }
 
     public interface OnConfirmClick {
         void confirm();

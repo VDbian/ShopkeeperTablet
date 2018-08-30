@@ -76,7 +76,7 @@
                     android:textSize="12px"
                     android:textColor="#86898A"
                     android:layout_marginLeft="10px"
-                    android:text="2018.07.22-2018.07.23"
+                    android:text="@{entity.time()}"
                     />
             </LinearLayout>
 

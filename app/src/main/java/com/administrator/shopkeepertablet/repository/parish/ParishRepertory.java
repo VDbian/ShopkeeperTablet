@@ -4,6 +4,9 @@ import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.repository.BaseRepertory;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
 /**
  * Description:
@@ -65,7 +68,7 @@ public interface ParishRepertory extends BaseRepertory {
      * @param fanBill 订单ID
      * @return
      */
-    Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType, String fanBill);
+    Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType,String tableWareCount, String fanBill);
 
     /**
      *获取订单菜品列表
@@ -312,5 +315,31 @@ public interface ParishRepertory extends BaseRepertory {
      * @return
      */
     Observable<BaseEntity<String>> getOrderData(String type,String shopId,String billId,String types);
+
+    /**
+     * 订单查询
+     * @param type 10
+     * @param id 店铺Id
+     * @param OrderID 订单Id
+     * @return
+     */
+    Observable<BaseEntity<String>> query(String type,String id,String OrderID);
+
+    /**
+     * 获取挂账信息
+     * @param shopID 店铺Id
+     * @param type 17
+     * @return
+     */
+    Observable<BaseEntity<String>> getGuazhangData(String shopID,String type);
+
+    /**
+     * 获取并单桌位信息
+     * @param s 12
+     * @param shopID 店铺Id
+     * @param tableId 桌位ID 多个桌位用,隔开
+     * @return
+     */
+    Observable<BaseEntity<String>> getMergeOrderList(String s,String shopID,String tableId);
 
 }

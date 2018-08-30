@@ -258,8 +258,12 @@
                     android:drawableLeft="@mipmap/search"
                     android:gravity="center"
                     android:hint="搜索"
+                    android:text="@={viemModel.search}"
                     android:textColor="@color/color848d95"
-                    android:textSize="18px" />
+                    android:textSize="18px"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    />
 
             </RelativeLayout>
 

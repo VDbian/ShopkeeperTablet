@@ -97,13 +97,13 @@ public class PayMoneyDialog extends DialogFragment {
                 } else {
                     aDouble = Double.valueOf(str);
                 }
-                if (aDouble >= 0 && aDouble <= money) {
+                if (aDouble >= 0 && aDouble <= max) {
                     dismiss();
                     if (onConfirmClick != null) {
                         onConfirmClick.confirm(aDouble);
                     }
                 } else {
-                    MToast.showToast(getActivity(), "输入的金额不符合规范");
+                    MToast.showToast(getActivity(), "输入的金额不超过"+max);
                 }
             }
         });
@@ -116,18 +116,20 @@ public class PayMoneyDialog extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+//                String str = s.toString().trim();
+//                if (!TextUtils.isEmpty(str)) {
+//                    Double d = Double.valueOf(str);
+//                    if (d > max) {
+//                        binding.etMoney.setText(String.valueOf(max));
+//                    }else {
+//                        binding.etMoney.setText(str);
+//                    }
+//                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                String str = s.toString().trim();
-                if (!TextUtils.isEmpty(str)) {
-                    Double d = Double.valueOf(str);
-                    if (d > max) {
-                        binding.etMoney.setText(String.valueOf(max));
-                    }
-                }
+
             }
         });
         return binding.getRoot();

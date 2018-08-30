@@ -1,16 +1,26 @@
 package com.administrator.shopkeepertablet.view.ui.fragment;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.FragmentFastFoodBinding;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
@@ -20,20 +30,37 @@ import com.administrator.shopkeepertablet.model.entity.FoodEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeEntity;
 import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
 import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderEntity;
+import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
+import com.administrator.shopkeepertablet.model.entity.RoomEntity;
+import com.administrator.shopkeepertablet.model.entity.TableEntity;
+import com.administrator.shopkeepertablet.model.entity.bean.BillJson;
 import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
+import com.administrator.shopkeepertablet.model.entity.bean.EventFastPayBean;
+import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
 import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
+import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
+import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
+import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.FoodTypeAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesCartAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesVarietyAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.base.AdapterOnItemClick;
+import com.administrator.shopkeepertablet.view.widget.BindLineUpDialog;
+import com.administrator.shopkeepertablet.view.widget.ConfirmDialog;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowAllKouwei;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChange;
 import com.administrator.shopkeepertablet.view.widget.PopupWindowOrderDishesChoose;
 import com.administrator.shopkeepertablet.view.widget.RecyclerViewItemDecoration;
 import com.administrator.shopkeepertablet.view.widget.ReserveDialog;
 import com.administrator.shopkeepertablet.viewmodel.FastViewModel;
+import com.google.gson.Gson;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +89,9 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
     private KouWeiEntity kouWeiEntity;
     private String remark;
     private String name;
+    private BindLineUpDialog bindLineUpDialog;
+    private String billId;
+    private TableEntity table;
 
     @Override
     protected void setupFragmentComponent(AppComponent appComponent) {
@@ -91,17 +121,54 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initView() {
-        switch (name){
-            case "fast":
-                binding.llFast.setVisibility(View.VISIBLE);
-                binding.tvReserve.setVisibility(View.GONE);
-                binding.tvTitle.setText("快餐");
-                break;
-            case "reserve":
-                binding.llFast.setVisibility(View.GONE);
-                binding.tvReserve.setVisibility(View.VISIBLE);
-                binding.tvTitle.setText("预定");
-                break;
+//        Log.e("vd",name);
+        if (!TextUtils.isEmpty(name)) {
+            switch (name) {
+                case "fast":
+                    binding.llFast.setVisibility(View.VISIBLE);
+                    binding.tvReserve.setVisibility(View.GONE);
+                    binding.tvTitle.setText("快餐");
+                    break;
+                case "reserve":
+                    binding.llFast.setVisibility(View.GONE);
+                    binding.tvReserve.setVisibility(View.VISIBLE);
+                    binding.tvTitle.setText("预定");
+                    break;
+            }
+        } else {
+            binding.llFast.setVisibility(View.VISIBLE);
+            binding.tvReserve.setVisibility(View.GONE);
+            binding.tvTitle.setText("快餐");
+        }
+        if (AppConstant.getUser() != null) {
+            if (AppConstant.getUser().getOperaType().contains("2")) {
+                binding.tvTable.setText("排号");
+            } else if (AppConstant.getUser().getOperaType().contains("3")) {
+                binding.tvTable.setText("桌位");
+            }
+            switch (AppConstant.getUser().getPayType()) {
+                case "1":
+                    binding.tvMoneyPay.setText("现金");
+                    break;
+                case "2":
+                    binding.tvMoneyPay.setText("银行卡");
+                    break;
+                case "3":
+                    binding.tvMoneyPay.setText("微信");
+                    break;
+                case "5":
+                    binding.tvMoneyPay.setText("会员卡");
+                    break;
+                case "6":
+                    binding.tvMoneyPay.setText("线下支付宝");
+                    break;
+                case "7":
+                    binding.tvMoneyPay.setText("线下微信");
+                    break;
+                default:
+                    binding.tvMoneyPay.setText("快速结账");
+                    break;
+            }
         }
         adapter = new OrderDishesVarietyAdapter(getActivity(), mList);
         binding.rlvVariety.setAdapter(adapter);
@@ -110,23 +177,48 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
         adapter.setOnItemClick(new AdapterOnItemClick<FoodEntity>() {
             @Override
             public void onItemClick(FoodEntity foodEntity, int position) {
-                final PopupWindowOrderDishesChoose OrderDishesChoose = new PopupWindowOrderDishesChoose(getActivity(), foodEntity);
-                OrderDishesChoose.showPopupWindowUp(binding.llOrder);
-                OrderDishesChoose.setOnCallBackListener(new PopupWindowOrderDishesChoose.OnCallBackListener() {
-                    @Override
-                    public void confirm(CartBean cartBean) {
-                        OrderDishesChoose.dismiss();
-                        cartBeanList.add(cartBean);
-                        cartAdapter.notifyDataSetChanged();
-                        sumPrice();
-                    }
-                });
+//                if (foodEntity.getSpecEntityList() != null && !foodEntity.getSpecEntityList().isEmpty() &&
+//                        foodEntity.getProductKouWeiEntityList() != null && !foodEntity.getProductKouWeiEntityList().isEmpty() &&
+//                        foodEntity.getSeasonEntityList() != null && !foodEntity.getSeasonEntityList().isEmpty()) {
+                    final PopupWindowOrderDishesChoose OrderDishesChoose = new PopupWindowOrderDishesChoose(getActivity(), foodEntity);
+                    OrderDishesChoose.showPopupWindowUp(binding.llOrder);
+                    OrderDishesChoose.setOnCallBackListener(new PopupWindowOrderDishesChoose.OnCallBackListener() {
+                        @Override
+                        public void confirm(CartBean cartBean) {
+                            OrderDishesChoose.dismiss();
+                            cartBeanList.add(cartBean);
+                            cartAdapter.notifyDataSetChanged();
+                            sumPrice();
+                        }
+                    });
+//                } else {
+//                    CartBean cartBean = new CartBean();
+//                    cartBean.setFoodEntity(foodEntity);
+//                    if (foodEntity.getProductProperty().equals("1")) {
+//                        cartBean.setNum("1");
+//                        cartBean.setUnit(foodEntity.getUnit());
+//                    } else {
+//                        cartBean.setNum("1");
+//                    }
+//                    cartBean.setFoodAddBeanList(new ArrayList<>());
+//                    cartBean.setPrice(foodEntity.getPrice());
+//                    cartBeanList.add(cartBean);
+//                    cartAdapter.notifyDataSetChanged();
+//                    sumPrice();
+//                }
             }
         });
 
         Drawable drawable1 = getResources().getDrawable(R.mipmap.search);
         drawable1.setBounds(25, 0, 45, 20);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
         binding.etSearch.setCompoundDrawables(drawable1, null, null, null);//只放左边
+        binding.etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                viewModel.search(viewModel.search.get());
+                return false;
+            }
+        });
 
         foodTypeAdapter = new FoodTypeAdapter(getActivity(), foodTypeEntityList);
         binding.rlvFoodType.setAdapter(foodTypeAdapter);
@@ -158,7 +250,7 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
 
                     @Override
                     public void delete() {
-                        cartBeanList.remove(entity);
+                        cartBeanList.remove(position);
                         cartAdapter.notifyDataSetChanged();
                         sumPrice();
                         if (cartBeanList.size() == 0) {
@@ -381,41 +473,215 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
                 if (cartBeanList.size() == 0) {
                     MToast.showToast(getActivity(), "购物车是空的");
                 } else {
-                    viewModel.fastFood(getInfo(),0);
+                    viewModel.fastFood(getInfo(), 0, AppConstant.getUser().getOperaType().contains("2") ? "0" : "1",
+                            "", AppConstant.getUser().getOperaType().contains("2") ? viewModel.table.get() : "");
                 }
                 break;
             case R.id.tv_money_pay:
                 if (cartBeanList.size() == 0) {
                     MToast.showToast(getActivity(), "购物车是空的");
                 } else {
-                    viewModel.fastFood(getInfo(),1);
+                    viewModel.fastFood(getInfo(), 1, AppConstant.getUser().getOperaType().contains("2") ? "0" : "1",
+                            "", AppConstant.getUser().getOperaType().contains("2") ? viewModel.table.get() : "");
                 }
                 break;
             case R.id.tv_other_pay:
                 if (cartBeanList.size() == 0) {
                     MToast.showToast(getActivity(), "购物车是空的");
                 } else {
-                    viewModel.fastFood(getInfo(),2);
+//                    viewModel.fastFood(getInfo(), 2, AppConstant.getUser().getOperaType().contains("2") ? "0" : "1");
+                    otherPay();
                 }
                 break;
             case R.id.tv_reserve:
-                ReserveDialog dialog =new ReserveDialog();
+                ReserveDialog dialog = new ReserveDialog();
                 dialog.setOnConfirmClick(new ReserveDialog.OnConfirmClick() {
                     @Override
                     public void confirm(String name, String phone, double money, String remark) {
-                        viewModel.reserve(getInfo(),name,phone,remark,money);
+                        viewModel.reserve(getInfo(), name, phone, remark, money);
                     }
                 });
-                dialog.show(getActivity().getFragmentManager(),"reserve");
+                dialog.show(getActivity().getFragmentManager(), "reserve");
                 break;
         }
     }
 
-    public void fastSuccess(String id,int type){
-
+    public void otherPay() {
+        if (AppConstant.getUser().getOperaType().contains("3")) {
+            showBindDialog();
+        } else if (AppConstant.getUser().getOperaType().contains("2")) {
+            viewModel.fastFood(getInfo(), 2, "0", "", viewModel.table.get());
+        }
     }
 
-    public void reserveSuccess(String id){
-
+    public void fastSuccess(String id, int type) {
+//        cartBeanList.clear();
+//        cartAdapter.notifyDataSetChanged();
+        switch (type) {
+            case 0://扫码
+                billId = id;
+                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+                startActivityForResult(intent, 1001);
+                break;
+            case 1://快速
+                viewModel.getPay(id);
+                break;
+            case 2://不设置桌位
+                viewModel.getOrderFoodList(id, false);
+                break;
+            case 3://选择桌位
+                viewModel.getOrderFoodList(id, false);
+                break;
+            case 4://输入桌位
+                viewModel.getOrderFoodList(id, true);
+                break;
+        }
     }
+
+    public void reserveSuccess(String id) {
+        cartBeanList.clear();
+        cartAdapter.notifyDataSetChanged();
+        viewModel.price.set(0.0);
+    }
+
+    public void showBindDialog() {
+        if (bindLineUpDialog != null) {
+            bindLineUpDialog.refreshTable(viewModel.tableEntityList);
+        } else {
+            bindLineUpDialog = new BindLineUpDialog();
+            bindLineUpDialog.setTableList(viewModel.tableEntityList);
+            bindLineUpDialog.setRoomList(viewModel.roomEntityList);
+            bindLineUpDialog.setOnConfirmClick(new BindLineUpDialog.OnConfirmClick() {
+                @Override
+                public void confirm(RoomEntity roomEntity, TableEntity tableEntity) {
+//                    viewModel.bind(tableEntity);
+                    table = tableEntity;
+                    viewModel.fastFood(getInfo(), 3, "", tableEntity.getRoomTableId(), tableEntity.getTableName());
+                }
+
+                @Override
+                public void selectRoom(RoomEntity roomEntity) {
+                    viewModel.getTables(roomEntity);
+                }
+
+                @Override
+                public void cancel() {
+                    bindLineUpDialog = null;
+                    if (!TextUtils.isEmpty(viewModel.table.get())) {
+                        MToast.showToast(getActivity(), "请输入桌号");
+                    } else {
+                        viewModel.fastFood(getInfo(), 4, "1", "", viewModel.table.get());
+                    }
+                }
+            });
+            bindLineUpDialog.show(getActivity().getFragmentManager(), "");
+        }
+    }
+
+    public void intentToPay(List<OrderFoodEntity> orderFoodEntities, String id, boolean b) {
+        EventPayBean bean = new EventPayBean();
+        bean.setFlag(3);
+        bean.setId(id);
+        bean.setmList(orderFoodEntities);
+        if (table != null) {
+            bean.setTableEntity(table);
+        }
+        bean.setPrice(viewModel.price.get());
+        bean.setName(b ? viewModel.table.get() : "");
+        EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY, bean));
+        Intent intent = new Intent(getActivity(), PayActivity.class);
+        startActivity(intent);
+        viewModel.price.set(0.0);
+        cartBeanList.clear();
+        cartAdapter.notifyDataSetChanged();
+    }
+
+
+    private void scanOrQuickbill(String payType, String result, double money, String memberId) {
+        List<BillJson.BillJsonBase> t = new ArrayList<>();
+        BillJson.BillJsonBase base2 = new BillJson.BillJsonBase();
+        t.add(base2);
+
+        BillJson.BillJsonBase base = new BillJson.BillJsonBase();
+        base.setGuid(String.valueOf(System.currentTimeMillis()) + result);
+        base.setPice(String.valueOf(money));
+        base.setPiceGuid(payType);
+        base.setSate("0");
+        base.setType("1");
+        base.setIsSql("1");
+        t.add(base);
+
+        BillJson.TeacherJson teacherJson = new BillJson.TeacherJson();
+        List<BillJson.BillJsonBase> youHui = new ArrayList<>();
+        youHui.add(base2);
+        teacherJson.setTeacher(youHui);
+        String tStr = new Gson().toJson(teacherJson);
+        Log.i("ttt", "---tStr:" + tStr);
+
+        BillJson.Quanxian quanxian = new BillJson.Quanxian();
+        List<BillJson.BillJsonBase> q = new ArrayList<>();
+        q.add(base2);
+        quanxian.setQuanxian(q);
+        String qStr = new Gson().toJson(quanxian);
+        Log.i("ttt", "---qStr:" + qStr);
+        BillJson.Pays pays = new BillJson.Pays();
+        List<BillJson.BillJsonBase> p = new ArrayList<>();
+        p.add(base);
+        pays.setQuanxian(p);
+        String pStr = new Gson().toJson(pays);
+        Log.i("ttt", "---pStr:" + pStr);
+
+        viewModel.bill(result, "", money, 0, qStr
+                , tStr, pStr, payType, 1, money, "", 0, "4", memberId);
+    }
+
+    public void billSuccess(String msg) {
+        MToast.showToast(getActivity(), msg);
+        cartBeanList.clear();
+        cartAdapter.notifyDataSetChanged();
+        viewModel.price.set(0.0);
+    }
+
+    public void bill(String payType, String result, double money, String memberId, String str) {
+        if (str.contains("支付中")) {
+            ConfirmDialog confirmDialog = new ConfirmDialog();
+            confirmDialog.setTitle("支付中");
+            confirmDialog.setMessage("用户正在支付中，是否确认已支付");
+            confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
+                @Override
+                public void confirm() {
+                    scanOrQuickbill(payType, result, money, memberId);
+                }
+
+                @Override
+                public void cancel() {
+
+                }
+            });
+            confirmDialog.show(getActivity().getFragmentManager(), "");
+        } else {
+            scanOrQuickbill(payType, result, money, memberId);
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        Bundle bundle = data.getExtras();
+        if (bundle == null) {
+            return;
+        }
+        if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+            String result = bundle.getString(CodeUtils.RESULT_STRING);
+            viewModel.scanBill(result, viewModel.price.get(), billId);
+        } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+            MToast.showToast(getActivity(), "解析二维码失败");
+        }
+    }
+
+
 }

@@ -8,7 +8,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
@@ -26,6 +29,7 @@ import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity;
 import com.administrator.shopkeepertablet.model.entity.SeasonEntity;
 import com.administrator.shopkeepertablet.model.entity.SpecEntity;
+import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
 import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
 import com.administrator.shopkeepertablet.model.entity.bean.EventReturnBean;
@@ -78,6 +82,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
     private String remark;
     private List<OrderFoodEntity> orderFoodEntityList = new ArrayList<>();
     public boolean isBill = false;
+    private OrderEntity orderEntity;
 
 
     @Override
@@ -130,23 +135,54 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         adapter.setOnItemClick(new AdapterOnItemClick<FoodEntity>() {
             @Override
             public void onItemClick(FoodEntity foodEntity, int position) {
-                final PopupWindowOrderDishesChoose OrderDishesChoose = new PopupWindowOrderDishesChoose(OrderDishesActivity.this, foodEntity);
-                OrderDishesChoose.showPopupWindowUp(binding.llOrder);
-                OrderDishesChoose.setOnCallBackListener(new PopupWindowOrderDishesChoose.OnCallBackListener() {
-                    @Override
-                    public void confirm(CartBean cartBean) {
-                        OrderDishesChoose.dismiss();
-                        cartBeanList.add(cartBean);
-                        cartAdapter.notifyDataSetChanged();
-                        sumPrice();
+                List<SpecEntity> specEntityList = foodEntity.getSpecEntityList();
+                List<ProductKouWeiEntity> productKouWeiEntityList = foodEntity.getProductKouWeiEntityList();
+                List<SeasonEntity> seasonEntityList = foodEntity.getSeasonEntityList();
+                if ((specEntityList == null || specEntityList.isEmpty()) &&
+                        (productKouWeiEntityList == null || productKouWeiEntityList.isEmpty()) &&
+                        (seasonEntityList == null || seasonEntityList.isEmpty())) {
+                    CartBean cartBean = new CartBean();
+                    cartBean.setFoodEntity(foodEntity);
+                    if (foodEntity.getProductProperty().equals("1")) {
+                        cartBean.setNum("1");
+                        cartBean.setUnit(foodEntity.getUnit());
+                    } else {
+                        cartBean.setNum("1");
                     }
-                });
+                    cartBean.setKouwei("");
+                    cartBean.setFoodAddBeanList(new ArrayList<>());
+                    cartBean.setPrice(foodEntity.getPrice());
+                    cartBeanList.add(cartBean);
+                    cartAdapter.notifyDataSetChanged();
+                    sumPrice();
+                } else {
+                    final PopupWindowOrderDishesChoose OrderDishesChoose = new PopupWindowOrderDishesChoose(OrderDishesActivity.this, foodEntity);
+                    OrderDishesChoose.showPopupWindowUp(binding.llOrder);
+                    OrderDishesChoose.setOnCallBackListener(new PopupWindowOrderDishesChoose.OnCallBackListener() {
+                        @Override
+                        public void confirm(CartBean cartBean) {
+                            OrderDishesChoose.dismiss();
+                            cartBeanList.add(cartBean);
+                            cartAdapter.notifyDataSetChanged();
+                            sumPrice();
+                        }
+                    });
+
+                }
             }
         });
 
         Drawable drawable1 = getResources().getDrawable(R.mipmap.search);
         drawable1.setBounds(25, 0, 45, 20);//第一0是距左边距离，第二0是距上边距离，40分别是长宽
         binding.etSearch.setCompoundDrawables(drawable1, null, null, null);//只放左边
+        binding.etSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                viewModel.search(viewModel.search.get());
+                return false;
+            }
+        });
+
 
         foodTypeAdapter = new FoodTypeAdapter(this, foodTypeEntityList);
         binding.rlvFoodType.setAdapter(foodTypeAdapter);
@@ -178,7 +214,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void delete() {
-                        cartBeanList.remove(entity);
+                        cartBeanList.remove(position);
                         cartAdapter.notifyDataSetChanged();
                         sumPrice();
                         if (cartBeanList.size() == 0) {
@@ -260,11 +296,11 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
             case R.id.tv_order:
                 if (cartBeanList.size() == 0) {
                     MToast.showToast(this, "购物车是空的");
-                } else if (!isBill){
+                } else if (!isBill) {
                     String foodType = binding.tvOrdered.getVisibility() == View.GONE ? "0" : "1";
                     viewModel.order(getInfo(), foodType, "");
-                }else {
-                    viewModel.reBill(getInfo());
+                } else {
+                    viewModel.reBill(getInfo(), orderEntity);
                 }
                 break;
             case R.id.iv_more:
@@ -291,13 +327,15 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-    public void intentToPay(List<OrderFoodEntity> orderFoodEntities){
-        EventPayBean bean =new EventPayBean();
+    public void intentToPay(List<OrderFoodEntity> orderFoodEntities, OrderEntity orderEntity) {
+        EventPayBean bean = new EventPayBean();
         bean.setFlag(3);
-//            bean.setTableEntity(entity);
+//        bean.setTableEntity(new TableEntity());
+        bean.setOrder(orderEntity);
         bean.setmList(orderFoodEntities);
-//        bean.setRoomName(viewModel.room.get());
-        EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY,bean));
+        bean.setRoomName(viewModel.room.get());
+        bean.setPrice(viewModel.price.get());
+        EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY, bean));
         Intent intent = new Intent(this, PayActivity.class);
         startActivity(intent);
         finish();
@@ -471,6 +509,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         if (info.endsWith(",")) {
             info = info.substring(0, info.length() - 1);
         }
+        Log.e("vd",info);
         return info;
     }
 
@@ -489,7 +528,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         } else if (event.getMessageTag() == AppConstant.EVENT_RETURN_BILL) {
             isBill = true;
             EventReturnBean bean = (EventReturnBean) event.getMessageData();
-            OrderEntity orderEntity = bean.getOrderEntity();
+            orderEntity = bean.getOrderEntity();
             viewModel.tableId.set(orderEntity.getTableId());
             viewModel.table.set(orderEntity.getTableName());
             viewModel.people.set(String.valueOf(orderEntity.getPersonCount()));

@@ -1,8 +1,11 @@
 package com.administrator.shopkeepertablet.viewmodel;
 
+import android.util.Log;
+
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.main.MainRepertory;
+import com.administrator.shopkeepertablet.utils.DialogUtils;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.activity.MainActivity;
@@ -35,11 +38,14 @@ public class MainViewModel extends BaseViewModel {
     }
 
     public void jiaoBan() {
+        DialogUtils.showDialog(mainActivity, "获取数据中");
         mainRepertory.jiaoBanPrint("6", "1", preferenceSource.getId(), preferenceSource.getName(), "", preferenceSource.getUserId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        if (stringBaseEntity.getResult().equals("1")) {
+                        DialogUtils.hintDialog();
+                        Log.e("vd",stringBaseEntity.toString());
+                        if (stringBaseEntity.getCode()==1) {
                             print(stringBaseEntity.getResult());
                             mainActivity.intentToLogin();
                         } else {
@@ -49,7 +55,9 @@ public class MainViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        DialogUtils.hintDialog();
+                        Log.e("vd",throwable.getMessage());
+                        MToast.showToast(mainActivity, "获取交班打印数据失败");
                     }
                 });
     }

@@ -19,6 +19,7 @@ import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.PopupwindowBeginTableBinding;
 import com.administrator.shopkeepertablet.databinding.PopupwindowOrderDetailBinding;
+import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.EventReturnBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.MLog;
@@ -125,6 +126,7 @@ public class PopupWindowOrderDetail extends PopupWindow {
                     break;
                 case R.id.tv_pay:
                     EventReturnBean bean = new EventReturnBean();
+                    bean.setTableEntity(new TableEntity());
                     bean.setOrderEntity(viewModel.orderEntity.get());
                     bean.setOrderFoodEntities(viewModel.detailFoods.get());
                     EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_RETURN_BILL).setMessageData(bean));

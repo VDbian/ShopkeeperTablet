@@ -1,8 +1,10 @@
 package com.administrator.shopkeepertablet;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.app.AppModule;
@@ -11,7 +13,14 @@ import com.administrator.shopkeepertablet.di.app.NetworkModule;
 import com.administrator.shopkeepertablet.model.entity.UserInfoEntity;
 import com.administrator.shopkeepertablet.model.greendao.DaoMaster;
 import com.administrator.shopkeepertablet.model.greendao.DaoSession;
+import com.administrator.shopkeepertablet.push.MyPushIntentService;
+import com.administrator.shopkeepertablet.repository.BaseRepertory;
+import com.administrator.shopkeepertablet.repository.BaseRepertoryImpl;
+import com.administrator.shopkeepertablet.utils.MToast;
 import com.iflytek.cloud.SpeechUtility;
+import com.umeng.message.IUmengCallback;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 
@@ -28,7 +37,8 @@ public class AppApplication extends MultiDexApplication {
     private SQLiteDatabase db;
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
-
+    private PushAgent mPushAgent;
+    public static final String UPDATE_STATUS_ACTION = "com.administrator.shopkeepertablet.action.UPDATE_STATUS";
     //    @Override
 //    protected void attachBaseContext(Context context) {
 //        super.attachBaseContext(context);
@@ -41,8 +51,70 @@ public class AppApplication extends MultiDexApplication {
         //SugarContext.init(new SugarContextWrapper(this, AppConstant.DB_PATH));  //数据库保存指定路径下
         initComponent();
         setDatabase();
+        initPush();
         SpeechUtility.createUtility(this, "appid=59c1e9f6");
         ZXingLibrary.initDisplayOpinion(this);
+    }
+
+    private void initPush() {
+        mPushAgent = PushAgent.getInstance(this);
+        //设置debug模式
+        mPushAgent.setDebugMode(false);
+
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                sendBroadcast(new Intent(UPDATE_STATUS_ACTION));
+            }
+        });
+        //此处是完全自定义处理设置
+        mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
+
+    }
+
+    //设置别名
+    public void setAlias(String id, String type) {
+        mPushAgent.addExclusiveAlias(id, type, (b, s) -> MToast.showToast( this, (b ? "绑定成功" : "绑定失败")));
+    }
+
+    //移除别名
+    public void removeAlias(String id, String type) {
+        mPushAgent.removeAlias(id, type, (b, s) -> MToast.showToast( this, b ? "解绑成功" : "解绑失败"));
+    }
+
+    //关闭推送
+    public void disablePush() {
+        mPushAgent.disable(new IUmengCallback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+
+            }
+        });
+    }
+
+    //打开推送
+    public void enablePush() {
+        mPushAgent.enable(new IUmengCallback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+
+            }
+        });
     }
 
     @Override

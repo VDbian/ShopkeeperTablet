@@ -114,6 +114,7 @@ public interface RetrofitInterface {
             @Field("TableName") String tableName,
             @Field("APrice") String price,
             @Field("FoodType") String foodType,
+            @Field("TableWareCount") String tableWareCount,
             @Field("FanBill") String fanBill
     );
 
@@ -298,7 +299,6 @@ public interface RetrofitInterface {
             @Field("Type") String type,
             @Field("id") String billId,
             @Field("coue") String discountNum
-
     );
 
     //获取餐具价格
@@ -684,6 +684,17 @@ public interface RetrofitInterface {
             @Field("PayID") String payId
     );
 
+    //微信支付
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> weixinBill(
+            @Field("type") String type,
+            @Field("id") String id,
+            @Field("OrderID") String OrderID,
+            @Field("Types") String Types,
+            @Field("Price") int Price
+    );
+
     //获取价格信息
     @FormUrlEncoded
     @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
@@ -706,6 +717,23 @@ public interface RetrofitInterface {
     Observable<BaseEntity<String>> getOrder(
             @Field("type") String s,
             @Field("Tableid") String roomTableID);
+
+    //订单查询
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL + "PortBillManagerNweASHX.ashx")
+    Observable<BaseEntity<String>> query(
+            @Field("type") String type,
+            @Field("id") String id,
+            @Field("OrderID") String OrderID
+    );
+
+    //获取挂账信息
+    @FormUrlEncoded
+    @POST(AppConstant.PORT_URL+ "PortKaiDanAshx.ashx")
+    Observable<BaseEntity<String>> getGuazhangData(
+            @Field("id") String shopID,
+            @Field("Type") String type);
+
 
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")

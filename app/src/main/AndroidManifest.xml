@@ -2,9 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.administrator.shopkeepertablet">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
 
     <application
         android:name=".AppApplication"
@@ -14,23 +28,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5b821d5df43e4866bf00001d" />
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="2fa890878b5617f2d7c033448ce7dfaa" />
         <meta-data android:name="design_width" android:value="1024">
         </meta-data>
         <meta-data android:name="design_height" android:value="768">
         </meta-data>
 
-        <activity android:name=".view.ui.activity.LoginActivity" android:screenOrientation="landscape">
+        <activity android:name=".view.ui.activity.LoginActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.ui.activity.parish.OrderDishesActivity" android:screenOrientation="landscape" />
-        <activity android:name=".view.ui.activity.MainActivity" android:screenOrientation="landscape"/>
-        <activity android:name=".view.ui.activity.setting.SettingActivity" android:screenOrientation="landscape" />
-        <activity android:name=".view.ui.activity.parish.TableActivity" android:screenOrientation="landscape"  />
-        <activity android:name=".view.ui.activity.parish.PayActivity" android:screenOrientation="landscape" />
+        <activity android:name=".view.ui.activity.parish.OrderDishesActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".view.ui.activity.MainActivity" android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".view.ui.activity.setting.SettingActivity" android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".view.ui.activity.parish.TableActivity" android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".view.ui.activity.parish.PayActivity" android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <service android:name=".push.MyPushIntentService" />
     </application>
 
 </manifest>

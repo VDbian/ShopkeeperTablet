@@ -2,6 +2,7 @@ package com.administrator.shopkeepertablet.model.entity.bean;
 
 import com.administrator.shopkeepertablet.model.entity.OrderEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
+import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.view.widget.PermissionRemissionDialog;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class EventReturnBean {
     private OrderEntity orderEntity;
+    private TableEntity tableEntity;
     private List<OrderFoodEntity> orderFoodEntities;
 
     public OrderEntity getOrderEntity() {
@@ -31,5 +33,13 @@ public class EventReturnBean {
 
     public void setOrderFoodEntities(List<OrderFoodEntity> orderFoodEntities) {
         this.orderFoodEntities = orderFoodEntities;
+    }
+
+    public TableEntity getTableEntity() {
+        return tableEntity;
+    }
+
+    public void setTableEntity(TableEntity tableEntity) {
+        this.tableEntity = tableEntity;
     }
 }

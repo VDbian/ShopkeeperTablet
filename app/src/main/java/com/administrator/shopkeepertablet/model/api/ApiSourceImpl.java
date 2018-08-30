@@ -51,8 +51,8 @@ public class ApiSourceImpl implements ApiSource {
     }
 
     @Override
-    public Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType, String fanBill) {
-        return retrofitInterface.order(type,id,tableId,billId,info,UserId,name,tableName,price,foodType,fanBill);
+    public Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType,String tableWareCount, String fanBill) {
+        return retrofitInterface.order(type,id,tableId,billId,info,UserId,name,tableName,price,foodType,tableWareCount,fanBill);
     }
 
     @Override
@@ -313,5 +313,20 @@ public class ApiSourceImpl implements ApiSource {
     @Override
     public Observable<BaseEntity<String>> getOrder(String s, String roomTableID) {
         return retrofitInterface.getOrder(s, roomTableID);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> weixinBill(String type, String id, String orderID, String types, int price) {
+        return retrofitInterface.weixinBill(type, id, orderID, types, price);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> query(String type, String id, String OrderID) {
+        return retrofitInterface.query(type, id, OrderID);
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getGuazhangData(String shopID, String type) {
+        return retrofitInterface.getGuazhangData(shopID, type);
     }
 }

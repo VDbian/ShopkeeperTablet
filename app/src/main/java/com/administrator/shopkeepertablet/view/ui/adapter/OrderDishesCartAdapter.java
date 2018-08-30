@@ -74,7 +74,24 @@ public class OrderDishesCartAdapter extends RecyclerView.Adapter<OrderDishesCart
                 holder.binding.llRemark.addView(view);
             }
         }
-
+        if (cartBean.getProductKouWeiEntity() != null || !TextUtils.isEmpty(cartBean.getKouwei())) {
+            View view = LayoutInflater.from(context).inflate(R.layout.view_order_dishes_give, null);
+            String kouwei = "";
+            if (cartBean.getProductKouWeiEntity() != null) {
+                kouwei = cartBean.getProductKouWeiEntity().getName() + "、";
+            }
+            kouwei += cartBean.getKouwei();
+            if (kouwei.endsWith("、")){
+                kouwei = kouwei.substring(0,kouwei.length()-1);
+            }
+            ((TextView) view.findViewById(R.id.tv_num)).setText(kouwei);
+            ((TextView) view.findViewById(R.id.tv_remark)).setText("做法");
+            ((TextView) view.findViewById(R.id.tv_remark)).setTextColor(context.getResources().getColor(R.color.color000000));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+            params.setMargins(0, 8, 0, 0);
+            view.setLayoutParams(params);
+            holder.binding.llRemark.addView(view);
+        }
 
         if (TextUtils.isEmpty(cartBean.getUnit())) {
             String format = context.getResources().getString(R.string.num_prefix);

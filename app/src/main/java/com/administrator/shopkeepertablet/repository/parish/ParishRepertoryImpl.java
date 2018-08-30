@@ -47,8 +47,8 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
     }
 
     @Override
-    public Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType, String fanBill) {
-        return apiSource.order(type, id, tableId, billId, info, UserId, name, tableName, price, foodType, fanBill).subscribeOn(Schedulers.io())
+    public Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType,String tableWareCount, String fanBill) {
+        return apiSource.order(type, id, tableId, billId, info, UserId, name, tableName, price, foodType,tableWareCount, fanBill).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -176,6 +176,24 @@ public class ParishRepertoryImpl extends BaseRepertoryImpl implements ParishRepe
     @Override
     public Observable<BaseEntity<String>> getOrderData(String type, String shopId, String billId, String types) {
         return apiSource.getOrderData(type, shopId, billId, types).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> query(String type, String id, String OrderID) {
+        return apiSource.query(type, id, OrderID).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getGuazhangData(String shopID, String type) {
+        return apiSource.getGuazhangData(shopID, type).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getMergeOrderList(String s, String shopID, String tableId) {
+        return apiSource.getMergeOrderList(s, shopID, tableId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

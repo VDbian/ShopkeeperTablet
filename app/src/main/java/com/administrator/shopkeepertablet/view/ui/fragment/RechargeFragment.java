@@ -110,6 +110,9 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void refreshRecharge(List<RechargeEntity> rechargeEntities) {
+        if (rechargeEntities.isEmpty()){
+            MToast.showToast(getActivity(),"无会员信息");
+        }
         mList.clear();
         mList.addAll(rechargeEntities);
         adapter.notifyDataSetChanged();

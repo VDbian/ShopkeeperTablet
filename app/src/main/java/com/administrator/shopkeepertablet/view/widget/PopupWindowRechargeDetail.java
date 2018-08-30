@@ -76,12 +76,12 @@ public class PopupWindowRechargeDetail extends PopupWindow {
         // 设置SelectPicPopupWindow的View
         this.setContentView(binding.getRoot());
         // 设置SelectPicPopupWindow弹出窗体的宽
-        this.setWidth(viewWidth);
+        this.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体的高
 //        if (viewHeight > h / 2) {
 //            this.setHeight(h / 2);
 //        } else {
-        this.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        this.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
 //        }
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
@@ -91,7 +91,7 @@ public class PopupWindowRechargeDetail extends PopupWindow {
         // 实例化一个ColorDrawable颜色为半透明
         ColorDrawable dw = new ColorDrawable(00000000);
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
-//        this.setBackgroundDrawable(dw);
+        this.setBackgroundDrawable(dw);
         this.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {

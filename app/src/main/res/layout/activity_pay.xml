@@ -120,7 +120,9 @@
                     android:layout_height="36px"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="12px">
+                    android:layout_marginRight="12px"
+                    android:visibility="gone"
+                    >
 
                     <ImageView
                         android:layout_width="22px"
@@ -389,9 +391,10 @@
                         android:textSize="18px" />
 
                     <ImageView
+                        android:id="@+id/iv_permission_discount"
                         android:layout_width="0px"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:src="@mipmap/ic_expand_close" />
                 </LinearLayout>
 
@@ -433,9 +436,10 @@
                         android:textSize="18px" />
 
                     <ImageView
+                        android:id="@+id/iv_permission_remission"
                         android:layout_width="0px"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:src="@mipmap/ic_expand_close" />
                 </LinearLayout>
 

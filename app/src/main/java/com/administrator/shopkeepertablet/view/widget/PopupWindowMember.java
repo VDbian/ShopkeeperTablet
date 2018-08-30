@@ -109,6 +109,7 @@ public class PopupWindowMember extends PopupWindow {
             public void onItemClick(CardEntity entity, int position) {
                 if (viewModel.cardSearch.get()!=null){
                     MToast.showToast(context, "已选择其他优惠券状态下不能使用卡券");
+                    viewModel.integral.set("");
                     return;
                 }
                 if (scoreMoney > 0) {

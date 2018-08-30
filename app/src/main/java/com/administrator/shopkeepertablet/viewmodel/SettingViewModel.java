@@ -14,6 +14,7 @@ import com.administrator.shopkeepertablet.model.entity.SpecEntity;
 import com.administrator.shopkeepertablet.model.greendao.DaoSession;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.setting.SettingRepertory;
+import com.administrator.shopkeepertablet.utils.DialogUtils;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.activity.setting.SettingActivity;
@@ -56,11 +57,13 @@ public class SettingViewModel extends BaseViewModel {
     }
 
     public void getFoodList() {
+        DialogUtils.showDialog(activity, "获取数据中");
         repertory.getFoodList("0", preferenceSource.getId())
                 .subscribe(new Consumer<ResultFoodEntity>() {
                     @Override
                     public void accept(ResultFoodEntity resultFoodEntity) throws Exception {
                         if (resultFoodEntity.getCode().equals("1")) {
+                            DialogUtils.hintDialog();
                             DaoSession mDao = AppApplication.get(activity).getDaoSession();
                             if (!TextUtils.isEmpty(resultFoodEntity.getResult().getFood())) {
                                 List<FoodEntity> foodEntities = Arrays.asList(new Gson().fromJson(resultFoodEntity.getResult().getFood(), FoodEntity[].class));
@@ -94,6 +97,7 @@ public class SettingViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        DialogUtils.hintDialog();
                         MToast.showToast(activity, "菜品刷新失败");
                         MLog.e("api", throwable.getMessage());
                     }
@@ -101,10 +105,12 @@ public class SettingViewModel extends BaseViewModel {
     }
 
     public void getComboList() {
+        DialogUtils.showDialog(activity, "获取数据中");
         repertory.getComboList("2", preferenceSource.getId(), 1, 100)
                 .subscribe(new Consumer<ResultFoodEntity>() {
                     @Override
                     public void accept(ResultFoodEntity resultFoodEntity) throws Exception {
+                        DialogUtils.hintDialog();
                         if (resultFoodEntity.getCode().equals("1")) {
                             DaoSession mDao = AppApplication.get(activity).getDaoSession();
                             if (!TextUtils.isEmpty(resultFoodEntity.getResult().getFood())) {
@@ -139,6 +145,7 @@ public class SettingViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+                        DialogUtils.hintDialog();
                         MToast.showToast(activity, "菜品刷新失败");
                         MLog.e("api", throwable.getMessage());
                     }

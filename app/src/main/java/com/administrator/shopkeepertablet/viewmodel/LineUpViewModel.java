@@ -9,6 +9,7 @@ import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.TableType;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.line.LineUpRepository;
+import com.administrator.shopkeepertablet.utils.DialogUtils;
 import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
@@ -56,11 +57,13 @@ public class LineUpViewModel extends BaseViewModel {
     }
 
     public void getTableType() {
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.getTableType("6", preferenceSource.getId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         Log.e("api", stringBaseEntity.toString());
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             List<TableType> tableTypes = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), TableType[].class));
                             tableTypeList = tableTypes;
@@ -72,75 +75,88 @@ public class LineUpViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("api", throwable.getMessage());
+                        DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"获取桌位类别失败");
                     }
                 });
     }
 
     public void getLineUp() {
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.getQueue("1", "all", "", preferenceSource.getId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         Log.e("api", stringBaseEntity.toString());
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             List<LineUpEntity> lineUpEntities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), LineUpEntity[].class));
                             entityList = lineUpEntities;
                             fragment.refreshLineUp(lineUpEntities);
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"排队信息获取失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("api", throwable.getMessage());
+                       DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"排队信息获取失败");
                     }
                 });
     }
 
     public void addLineUp(String id) {
+        DialogUtils.showDialog(fragment.getActivity(), "数据提交中");
         repository.addQueue("2", id, preferenceSource.getId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         Log.e("api", stringBaseEntity.toString());
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             printResult(stringBaseEntity.getResult());
                             getLineUp();
                         } else {
                             MToast.showToast(fragment.getActivity(), "新增排号失败");
                         }
-
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("api", throwable.getMessage());
+                        DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(), "新增排号失败");
                     }
                 });
     }
 
     public void deleteLineUp(String id) {
+        DialogUtils.showDialog(fragment.getActivity(), "数据提交中");
         repository.deleteQueue("4", id)
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         Log.e("api", stringBaseEntity.toString());
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "删除排号成功");
                             getLineUp();
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"删除排号失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("api", throwable.getMessage());
+                        DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(), "删除排号失败");
                     }
                 });
     }
 
     public void bindLineUp(String typeId, String tableId, String tableName, String lineId) {
+        DialogUtils.showDialog(fragment.getActivity(), "数据提交中");
         repository.bindQueue("3", typeId, preferenceSource.getName(),
                 preferenceSource.getUserId(), tableId, tableName,
                 "1", lineId, preferenceSource.getId())
@@ -148,48 +164,59 @@ public class LineUpViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         Log.e("api", stringBaseEntity.toString());
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "绑定成功");
                             getLineUp();
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"绑定桌位失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("api", throwable.getMessage());
+                        DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"绑定桌位失败");
                     }
                 });
     }
 
     public void getRooms() {
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.getRooms("1", preferenceSource.getId(), 1, 100)
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         MLog.e("api_room", stringBaseEntity.getResult());
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             List<RoomEntity> rooms = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), RoomEntity[].class));
                             roomEntityList = rooms;
                             if (!rooms.isEmpty()) {
                                 getTables(rooms.get(0));
                             }
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"获取房间信息失败");
                         }
-
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"获取房间信息失败");
                     }
                 });
     }
 
     public void getTables(RoomEntity roomEntity) {
+        DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.getTables("0", roomEntity.getId(), preferenceSource.getId(), 1, 100)
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         MLog.e("api_table", stringBaseEntity.getResult());
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             TableEntity[] tableEntities = new Gson().fromJson(stringBaseEntity.getResult(), TableEntity[].class);
                             List<TableEntity> mList = Arrays.asList(tableEntities);
@@ -200,12 +227,15 @@ public class LineUpViewModel extends BaseViewModel {
                                 }
                             }
                             fragment.showBindDialog();
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"获取桌位信息失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-
+                        DialogUtils.hintDialog();
+                        MToast.showToast(fragment.getActivity(),"获取桌位信息失败");
                     }
                 });
     }

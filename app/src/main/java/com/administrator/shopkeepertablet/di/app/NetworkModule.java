@@ -27,9 +27,8 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  */
 @Module
 public class NetworkModule {
-    public static final String PHOTO_TOKEN = "";
-    private static final String BASE_URL = "https://www.xcyytc.com:8098/";
-    private static final String BASE_URL_PHOTO = "";
+//    private static final String BASE_URL = "https://www.xcyytc.com:8098/";
+    private static final String BASE_URL = "https://www.xcyytc.com:8092/";
     private static final String TAG = "api";
 
     @Provides
@@ -73,28 +72,5 @@ public class NetworkModule {
     ApiSource provideApiSource(Retrofit retrofit) {
         return new ApiSourceImpl(retrofit);
     }
-
-//    @Provides
-//    @Singleton
-//    ApiPhoto provideApiPhoto() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(BASE_URL_PHOTO)
-//                .addConverterFactory(CryptoConverterFactory.create())
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                .client(new OkHttpClient.Builder().connectTimeout(20, TimeUnit.SECONDS)
-//                        .addInterceptor(new Interceptor() {
-//                            @Override
-//                            public Response intercept(Chain chain) throws IOException {
-//                                Request original = chain.request();
-//                                MLog.d(TAG, "request url " + original.url());
-//                                Request request = original.newBuilder()
-//                                        .header("RainbowKey", PHOTO_TOKEN)
-//                                        .build();
-//                                return chain.proceed(request);
-//                            }
-//                        }).build())
-//                .build();
-//        return new ApiPhotoImpl(retrofit);
-//    }
 
 }

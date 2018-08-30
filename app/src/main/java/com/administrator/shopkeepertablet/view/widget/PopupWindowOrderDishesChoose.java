@@ -89,7 +89,7 @@ public class PopupWindowOrderDishesChoose extends PopupWindow {
 //        if (viewHeight > h / 2) {
 //            this.setHeight(h / 2);
 //        } else {
-        this.setHeight(581);
+        this.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
 //        }
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);

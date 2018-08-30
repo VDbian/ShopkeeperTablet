@@ -32,7 +32,7 @@ public interface ApiSource {
 
     Observable<BaseEntity<String>> getFoodTypeList(String type, String id, int index, int size);
 
-    Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType, String fanBill);
+    Observable<BaseEntity<String>> order(String type, String id, String tableId, String billId, String info, String UserId, String name, String tableName, String price, String foodType,String tableWareCount,String fanBill);
 
     Observable<BaseEntity<String>> getOrderFoodList(String type, String id, String billId);
 
@@ -137,5 +137,11 @@ public interface ApiSource {
     Observable<BaseEntity<String>> inBill(String type,String billID);
 
     Observable<BaseEntity<String>> getOrder(String s,String roomTableID);
+
+    Observable<BaseEntity<String>> weixinBill(String type,String id,String orderID, String types,int price);
+
+    Observable<BaseEntity<String>> query(String type,String id,String OrderID);
+
+    Observable<BaseEntity<String>> getGuazhangData(String shopID,String type);
 }
 

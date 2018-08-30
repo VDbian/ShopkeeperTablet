@@ -24,6 +24,7 @@ import com.administrator.shopkeepertablet.model.entity.LineUpEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.TableType;
+import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.adapter.LineUpAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.TableTypeAdapter;
@@ -207,7 +208,11 @@ public class LineUpFragment extends BaseFragment implements View.OnClickListener
                 }
             }
         }
-        lineUpAdapter.notifyDataSetChanged();
+        if (lineUpEntityList.isEmpty()){
+            MToast.showToast(getActivity(),"无搜索结果");
+        }else {
+            lineUpAdapter.notifyDataSetChanged();
+        }
     }
 
     public void showBindDialog() {

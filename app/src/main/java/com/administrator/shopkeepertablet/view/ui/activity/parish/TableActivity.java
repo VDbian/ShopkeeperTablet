@@ -14,6 +14,7 @@ import com.administrator.shopkeepertablet.databinding.ActivityTableBinding;
 import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.parish.DaggerParishActivityComponent;
 import com.administrator.shopkeepertablet.di.parish.ParishActivityModule;
+import com.administrator.shopkeepertablet.model.entity.OrderEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
@@ -140,18 +141,18 @@ public class TableActivity extends BaseActivity {
     }
 
     private void confirm() {
-        viewModel.getOrderFoodList(viewModel.tableEntity.get());
+//        viewModel.getOrderFoodList(viewModel.tableEntity.get());
         str = viewModel.tableEntity.get().getTableName();
-        index = 0;
+        String tableId = viewModel.tableEntity.get().getRoomTableId();
+        for (TableEntity entity:tableSelectList){
+            str += "、" + entity.getTableName();
+            tableId += "," + entity.getRoomTableId();
+        }
+        viewModel.getMerge(tableId);
         binding.tvConfirm.setEnabled(false);
     }
 
-    public void showDialogMerge() {
-        if (index < tableSelectList.size()) {
-            str += "、" + tableSelectList.get(index).getTableName();
-            viewModel.getOrderFoodList(tableEntityList.get(index));
-            index++;
-        } else {
+    public void showDialogMerge(OrderEntity orderEntity ,List<OrderFoodEntity> mList ) {
             ConfirmDialog confirmDialog = new ConfirmDialog();
             confirmDialog.setMessage("是否将" + str + "并单处理");
             confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
@@ -160,7 +161,8 @@ public class TableActivity extends BaseActivity {
                     EventPayBean bean = new EventPayBean();
                     bean.setFlag(2);
                     bean.setTableEntity(viewModel.tableEntity.get());
-                    bean.setmList(orderFoodEntityList);
+                    bean.setmList(mList);
+                    bean.setOrder(orderEntity);
                     bean.setRoomName(viewModel.roomName.get());
                     bean.setTableEntityList(tableSelectList);
                     EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY, bean));
@@ -170,12 +172,10 @@ public class TableActivity extends BaseActivity {
 
                 @Override
                 public void cancel() {
-                    orderFoodEntityList.clear();
+
                 }
             });
             confirmDialog.show(getFragmentManager(), "");
-        }
-
     }
 
     private void showDialog(final TableEntity entity, final int flag) {
