@@ -250,6 +250,7 @@ public class RechargeViewModel extends BaseViewModel {
                           fragment.success();
                         }else {
                             MToast.showToast(fragment.getActivity(),"充值失败");
+
                         }
                     }
                 }, new Consumer<Throwable>() {
