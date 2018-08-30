@@ -264,6 +264,7 @@ public class RechargeViewModel extends BaseViewModel {
 
     public void proCharge(int payType,String typeId){
         DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
+//        Log.e("vd",member.get().getId()+"***"+preferenceSource.getId()+"***"+preferenceSource.getName()+"***"+preferenceSource.getUserId());
         repository.productCharge("7",member.get().getId(),preferenceSource.getId(),typeId,payType,preferenceSource.getName(),preferenceSource.getUserId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override

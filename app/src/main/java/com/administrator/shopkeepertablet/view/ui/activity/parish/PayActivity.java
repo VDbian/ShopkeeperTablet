@@ -831,7 +831,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
         if (data == null) {
-            initPayWay();
+            changedMoney(true);
             return;
         }
         if (requestCode == 2) {
