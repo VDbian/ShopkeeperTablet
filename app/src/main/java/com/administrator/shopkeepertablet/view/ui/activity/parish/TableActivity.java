@@ -225,7 +225,7 @@ public class TableActivity extends BaseActivity {
         for (TableEntity table : tableEntities) {
             if (viewModel.title.get().equals("换桌") && table.getIsOpen().equals("0")) {
                 tableEntityList.add(table);
-            } else if (table.getIsOpen().equals("2") && !viewModel.tableEntity.get().getRoomTableId().equals(table.getRoomTableId()) && viewModel.title.get().equals("转菜")) {
+            } else if (table.getIsOpen().equals("2") && !viewModel.tableEntity.get().getRoomTableId().equals(table.getRoomTableId()) && viewModel.title.get().contains("转菜")) {
                 tableEntityList.add(table);
             } else if (table.getIsOpen().equals("2") && !viewModel.tableEntity.get().getRoomTableId().equals(table.getRoomTableId()) && viewModel.title.get().equals("并单")) {
                 for (TableEntity tableEntity : tableSelectList) {
