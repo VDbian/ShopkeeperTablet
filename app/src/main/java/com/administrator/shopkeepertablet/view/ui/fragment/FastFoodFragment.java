@@ -32,7 +32,10 @@ import com.administrator.shopkeepertablet.model.entity.FoodTypeSelectEntity;
 import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderEntity;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
+import com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
+import com.administrator.shopkeepertablet.model.entity.SeasonEntity;
+import com.administrator.shopkeepertablet.model.entity.SpecEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.BillJson;
 import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
@@ -177,9 +180,27 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
         adapter.setOnItemClick(new AdapterOnItemClick<FoodEntity>() {
             @Override
             public void onItemClick(FoodEntity foodEntity, int position) {
-//                if (foodEntity.getSpecEntityList() != null && !foodEntity.getSpecEntityList().isEmpty() &&
-//                        foodEntity.getProductKouWeiEntityList() != null && !foodEntity.getProductKouWeiEntityList().isEmpty() &&
-//                        foodEntity.getSeasonEntityList() != null && !foodEntity.getSeasonEntityList().isEmpty()) {
+                List<SpecEntity> specEntityList = foodEntity.getSpecEntityList();
+                List<ProductKouWeiEntity> productKouWeiEntityList = foodEntity.getProductKouWeiEntityList();
+                List<SeasonEntity> seasonEntityList = foodEntity.getSeasonEntityList();
+                if ((specEntityList == null || specEntityList.isEmpty()) &&
+                        (productKouWeiEntityList == null || productKouWeiEntityList.isEmpty()) &&
+                        (seasonEntityList == null || seasonEntityList.isEmpty())) {
+                    CartBean cartBean = new CartBean();
+                    cartBean.setFoodEntity(foodEntity);
+                    if (foodEntity.getProductProperty().equals("1")) {
+                        cartBean.setNum("1");
+                        cartBean.setUnit(foodEntity.getUnit());
+                    } else {
+                        cartBean.setNum("1");
+                    }
+                    cartBean.setKouwei("");
+                    cartBean.setFoodAddBeanList(new ArrayList<>());
+                    cartBean.setPrice(foodEntity.getPrice());
+                    cartBeanList.add(cartBean);
+                    cartAdapter.notifyDataSetChanged();
+                    sumPrice();
+                } else {
                     final PopupWindowOrderDishesChoose OrderDishesChoose = new PopupWindowOrderDishesChoose(getActivity(), foodEntity);
                     OrderDishesChoose.showPopupWindowUp(binding.llOrder);
                     OrderDishesChoose.setOnCallBackListener(new PopupWindowOrderDishesChoose.OnCallBackListener() {
@@ -191,21 +212,7 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
                             sumPrice();
                         }
                     });
-//                } else {
-//                    CartBean cartBean = new CartBean();
-//                    cartBean.setFoodEntity(foodEntity);
-//                    if (foodEntity.getProductProperty().equals("1")) {
-//                        cartBean.setNum("1");
-//                        cartBean.setUnit(foodEntity.getUnit());
-//                    } else {
-//                        cartBean.setNum("1");
-//                    }
-//                    cartBean.setFoodAddBeanList(new ArrayList<>());
-//                    cartBean.setPrice(foodEntity.getPrice());
-//                    cartBeanList.add(cartBean);
-//                    cartAdapter.notifyDataSetChanged();
-//                    sumPrice();
-//                }
+                }
             }
         });
 
