@@ -254,6 +254,8 @@ public class TableActivity extends BaseActivity {
             viewModel.roomName.set(bean.getRoomName());
             viewModel.detailId.set(bean.getDetailId());
             viewModel.time.set(viewModel.getTime(bean.getTableEntity().getKaiTime()));
+        }else if (event.getMessageTag() == AppConstant.EVENT_SUCCESS){
+            finish();
         }
     }
 

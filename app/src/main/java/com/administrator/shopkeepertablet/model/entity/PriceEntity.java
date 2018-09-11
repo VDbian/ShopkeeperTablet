@@ -10,15 +10,15 @@ import com.google.gson.annotations.SerializedName;
 
 
 public class PriceEntity {
-    @SerializedName("zenupice")
+    @SerializedName("zenupice")//赠送
     private double zenupice;
-    @SerializedName("memberpice")
+    @SerializedName("memberpice")//会员优惠
     private double memberpice;
-    @SerializedName("mansonpice")
+    @SerializedName("mansonpice")//满送优惠
     private double mansonpice;
-    @SerializedName("kaquanpice")
+    @SerializedName("kaquanpice")//卡券优惠
     private double kaquanpice;
-    @SerializedName("yufupice")
+    @SerializedName("yufupice")//预付
     private double yufupice;
     @SerializedName("DistancePice")
     private double distancePice;
@@ -36,7 +36,7 @@ public class PriceEntity {
     private double yinfu;
     @SerializedName("memberpiceNew")
     private double memberpiceNew;
-    @SerializedName("memberzenupice")
+    @SerializedName("memberzenupice")//会员赠送
     private double memberzenupice;
 
     public double getZenupice() {

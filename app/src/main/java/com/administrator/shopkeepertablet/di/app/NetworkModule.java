@@ -1,5 +1,8 @@
 package com.administrator.shopkeepertablet.di.app;
 
+import android.os.Build;
+
+import com.administrator.shopkeepertablet.BuildConfig;
 import com.administrator.shopkeepertablet.model.api.ApiSource;
 import com.administrator.shopkeepertablet.model.api.ApiSourceImpl;
 import com.administrator.shopkeepertablet.model.factory.CryptoConverterFactory;
@@ -19,6 +22,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Description:
@@ -28,7 +32,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 @Module
 public class NetworkModule {
 //    private static final String BASE_URL = "https://www.xcyytc.com:8098/";
-    private static final String BASE_URL = "https://www.xcyytc.com:8092/";
+    private static final String BASE_URL = BuildConfig.API_URL;
     private static final String TAG = "api";
 
     @Provides
@@ -60,7 +64,7 @@ public class NetworkModule {
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(CryptoConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();

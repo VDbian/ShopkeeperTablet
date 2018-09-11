@@ -62,7 +62,7 @@ public class LineUpViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("api", stringBaseEntity.toString());
+                        MLog.e("api", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             List<TableType> tableTypes = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), TableType[].class));
@@ -87,7 +87,7 @@ public class LineUpViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("api", stringBaseEntity.toString());
+                        MLog.e("api", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             List<LineUpEntity> lineUpEntities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), LineUpEntity[].class));
@@ -112,7 +112,7 @@ public class LineUpViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("api", stringBaseEntity.toString());
+                        MLog.e("api", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             printResult(stringBaseEntity.getResult());
@@ -136,7 +136,7 @@ public class LineUpViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("api", stringBaseEntity.toString());
+                        MLog.e("api", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "删除排号成功");
@@ -148,7 +148,7 @@ public class LineUpViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("api", throwable.getMessage());
+                        MLog.e("api", throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(), "删除排号失败");
                     }
@@ -163,7 +163,7 @@ public class LineUpViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("api", stringBaseEntity.toString());
+                        MLog.e("api", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "绑定成功");
@@ -175,7 +175,7 @@ public class LineUpViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("api", throwable.getMessage());
+                        MLog.e("api", throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(),"绑定桌位失败");
                     }

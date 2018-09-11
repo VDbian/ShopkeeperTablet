@@ -10,6 +10,7 @@ import com.administrator.shopkeepertablet.model.entity.PayTypeEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.order.OrderRepository;
 import com.administrator.shopkeepertablet.utils.DialogUtils;
+import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.fragment.OrderFragment;
@@ -62,7 +63,7 @@ public class OrderViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             List<OrderEntity> orderEntityList = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), OrderEntity[].class));
@@ -74,7 +75,7 @@ public class OrderViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("vd", throwable.getMessage());
+                        MLog.e("vd", throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(),"获取订单信息失败");
                     }
@@ -89,7 +90,7 @@ public class OrderViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             List<OrderEntity> orderEntityList = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), OrderEntity[].class));
                             fragment.loadMore(orderEntityList);
@@ -101,7 +102,7 @@ public class OrderViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd", throwable.getMessage());
+                        MLog.e("vd", throwable.getMessage());
                         MToast.showToast(fragment.getActivity(),"获取更多订单信息失败");
                     }
                 });
@@ -113,7 +114,7 @@ public class OrderViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.getResult());
+                        MLog.e("vd",stringBaseEntity.getResult());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode()==1){
                             String[] result = stringBaseEntity.getResult().split("\\^");
@@ -130,7 +131,7 @@ public class OrderViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("vd", throwable.getMessage());
+                        MLog.e("vd", throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(),"获取订单详情失败");
                     }
@@ -144,7 +145,7 @@ public class OrderViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.getResult());
+                        MLog.e("vd",stringBaseEntity.getResult());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode()==1){
                             printResult(stringBaseEntity.getResult());
@@ -155,7 +156,7 @@ public class OrderViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("vd",throwable.getMessage());
+                        MLog.e("vd",throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(),"获取打印信息失败");
                     }

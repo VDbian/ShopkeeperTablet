@@ -22,6 +22,7 @@ import com.administrator.shopkeepertablet.model.greendao.KouWeiEntityDao;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.utils.DialogUtils;
+import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
@@ -87,7 +88,7 @@ public class OrderDishesViewModel extends BaseViewModel {
     }
 
     public void search(String str){
-        Log.e("vd",str);
+        MLog.e("vd",str);
         List<FoodEntity> foodEntities = dao.getFoodEntityDao().queryBuilder().where(FoodEntityDao.Properties.ProductName.like("%" + str + "%")).list();;
         if (foodEntities.size() > 0) {
             activity.refreshVariety(foodEntities);
@@ -117,8 +118,8 @@ public class OrderDishesViewModel extends BaseViewModel {
     }
 
     public void order(String info, String foodType, String fanBill) {
-        Log.e("info", info);
-        Log.e("vd", "info:" + info + "id:" + preferenceSource.getId() + "tableId:" + tableId.get() + "billId:" + billId.get()
+        MLog.e("info", info);
+        MLog.e("vd", "info:" + info + "id:" + preferenceSource.getId() + "tableId:" + tableId.get() + "billId:" + billId.get()
                 + "userID:" + preferenceSource.getUserId() + "table:" + table.get() + "price:" + price.get()
         );
         DialogUtils.showDialog(activity, "提交订单");
@@ -126,7 +127,7 @@ public class OrderDishesViewModel extends BaseViewModel {
                 table.get(), String.valueOf(price.get()), foodType,people.get(), fanBill).subscribe(new Consumer<BaseEntity<String>>() {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                Log.e("vd", stringBaseEntity.toString());
+                MLog.e("vd", stringBaseEntity.toString());
                 DialogUtils.hintDialog();
                 if (stringBaseEntity.getCode() == 1) {
                     MToast.showToast(activity, "下单成功");
@@ -168,7 +169,7 @@ public class OrderDishesViewModel extends BaseViewModel {
     }
 
     public void reBill(String info,OrderEntity order) {
-        Log.e("vd", "info:" + info + "id:" + preferenceSource.getId() + "tableId:" + tableId.get() + "billId:" + billId.get()
+        MLog.e("vd", "info:" + info + "id:" + preferenceSource.getId() + "tableId:" + tableId.get() + "billId:" + billId.get()
                 + "userID:" + preferenceSource.getUserId() + "table:" + table.get() + "price:" + price.get()
         );
         DialogUtils.showDialog(activity, "提交反结账订单中");
@@ -176,7 +177,7 @@ public class OrderDishesViewModel extends BaseViewModel {
         ,table.get(),"4",price.get(),"0",billId.get()).subscribe(new Consumer<BaseEntity<String>>() {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                Log.e("vd", stringBaseEntity.toString());
+                MLog.e("vd", stringBaseEntity.toString());
                 DialogUtils.hintDialog();
                 if (stringBaseEntity.getCode() == 1) {
                     MToast.showToast(activity,"反结账订单提交成功");
@@ -188,7 +189,7 @@ public class OrderDishesViewModel extends BaseViewModel {
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                Log.e("vd", throwable.getMessage());
+                MLog.e("vd", throwable.getMessage());
                 DialogUtils.hintDialog();
                 MToast.showToast(activity,"反结账订单提交失败");
             }
@@ -201,7 +202,7 @@ public class OrderDishesViewModel extends BaseViewModel {
                 new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd_order", stringBaseEntity.getCode() + "--" + stringBaseEntity.getResult());
+                        MLog.e("vd_order", stringBaseEntity.getCode() + "--" + stringBaseEntity.getResult());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             OrderFoodEntity[] orderFoodEntities = new Gson().fromJson(stringBaseEntity.getResult(), OrderFoodEntity[].class);
@@ -215,7 +216,7 @@ public class OrderDishesViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("VD", throwable.getMessage());
+                        MLog.e("VD", throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(activity,"获取订单菜品信息失败");
                     }
@@ -235,7 +236,7 @@ public class OrderDishesViewModel extends BaseViewModel {
                             OrderEntity order = new Gson().fromJson(result[0], OrderEntity.class);
                             List<OrderFoodEntity> mList = Arrays.asList(new Gson().fromJson(result[1], OrderFoodEntity[].class));
 //                            activity.intentToPay(mList,order);
-                            Log.e("vd", order.toString());
+                            MLog.e("vd", order.toString());
                         }else {
                             MToast.showToast(activity,"数据获取失败");
                         }

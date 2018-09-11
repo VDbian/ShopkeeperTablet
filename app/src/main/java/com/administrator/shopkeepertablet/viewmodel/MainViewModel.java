@@ -6,6 +6,7 @@ import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.main.MainRepertory;
 import com.administrator.shopkeepertablet.utils.DialogUtils;
+import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.activity.MainActivity;
@@ -44,7 +45,7 @@ public class MainViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd",stringBaseEntity.toString());
+                        MLog.e("vd",stringBaseEntity.toString());
                         if (stringBaseEntity.getCode()==1) {
                             print(stringBaseEntity.getResult());
                             mainActivity.intentToLogin();
@@ -56,7 +57,7 @@ public class MainViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd",throwable.getMessage());
+                        MLog.e("vd",throwable.getMessage());
                         MToast.showToast(mainActivity, "获取交班打印数据失败");
                     }
                 });

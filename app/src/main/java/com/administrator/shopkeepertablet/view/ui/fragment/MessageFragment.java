@@ -167,6 +167,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
             MToast.showToast(getActivity(), "无消息数据");
         } else if (orderEntities.size() < viewModel.size) {
             binding.rlvMessage.setLoadingMoreEnabled(false);
+        }else {
+            binding.rlvMessage.setLoadingMoreEnabled(true);
         }
     }
 
@@ -176,6 +178,8 @@ public class MessageFragment extends BaseFragment implements View.OnClickListene
         binding.rlvMessage.loadMoreComplete();
         if (orderEntities.size() < viewModel.size) {
             binding.rlvMessage.setLoadingMoreEnabled(false);
+        }else {
+            binding.rlvMessage.setLoadingMoreEnabled(true);
         }
     }
 

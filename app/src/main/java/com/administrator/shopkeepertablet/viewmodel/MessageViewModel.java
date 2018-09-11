@@ -59,7 +59,7 @@ public class MessageViewModel extends BaseViewModel {
                 new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("VD", stringBaseEntity.toString());
+                        MLog.e("VD", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             List<OrderEntity> orderEntities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), OrderEntity[].class));
@@ -109,7 +109,7 @@ public class MessageViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.getResult());
+                        MLog.e("vd", stringBaseEntity.getResult());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             String[] result = stringBaseEntity.getResult().split("\\^");
@@ -126,7 +126,7 @@ public class MessageViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("vd", throwable.getMessage());
+                        MLog.e("vd", throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(),"获取订单详情信息失败");
                     }
@@ -181,7 +181,7 @@ public class MessageViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.toString());
+                        MLog.e("vd",stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "已确认");
@@ -206,7 +206,7 @@ public class MessageViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("api", stringBaseEntity.toString());
+                        MLog.e("api", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "绑定成功");
@@ -218,7 +218,7 @@ public class MessageViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("api", throwable.getMessage());
+                        MLog.e("api", throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(),"绑定失败");
                     }
@@ -231,7 +231,7 @@ public class MessageViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.toString());
+                        MLog.e("vd",stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "已取消");

@@ -115,6 +115,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener 
         binding.rlvOrder.refreshComplete();
         if (mList.size() < viewModel.index * viewModel.size) {
             binding.rlvOrder.setLoadingMoreEnabled(false);
+        }else {
+            binding.rlvOrder.setLoadingMoreEnabled(true);
         }
     }
 
@@ -124,6 +126,8 @@ public class OrderFragment extends BaseFragment implements View.OnClickListener 
         binding.rlvOrder.loadMoreComplete();
         if (mList.size() < viewModel.index * viewModel.size) {
             binding.rlvOrder.setLoadingMoreEnabled(false);
+        }else {
+            binding.rlvOrder.setLoadingMoreEnabled(true);
         }
     }
 

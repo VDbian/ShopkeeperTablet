@@ -18,6 +18,7 @@ import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.parish.ParishRepertory;
 import com.administrator.shopkeepertablet.utils.DateUtils;
 import com.administrator.shopkeepertablet.utils.DialogUtils;
+import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
@@ -92,7 +93,7 @@ public class PayViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             if (stringBaseEntity.getResult().equals("0")) {
@@ -109,7 +110,7 @@ public class PayViewModel extends BaseViewModel {
                                 memberBean.setId(memberStrs[5]);
                                 memberBean.setRate(Double.parseDouble(memberStrs[6]));
                                 member.set(memberBean);
-//                                Log.e("vd",member.get().toString());
+//                                MLog.e("vd",member.get().toString());
                                 //笑笑@满30送5块@5.00@908fe556-e5b7-4446-ac26-0848c991061c@1^
                                 List<CardEntity> cardBeanList = new ArrayList<CardEntity>();
                                 if (split.length >= 2 && !TextUtils.isEmpty(split[1])) {
@@ -125,7 +126,7 @@ public class PayViewModel extends BaseViewModel {
                                         cardBean.setManPrice(Double.parseDouble(cardStr[5]));
                                         cardBean.setBeginTime(cardStr[6]);
                                         cardBean.setEndTime(cardStr[7]);
-                                        Log.e("vd", cardBean.toString());
+                                        MLog.e("vd", cardBean.toString());
                                         cardBeanList.add(cardBean);
                                     }
                                 }
@@ -152,7 +153,7 @@ public class PayViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             String[] cardStr = stringBaseEntity.getResult().split("@");
                             CardEntity cardBean = new CardEntity();
@@ -173,7 +174,7 @@ public class PayViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("vd",throwable.getMessage());
+                        MLog.e("vd",throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(activity,"查询失败");
                     }
@@ -187,7 +188,7 @@ public class PayViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             DiscountEntity[] discountEntities = new Gson().fromJson(stringBaseEntity.getResult(), DiscountEntity[].class);
@@ -213,7 +214,7 @@ public class PayViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             if (stringBaseEntity.getResult().equals("0")) {
@@ -242,7 +243,7 @@ public class PayViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             List<ElseCouponEntity> elseCouponEntities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), ElseCouponEntity[].class));
                             activity.showDialogElseDiscount(elseCouponEntities);
@@ -266,7 +267,7 @@ public class PayViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             if (stringBaseEntity.getResult().equals("0")) {
                                 MToast.showToast(activity, "获取其他优惠金额失败");
@@ -296,7 +297,7 @@ public class PayViewModel extends BaseViewModel {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                 DialogUtils.hintDialog();
-                Log.e("vd", stringBaseEntity.toString());
+                MLog.e("vd", stringBaseEntity.toString());
                 if (stringBaseEntity.getCode() == 1) {
                     if (stringBaseEntity.getResult().equals("0")) {
                         MToast.showToast(activity, "结账失败");
@@ -319,18 +320,23 @@ public class PayViewModel extends BaseViewModel {
 
     public void getOrderData(int type) {
         DialogUtils.showDialog(activity, "获取数据中");
-//        Log.e("vd",billId.get());
+//        MLog.e("vd",billId.get());
         parishRepertory.getOrderData("17", preferenceSource.getId(), billId.get(), String.valueOf(type))
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             List<PriceEntity> priceEntities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), PriceEntity[].class));
                             if (!priceEntities.isEmpty()) {
                                 priceEntity.set(priceEntities.get(0));
-                                Log.e("vd", priceEntity.get().toString());
+                                price.set(priceEntity.get().getYuanjia());
+                                shouldPay.set(priceEntity.get().getYinfu());
+                                discount.set(priceEntity.get().getYouhui());
+                                warePrice.set(priceEntity.get().getCanju());
+                                activity.changedMoney(true);
+                                MLog.e("vd", priceEntity.get().toString());
                             }
                         }else {
                             MToast.showToast(activity,"订单价格信息获取失败");
@@ -340,7 +346,7 @@ public class PayViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd",throwable.getMessage());
+                        MLog.e("vd",throwable.getMessage());
                         MToast.showToast(activity,"订单价格信息获取失败");
                     }
                 });
@@ -348,12 +354,13 @@ public class PayViewModel extends BaseViewModel {
 
     public void scanBill(String code, double price, String billId) {
         DialogUtils.showDialog(activity, "获取数据中");
+        Log.e("vd",code+"**"+price+"**"+ preferenceSource.getId()+"**"+billId);
         parishRepertory.scanBill("21", code, price, preferenceSource.getId(), billId).subscribe(
                 new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             if (stringBaseEntity.getResult().contains("SUCCESS")) {
                                 String parType[] = stringBaseEntity.getResult().split("&");
@@ -388,6 +395,7 @@ public class PayViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         DialogUtils.hintDialog();
+                        Log.e("vd",throwable.getMessage());
                         MToast.showToast(activity,"支付失败");
                     }
                 }
@@ -493,7 +501,7 @@ public class PayViewModel extends BaseViewModel {
                 new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.toString());
+                        MLog.e("vd",stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode()==1) {
                             if (stringBaseEntity.getResult().equals("0")) {

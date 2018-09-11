@@ -65,6 +65,7 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,7 +125,7 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initView() {
-//        Log.e("vd",name);
+//        MLog.e("vd",name);
         if (!TextUtils.isEmpty(name)) {
             switch (name) {
                 case "fast":
@@ -300,13 +301,18 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
         double sum = 0;
         if (cartBeanList.size() > 0) {
             for (CartBean cartBean : cartBeanList) {
-                sum = sum + Double.valueOf(cartBean.getNum()) * cartBean.getPrice();
-                for (FoodAddBean foodAddBean : cartBean.getFoodAddBeanList()) {
-                    sum = sum + foodAddBean.getNum() * foodAddBean.getPrice();
+                double v = Double.valueOf(cartBean.getNum()) - Double.valueOf(cartBean.getGiveNum());
+                if (v != 0) {
+                    sum = sum + v * cartBean.getPrice();
+                    double add = 0.0;
+                    for (FoodAddBean foodAddBean : cartBean.getFoodAddBeanList()) {
+                        add += (foodAddBean.getNum()) * foodAddBean.getPrice();
+                    }
+                    sum += v * add;
                 }
             }
         }
-        viewModel.price.set(sum);
+        viewModel.price.set(new BigDecimal(sum).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
     }
 
     private String getInfo() {
@@ -563,7 +569,7 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
                 public void confirm(RoomEntity roomEntity, TableEntity tableEntity) {
 //                    viewModel.bind(tableEntity);
                     table = tableEntity;
-                    viewModel.fastFood(getInfo(), 3, "", tableEntity.getRoomTableId(), tableEntity.getTableName());
+                    viewModel.fastFood(getInfo(), 3, "1", tableEntity.getRoomTableId(), tableEntity.getTableName());
                 }
 
                 @Override

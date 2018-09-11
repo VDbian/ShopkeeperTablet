@@ -103,7 +103,7 @@ public class PopupWindowOrderDetail extends PopupWindow {
     private void initView() {
         binding.rlvOrderFood.setAdapter(new OrderDetailAdapter(context, viewModel.detailFoods.get()));
         binding.rlvOrderFood.setLayoutManager(new LinearLayoutManager(context));
-        Log.e("vd", viewModel.orderEntity.get().getOrderSate() + "");
+        MLog.e("vd", viewModel.orderEntity.get().getOrderSate() + "");
         if (viewModel.orderEntity.get().getOrderSate() == 3) {
             binding.llOperation.setVisibility(View.VISIBLE);
         } else {

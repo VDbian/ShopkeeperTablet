@@ -24,6 +24,7 @@ import com.administrator.shopkeepertablet.model.entity.LineUpEntity;
 import com.administrator.shopkeepertablet.model.entity.RoomEntity;
 import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.TableType;
+import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.adapter.LineUpAdapter;
@@ -255,7 +256,7 @@ public class LineUpFragment extends BaseFragment implements View.OnClickListener
                 dialog.setOnConfirmClick(new LineUpDialog.OnConfirmClick() {
                     @Override
                     public void confirm(TableType tableType) {
-                        Log.e("api", tableType.toString());
+                        MLog.e("api", tableType.toString());
                         viewModel.addLineUp(tableType.getId());
                     }
                 });

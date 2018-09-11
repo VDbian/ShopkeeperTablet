@@ -109,7 +109,7 @@ public class TableViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd",stringBaseEntity.toString());
+                        MLog.e("vd",stringBaseEntity.toString());
                         if (stringBaseEntity.getCode()==1){
                             MToast.showToast(activity,"换桌成功");
                             activity.finish();
@@ -120,7 +120,7 @@ public class TableViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("vd",throwable.getMessage());
+                        MLog.e("vd",throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(activity,"换桌失败");
                     }
@@ -129,12 +129,13 @@ public class TableViewModel extends BaseViewModel {
 
     public void transferFood(String tableId){
         DialogUtils.showDialog(activity, "获取数据中");
+        Log.e("vd",preferenceSource.getId()+"**"+tableId+"**"+detailId.get());
         parishRepertory.TransferFood("2",preferenceSource.getId(),tableId,detailId.get())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd",stringBaseEntity.toString());
+                        MLog.e("vd",stringBaseEntity.toString());
                         if (stringBaseEntity.getCode()==1){
                             MToast.showToast(activity,"转菜成功");
                             activity.finish();
@@ -146,7 +147,7 @@ public class TableViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd",throwable.getMessage());
+                        MLog.e("vd",throwable.getMessage());
                         MToast.showToast(activity,"转菜失败");
                     }
                 });
@@ -159,7 +160,7 @@ public class TableViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd_order", stringBaseEntity.getCode() + "--" + stringBaseEntity.getResult());
+                        MLog.e("vd_order", stringBaseEntity.getCode() + "--" + stringBaseEntity.getResult());
                         if (stringBaseEntity.getCode() == 1) {
                             OrderFoodEntity[] orderFoodEntities = new Gson().fromJson(stringBaseEntity.getResult(), OrderFoodEntity[].class);
                             List<OrderFoodEntity> mList = Arrays.asList(orderFoodEntities);
@@ -173,7 +174,7 @@ public class TableViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("VD", throwable.getMessage());
+                        MLog.e("VD", throwable.getMessage());
                         MToast.showToast(activity,"获取订单菜品信息失败");
                     }
                 }

@@ -59,6 +59,7 @@ public class OrderDishesAddAdapter extends RecyclerView.Adapter<OrderDishesAddAd
             @Override
             public void onClick(View v) {
                 foodAddBean.setNum(foodAddBean.getNum() + 1);
+                foodAddBean.setSelect(true);
                 notifyDataSetChanged();
             }
         });
@@ -67,6 +68,7 @@ public class OrderDishesAddAdapter extends RecyclerView.Adapter<OrderDishesAddAd
             public void onClick(View v) {
                 if (foodAddBean.getNum() > 1) {
                     foodAddBean.setNum(foodAddBean.getNum() - 1);
+                    foodAddBean.setSelect(true);
                     notifyDataSetChanged();
                 }
             }

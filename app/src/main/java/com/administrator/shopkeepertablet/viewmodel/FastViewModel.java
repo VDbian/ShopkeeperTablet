@@ -102,7 +102,7 @@ public class FastViewModel extends BaseViewModel {
     }
 
     public void search(String str){
-        Log.e("vd",str);
+        MLog.e("vd",str);
         List<FoodEntity> foodEntities = dao.getFoodEntityDao().queryBuilder().where(FoodEntityDao.Properties.ProductName.like("%" + str + "%")).list();;
         if (foodEntities.size() > 0) {
             fragment.refreshVariety(foodEntities);
@@ -113,13 +113,14 @@ public class FastViewModel extends BaseViewModel {
 
     //快餐
     public void fastFood(String info,int type,String billType,String tableId,String tableName){
+        Log.e("vd",info+"***"+billType+"***"+tableId+"***"+tableName);
         DialogUtils.showDialog(fragment.getActivity(), "数据提交中");
         fastRepository.fastFood("0","",preferenceSource.getId(),info,"","","","","",
                 preferenceSource.getUserId(),preferenceSource.getName(),"",0,tableId,tableName,"4",""
         ,price.get(),billType).subscribe(new Consumer<BaseEntity<String>>() {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                Log.e("vd",stringBaseEntity.toString());
+                MLog.e("vd",stringBaseEntity.toString());
                 DialogUtils.hintDialog();
                 if (stringBaseEntity.getCode()==1){
                     MToast.showToast(fragment.getActivity(),"下单成功");
@@ -147,7 +148,7 @@ public class FastViewModel extends BaseViewModel {
                 ,price.get(),"0").subscribe(new Consumer<BaseEntity<String>>() {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                Log.e("vd",stringBaseEntity.toString());
+                MLog.e("vd",stringBaseEntity.toString());
                 DialogUtils.hintDialog();
                 if (stringBaseEntity.getCode()==1){
                     MToast.showToast(fragment.getActivity(),"预定成功");
@@ -258,7 +259,7 @@ public class FastViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd_order", stringBaseEntity.getCode() + "--" + stringBaseEntity.getResult());
+                        MLog.e("vd_order", stringBaseEntity.getCode() + "--" + stringBaseEntity.getResult());
                         if (stringBaseEntity.getCode() == 1) {
                             OrderFoodEntity[] orderFoodEntities = new Gson().fromJson(stringBaseEntity.getResult(), OrderFoodEntity[].class);
                             List<OrderFoodEntity> mList = Arrays.asList(orderFoodEntities);
@@ -272,7 +273,7 @@ public class FastViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("VD", throwable.getMessage());
+                        MLog.e("VD", throwable.getMessage());
                         MToast.showToast(fragment.getActivity(),"获取订单菜品信息失败");
                     }
                 }
@@ -281,11 +282,13 @@ public class FastViewModel extends BaseViewModel {
 
     public void scanBill(String code, double price, String billId) {
         DialogUtils.showDialog(fragment.getActivity(), "数据提交中...");
+        Log.e("vd",code+"**"+price+"**"+preferenceSource.getId()+"**"+billId);
         fastRepository.scanBill("21", code, price,preferenceSource.getId(), billId)
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
+                        Log.e("vd",stringBaseEntity.toString());
                         if(stringBaseEntity.getCode()==1){
                             if (stringBaseEntity.getResult().contains("SUCCESS")) {
                                 String parType[] = stringBaseEntity.getResult().split("&");
@@ -333,7 +336,7 @@ public class FastViewModel extends BaseViewModel {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                 DialogUtils.hintDialog();
-                Log.e("vd", stringBaseEntity.toString());
+                MLog.e("vd", stringBaseEntity.toString());
                 if (stringBaseEntity.getCode() == 1) {
                     if (stringBaseEntity.getResult().equals("0")) {
                         MToast.showToast(fragment.getActivity(), "结账失败");

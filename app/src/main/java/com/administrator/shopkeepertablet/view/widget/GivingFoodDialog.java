@@ -80,7 +80,7 @@ public class GivingFoodDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 double num =  Double.valueOf(binding.tvNum.getText().toString().trim());
-                if (num - 1 > 0) {
+                if (num - 1 >= 0) {
                     num -= 1;
                     binding.tvNum.setText(String.valueOf(num));
                 }

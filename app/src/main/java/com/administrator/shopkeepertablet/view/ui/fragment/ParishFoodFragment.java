@@ -28,6 +28,7 @@ import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
 import com.administrator.shopkeepertablet.model.entity.bean.EventTableBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
+import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
@@ -111,7 +112,7 @@ public class ParishFoodFragment extends BaseFragment {
             public void onItemClick(final TableEntity entity, final int position) {
                 viewModel.table.set(entity.getTableName());
                 viewModel.tableId.set(entity.getRoomTableId());
-                Log.e("vd",entity.getIsOpen());
+                MLog.e("vd",entity.getIsOpen());
                 switch (entity.getIsOpen()) {
                     case "0":
                         viewModel.people.set("1");
@@ -295,9 +296,11 @@ public class ParishFoodFragment extends BaseFragment {
                         startActivity(intent);
                         break;
                     case 1:
+                        popupWindowPay.dismiss();
                         eventTable(entity,"换桌",viewModel.room.get(),"");
                         break;
                     case 2:
+                        popupWindowPay.dismiss();
                         ConfirmDialog confirmDialog = new ConfirmDialog();
                         confirmDialog.setTitle("撤单");
                         confirmDialog.setMessage("是否要进行撤单操作");
@@ -315,15 +318,19 @@ public class ParishFoodFragment extends BaseFragment {
                         confirmDialog.show(getActivity().getFragmentManager(), "");
                         break;
                     case 3:
+                        popupWindowPay.dismiss();
                         eventTable(entity,"并单",viewModel.room.get(),"");
                         break;
                     case 4:
+                        popupWindowPay.dismiss();
                         viewModel.print();
                         break;
                     case 5:
+                        popupWindowPay.dismiss();
                         viewModel.pushFoodAll();
                         break;
                     case 6:
+                        popupWindowPay.dismiss();
                         final ChangePeopleDialog changePeopleDialog = new ChangePeopleDialog();
                         changePeopleDialog.setPeopleNum(viewModel.people.get());
                         changePeopleDialog.setWareNum(viewModel.tableware.get());
@@ -343,6 +350,7 @@ public class ParishFoodFragment extends BaseFragment {
             public void item(OrderFoodEntity orderFoodEntity, int position) {
                 switch (position){
                     case 0:
+                        popupWindowPay.dismiss();
                         eventTable(entity,"转菜("+orderFoodEntity.getProductName()+")",viewModel.room.get(),orderFoodEntity.getDetailId());
                         break;
                     case 1:
@@ -382,7 +390,7 @@ public class ParishFoodFragment extends BaseFragment {
                 bean.setTableEntity(entity);
                 bean.setmList(mList);
                 bean.setRoomName(viewModel.room.get());
-                bean.setPrice(viewModel.price.get());
+                bean.setPrice(viewModel.totalPrice.get());
                 EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_PAY,bean));
                 Intent intent = new Intent(ParishFoodFragment.this.getActivity(), PayActivity.class);
                 startActivity(intent);
@@ -476,7 +484,6 @@ public class ParishFoodFragment extends BaseFragment {
             MToast.showToast(getActivity(), "解析二维码失败");
         }
     }
-
 
     public void cancelOrderSuccess() {
         if (popupWindowPay != null && popupWindowPay.isShowing()) {

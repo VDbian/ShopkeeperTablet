@@ -274,7 +274,7 @@ public interface RetrofitInterface {
 
     //转菜
     @FormUrlEncoded
-    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
+    @POST(AppConstant.PORT_URL + "PortTurnFoodAshx.ashx")
     Observable<BaseEntity<String>> TransferFood(
             @Field("Type") String type,
             @Field("id") String id,

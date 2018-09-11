@@ -36,6 +36,7 @@ import com.administrator.shopkeepertablet.model.entity.bean.EventReturnBean;
 import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
+import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.BaseActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.FoodTypeAdapter;
@@ -358,9 +359,14 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         double sum = 0;
         if (cartBeanList.size() > 0) {
             for (CartBean cartBean : cartBeanList) {
-                sum = sum + Double.valueOf(cartBean.getNum()) * cartBean.getPrice();
-                for (FoodAddBean foodAddBean : cartBean.getFoodAddBeanList()) {
-                    sum = sum + foodAddBean.getNum() * foodAddBean.getPrice();
+                double v = Double.valueOf(cartBean.getNum()) - Double.valueOf(cartBean.getGiveNum());
+                if (v != 0) {
+                    sum = sum + v * cartBean.getPrice();
+                    double add = 0.0;
+                    for (FoodAddBean foodAddBean : cartBean.getFoodAddBeanList()) {
+                        add += (foodAddBean.getNum()) * foodAddBean.getPrice();
+                    }
+                    sum += v * add;
                 }
             }
         }
@@ -509,7 +515,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         if (info.endsWith(",")) {
             info = info.substring(0, info.length() - 1);
         }
-        Log.e("vd",info);
+        MLog.e("vd",info);
         return info;
     }
 

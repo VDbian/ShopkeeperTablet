@@ -117,6 +117,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private void initView() {
         viewModel.getOrderData(orderEntity == null ? 4 : orderEntity.getType());
         binding.llMember.setVisibility(View.INVISIBLE);
+        binding.ivMember.setVisibility(View.INVISIBLE);
         binding.tvDiscountNum.setVisibility(View.INVISIBLE);
         switch (flag) {
             case 1://堂点
@@ -205,7 +206,10 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         binding.tvScanPay.setOnClickListener(this);
         binding.ivPermissionDiscount.setOnClickListener(this);
         binding.ivPermissionRemission.setOnClickListener(this);
-        changedMoney(true);
+        binding.tvClearCoupon.setOnClickListener(this);
+        binding.tvClearMember.setOnClickListener(this);
+        binding.tvClearElse.setOnClickListener(this);
+        binding.ivMember.setOnClickListener(this);
     }
 
     @Override
@@ -270,6 +274,37 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 viewModel.permissionRemission.set(0.0);
                 changedMoney(false);
                 break;
+            case R.id.tv_clear_coupon:
+                viewModel.cardSearch.set(null);
+                couponMoney = 0.0;
+                initMoney(true);
+                break;
+            case R.id.tv_clear_member:
+                viewModel.cardEntity.set(null);
+                binding.llMember.setVisibility(View.INVISIBLE);
+                binding.ivMember.setVisibility(View.INVISIBLE);
+                memberCardMoney = 0.0;
+                viewModel.integral.set("");
+                scoreMoney = 0.0;
+                memberMoney = twoDecimal( viewModel.priceEntity.get().getMemberpice());
+                initMoney(true);
+                break;
+            case R.id.tv_clear_else:
+                elseCouponMoney = 0.0;
+                initMoney(true);
+                break;
+            case R.id.iv_member:
+                binding.llMember.setVisibility(View.INVISIBLE);
+                binding.ivMember.setVisibility(View.INVISIBLE);
+                viewModel.member.set(null);
+                memberMoney = 0.0;
+                viewModel.cardEntity.set(null);
+                memberCardMoney = 0.0;
+                viewModel.integral.set("");
+                scoreMoney = 0.0;
+                initMoney(true);
+                break;
+
         }
     }
 
@@ -278,11 +313,14 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         popupWindowMember.setOnCallBackListener(new PopupWindowMember.OnCallBackListener() {
             @Override
             public void confirm(double score, double card) {
-                binding.llMember.setVisibility(View.VISIBLE);
-                scoreMoney = score;
-                memberCardMoney = card;
-                memberMoney = score + card + viewModel.priceEntity.get().getYinfu() + viewModel.priceEntity.get().getMemberzenupice() - viewModel.priceEntity.get().getMemberpiceNew();
-                changedMoney(true);
+                if (viewModel.member.get()!=null) {
+                    binding.llMember.setVisibility(View.VISIBLE);
+                    binding.ivMember.setVisibility(View.VISIBLE);
+                    scoreMoney = twoDecimal(score);
+                    memberCardMoney = twoDecimal(card);
+                    memberMoney = twoDecimal(score + card + viewModel.priceEntity.get().getMemberpice());
+                    changedMoney(true);
+                }
             }
         });
         popupWindowMember.showPopupWindowUp();
@@ -308,7 +346,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 if (money > viewModel.shouldPay.get()) {
                     MToast.showToast(PayActivity.this, "优惠券不能使用");
                 } else {
-                    couponMoney = money;
+                    couponMoney =twoDecimal(money);
                     changedMoney(true);
                 }
             }
@@ -357,9 +395,9 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void click(int i) {
                 Double pay = viewModel.shouldPay.get() + viewModel.permissionRemission.get();
-//                Log.e("vd", twoDecimal(pay % 10) + "");
-//                Log.e("vd", twoDecimal(pay % 1) + "");
-//                Log.e("vd", twoDecimal(pay % 0.1) + "");
+//                MLog.e("vd", twoDecimal(pay % 10) + "");
+//                MLog.e("vd", twoDecimal(pay % 1) + "");
+//                MLog.e("vd", twoDecimal(pay % 0.1) + "");
                 switch (i) {
                     case 0:
                         viewModel.permissionRemission.set(twoDecimal(pay % 10));
@@ -469,6 +507,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     MToast.showToast(this, "会员卡余额不足");
                 } else {
                     payMeEntity.setMoney(viewModel.shouldPay.get());
+                    initMoney(false);
                     choosePayWayOnly(payMeEntity);
                     bill();
                 }
@@ -489,7 +528,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 viewModel.guaZhang(payMeEntity);
                 break;
             default:
-                if (viewModel.needPay.get()!=0) {
+                if (viewModel.needPay.get() != 0) {
                     showDialogPayMoney(payMeEntity, position);
                 }
                 break;
@@ -497,7 +536,6 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void guazhangSuccess(List<GuaZhangEntity> result, PayMeEntity payMeEntity) {
-        MLog.e("vd", "qqweweqeqqqeqwe");
         GuaZhangDialog guaZhangDialog = new GuaZhangDialog();
         guaZhangDialog.setmList(result);
         guaZhangDialog.setOnConfirmClick(new GuaZhangDialog.OnConfirmClick() {
@@ -536,12 +574,15 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         guaZhangDialog.show(getFragmentManager(), "");
     }
 
-
     public void showDialogPayMoney(PayMeEntity payMeEntity, int position) {
         PayMoneyDialog payMoneyDialog = new PayMoneyDialog();
         payMoneyDialog.setTitle(payMeEntity.getName());
         payMoneyDialog.setMoney(payMeEntity.getMoney() == 0 ? viewModel.needPay.get() : payMeEntity.getMoney());
-        payMoneyDialog.setMax(viewModel.needPay.get());
+        if (payMeEntity.getName().equals("会员卡")) {
+            payMoneyDialog.setMax(viewModel.needPay.get() > viewModel.member.get().getMoney() ? viewModel.member.get().getMoney() : viewModel.needPay.get());
+        } else {
+            payMoneyDialog.setMax(viewModel.needPay.get());
+        }
         payMoneyDialog.setOnConfirmClick(new PayMoneyDialog.OnConfirmClick() {
             @Override
             public void confirm(Double money) {
@@ -574,15 +615,15 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     public void onDataEvent(DataEvent event) {
         if (event.getMessageTag() == AppConstant.EVENT_PAY) {
             EventPayBean bean = (EventPayBean) event.getMessageData();
-            Double price =0.0;
-            String billId ="";
+            Double price = 0.0;
+            String billId = "";
             flag = bean.getFlag();
             mList = bean.getmList();
             orderEntity = bean.getOrder();
             viewModel.tableEntity.set(bean.getTableEntity());
             viewModel.roomName.set(bean.getRoomName());
             billId = bean.getId();
-            if (bean.getTableEntity()!=null) {
+            if (bean.getTableEntity() != null) {
                 viewModel.time.set(viewModel.getTime(bean.getTableEntity().getKaiTime()));
                 price = bean.getTableEntity().getPrice();
                 billId = bean.getTableEntity().getBillId();
@@ -590,10 +631,10 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 tableName = bean.getTableEntity().getTableName();
             }
             viewModel.tableList.set(bean.getTableEntityList());
-           if (bean.getOrder()!=null) {
-               peopleCount = bean.getOrder().getPersonCount();
-               billId =bean.getOrder().getBillId();
-           }
+            if (bean.getOrder() != null) {
+                peopleCount = bean.getOrder().getPersonCount();
+                billId = bean.getOrder().getBillId();
+            }
             if (bean.getTableEntityList() != null && bean.getTableEntityList().size() != 0) {
                 for (TableEntity tableEntity : bean.getTableEntityList()) {
                     price += tableEntity.getPrice();
@@ -606,7 +647,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             viewModel.price.set(price);
             Double p = bean.getPrice();
             if (p > 0) {
-                viewModel.price.set(p);
+                viewModel.price.set(twoDecimal(p));
             }
 
         }
@@ -622,8 +663,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void elseCouponSuccess(Double elseCoupon) {
-        MToast.showToast(this, "其他优惠金额为" + elseCoupon + "元");
-        elseCouponMoney = elseCoupon;
+        MToast.showToast(this, "其他优惠金额为" + twoDecimal(elseCoupon) + "元");
+        elseCouponMoney = twoDecimal(elseCoupon);
         changedMoney(true);
     }
 
@@ -781,7 +822,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         payMeEntityList.clear();
         String[] payTypes = getResources().getStringArray(R.array.payType);
         for (int i = 0; i < payTypes.length; i++) {
-            Log.e("vd", AppConstant.getUser().getCashPayType());
+            MLog.e("vd", AppConstant.getUser().getCashPayType());
             if (AppConstant.getUser().getCashPayType().contains(i + 1 + "")) {
                 String anA = payTypes[i];
                 payMeEntityList.add(new PayMeEntity(anA, false, i + 1));
@@ -807,24 +848,31 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
      * @param bool true 非选择支付方式引起的变化  false 因选择支付方式引起的变化
      */
     private void initMoney(boolean bool) {
+//        viewModel.price.set(viewModel.priceEntity.get().getYuanjia());
+//        viewModel.shouldPay.set( viewModel.priceEntity.get().getYinfu());
+//        viewModel.discount.set( viewModel.priceEntity.get().getYouhui());
         if (isFree) {
-            viewModel.discount.set(viewModel.price.get());
+            viewModel.discount.set(twoDecimal(viewModel.price.get()));
         } else {
-            viewModel.discount.set(oneDiscount + viewModel.permissionRemission.get() + viewModel.permissionDiscount.get() + elseCouponMoney + memberMoney + couponMoney);
+            viewModel.discount.set(twoDecimal(oneDiscount + viewModel.permissionRemission.get() + viewModel.permissionDiscount.get() + elseCouponMoney + memberMoney + couponMoney+viewModel.priceEntity.get().getYouhui()));
         }
-        viewModel.shouldPay.set(viewModel.price.get() + viewModel.warePrice.get() - viewModel.discount.get());
-        viewModel.shouldReturn.set(viewModel.payment.get() - viewModel.shouldPay.get() > 0 ? viewModel.payment.get() - viewModel.shouldPay.get() : 0.0);
+        viewModel.shouldPay.set(twoDecimal(viewModel.price.get() + viewModel.warePrice.get() - viewModel.discount.get()));
+        viewModel.shouldReturn.set(twoDecimal(viewModel.payment.get() - viewModel.shouldPay.get() > 0 ? viewModel.payment.get() - viewModel.shouldPay.get() : 0.0));
         if (bool) {
-            viewModel.needPay.set(viewModel.shouldPay.get() - viewModel.payment.get() > 0 ? viewModel.shouldPay.get() - viewModel.payment.get() : 0.0);
+            viewModel.needPay.set(twoDecimal(viewModel.shouldPay.get() - viewModel.payment.get() > 0 ? viewModel.shouldPay.get() - viewModel.payment.get() : 0.0));
         } else {
             Double d = viewModel.shouldPay.get() - viewModel.payment.get() - getPayMoney();
-            viewModel.needPay.set(d > 0 ? d : 0.0);
+            viewModel.needPay.set(d > 0 ? twoDecimal(d) : 0.0);
+        }
+        if (viewModel.shouldPay.get()==0){
+            initPayWay();
+            choosePayWayOnly(payMeEntityList.get(0));
         }
     }
 
-    private void changedMoney(boolean bool) {
-        initMoney(bool);
+    public void changedMoney(boolean bool) {
         initPayWay();
+        initMoney(bool);
     }
 
     @Override
@@ -834,7 +882,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             changedMoney(true);
             return;
         }
-        if (requestCode == 2) {
+        if (requestCode == 1) {
             Bundle bundle = data.getExtras();
             if (bundle == null) {
                 return;
@@ -845,7 +893,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                 MToast.showToast(this, "解析二维码失败");
             }
-        } else if (requestCode == 1) {
+        } else if (requestCode == 2) {
             Bundle bundle = data.getExtras();
             if (bundle == null) {
                 return;
@@ -869,6 +917,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     public void billSuccess(String msg) {
         MToast.showToast(this, msg);
+        EventBus.getDefault().postSticky(DataEvent.make(AppConstant.EVENT_SUCCESS, ""));
         finish();
     }
 
@@ -1075,6 +1124,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     , tStr, pStr, 1, viewModel.shouldPay.get(), tableName, free, "7", guid, "", moLing, rounding);
         }
     }
+
 
     @Override
     protected void onDestroy() {

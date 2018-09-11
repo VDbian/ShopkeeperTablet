@@ -12,6 +12,7 @@ import com.administrator.shopkeepertablet.model.entity.RechargeTypeEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.recharge.RechargeRepository;
 import com.administrator.shopkeepertablet.utils.DialogUtils;
+import com.administrator.shopkeepertablet.utils.MLog;
 import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.fragment.RechargeFragment;
 import com.google.gson.Gson;
@@ -62,7 +63,7 @@ public class RechargeViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("api", stringBaseEntity.toString());
+                        MLog.e("api", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             List<RechargeEntity> entities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), RechargeEntity[].class));
@@ -88,7 +89,7 @@ public class RechargeViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("api", stringBaseEntity.toString());
+                        MLog.e("api", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             List<RechargeEntity> entities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), RechargeEntity[].class));
                             fragment.loadMoreRecharge(entities);
@@ -194,6 +195,7 @@ public class RechargeViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
+                        MLog.e("vd",stringBaseEntity.toString());
                         if (stringBaseEntity.getCode()==1){
                             List<RechargeTypeEntity> typeEntities =Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(),RechargeTypeEntity[].class));
                             fragment.setSpinnerName(typeEntities);
@@ -211,13 +213,13 @@ public class RechargeViewModel extends BaseViewModel {
     }
 
     public void checkCode(String typeId,int payType){
-        Log.e("vd",proCode.get());
+        MLog.e("vd",proCode.get());
         DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
         repository.checkCode("10",preferenceSource.getId(),proCode.get())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd",stringBaseEntity.toString());
+                        MLog.e("vd",stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getResult().equals("1")){
                             if (TextUtils.isEmpty(typeId)){
@@ -245,7 +247,7 @@ public class RechargeViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd",stringBaseEntity.toString());
+                        MLog.e("vd",stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() ==1){
                           fragment.success();
                         }else {
@@ -265,12 +267,13 @@ public class RechargeViewModel extends BaseViewModel {
 
     public void proCharge(int payType,String typeId){
         DialogUtils.showDialog(fragment.getActivity(), "获取数据中");
+        MLog.e("vd",member.get().getId()+"***"+preferenceSource.getId()+"***"+typeId+"***"+payType+"***"+preferenceSource.getName()+"***"+ preferenceSource.getUserId());
         repository.productCharge("7",member.get().getId(),preferenceSource.getId(),typeId,payType,preferenceSource.getName(),preferenceSource.getUserId())
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd",stringBaseEntity.toString());
+                        MLog.e("vd",stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() ==1){
                             fragment.success();
                         }else {
@@ -281,6 +284,7 @@ public class RechargeViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         DialogUtils.hintDialog();
+                        throwable.printStackTrace();
                         MToast.showToast(fragment.getActivity(),"充值失败");
                     }
                 });

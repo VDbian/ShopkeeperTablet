@@ -167,7 +167,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                 new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd_order", stringBaseEntity.getCode() + "--" + stringBaseEntity.getResult());
+                        MLog.e("vd_order", stringBaseEntity.getCode() + "--" + stringBaseEntity.getResult());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             OrderFoodEntity[] orderFoodEntities = new Gson().fromJson(stringBaseEntity.getResult(), OrderFoodEntity[].class);
@@ -185,7 +185,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("VD", throwable.getMessage());
+                        MLog.e("VD", throwable.getMessage());
                         DialogUtils.hintDialog();
                         MToast.showToast(fragment.getActivity(),"获取订单菜品信息失败");
                     }
@@ -199,7 +199,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "撤单成功");
@@ -224,7 +224,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "修改成功");
@@ -248,7 +248,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             printResult(stringBaseEntity.getResult());
@@ -267,7 +267,7 @@ public class ParishFoodViewModel extends BaseViewModel {
 
     public void pushFoodAll() {
         DialogUtils.showDialog(fragment.getActivity(), "数据提交中");
-//        Log.e("vd",billId.get()+"**"+tableId.get()+"**"+table.get());
+//        MLog.e("vd",billId.get()+"**"+tableId.get()+"**"+table.get());
         parishRepertory.pushFoodAll("1", "1", preferenceSource.getId(), billId.get(), tableId.get(), table.get(), "2", "1", "2")
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
@@ -296,7 +296,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             printResult(stringBaseEntity.getResult());
@@ -320,7 +320,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         if (stringBaseEntity.getCode() == 1) {
                             List<ReturnReasonEntity> reasonEntities = Arrays.asList(new Gson().fromJson(stringBaseEntity.getResult(), ReturnReasonEntity[].class));
                             fragment.showReturn(orderFoodEntity, reasonEntities);
@@ -332,7 +332,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         DialogUtils.hintDialog();
-                        Log.e("vd", throwable.getMessage());
+                        MLog.e("vd", throwable.getMessage());
                         MToast.showToast(fragment.getActivity(),"获取退菜理由失败");
                     }
                 });
@@ -369,7 +369,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
-                        Log.e("vd", stringBaseEntity.toString());
+                        MLog.e("vd", stringBaseEntity.toString());
                         DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             MToast.showToast(fragment.getActivity(), "退菜成功");
@@ -390,13 +390,15 @@ public class ParishFoodViewModel extends BaseViewModel {
 
     public void givingFood(String orderDetailId, String num) {
         DialogUtils.showDialog(fragment.getActivity(), "数据提交中");
+//        MLog.e("vd","14"+"**"+orderDetailId+"**"+num);
         parishRepertory.givingFood("14", orderDetailId, num).subscribe(new Consumer<BaseEntity<String>>() {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                 DialogUtils.hintDialog();
-                Log.e("vd", stringBaseEntity.getResult());
+                MLog.e("vd", stringBaseEntity.getResult());
                 if (stringBaseEntity.getCode() == 1) {
                     MToast.showToast(fragment.getActivity(), "赠送成功");
+                    fragment.cancelOrderSuccess();
                     printResult(stringBaseEntity.getResult());
                 }else {
                     MToast.showToast(fragment.getActivity(),"赠送失败");
@@ -428,7 +430,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                             }
                             price.set(a);
                             fragment.initPayPop(mList, order, entity);
-                            Log.e("vd", order.toString());
+                            MLog.e("vd", order.toString());
                         }else {
                             MToast.showToast(fragment.getActivity(),"数据获取失败");
                         }
@@ -498,6 +500,8 @@ public class ParishFoodViewModel extends BaseViewModel {
                                 String parType[] = stringBaseEntity.getResult().split("&");
                                 fragment.bill(parType[1] ,billId , price ,parType[0],"");
                             }
+                        }else {
+                            MToast.showToast(fragment.getActivity(),"支付失败");
                         }
                     }
                 }, new Consumer<Throwable>() {
@@ -519,7 +523,7 @@ public class ParishFoodViewModel extends BaseViewModel {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
                 DialogUtils.hintDialog();
-                Log.e("vd", stringBaseEntity.toString());
+                MLog.e("vd", stringBaseEntity.toString());
                 if (stringBaseEntity.getCode() == 1) {
                     if (stringBaseEntity.getResult().equals("0")) {
                         MToast.showToast(fragment.getActivity(), "结账失败");
