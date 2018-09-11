@@ -9,17 +9,53 @@ android {
         applicationId "com.administrator.shopkeepertablet"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 40
+        versionName "1.39"
         multiDexEnabled true
+        flavorDimensions "40"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    productFlavors {
+        t {
+//            buildConfigField 'String', 'API_URL', '"https://www.xcyytc.com:8098/"'
+            buildConfigField 'String', 'API_URL', '"https://www.xcyytc.com:8092/"'
+            buildConfigField 'String', 'APK_SUFFIX', '"-test"'
+        }
+
+        p {
+            buildConfigField 'String', 'API_URL', '"https://www.xcyytc.com:8096/"'
+            buildConfigField 'String', 'APK_SUFFIX', '""'
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('tablet.jks')
+            storePassword "tablet123456"
+            keyAlias "key0"
+            keyPassword "123456"
+        }
+    }
+
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            zipAlignEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            zipAlignEnabled true
+            debuggable false
+            minifyEnabled true
+
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 
     compileOptions {
         sourceCompatibility 1.8
