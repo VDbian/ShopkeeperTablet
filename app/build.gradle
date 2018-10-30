@@ -7,7 +7,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.administrator.shopkeepertablet"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 40
         versionName "1.39"
@@ -74,9 +74,8 @@ android {
     }
 }
 
-
 greendao {
-    schemaVersion 1//数据库版本号
+    schemaVersion 2//数据库版本号
     daoPackage 'com.administrator.shopkeepertablet.model.greendao'//设置DaoMaster、DaoSession、Dao包名
     targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
     //targetGenDirTest：设置生成单元测试目录
@@ -112,4 +111,5 @@ dependencies {
     implementation 'org.greenrobot:greendao:3.2.2' //
     compile 'com.jcodecraeer:xrecyclerview:1.5.9'
     compile 'cn.yipianfengye.android:zxing-library:2.2'
+    compile 'com.github.vilyever:AndroidSocketClient:2.0.1'
 }
