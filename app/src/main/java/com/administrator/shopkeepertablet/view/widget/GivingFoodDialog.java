@@ -28,6 +28,7 @@ public class GivingFoodDialog extends DialogFragment {
     private OnConfirmClick onConfirmClick;
     private String title;
     private double foodNum;
+    private int givingNum;
 
 
     public void setOnConfirmClick(OnConfirmClick onConfirmClick) {
@@ -51,24 +52,33 @@ public class GivingFoodDialog extends DialogFragment {
         this.foodNum = foodNum;
     }
 
+    public int getGivingNum() {
+        return givingNum;
+    }
+
+    public void setGivingNum(int givingNum) {
+        this.givingNum = givingNum;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setCancelable(false);
-        setStyle(STYLE_NO_FRAME,R.style.Theme_AppCompat_Dialog);
+        setStyle(STYLE_NO_FRAME, R.style.Theme_AppCompat_Dialog);
     }
 
-   @Nullable
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View customView = LayoutInflater.from(getActivity()).inflate(
                 R.layout.dialog_giving_food, null);
         binding = DataBindingUtil.bind(customView);
         binding.tvTitle.setText(Html.fromHtml(title));
+        binding.tvNum.setText(String.valueOf(givingNum));
         binding.rlPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double num = Double.valueOf(binding.tvNum.getText().toString().trim());
+                int num = Integer.parseInt(binding.tvNum.getText().toString().trim());
                 if (num + 1 <= foodNum) {
                     num = num + 1;
                     binding.tvNum.setText(String.valueOf(num));
@@ -79,7 +89,7 @@ public class GivingFoodDialog extends DialogFragment {
         binding.rlReduce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double num =  Double.valueOf(binding.tvNum.getText().toString().trim());
+                int num = Integer.parseInt(binding.tvNum.getText().toString().trim());
                 if (num - 1 >= 0) {
                     num -= 1;
                     binding.tvNum.setText(String.valueOf(num));

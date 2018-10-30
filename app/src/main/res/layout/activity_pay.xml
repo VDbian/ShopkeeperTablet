@@ -266,8 +266,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:background="@color/colore5e5e5" />
+                <TextView
+                    android:id="@+id/tv_clear_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="80px"
+                    android:gravity="center"
+                    android:text="清除优惠卷"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="20px" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colore5e5e5" />
 
+                <TextView
+                    android:id="@+id/tv_clear_member"
+                    android:layout_width="match_parent"
+                    android:layout_height="80px"
+                    android:gravity="center"
+                    android:text="清除会员优惠"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="20px" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colore5e5e5" />
+                <TextView
+                    android:id="@+id/tv_clear_else"
+                    android:layout_width="match_parent"
+                    android:layout_height="80px"
+                    android:gravity="center"
+                    android:text="清除其他优惠"
+                    android:textColor="@color/color97a3aa"
+                    android:textSize="20px" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colore5e5e5" />
             </LinearLayout>
 
             <View
@@ -351,6 +389,15 @@
                             android:textSize="15px" />
                     </LinearLayout>
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_member"
+                    android:layout_width="32px"
+                    android:layout_height="32px"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/ll_member"
+                    android:layout_marginRight="20px"
+                    android:src="@mipmap/ic_expand_close" />
 
                 <LinearLayout
                     android:id="@+id/ll_discount"
@@ -453,10 +500,57 @@
                     android:background="@color/colore5e5e5" />
 
                 <LinearLayout
+                    android:id="@+id/ll_else"
+                    android:layout_width="match_parent"
+                    android:layout_height="44px"
+                    android:layout_below="@+id/line_remission"
+                    android:layout_marginLeft="20px"
+                    android:layout_marginRight="20px"
+                    android:layout_marginTop="20px"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:text="其他优惠"
+                        android:textColor="@color/color97a3aa"
+                        android:textSize="18px" />
+
+                    <TextView
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@{@string/permission_price_prefix(viewModel.elsePrice)}"
+                        android:textColor="@color/color97a3aa"
+                        android:textSize="18px" />
+
+                    <ImageView
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:src="@mipmap/ic_expand_close"
+                        android:visibility="invisible"
+                        />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/line_else"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_below="@+id/ll_else"
+                    android:layout_marginLeft="20px"
+                    android:layout_marginRight="20px"
+                    android:background="@color/colore5e5e5" />
+
+
+                <LinearLayout
                     android:id="@+id/ll_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/line_remission"
+                    android:layout_below="@+id/line_else"
                     android:layout_marginLeft="20px"
                     android:layout_marginRight="20px"
                     android:layout_marginTop="20px"
@@ -573,6 +667,23 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/colorWhite"
                     android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/tv_print"
+                            android:layout_width="162px"
+                            android:layout_height="52px"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/shape_order_dishes_order_bg"
+                            android:gravity="center"
+                            android:text="@string/pay_print"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="18px" />
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="0px"

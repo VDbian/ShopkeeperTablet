@@ -47,21 +47,52 @@ public class OrderFoodAdapter extends RecyclerView.Adapter<OrderFoodAdapter.Item
     public void onBindViewHolder(final ItemViewHolder holder, final int position) {
         OrderFoodEntity entity = mList.get(position);
         holder.binding.setEntity(entity);
-        holder.binding.llSeason.setVisibility(TextUtils.isEmpty(entity.getSeasonID()) ? View.GONE : View.VISIBLE);
-        if (entity.getGiving()==0){
-            holder.binding.rlGive.setVisibility(View.GONE);
+        if (entity.isSelect()){
+//            holder.binding.rlMain.setBackground(context.getResources().getDrawable(R.drawable.shape_order_list_select_bg));
+            holder.binding.rlMain.setBackgroundColor(context.getResources().getColor(R.color.colorb2b2b2));
         }else {
+//            holder.binding.rlMain.setBackground(context.getResources().getDrawable(R.drawable.shape_order_list_bg));
+            holder.binding.rlMain.setBackgroundColor(context.getResources().getColor(R.color.White));
+        }
+        holder.binding.llSeason.setVisibility(TextUtils.isEmpty(entity.getSeasonID()) ? View.GONE : View.VISIBLE);
+        if (entity.getGiving() == 0) {
+            holder.binding.rlGive.setVisibility(View.GONE);
+        } else {
             holder.binding.rlGive.setVisibility(View.VISIBLE);
+        }
+
+        if (entity.getWeight() <= 1) {
+//            String format = context.getResources().getString(R.string.num_prefix);
+//            holder.binding.tvNum.setText(String.format(format, String.valueOf(cartBean.getNum())));
+            holder.binding.tvNum.setText(entity.getCount() + "份");
+        } else {
+            holder.binding.tvNum.setText(entity.getWeight() + entity.getUnit() + "(1份)");
         }
 
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setSelect(entity,position);
                 if (onItemClick != null) {
-                    onItemClick.onItemClick(entity,position);
+                    onItemClick.onItemClick(entity, position);
                 }
             }
         });
+    }
+
+    private void setSelect(OrderFoodEntity orderFoodEntity,int position){
+        if (orderFoodEntity.isSelect()){
+            mList.get(position).setSelect(false);
+        }else {
+            for (OrderFoodEntity entity:mList){
+                if (orderFoodEntity.getId().equals(entity.getId())){
+                    entity.setSelect(true);
+                }else {
+                    entity.setSelect(false);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override

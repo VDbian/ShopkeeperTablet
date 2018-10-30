@@ -23,6 +23,7 @@ import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.utils.Print;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.PayActivity;
 import com.google.gson.Gson;
+import com.iflytek.cloud.Setting;
 
 import org.json.JSONObject;
 
@@ -73,6 +74,8 @@ public class PayViewModel extends BaseViewModel {
     public ObservableField<List<GuaZhangEntity>> guaZhangList = new ObservableField<>();
     public ObservableField<Double> permissionDiscount = new ObservableField<>(0.0);//权限打折
     public ObservableField<Double> permissionRemission = new ObservableField<>(0.0);//权限优惠
+    public ObservableField<String> elsePermission = new ObservableField<>("");
+    public ObservableField<Double> elsePrice = new ObservableField<>(0.0);//其他优惠金额
     public ObservableField<PriceEntity> priceEntity = new ObservableField<>();
 
 
@@ -533,6 +536,7 @@ public class PayViewModel extends BaseViewModel {
                 .subscribe(new Consumer<BaseEntity<String>>() {
                     @Override
                     public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                        DialogUtils.hintDialog();
                         if (stringBaseEntity.getCode() == 1) {
                             if (stringBaseEntity.getResult().equals("0")) {
                                 MToast.showToast(activity, "反结账失败");
@@ -553,4 +557,31 @@ public class PayViewModel extends BaseViewModel {
                 });
     }
 
+
+    public void print(String billid, int personcount, String tableid, String tablename, double priceold, double price, double free, String state) {
+        DialogUtils.showDialog(activity, "账单预打中...");
+        parishRepertory.print("3",preferenceSource.getId(),"1",state,billid,preferenceSource.getName(),personcount
+            ,tableid,tablename,priceold,price,free,"1").subscribe(new Consumer<BaseEntity<String>>() {
+            @Override
+            public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
+                DialogUtils.hintDialog();
+                MLog.e("vd",stringBaseEntity.toString());
+                if (stringBaseEntity.getCode()==1){
+                    if (stringBaseEntity.getResult().equals("0")){
+                        MToast.showToast(activity, "账单预打失败");
+                    }else {
+                        MToast.showToast(activity, "账单预打成功");
+                        new Thread(() -> print.socketDataArrivalHandler(stringBaseEntity.getResult())).start();
+                    }
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                DialogUtils.hintDialog();
+                MToast.showToast(activity, "账单预打失败");
+            }
+        });
+
+    }
 }

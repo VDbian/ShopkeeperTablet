@@ -126,7 +126,7 @@
                         android:layout_height="match_parent"
                         android:background="@null"
                         android:padding="8px"
-                        android:text="@{viewModel.table}"
+                        android:text="@={viewModel.table}"
                         android:textColor="@color/color666666"
                         android:textCursorDrawable="@drawable/shape_edit_cursor"
                         android:textSize="18px"

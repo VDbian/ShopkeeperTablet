@@ -69,6 +69,9 @@ public class DiscountDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
+                if (onConfirmClick != null) {
+                    onConfirmClick.cancel();
+                }
             }
         });
 
@@ -86,6 +89,8 @@ public class DiscountDialog extends DialogFragment {
 
     public interface OnConfirmClick {
         void confirm(String discount);
+
+        void cancel();
     }
 
 }

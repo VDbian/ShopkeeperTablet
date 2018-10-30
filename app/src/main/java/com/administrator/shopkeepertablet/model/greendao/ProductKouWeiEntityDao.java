@@ -33,6 +33,7 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
         public final static Property Type = new Property(3, String.class, "type", false, "TYPE");
         public final static Property Name = new Property(4, String.class, "name", false, "NAME");
         public final static Property ProductId = new Property(5, String.class, "productId", false, "PRODUCT_ID");
+        public final static Property Select = new Property(6, boolean.class, "select", false, "SELECT");
     }
 
     private Query<ProductKouWeiEntity> foodEntity_ProductKouWeiEntityListQuery;
@@ -54,7 +55,8 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
                 "\"RESTAURANT_ID\" TEXT," + // 2: restaurantId
                 "\"TYPE\" TEXT," + // 3: type
                 "\"NAME\" TEXT," + // 4: name
-                "\"PRODUCT_ID\" TEXT);"); // 5: productId
+                "\"PRODUCT_ID\" TEXT," + // 5: productId
+                "\"SELECT\" INTEGER NOT NULL );"); // 6: select
     }
 
     /** Drops the underlying database table. */
@@ -96,6 +98,7 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
         if (productId != null) {
             stmt.bindString(6, productId);
         }
+        stmt.bindLong(7, entity.getSelect() ? 1L: 0L);
     }
 
     @Override
@@ -131,6 +134,7 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
         if (productId != null) {
             stmt.bindString(6, productId);
         }
+        stmt.bindLong(7, entity.getSelect() ? 1L: 0L);
     }
 
     @Override
@@ -146,7 +150,8 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // restaurantId
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // type
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // name
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // productId
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // productId
+            cursor.getShort(offset + 6) != 0 // select
         );
         return entity;
     }
@@ -159,6 +164,7 @@ public class ProductKouWeiEntityDao extends AbstractDao<ProductKouWeiEntity, Str
         entity.setType(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setName(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setProductId(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setSelect(cursor.getShort(offset + 6) != 0);
      }
     
     @Override

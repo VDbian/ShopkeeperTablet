@@ -10,13 +10,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.DialogAllKouweiBinding;
 import com.administrator.shopkeepertablet.model.entity.KouWeiEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.ChooseBean;
+import com.administrator.shopkeepertablet.view.ui.adapter.KouWeiAdapter;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDishesChooseAdapter;
+import com.administrator.shopkeepertablet.view.ui.adapter.ProductKouWeiAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,17 +37,17 @@ public class PopupWindowAllKouwei extends PopupWindow {
     private DisplayMetrics metrics;
     private DialogAllKouweiBinding binding;
     private List<KouWeiEntity> mList;
+    private List<KouWeiEntity> kouWeiEntityList;
     private List<ChooseBean> chooseBeanList = new ArrayList<>();
-    private KouWeiEntity kouWeiEntity;
     private String kouweiRemark;
 
     private OnCallBackListener onCallBackListener;
 
-    public PopupWindowAllKouwei(Context context, List<KouWeiEntity> mList, KouWeiEntity kouWeiEntity, String kouweiRemark) {
+    public PopupWindowAllKouwei(Context context, List<KouWeiEntity> mList, List<KouWeiEntity> kouWeiEntityList, String kouweiRemark) {
         this.context = context;
         this.mList = mList;
-        this.kouWeiEntity = kouWeiEntity;
         this.kouweiRemark = kouweiRemark;
+        this.kouWeiEntityList = kouWeiEntityList;
         initPopupWindow();
     }
 
@@ -70,12 +73,9 @@ public class PopupWindowAllKouwei extends PopupWindow {
         // 设置SelectPicPopupWindow的View
         this.setContentView(binding.getRoot());
         // 设置SelectPicPopupWindow弹出窗体的宽
-        this.setWidth(380);
+        this.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体的高
-//        if (viewHeight > h / 2) {
-//            this.setHeight(h / 2);
-//        } else {
-        this.setHeight(581);
+        this.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
 //        }
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
@@ -96,34 +96,27 @@ public class PopupWindowAllKouwei extends PopupWindow {
     }
 
     private void initView() {
-        if (mList != null) {
-            for (KouWeiEntity entity : mList) {
-                if (kouWeiEntity != null && kouWeiEntity.getGuId().equals(entity.getGuId())) {
-                    ChooseBean chooseKouwei = new ChooseBean(true, entity.getName());
-                    chooseBeanList.add(chooseKouwei);
-                } else {
-                    ChooseBean chooseKouwei = new ChooseBean(false, entity.getName());
-                    chooseBeanList.add(chooseKouwei);
+        if (kouWeiEntityList != null && !kouWeiEntityList.isEmpty()) {
+            for (KouWeiEntity entity : kouWeiEntityList) {
+                if (mList != null) {
+                    for (KouWeiEntity kouWeiEntity : mList) {
+                        if (entity.getGuId().equals(kouWeiEntity.getGuId())) {
+                            kouWeiEntity.setSelect(true);
+                        }
+                    }
                 }
             }
         }
+        final KouWeiAdapter adapterKouwei = new KouWeiAdapter(context, mList);
+        binding.rlvKouwei.setAdapter(adapterKouwei);
+        binding.rlvKouwei.setLayoutManager(new GridLayoutManager(context, 3));
+        binding.rlvKouwei.addItemDecoration(new RecyclerViewItemDecoration(3));
+        adapterKouwei.setOnItemClick(new KouWeiAdapter.OnItemClick() {
+            @Override
+            public void onItemClick(int position) {
 
-        if (chooseBeanList.size() > 0) {
-            final OrderDishesChooseAdapter adapterKouwei = new OrderDishesChooseAdapter(context, chooseBeanList);
-            binding.rlvKouwei.setAdapter(adapterKouwei);
-            binding.rlvKouwei.setLayoutManager(new GridLayoutManager(context, 3));
-            binding.rlvKouwei.addItemDecoration(new RecyclerViewItemDecoration(3));
-            adapterKouwei.setOnItemClick(new OrderDishesChooseAdapter.OnItemClick() {
-                @Override
-                public void onItemClick(ChooseBean entity, int position) {
-                    if (entity.isChoose()) {
-                        kouWeiEntity = mList.get(position);
-                    } else {
-                        kouWeiEntity = null;
-                    }
-                }
-            });
-        }
+            }
+        });
 
         binding.etKouwei.setText(kouweiRemark);
         binding.ivCancel.setOnClickListener(listener);
@@ -140,8 +133,14 @@ public class PopupWindowAllKouwei extends PopupWindow {
                 case R.id.tv_confirm:
                     dismiss();
                     kouweiRemark = binding.etKouwei.getText().toString().trim();
+                    kouWeiEntityList.clear();
+                    for (KouWeiEntity kouWeiEntity : mList) {
+                        if (kouWeiEntity.getSelect()) {
+                            kouWeiEntityList.add(kouWeiEntity);
+                        }
+                    }
                     if (onCallBackListener != null) {
-                        onCallBackListener.confirm(kouWeiEntity, kouweiRemark);
+                        onCallBackListener.confirm(kouWeiEntityList, kouweiRemark);
                     }
                     break;
             }
@@ -194,7 +193,7 @@ public class PopupWindowAllKouwei extends PopupWindow {
 
 
     public interface OnCallBackListener {
-        void confirm(KouWeiEntity entity, String remark);
+        void confirm(List<KouWeiEntity> entity, String remark);
     }
 
     public void setOnCallBackListener(OnCallBackListener onCallBackListener) {

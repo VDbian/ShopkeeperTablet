@@ -126,7 +126,7 @@ public class FastViewModel extends BaseViewModel {
                     MToast.showToast(fragment.getActivity(),"下单成功");
                     printResult(stringBaseEntity.getResult());
                     fragment.fastSuccess(stringBaseEntity.getResult(),type);
-
+                    table.set("");
                 }else{
                     MToast.showToast(fragment.getActivity(),"下单失败");
                 }
@@ -153,6 +153,7 @@ public class FastViewModel extends BaseViewModel {
                 if (stringBaseEntity.getCode()==1){
                     MToast.showToast(fragment.getActivity(),"预定成功");
                     fragment.reserveSuccess(stringBaseEntity.getResult());
+                    table.set("");
                 }else {
                     MToast.showToast(fragment.getActivity(),"预定失败");
                 }

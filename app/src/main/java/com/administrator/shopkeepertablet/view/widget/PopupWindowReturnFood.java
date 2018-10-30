@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.administrator.shopkeepertablet.R;
@@ -71,12 +72,9 @@ public class PopupWindowReturnFood extends PopupWindow {
         // 设置SelectPicPopupWindow的View
         this.setContentView(binding.getRoot());
         // 设置SelectPicPopupWindow弹出窗体的宽
-        this.setWidth(380);
+        this.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体的高
-//        if (viewHeight > h / 2) {
-//            this.setHeight(h / 2);
-//        } else {
-        this.setHeight(448);
+        this.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
 //        }
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);

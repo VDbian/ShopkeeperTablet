@@ -160,6 +160,9 @@ public class RechargeFragment extends BaseFragment implements View.OnClickListen
         if (pop != null && pop.isShowing()) {
             pop.dismiss();
             pop = null;
+            viewModel.proCode.set("");
+            viewModel.money.set("");
+
         }
         MToast.showToast(getActivity(),"充值成功");
     }

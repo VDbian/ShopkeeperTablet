@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="entity"
+            type="com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="116px"
+        android:layout_height="48px">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@{entity.name}"
+            android:textSize="18px" />
+    </RelativeLayout>
+</layout>

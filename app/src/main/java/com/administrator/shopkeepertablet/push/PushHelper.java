@@ -32,14 +32,14 @@ public class PushHelper {
                     1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             notify(pIntent, 1, context, R.mipmap.ic_launcher, msg.title, msg.text, msg.ticker);
         } else if (type.equals("1")) {
-            new Thread(() -> {
-                try {
-                    JSONObject jsonObject1 = new JSONObject(msg.extra);
-                    new Print(baseRepertory).socketDataArrivalHandler(jsonObject1.optString("KEY"));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }).start();
+//            new Thread(() -> {
+//                try {
+//                    JSONObject jsonObject1 = new JSONObject(msg.extra);
+//                    new Print(baseRepertory).socketDataArrivalHandler(jsonObject1.optString("KEY"));
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }).start();
         }
 
 

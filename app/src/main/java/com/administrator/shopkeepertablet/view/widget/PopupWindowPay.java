@@ -13,9 +13,12 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.PopupwindowOrderPayBinding;
 import com.administrator.shopkeepertablet.model.entity.OrderFoodEntity;
+import com.administrator.shopkeepertablet.utils.MLog;
+import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderFoodAdapter;
 import com.administrator.shopkeepertablet.viewmodel.ParishFoodViewModel;
 
@@ -38,6 +41,7 @@ public class PopupWindowPay extends PopupWindow {
     private PopupwindowOrderPayBinding binding;
     private List<OrderFoodEntity> mList;
     private OrderFoodEntity orderFood;
+    OrderFoodAdapter adapter;
 
 
     private OnCallBackListener onCallBackListener;
@@ -71,9 +75,9 @@ public class PopupWindowPay extends PopupWindow {
         // 设置SelectPicPopupWindow的View
         this.setContentView(binding.getRoot());
         // 设置SelectPicPopupWindow弹出窗体的宽
-        this.setWidth(viewWidth);
+        this.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体的高
-        this.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        this.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
         this.setOutsideTouchable(false);
@@ -93,7 +97,7 @@ public class PopupWindowPay extends PopupWindow {
     }
 
     private void initView() {
-        OrderFoodAdapter adapter = new OrderFoodAdapter(context, mList);
+        adapter = new OrderFoodAdapter(context, mList);
         binding.rlvOrder.setAdapter(adapter);
         binding.rlvOrder.setLayoutManager(new LinearLayoutManager(context));
         binding.rlvOrder.addItemDecoration(new RecyclerViewItemDecoration(5));
@@ -143,11 +147,19 @@ public class PopupWindowPay extends PopupWindow {
                     dismiss();
                     break;
                 case R.id.tv_pay:
+                    if (!AppConstant.getUser().getPermissionValue().contains("jiesuan")) {
+                        MToast.showToast(context, "没有结算权限");
+                        return;
+                    }
                     if (onCallBackListener != null) {
                         onCallBackListener.pay();
                     }
                     break;
                 case R.id.tv_scan_pay:
+                    if (!AppConstant.getUser().getPermissionValue().contains("jiesuan")) {
+                        MToast.showToast(context, "没有结算权限");
+                        return;
+                    }
                     if (onCallBackListener != null) {
                         onCallBackListener.scanPay();
                     }
@@ -161,14 +173,14 @@ public class PopupWindowPay extends PopupWindow {
                     binding.llItem.setVisibility(View.INVISIBLE);
                     break;
                 case R.id.ll_add_food:
-                    dismiss();
+//                    dismiss();
                     if (onCallBackListener != null) {
                         onCallBackListener.more(0);
                     }
                     break;
                 case R.id.ll_change_table:
                     binding.llMore.setVisibility(View.INVISIBLE);
-                    dismiss();
+//                    dismiss();
                     if (onCallBackListener != null) {
                         onCallBackListener.more(1);
                     }
@@ -180,7 +192,7 @@ public class PopupWindowPay extends PopupWindow {
                     }
                     break;
                 case R.id.ll_merge_order:
-                    dismiss();
+//                    dismiss();
                     binding.llMore.setVisibility(View.INVISIBLE);
                     if (onCallBackListener != null) {
                         onCallBackListener.more(3);
@@ -211,11 +223,12 @@ public class PopupWindowPay extends PopupWindow {
                     break;
                 case R.id.ll_urged_food:
                     viewModel.pushFood(orderFood.getDetailId());
-                    orderFood=null;
+                    orderFood = null;
                     binding.llItem.setVisibility(View.GONE);
+                    changeSelect();
                     break;
                 case R.id.ll_refund_food:
-                    dismiss();
+//                    dismiss();
                     if (onCallBackListener != null) {
                         onCallBackListener.item(orderFood, 1);
                     }
@@ -223,11 +236,14 @@ public class PopupWindowPay extends PopupWindow {
                 case R.id.ll_giving_food:
                     GivingFoodDialog givingFoodDialog = new GivingFoodDialog();
                     givingFoodDialog.setFoodNum(orderFood.getCount());
+                    givingFoodDialog.setGivingNum(orderFood.getGiving());
                     givingFoodDialog.setTitle(orderFood.getProductName());
                     givingFoodDialog.setOnConfirmClick(new GivingFoodDialog.OnConfirmClick() {
                         @Override
                         public void confirm(String giving) {
-                            viewModel.givingFood(orderFood.getDetailId(),giving);
+                            if (Integer.parseInt(giving) != orderFood.getGiving()) {
+                                viewModel.givingFood(orderFood.getDetailId(), giving);
+                            }
                         }
                     });
                     givingFoodDialog.show(((Activity) context).getFragmentManager(), "");
@@ -236,7 +252,18 @@ public class PopupWindowPay extends PopupWindow {
         }
     };
 
+    public void changeData(List<OrderFoodEntity> mList) {
+        this.mList.clear();
+        this.mList.addAll(mList);
+        adapter.notifyDataSetChanged();
+    }
 
+    public void changeSelect() {
+        for (OrderFoodEntity entity : mList) {
+            entity.setSelect(false);
+        }
+        adapter.notifyDataSetChanged();
+    }
 
     public void showPopupWindow(View parent) {
         if (!this.isShowing()) {

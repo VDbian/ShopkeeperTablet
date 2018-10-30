@@ -4,6 +4,7 @@ import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.repository.BaseRepertory;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
 
 /**
  * Description:
@@ -22,4 +23,6 @@ public interface LoginRepertory extends BaseRepertory {
      * @return
      */
     Observable<BaseEntity<String>> login(String name, String id, String pwd);
+
+
 }

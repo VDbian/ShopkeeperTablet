@@ -342,4 +342,24 @@ public interface ParishRepertory extends BaseRepertory {
      */
     Observable<BaseEntity<String>> getMergeOrderList(String s,String shopID,String tableId);
 
+    /**
+     * 账单预打
+     * @param type 3
+     * @param shopID 店铺ID
+     * @param printSouce 是否本地打印	1
+     * @param sate 状态  7堂点 3外卖  4快餐
+     * @param billId  订单Id
+     * @param name 操作员
+     * @param personCount 人数
+     * @param tableId 桌位ID
+     * @param tableName 桌位名称
+     * @param priceOld 总价格
+     * @param price 实收金额
+     * @param free 优惠
+     * @param payType 支付状态
+     * @return
+     */
+    Observable<BaseEntity<String>> print(String type, String shopID, String printSouce, String sate, String billId, String name, int personCount, String tableId, String tableName, double priceOld, double price, @Field("free") double free, @Field("PayType") String payType);
+
+
 }

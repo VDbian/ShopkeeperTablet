@@ -65,6 +65,7 @@ public class ChangePeopleDialog extends DialogFragment {
         binding = DataBindingUtil.bind(customView);
         binding.etPeopleNum.setText(peopleNum);
         binding.etWareNum.setText(wareNum);
+        binding.etPeopleNum.setSelection(binding.etPeopleNum.getText().toString().length());
         binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +78,7 @@ public class ChangePeopleDialog extends DialogFragment {
             public void onClick(View v) {
                 dismiss();
                 if (onConfirmClick != null) {
-                    onConfirmClick.confirm(binding.etPeopleNum.getText().toString().trim(),binding.etWareNum.getText().toString().trim());
+                    onConfirmClick.confirm(binding.etPeopleNum.getText().toString().trim(),binding.etPeopleNum.getText().toString().trim());
                 }
             }
         });

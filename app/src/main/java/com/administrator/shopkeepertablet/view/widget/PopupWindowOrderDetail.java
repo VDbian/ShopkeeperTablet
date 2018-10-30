@@ -23,6 +23,7 @@ import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.EventReturnBean;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.MLog;
+import com.administrator.shopkeepertablet.utils.MToast;
 import com.administrator.shopkeepertablet.view.ui.activity.parish.OrderDishesActivity;
 import com.administrator.shopkeepertablet.view.ui.adapter.OrderDetailAdapter;
 import com.administrator.shopkeepertablet.viewmodel.OrderViewModel;
@@ -75,12 +76,9 @@ public class PopupWindowOrderDetail extends PopupWindow {
         // 设置SelectPicPopupWindow的View
         this.setContentView(binding.getRoot());
         // 设置SelectPicPopupWindow弹出窗体的宽
-        this.setWidth(viewWidth);
+        this.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体的高
-//        if (viewHeight > h / 2) {
-//            this.setHeight(h / 2);
-//        } else {
-        this.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        this.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
 //        }
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
@@ -125,6 +123,10 @@ public class PopupWindowOrderDetail extends PopupWindow {
                     dismiss();
                     break;
                 case R.id.tv_pay:
+                    if (!AppConstant.getUser().getPermissionValue().contains("fanjiezhang")){
+                        MToast.showToast(context,"没有反结账权限");
+                        return;
+                    }
                     EventReturnBean bean = new EventReturnBean();
                     bean.setTableEntity(new TableEntity());
                     bean.setOrderEntity(viewModel.orderEntity.get());
@@ -135,6 +137,10 @@ public class PopupWindowOrderDetail extends PopupWindow {
                     dismiss();
                     break;
                 case R.id.tv_print:
+                    if (!AppConstant.getUser().getPermissionValue().contains("qiantaiprint")){
+                        MToast.showToast(context,"没有打印权限");
+                        return;
+                    }
                     viewModel.print();
                     break;
             }

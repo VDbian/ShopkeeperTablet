@@ -3,6 +3,7 @@ package com.administrator.shopkeepertablet.viewmodel;
 import android.app.Application;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.administrator.shopkeepertablet.AppApplication;
 import com.administrator.shopkeepertablet.AppConstant;
@@ -18,6 +19,7 @@ import com.administrator.shopkeepertablet.view.ui.activity.LoginActivity;
 import com.google.gson.Gson;
 
 import io.reactivex.functions.Consumer;
+import retrofit2.http.Field;
 
 /**
  * Description:
@@ -78,4 +80,5 @@ public class LoginViewModel extends BaseViewModel {
             MToast.showToast(loginActivity, "用户名或密码不能为空");
         }
     }
+
 }

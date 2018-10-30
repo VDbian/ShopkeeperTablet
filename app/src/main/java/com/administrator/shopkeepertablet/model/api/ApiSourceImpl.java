@@ -329,4 +329,9 @@ public class ApiSourceImpl implements ApiSource {
     public Observable<BaseEntity<String>> getGuazhangData(String shopID, String type) {
         return retrofitInterface.getGuazhangData(shopID, type);
     }
+
+    @Override
+    public Observable<BaseEntity<String>> getSocket(String type) {
+        return retrofitInterface.getSocket(type);
+    }
 }

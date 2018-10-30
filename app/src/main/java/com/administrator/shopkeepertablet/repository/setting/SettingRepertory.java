@@ -1,5 +1,6 @@
 package com.administrator.shopkeepertablet.repository.setting;
 
+import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 import com.administrator.shopkeepertablet.repository.BaseRepertory;
 
@@ -32,4 +33,11 @@ public interface SettingRepertory extends BaseRepertory {
      * @return
      */
     Observable<ResultFoodEntity> getComboList(String type, String id, int index, int size);
+
+    /**
+     * 获取socket
+     * @param type 6
+     * @return
+     */
+    Observable<BaseEntity<String>> getSocket(String type);
 }

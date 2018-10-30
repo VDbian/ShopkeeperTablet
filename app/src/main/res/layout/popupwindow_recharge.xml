@@ -34,8 +34,8 @@
 
                 <ImageView
                     android:id="@+id/iv_cancel"
-                    android:layout_width="24px"
-                    android:layout_height="24px"
+                    android:layout_width="36px"
+                    android:layout_height="36px"
                     android:src="@mipmap/ic_expand_close"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="24px"

@@ -379,41 +379,79 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/ll_give_detail"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_above="@+id/view_line_bottom"
                 android:layout_below="@+id/view_line_title"
                 android:layout_toRightOf="@+id/ll_property"
                 android:orientation="vertical"
                 >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="24px"
-                    android:layout_marginTop="24px"
-                    android:drawableLeft="@drawable/shape_oval_c0c8ce"
-                    android:drawablePadding="8px"
-                    android:text="赠送"
-                    android:textColor="@color/color97a3aa"
-                    android:textSize="18px" />
-
-                <EditText
-                    android:id="@+id/et_give"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48px"
+                    android:layout_height="60px"
                     android:background="@drawable/shape_login_edit"
-                    android:paddingLeft="16px"
-                    android:layout_marginLeft="32px"
-                    android:layout_marginRight="32px"
-                    android:hint="请输入赠送份数"
-                    android:text=""
-                    android:textColor="@color/color333333"
-                    android:textSize="18px" />
+                    android:layout_marginLeft="16px"
+                    android:layout_marginRight="16px"
+                    android:layout_marginTop="16px"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="29px"
+                        android:text="赠送份数"
+                        android:textColor="@color/color333333"
+                        android:textSize="20px" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="48px"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="8px"
+                        android:background="@drawable/shape_count_bg"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/rl_reduce"
+                            android:layout_width="44px"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="16px"
+                                android:layout_height="16px"
+                                android:layout_centerInParent="true"
+                                android:src="@mipmap/form_reduce" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tv_giving"
+                            android:layout_width="42px"
+                            android:layout_height="match_parent"
+                            android:background="@color/colore5e5e5"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@color/color333333"
+                            android:textSize="18px" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl_plus"
+                            android:layout_width="44px"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="16px"
+                                android:layout_height="16px"
+                                android:layout_centerInParent="true"
+                                android:src="@mipmap/form_plus" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
 
 
+                </RelativeLayout>
 
             </LinearLayout>
 

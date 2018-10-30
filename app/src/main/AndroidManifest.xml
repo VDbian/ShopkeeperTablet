@@ -60,6 +60,7 @@
         <activity android:name=".view.ui.activity.parish.PayActivity" android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
         <service android:name=".push.MyPushIntentService" />
+        <service android:name=".utils.SocketClientService" />
     </application>
 
 </manifest>

@@ -86,8 +86,8 @@
 
                 <RelativeLayout
                     android:id="@+id/ll_cancel"
-                    android:layout_width="36px"
-                    android:layout_height="36px"
+                    android:layout_width="64px"
+                    android:layout_height="64px"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12px">

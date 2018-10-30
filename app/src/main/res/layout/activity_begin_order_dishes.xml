@@ -138,14 +138,22 @@
                     android:textColor="@color/color23cac0"
                     android:textSize="17px" />
 
-                <ImageView
+                <RelativeLayout
+                    android:layout_width="64px"
                     android:id="@+id/iv_more"
-                    android:layout_width="36px"
-                    android:layout_height="36px"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="12px"
-                    android:src="@mipmap/subnav_more" />
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_width="36px"
+                        android:layout_height="36px"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="12px"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/subnav_more" />
+
+                </RelativeLayout>
+
+
             </RelativeLayout>
 
             <View
@@ -190,7 +198,7 @@
                     android:layout_marginTop="10px"
                     android:background="@drawable/shape_order_dishes_order_bg"
                     android:gravity="center"
-                    android:text="@{@string/order_cart_price(viemModel.price)}"
+                    android:text="@{@string/order_cart_price(viemModel.price,viemModel.num)}"
                     android:textColor="@color/colorWhite"
                     android:textSize="18px" />
             </LinearLayout>

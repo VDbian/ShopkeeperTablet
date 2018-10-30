@@ -1,8 +1,10 @@
 package com.administrator.shopkeepertablet.view.ui.fragment;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.administrator.shopkeepertablet.di.app.AppComponent;
 import com.administrator.shopkeepertablet.di.setting.DaggerSettingFragmentComponent;
 import com.administrator.shopkeepertablet.di.setting.SettingFragmentModule;
 import com.administrator.shopkeepertablet.utils.MToast;
+import com.administrator.shopkeepertablet.utils.SocketClientService;
 import com.administrator.shopkeepertablet.view.ui.BaseFragment;
 import com.administrator.shopkeepertablet.view.widget.ConfirmDialog;
 import com.administrator.shopkeepertablet.viewmodel.SettingFragmentViewModel;
@@ -32,6 +35,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Inject
     SettingFragmentViewModel viewModel;
+    private Intent intent;
 
     @Override
     protected void setupFragmentComponent(AppComponent appComponent) {
@@ -48,6 +52,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 //        return super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false);
         binding.setViewModel(viewModel);
+        intent = new Intent(getActivity(),SocketClientService.class);
         return binding.getRoot();
     }
 
@@ -68,9 +73,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_room:
-                MToast.showToast(getActivity(),"房间刷新成功");
+                MToast.showToast(getActivity(), "房间刷新成功");
                 break;
             case R.id.tv_food:
                 viewModel.getFoodList();
@@ -82,7 +87,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 confirmDialogSetting.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
                     @Override
                     public void confirm() {
-                        viewModel.setAlias();
+//                        viewModel.setAlias();
+                        viewModel.getSocket();
                     }
 
                     @Override
@@ -90,7 +96,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
                     }
                 });
-                confirmDialogSetting.show(getActivity().getFragmentManager(),"set");
+                confirmDialogSetting.show(getActivity().getFragmentManager(), "set");
                 break;
             case R.id.tv_cancel:
                 ConfirmDialog confirmDialogCancel = new ConfirmDialog();
@@ -99,7 +105,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 confirmDialogCancel.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
                     @Override
                     public void confirm() {
-                        viewModel.removeAlias();
+                        stopSocket();
                     }
 
                     @Override
@@ -107,11 +113,28 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
                     }
                 });
-                confirmDialogCancel.show(getActivity().getFragmentManager(),"set");
+                confirmDialogCancel.show(getActivity().getFragmentManager(), "set");
                 break;
             case R.id.tv_logout:
                 viewModel.logout();
                 break;
+        }
+    }
+
+
+    public void connectSocket(String id, String ip, int port) {
+        intent.putExtra("id", id);
+        intent.putExtra("ip", ip);
+        intent.putExtra("duankou", port);
+        getActivity().startService(intent);
+    }
+
+    public void stopSocket() {
+        if (intent != null) {
+            getActivity().stopService(intent);
+            viewModel.removeAlias();
+        } else {
+            MToast.showToast(getActivity(), "请先确认已设置主机");
         }
     }
 }

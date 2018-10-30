@@ -27,16 +27,18 @@ public class ProductKouWeiEntity  {
     @SerializedName("PatientId")
     private String productId;
 
+    private boolean select;
 
-    @Generated(hash = 491407968)
+    @Generated(hash = 523434934)
     public ProductKouWeiEntity(String uId, String no, String restaurantId,
-            String type, String name, String productId) {
+            String type, String name, String productId, boolean select) {
         this.uId = uId;
         this.no = no;
         this.restaurantId = restaurantId;
         this.type = type;
         this.name = name;
         this.productId = productId;
+        this.select = select;
     }
 
     @Generated(hash = 1633960264)
@@ -83,6 +85,14 @@ public class ProductKouWeiEntity  {
         this.name = name;
     }
 
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
     @Override
     public String toString() {
         return "ProductKouWeiEntity{" +
@@ -108,5 +118,9 @@ public class ProductKouWeiEntity  {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public boolean getSelect() {
+        return this.select;
     }
 }

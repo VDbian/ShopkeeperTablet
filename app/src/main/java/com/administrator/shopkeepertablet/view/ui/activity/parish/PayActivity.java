@@ -88,13 +88,13 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
     private Double oneDiscount = 0.0;//单个菜品打折金额
     private boolean isFree = false;
     private List<ElseCouponEntity> elseCouponEntities = new ArrayList<>();
-    private Double elseCouponMoney = 0.0; //其他优惠金额
     private Double scoreMoney = 0.0; //积分抵用金额
     private Double memberCardMoney = 0.0;//会员卡券优惠金额
     private Double memberMoney = 0.0; //会员优惠
     private Double couponMoney = 0.0;//优惠券金额
     private PayWayAdapter payWayAdapter;
     private List<PayMeEntity> payMeEntityList = new ArrayList<>();
+    private OrderFoodAdapter adapter;
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -140,7 +140,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
 
-        OrderFoodAdapter adapter = new OrderFoodAdapter(this, mList);
+        adapter = new OrderFoodAdapter(this, mList);
         binding.rlvOrder.setAdapter(adapter);
         binding.rlvOrder.setLayoutManager(new LinearLayoutManager(this));
         binding.rlvOrder.addItemDecoration(new RecyclerViewItemDecoration(5));
@@ -150,6 +150,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 if (AppConstant.getUser().getPermissionValue().contains("quanxiandazhe")) {
                     if (viewModel.permissionDiscount.get() > 0) {
                         MToast.showToast(PayActivity.this, "您已进行权限打折");
+                        changeSelect();
                     } else {
                         DiscountDialog discountDialog = new DiscountDialog();
                         discountDialog.setTitle(orderFoodEntity.getProductName());
@@ -157,6 +158,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                         discountDialog.setOnConfirmClick(new DiscountDialog.OnConfirmClick() {
                             @Override
                             public void confirm(String discount) {
+                                changeSelect();
                                 int num = Integer.valueOf(discount);
                                 if (num > 0 && num < 100) {
                                     if (orderFoodEntity.getDiscount() != 0) {
@@ -169,13 +171,20 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                                     changedMoney(true);
                                 } else {
                                     MToast.showToast(PayActivity.this, "请输入正确的打折数");
+                                    changeSelect();
                                 }
+                            }
+
+                            @Override
+                            public void cancel() {
+                                changeSelect();
                             }
                         });
                         discountDialog.show(getFragmentManager(), "");
                     }
                 } else {
                     MToast.showToast(PayActivity.this, "没有打折权限");
+                    changeSelect();
                 }
             }
         });
@@ -210,6 +219,14 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         binding.tvClearMember.setOnClickListener(this);
         binding.tvClearElse.setOnClickListener(this);
         binding.ivMember.setOnClickListener(this);
+        binding.tvPrint.setOnClickListener(this);
+    }
+
+    public void changeSelect() {
+        for (OrderFoodEntity entity : mList) {
+            entity.setSelect(false);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -263,6 +280,10 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 startActivityForResult(intent, 3);
                 break;
             case R.id.tv_pay:
+                if (!AppConstant.getUser().getPermissionValue().contains("queren")) {
+                    MToast.showToast(this, "没有确认结账权限");
+                    return;
+                }
                 bill();
                 break;
             case R.id.iv_permission_discount:
@@ -286,11 +307,11 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 memberCardMoney = 0.0;
                 viewModel.integral.set("");
                 scoreMoney = 0.0;
-                memberMoney = twoDecimal( viewModel.priceEntity.get().getMemberpice());
+                memberMoney = 0.0;
                 initMoney(true);
                 break;
             case R.id.tv_clear_else:
-                elseCouponMoney = 0.0;
+                viewModel.elsePrice.set(0.0);
                 initMoney(true);
                 break;
             case R.id.iv_member:
@@ -304,7 +325,13 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 scoreMoney = 0.0;
                 initMoney(true);
                 break;
-
+            case R.id.tv_print:
+                if (orderEntity == null || viewModel.priceEntity.get() == null) {
+                    return;
+                }
+                viewModel.print(orderEntity.getBillId(), orderEntity.getPersonCount(), orderEntity.getTableId(), orderEntity.getTableName(),
+                        viewModel.priceEntity.get().getYuanjia(), viewModel.shouldPay.get(), viewModel.discount.get(), "8");
+                break;
         }
     }
 
@@ -318,7 +345,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                     binding.ivMember.setVisibility(View.VISIBLE);
                     scoreMoney = twoDecimal(score);
                     memberCardMoney = twoDecimal(card);
-                    memberMoney = twoDecimal(score + card + viewModel.priceEntity.get().getMemberpice());
+                    memberMoney = twoDecimal(score + card );
                     changedMoney(true);
                 }
             }
@@ -434,15 +461,17 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             public void confirm() {
                 if (!isFree) {
                     isFree = true;
+                    binding.tvFree.setText("取消免单");
                     oneDiscount = 0.0;
                     memberMoney = 0.0;
-                    elseCouponMoney = 0.0;
+                    viewModel.elsePrice.set(0.0);
                     viewModel.permissionRemission.set(0.0);
                     viewModel.permissionDiscount.set(0.0);
                     viewModel.discountNum.set("");
                     binding.tvDiscountNum.setVisibility(View.INVISIBLE);
                 } else {
                     isFree = false;
+                    binding.tvFree.setText("权限免单");
                 }
                 changedMoney(true);
             }
@@ -664,7 +693,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
 
     public void elseCouponSuccess(Double elseCoupon) {
         MToast.showToast(this, "其他优惠金额为" + twoDecimal(elseCoupon) + "元");
-        elseCouponMoney = twoDecimal(elseCoupon);
+        viewModel.elsePrice.set(twoDecimal(elseCoupon));
         changedMoney(true);
     }
 
@@ -755,7 +784,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
                 m.setType("3");
                 q.add(m);
             }
-            if (elseCouponMoney > 0) {
+            if (viewModel.elsePrice.get() > 0) {
                 for (int k = 0; k < elseCouponEntities.size(); k++) {
                     ElseCouponEntity entity = elseCouponEntities.get(k);
                     if (entity != null) {
@@ -854,7 +883,8 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
         if (isFree) {
             viewModel.discount.set(twoDecimal(viewModel.price.get()));
         } else {
-            viewModel.discount.set(twoDecimal(oneDiscount + viewModel.permissionRemission.get() + viewModel.permissionDiscount.get() + elseCouponMoney + memberMoney + couponMoney+viewModel.priceEntity.get().getYouhui()));
+            viewModel.discount.set(twoDecimal(oneDiscount + viewModel.permissionRemission.get() + viewModel.permissionDiscount.get() + viewModel.elsePrice.get() + memberMoney
+                    + couponMoney+viewModel.priceEntity.get().getYouhui()));
         }
         viewModel.shouldPay.set(twoDecimal(viewModel.price.get() + viewModel.warePrice.get() - viewModel.discount.get()));
         viewModel.shouldReturn.set(twoDecimal(viewModel.payment.get() - viewModel.shouldPay.get() > 0 ? viewModel.payment.get() - viewModel.shouldPay.get() : 0.0));
@@ -959,7 +989,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             m.setType("3");
             q.add(m);
         }
-        if (elseCouponMoney > 0) {
+        if (viewModel.elsePrice.get() > 0) {
             for (int k = 0; k < elseCouponEntities.size(); k++) {
                 ElseCouponEntity entity = elseCouponEntities.get(k);
                 if (entity != null) {
@@ -1076,7 +1106,7 @@ public class PayActivity extends BaseActivity implements View.OnClickListener {
             m.setType("3");
             q.add(m);
         }
-        if (elseCouponMoney > 0) {
+        if (viewModel.elsePrice.get() > 0) {
             for (int k = 0; k < elseCouponEntities.size(); k++) {
                 ElseCouponEntity entity = elseCouponEntities.get(k);
                 if (entity != null) {

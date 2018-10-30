@@ -148,7 +148,6 @@ public class FoodEntity {
     @SerializedName("PrintWay")
     private String printWay;
 
-
     @SerializedName("Type")
     private boolean type;
 

@@ -147,6 +147,39 @@
                         android:layout_marginLeft="16px"
                         android:layout_marginRight="16px"
                         android:background="@color/colore5e5e5" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48px"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@{@string/order_name(viewModel.orderEntity.name)}"
+                            android:textColor="@color/color666666"
+                            android:textSize="16px" />
+
+                        <TextView
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="@{@string/order_phone(viewModel.orderEntity.phone)}"
+                            android:textColor="@color/color666666"
+                            android:textSize="16px" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginLeft="16px"
+                        android:layout_marginRight="16px"
+                        android:background="@color/colore5e5e5" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -189,7 +222,7 @@
                         android:layout_height="48px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="18px"
-                        android:text="@{@string/order_pay(viewModel.orderEntity.payPrice)}"
+                        android:text="@{@string/order_pay(viewModel.orderEntity.actuelPayPrice)}"
                         android:textColor="#97A3AA"
                         android:textSize="20px"
                         android:gravity="center_vertical"

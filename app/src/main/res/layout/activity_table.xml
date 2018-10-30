@@ -98,14 +98,14 @@
 
             <TextView
                 android:id="@+id/tv_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="96px"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="32px"
                 android:layout_centerVertical="true"
                 android:text="@string/confirm"
                 android:textSize="18px"
                 android:textColor="@color/colorWhite"
+                android:gravity="center"
                 android:visibility="gone"
                 />
         </RelativeLayout>

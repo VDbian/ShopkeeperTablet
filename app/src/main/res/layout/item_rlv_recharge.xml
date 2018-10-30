@@ -54,11 +54,15 @@
                 >
                 <TextView
                     android:id="@+id/tv_recharge"
-                    android:layout_width="80px"
-                    android:layout_height="36px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/shape_line_up_operation"
                     android:layout_centerInParent="true"
-                    android:text="充值"
+                    android:text="充值/查询"
+                    android:paddingLeft="16px"
+                    android:paddingRight="16px"
+                    android:paddingTop="8px"
+                    android:paddingBottom="8px"
                     android:textColor="#848D95"
                     android:textSize="16px"
                     android:gravity="center"

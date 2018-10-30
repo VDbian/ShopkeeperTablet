@@ -17,16 +17,25 @@ public class CartBean {
     private double price;
     private List<FoodAddBean> foodAddBeanList;
     private String num;
+    private String weight;
     private SpecEntity spec;
     private String unit;
-    private ProductKouWeiEntity productKouWeiEntity;
-    private String giveNum;
+    private List<ProductKouWeiEntity> productKouWeiEntity;
+    private int giveNum;
     private String kouwei;
 
     public CartBean() {
         num="0";
         unit = "份";
-        giveNum = "0";
+        giveNum = 0;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 
     public FoodEntity getFoodEntity() {
@@ -77,19 +86,19 @@ public class CartBean {
         this.unit = unit;
     }
 
-    public ProductKouWeiEntity getProductKouWeiEntity() {
+    public List<ProductKouWeiEntity> getProductKouWeiEntity() {
         return productKouWeiEntity;
     }
 
-    public void setProductKouWeiEntity(ProductKouWeiEntity productKouWeiEntity) {
+    public void setProductKouWeiEntity(List<ProductKouWeiEntity> productKouWeiEntity) {
         this.productKouWeiEntity = productKouWeiEntity;
     }
 
-    public String getGiveNum() {
+    public int getGiveNum() {
         return giveNum;
     }
 
-    public void setGiveNum(String giveNum) {
+    public void setGiveNum(int giveNum) {
         this.giveNum = giveNum;
     }
 

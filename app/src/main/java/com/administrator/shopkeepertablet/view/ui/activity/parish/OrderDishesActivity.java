@@ -55,6 +55,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
     private List<FoodTypeSelectEntity> foodTypeEntityList = new ArrayList<>();
     private OrderDishesCartAdapter cartAdapter;
     private List<CartBean> cartBeanList = new ArrayList<>();
-    private KouWeiEntity kouWeiEntity;
+    private List<KouWeiEntity> kouWeiEntityList=new ArrayList<>();
     private String remark;
     private List<OrderFoodEntity> orderFoodEntityList = new ArrayList<>();
     public boolean isBill = false;
@@ -141,15 +142,10 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
                 List<SeasonEntity> seasonEntityList = foodEntity.getSeasonEntityList();
                 if ((specEntityList == null || specEntityList.isEmpty()) &&
                         (productKouWeiEntityList == null || productKouWeiEntityList.isEmpty()) &&
-                        (seasonEntityList == null || seasonEntityList.isEmpty())) {
+                        (seasonEntityList == null || seasonEntityList.isEmpty())&&!foodEntity.getProductProperty().equals("1")) {
                     CartBean cartBean = new CartBean();
                     cartBean.setFoodEntity(foodEntity);
-                    if (foodEntity.getProductProperty().equals("1")) {
-                        cartBean.setNum("1");
-                        cartBean.setUnit(foodEntity.getUnit());
-                    } else {
-                        cartBean.setNum("1");
-                    }
+                    cartBean.setNum("1");
                     cartBean.setKouwei("");
                     cartBean.setFoodAddBeanList(new ArrayList<>());
                     cartBean.setPrice(foodEntity.getPrice());
@@ -219,7 +215,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
                         cartAdapter.notifyDataSetChanged();
                         sumPrice();
                         if (cartBeanList.size() == 0) {
-                            kouWeiEntity = null;
+                            kouWeiEntityList.clear();
                             remark = "";
                         }
                     }
@@ -239,7 +235,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         if (viewModel.mList.get() != null && !viewModel.mList.get().isEmpty()) {
             for (OrderFoodEntity entity : viewModel.mList.get()) {
                 CartBean cartBean = new CartBean();
-                cartBean.setGiveNum(String.valueOf(entity.getGiving()));
+                cartBean.setGiveNum(entity.getGiving());
                 cartBean.setFoodEntity(viewModel.getFoodEntity(entity.getProductName()));
                 if (!TextUtils.isEmpty(entity.getProductShuXinId())) {
                     cartBean.setSpec(viewModel.getSpec(entity.getProductShuXinId()));
@@ -261,7 +257,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
                         }
                     }
                     if (!kouWeiEntities.isEmpty()) {
-                        cartBean.setProductKouWeiEntity(kouWeiEntities.get(0));
+                        cartBean.setProductKouWeiEntity(kouWeiEntities);
                     }
                 }
                 String[] seasonId = entity.getSeasonID().split("\\*");
@@ -291,7 +287,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
                 cartBeanList.clear();
                 cartAdapter.notifyDataSetChanged();
                 sumPrice();
-                kouWeiEntity = null;
+                kouWeiEntityList.clear();
                 remark = "";
                 break;
             case R.id.tv_order:
@@ -344,12 +340,12 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
 
 
     public void showPopAllKouwei(List<KouWeiEntity> list) {
-        PopupWindowAllKouwei popupWindowAllKouwei = new PopupWindowAllKouwei(this, list, kouWeiEntity, remark);
+        PopupWindowAllKouwei popupWindowAllKouwei = new PopupWindowAllKouwei(this, list, kouWeiEntityList, remark);
         popupWindowAllKouwei.showPopupWindowUp();
         popupWindowAllKouwei.setOnCallBackListener(new PopupWindowAllKouwei.OnCallBackListener() {
             @Override
-            public void confirm(KouWeiEntity entity, String re) {
-                kouWeiEntity = entity;
+            public void confirm(List<KouWeiEntity> entity, String re) {
+                kouWeiEntityList = entity;
                 remark = re;
             }
         });
@@ -359,18 +355,35 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         double sum = 0;
         if (cartBeanList.size() > 0) {
             for (CartBean cartBean : cartBeanList) {
-                double v = Double.valueOf(cartBean.getNum()) - Double.valueOf(cartBean.getGiveNum());
-                if (v != 0) {
-                    sum = sum + v * cartBean.getPrice();
-                    double add = 0.0;
-                    for (FoodAddBean foodAddBean : cartBean.getFoodAddBeanList()) {
-                        add += (foodAddBean.getNum()) * foodAddBean.getPrice();
+                if (cartBean.getFoodEntity().getProductProperty().equals("1")){
+                    double v = Double.valueOf(cartBean.getNum()) - cartBean.getGiveNum();
+                    if (v != 0) {
+                        sum = sum + Double.valueOf(cartBean.getWeight()) * cartBean.getPrice();
+                        double add = 0.0;
+                        for (FoodAddBean foodAddBean : cartBean.getFoodAddBeanList()) {
+                            add += (foodAddBean.getNum()) * foodAddBean.getPrice();
+                        }
+                        sum += v * add;
                     }
-                    sum += v * add;
+                }else {
+                    double v = Double.valueOf(cartBean.getNum()) - cartBean.getGiveNum();
+                    if (v != 0) {
+                        sum = sum + v * cartBean.getPrice();
+                        double add = 0.0;
+                        for (FoodAddBean foodAddBean : cartBean.getFoodAddBeanList()) {
+                            add += (foodAddBean.getNum()) * foodAddBean.getPrice();
+                        }
+                        sum += v * add;
+                    }
                 }
             }
         }
-        viewModel.price.set(sum);
+        viewModel.price.set(twoDecimal(sum));
+        viewModel.num.set(cartBeanList.size());
+    }
+
+    private double twoDecimal(double d) {
+        return new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
     private String getInfo() {
@@ -378,20 +391,29 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
         if (cartBeanList.size() > 0) {
             for (int i = 0; i < cartBeanList.size(); i++) {
                 CartBean bean = cartBeanList.get(i);
-                double total = (Double.valueOf(bean.getNum()) - Double.valueOf(bean.getGiveNum())) * bean.getPrice();
+                double total;
+                if (bean.getFoodEntity().getProductProperty().equals("1")) {
+                    total = Double.parseDouble(bean.getWeight())*bean.getPrice()*(Double.valueOf(bean.getNum()) - bean.getGiveNum());
+                }else {
+                    total = (Double.valueOf(bean.getNum()) - bean.getGiveNum()) * bean.getPrice();
+                }
                 String kouwei = "";
                 String kouweiId = "";
-                if (bean.getProductKouWeiEntity() != null) {
-                    kouwei = bean.getProductKouWeiEntity().getName() + "*";
-                    kouweiId = bean.getProductKouWeiEntity().getuId() + "*";
+                if (bean.getProductKouWeiEntity() != null&&!bean.getProductKouWeiEntity().isEmpty()) {
+                    for (ProductKouWeiEntity kouWeiEntity:bean.getProductKouWeiEntity()) {
+                        kouwei += kouWeiEntity.getName() + "*";
+                        kouweiId += kouWeiEntity.getuId() + "*";
+                    }
                 }
                 if (!TextUtils.isEmpty(bean.getKouwei())) {
                     kouwei = kouwei + bean.getKouwei() + "*";
                     kouweiId = kouweiId + "" + "*";
                 }
-                if (kouWeiEntity != null) {
-                    kouwei = kouwei + kouWeiEntity.getName() + "*";
-                    kouweiId = kouweiId + kouWeiEntity.getGuId() + "*";
+                if (kouWeiEntityList != null&&!kouWeiEntityList.isEmpty()) {
+                   for (KouWeiEntity kouWeiEntity:kouWeiEntityList) {
+                       kouwei = kouwei + kouWeiEntity.getName() + "*";
+                       kouweiId = kouweiId + kouWeiEntity.getGuId() + "*";
+                   }
                 }
                 if (!TextUtils.isEmpty(remark)) {
                     kouwei = kouwei + bean.getKouwei() + "*";
@@ -489,7 +511,7 @@ public class OrderDishesActivity extends BaseActivity implements View.OnClickLis
                     stringBuilder.append("$");
                     stringBuilder.append(kouweiId);
                     stringBuilder.append("$");
-                    stringBuilder.append("1");
+                    stringBuilder.append(TextUtils.isEmpty(bean.getWeight())?"1":bean.getWeight());
                     stringBuilder.append("$");
                     stringBuilder.append(bean.getPrice());
                     stringBuilder.append("$");

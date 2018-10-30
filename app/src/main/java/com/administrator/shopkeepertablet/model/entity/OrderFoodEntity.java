@@ -69,7 +69,7 @@ public class OrderFoodEntity {
     @SerializedName("SeasonPrice")
     private double seasonPrice;
     @SerializedName("Giving")
-    private double giving;
+    private int giving;
     @SerializedName("PRODUCTSHUXIN")
     private String productShuXin;
     @SerializedName("PRODUCTSHUXINID")
@@ -86,6 +86,15 @@ public class OrderFoodEntity {
     private String seasonNum;
 
     private int discount;
+    private boolean isSelect;
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
 
     public String getRestaurantId() {
         return restaurantId;
@@ -207,11 +216,11 @@ public class OrderFoodEntity {
         this.seasonPrice = seasonPrice;
     }
 
-    public double getGiving() {
+    public int getGiving() {
         return this.giving;
     }
 
-    public void setGiving(double giving) {
+    public void setGiving(int giving) {
         this.giving = giving;
     }
 

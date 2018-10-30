@@ -56,6 +56,7 @@ public class OrderDishesViewModel extends BaseViewModel {
     public ObservableField<String> time = new ObservableField<>("");
     public ObservableField<Double> price = new ObservableField<>(0.00);
     public ObservableField<String> search = new ObservableField<>("");
+    public ObservableField<Integer> num =new ObservableField<>(0);
     private Print print;
 
     public ObservableField<List<OrderFoodEntity>> mList = new ObservableField<>();

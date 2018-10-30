@@ -28,16 +28,19 @@ public class KouWeiEntity {
     private String patientId;
     @SerializedName("Accord")
     private String accord;
+    private boolean select;
 
-    @Generated(hash = 512498507)
+
+    @Generated(hash = 90290073)
     public KouWeiEntity(String guId, String name, String no, String restaurantId,
-            String patientId, String accord) {
+            String patientId, String accord, boolean select) {
         this.guId = guId;
         this.name = name;
         this.no = no;
         this.restaurantId = restaurantId;
         this.patientId = patientId;
         this.accord = accord;
+        this.select = select;
     }
 
     @Generated(hash = 833556541)
@@ -90,6 +93,14 @@ public class KouWeiEntity {
 
     public void setAccord(String accord) {
         this.accord = accord;
+    }
+
+    public boolean getSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
     }
 
     @Override

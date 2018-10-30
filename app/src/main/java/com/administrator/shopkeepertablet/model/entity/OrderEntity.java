@@ -78,6 +78,8 @@ public class OrderEntity {
     private String invoice;
     @SerializedName("FREEMONEY")
     private double freeMoney;
+    @SerializedName("Phone")
+    private String phone;
 
     private boolean select;
 
@@ -347,6 +349,14 @@ public class OrderEntity {
         this.freeMoney = freeMoney;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public String toString() {
         return "OrderEntity{" +
@@ -373,6 +383,8 @@ public class OrderEntity {
                 ", name='" + name + '\'' +
                 ", invoice='" + invoice + '\'' +
                 ", freeMoney=" + freeMoney +
+                ", phone='" + phone + '\'' +
+                ", select=" + select +
                 '}';
     }
 }

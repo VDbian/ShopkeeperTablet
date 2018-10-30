@@ -30,6 +30,7 @@ public class KouWeiEntityDao extends AbstractDao<KouWeiEntity, String> {
         public final static Property RestaurantId = new Property(3, String.class, "restaurantId", false, "RESTAURANT_ID");
         public final static Property PatientId = new Property(4, String.class, "patientId", false, "PATIENT_ID");
         public final static Property Accord = new Property(5, String.class, "accord", false, "ACCORD");
+        public final static Property Select = new Property(6, boolean.class, "select", false, "SELECT");
     }
 
 
@@ -50,7 +51,8 @@ public class KouWeiEntityDao extends AbstractDao<KouWeiEntity, String> {
                 "\"NO\" TEXT," + // 2: no
                 "\"RESTAURANT_ID\" TEXT," + // 3: restaurantId
                 "\"PATIENT_ID\" TEXT," + // 4: patientId
-                "\"ACCORD\" TEXT);"); // 5: accord
+                "\"ACCORD\" TEXT," + // 5: accord
+                "\"SELECT\" INTEGER NOT NULL );"); // 6: select
     }
 
     /** Drops the underlying database table. */
@@ -92,6 +94,7 @@ public class KouWeiEntityDao extends AbstractDao<KouWeiEntity, String> {
         if (accord != null) {
             stmt.bindString(6, accord);
         }
+        stmt.bindLong(7, entity.getSelect() ? 1L: 0L);
     }
 
     @Override
@@ -127,6 +130,7 @@ public class KouWeiEntityDao extends AbstractDao<KouWeiEntity, String> {
         if (accord != null) {
             stmt.bindString(6, accord);
         }
+        stmt.bindLong(7, entity.getSelect() ? 1L: 0L);
     }
 
     @Override
@@ -142,7 +146,8 @@ public class KouWeiEntityDao extends AbstractDao<KouWeiEntity, String> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // no
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // restaurantId
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // patientId
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // accord
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // accord
+            cursor.getShort(offset + 6) != 0 // select
         );
         return entity;
     }
@@ -155,6 +160,7 @@ public class KouWeiEntityDao extends AbstractDao<KouWeiEntity, String> {
         entity.setRestaurantId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setPatientId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setAccord(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setSelect(cursor.getShort(offset + 6) != 0);
      }
     
     @Override

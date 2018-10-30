@@ -76,6 +76,7 @@ public class PayMoneyDialog extends DialogFragment {
         binding = DataBindingUtil.bind(customView);
         binding.tvTitle.setText(title);
         binding.etMoney.setText(String.valueOf(money));
+        binding.etMoney.setSelection(binding.etMoney.getText().toString().length());
 
         binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -143,5 +143,7 @@ public interface ApiSource {
     Observable<BaseEntity<String>> query(String type,String id,String OrderID);
 
     Observable<BaseEntity<String>> getGuazhangData(String shopID,String type);
+
+    Observable<BaseEntity<String>> getSocket(String type);
 }
 

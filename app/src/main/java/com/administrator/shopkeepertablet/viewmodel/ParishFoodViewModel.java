@@ -390,7 +390,7 @@ public class ParishFoodViewModel extends BaseViewModel {
 
     public void givingFood(String orderDetailId, String num) {
         DialogUtils.showDialog(fragment.getActivity(), "数据提交中");
-//        MLog.e("vd","14"+"**"+orderDetailId+"**"+num);
+        MLog.e("vd","14"+"**"+orderDetailId+"**"+num);
         parishRepertory.givingFood("14", orderDetailId, num).subscribe(new Consumer<BaseEntity<String>>() {
             @Override
             public void accept(BaseEntity<String> stringBaseEntity) throws Exception {
@@ -398,7 +398,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                 MLog.e("vd", stringBaseEntity.getResult());
                 if (stringBaseEntity.getCode() == 1) {
                     MToast.showToast(fragment.getActivity(), "赠送成功");
-                    fragment.cancelOrderSuccess();
+                    fragment.giveOrderSuccess();
                     printResult(stringBaseEntity.getResult());
                 }else {
                     MToast.showToast(fragment.getActivity(),"赠送失败");
@@ -423,6 +423,7 @@ public class ParishFoodViewModel extends BaseViewModel {
                         if (stringBaseEntity.getCode() == 1) {
                             String[] result = stringBaseEntity.getResult().split("∞");
                             OrderEntity order = new Gson().fromJson(result[0], OrderEntity.class);
+                            MLog.e("vd", result[1]);
                             List<OrderFoodEntity> mList = Arrays.asList(new Gson().fromJson(result[1], OrderFoodEntity[].class));
                             double a = 0;
                             for (OrderFoodEntity entity : mList) {

@@ -9,8 +9,11 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/rl_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorb2b2b2"
+        >
 
         <TextView
             android:id="@+id/tv_name"
@@ -29,7 +32,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/tv_name"
             android:layout_marginRight="16px"
-            android:text="@{@string/num_prefix(entity.setNum())}"
+            android:text=""
             android:textColor="@color/color666666"
             android:textSize="20px" />
 

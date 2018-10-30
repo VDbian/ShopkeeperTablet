@@ -90,7 +90,7 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
     private List<FoodTypeSelectEntity> foodTypeEntityList = new ArrayList<>();
     private OrderDishesCartAdapter cartAdapter;
     private List<CartBean> cartBeanList = new ArrayList<>();
-    private KouWeiEntity kouWeiEntity;
+    private List<KouWeiEntity> kouWeiEntity;
     private String remark;
     private String name;
     private BindLineUpDialog bindLineUpDialog;
@@ -186,15 +186,10 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
                 List<SeasonEntity> seasonEntityList = foodEntity.getSeasonEntityList();
                 if ((specEntityList == null || specEntityList.isEmpty()) &&
                         (productKouWeiEntityList == null || productKouWeiEntityList.isEmpty()) &&
-                        (seasonEntityList == null || seasonEntityList.isEmpty())) {
+                        (seasonEntityList == null || seasonEntityList.isEmpty())&&!foodEntity.getProductProperty().equals("1")) {
                     CartBean cartBean = new CartBean();
                     cartBean.setFoodEntity(foodEntity);
-                    if (foodEntity.getProductProperty().equals("1")) {
-                        cartBean.setNum("1");
-                        cartBean.setUnit(foodEntity.getUnit());
-                    } else {
-                        cartBean.setNum("1");
-                    }
+                    cartBean.setNum("1");
                     cartBean.setKouwei("");
                     cartBean.setFoodAddBeanList(new ArrayList<>());
                     cartBean.setPrice(foodEntity.getPrice());
@@ -282,7 +277,7 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
         popupWindowAllKouwei.showPopupWindowUp();
         popupWindowAllKouwei.setOnCallBackListener(new PopupWindowAllKouwei.OnCallBackListener() {
             @Override
-            public void confirm(KouWeiEntity entity, String re) {
+            public void confirm(List<KouWeiEntity> entity, String re) {
                 kouWeiEntity = entity;
                 remark = re;
             }
@@ -323,17 +318,21 @@ public class FastFoodFragment extends BaseFragment implements View.OnClickListen
                 double total = (Double.valueOf(bean.getNum()) - Double.valueOf(bean.getGiveNum())) * bean.getPrice();
                 String kouwei = "";
                 String kouweiId = "";
-                if (bean.getProductKouWeiEntity() != null) {
-                    kouwei = bean.getProductKouWeiEntity().getName() + "*";
-                    kouweiId = bean.getProductKouWeiEntity().getuId() + "*";
+                if (bean.getProductKouWeiEntity() != null&&!bean.getProductKouWeiEntity().isEmpty()) {
+                    for (ProductKouWeiEntity kouWeiEntity:bean.getProductKouWeiEntity()) {
+                        kouwei += kouWeiEntity.getName() + "*";
+                        kouweiId += kouWeiEntity.getuId() + "*";
+                    }
                 }
                 if (!TextUtils.isEmpty(bean.getKouwei())) {
                     kouwei = kouwei + bean.getKouwei() + "*";
                     kouweiId = kouweiId + "" + "*";
                 }
-                if (kouWeiEntity != null) {
-                    kouwei = kouwei + kouWeiEntity.getName() + "*";
-                    kouweiId = kouweiId + kouWeiEntity.getGuId() + "*";
+                if (kouWeiEntity != null&&!kouWeiEntity.isEmpty()) {
+                    for (KouWeiEntity kouWeiEntity:kouWeiEntity) {
+                        kouwei = kouwei + kouWeiEntity.getName() + "*";
+                        kouweiId = kouweiId + kouWeiEntity.getGuId() + "*";
+                    }
                 }
                 if (!TextUtils.isEmpty(remark)) {
                     kouwei = kouwei + bean.getKouwei() + "*";

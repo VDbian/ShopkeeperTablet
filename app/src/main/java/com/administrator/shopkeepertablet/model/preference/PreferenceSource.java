@@ -40,4 +40,18 @@ public interface PreferenceSource {
     @Favor("user")
     void setUser(UserInfoEntity user);
 
+    @Favor("ip")
+    @Default("")
+    String getIp();
+
+    @Favor("ip")
+    void setIp(String ip);
+
+    @Favor("port")
+    @Default("0")
+    int getPort();
+
+    @Favor("port")
+    void setPort(int port);
+
 }

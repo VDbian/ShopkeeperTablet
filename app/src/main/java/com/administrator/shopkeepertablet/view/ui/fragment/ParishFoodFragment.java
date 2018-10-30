@@ -26,6 +26,7 @@ import com.administrator.shopkeepertablet.model.entity.TableEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.BillJson;
 import com.administrator.shopkeepertablet.model.entity.bean.EventPayBean;
 import com.administrator.shopkeepertablet.model.entity.bean.EventTableBean;
+import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.utils.DataEvent;
 import com.administrator.shopkeepertablet.utils.DateUtils;
 import com.administrator.shopkeepertablet.utils.MLog;
@@ -74,6 +75,7 @@ public class ParishFoodFragment extends BaseFragment {
     private PopupWindowPay popupWindowPay;
     private boolean first = true;
     private List<OrderFoodEntity> orderFoodEntityList = new ArrayList<>();
+    private TableEntity entityChoose;
 
 
     @Override
@@ -110,6 +112,7 @@ public class ParishFoodFragment extends BaseFragment {
         adapter.setOnItemClick(new ParishTableAdapter.OnItemClick() {
             @Override
             public void onItemClick(final TableEntity entity, final int position) {
+                entityChoose = entity;
                 viewModel.table.set(entity.getTableName());
                 viewModel.tableId.set(entity.getRoomTableId());
                 MLog.e("vd",entity.getIsOpen());
@@ -139,6 +142,10 @@ public class ParishFoodFragment extends BaseFragment {
                         popOrderAndClear.setOnCallBackListener(new PopupWindowOrderAndClear.OnCallBackListener() {
                             @Override
                             public void clear() {
+                                if (!AppConstant.getUser().getPermissionValue().contains("qingtai")){
+                                    MToast.showToast(getActivity(),"没有清台权限");
+                                    return;
+                                }
                                 viewModel.clearTable(entity.getBillId());
                             }
 
@@ -177,6 +184,10 @@ public class ParishFoodFragment extends BaseFragment {
                         confirmDialog.setOnDialogSure(new ConfirmDialog.OnDialogSure() {
                             @Override
                             public void confirm() {
+                                if (!AppConstant.getUser().getPermissionValue().contains("quxiaojiezhang")){
+                                    MToast.showToast(getActivity(),"没有取消结账权限");
+                                    return;
+                                }
                                 viewModel.cancelPay();
                             }
 
@@ -232,6 +243,21 @@ public class ParishFoodFragment extends BaseFragment {
         mList.clear();
         mList.addAll(tableEntities);
         adapter.notifyDataSetChanged();
+        if (popupWindowPay != null && popupWindowPay.isShowing()) {
+            popupWindowPay.dismiss();
+            for (TableEntity entity:mList){
+                if (entity.getRoomTableId().equals(entityChoose.getRoomTableId())){
+                    viewModel.people.set(entity.getPersonCounts());
+                    viewModel.tableware.set(entity.getTableWareCount());
+                    viewModel.time.set(entity.getTime());
+                    viewModel.billId.set(entity.getBillId());
+                    viewModel.totalPrice.set(entity.getPrice());
+                    viewModel.getOrder(entity);
+                }
+            }
+        }
+
+
     }
 
     public void openSuccess(boolean flag) {
@@ -283,6 +309,10 @@ public class ParishFoodFragment extends BaseFragment {
             public void more(int position) {
                 switch (position) {
                     case 0:
+                        if (!AppConstant.getUser().getPermissionValue().contains("jiacai")){
+                         MToast.showToast(getActivity(),"没有加菜权限");
+                         return;
+                        }
                         EventOrderDishesEntity eventOrderDishesEntity = new EventOrderDishesEntity();
                         eventOrderDishesEntity.setTableId(viewModel.tableId.get());
                         eventOrderDishesEntity.setPeopleNum(viewModel.people.get());
@@ -293,13 +323,22 @@ public class ParishFoodFragment extends BaseFragment {
                         eventOrderDishesEntity.setOrderFoodEntityList(mList);
                         EventBus.getDefault().postSticky(DataEvent.make().setMessageTag(AppConstant.EVENT_ORDER_DISHES).setMessageData(eventOrderDishesEntity));
                         Intent intent = new Intent(getActivity(), OrderDishesActivity.class);
+                        popupWindowPay.dismiss();
                         startActivity(intent);
                         break;
                     case 1:
+                        if (!AppConstant.getUser().getPermissionValue().contains("huanzhuo")){
+                            MToast.showToast(getActivity(),"没有换桌权限");
+                            return;
+                        }
                         popupWindowPay.dismiss();
                         eventTable(entity,"换桌",viewModel.room.get(),"");
                         break;
                     case 2:
+                        if (!AppConstant.getUser().getPermissionValue().contains("chedan")){
+                            MToast.showToast(getActivity(),"没有撤单权限");
+                            return;
+                        }
                         popupWindowPay.dismiss();
                         ConfirmDialog confirmDialog = new ConfirmDialog();
                         confirmDialog.setTitle("撤单");
@@ -318,18 +357,34 @@ public class ParishFoodFragment extends BaseFragment {
                         confirmDialog.show(getActivity().getFragmentManager(), "");
                         break;
                     case 3:
+                        if (!AppConstant.getUser().getPermissionValue().contains("bingdan")){
+                            MToast.showToast(getActivity(),"没有并单权限");
+                            return;
+                        }
                         popupWindowPay.dismiss();
                         eventTable(entity,"并单",viewModel.room.get(),"");
                         break;
                     case 4:
+                        if (!AppConstant.getUser().getPermissionValue().contains("houchuprint")){
+                            MToast.showToast(getActivity(),"没有补打权限");
+                            return;
+                        }
                         popupWindowPay.dismiss();
                         viewModel.print();
                         break;
                     case 5:
+                        if (!AppConstant.getUser().getPermissionValue().contains("zhendancuicai")){
+                            MToast.showToast(getActivity(),"没有整单催菜权限");
+                            return;
+                        }
                         popupWindowPay.dismiss();
                         viewModel.pushFoodAll();
                         break;
                     case 6:
+                        if (!AppConstant.getUser().getPermissionValue().contains("jiucancount")){
+                            MToast.showToast(getActivity(),"没有修改人数权限");
+                            return;
+                        }
                         popupWindowPay.dismiss();
                         final ChangePeopleDialog changePeopleDialog = new ChangePeopleDialog();
                         changePeopleDialog.setPeopleNum(viewModel.people.get());
@@ -492,6 +547,12 @@ public class ParishFoodFragment extends BaseFragment {
         int selectedTabPosition = binding.tabRoom.getSelectedTabPosition();
         viewModel.getTables(roomEntities.get(selectedTabPosition));
     }
+
+    public void giveOrderSuccess(){
+        int selectedTabPosition = binding.tabRoom.getSelectedTabPosition();
+        viewModel.getTables(roomEntities.get(selectedTabPosition));
+    }
+
 
     @Override
     public void onResume() {

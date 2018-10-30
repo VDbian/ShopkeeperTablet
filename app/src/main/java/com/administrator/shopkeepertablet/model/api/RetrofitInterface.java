@@ -1,5 +1,7 @@
 package com.administrator.shopkeepertablet.model.api;
 
+import android.databinding.ObservableField;
+
 import com.administrator.shopkeepertablet.AppConstant;
 import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
@@ -735,6 +737,13 @@ public interface RetrofitInterface {
             @Field("Type") String type);
 
 
+    //获取socket
+    @FormUrlEncoded
+    @POST(AppConstant.MASTE_URL+ "hospitaldetails.ashx")
+    Observable<BaseEntity<String>> getSocket(
+            @Field("Type") String type);
+
+
 //    @FormUrlEncoded
 //    @POST(AppConstant.PORT_URL + "PortKaiTaiAshx.ashx")
 //    Observable<BaseEntity<String>> changePeople(
@@ -745,5 +754,6 @@ public interface RetrofitInterface {
             @Field("type") String type,
             @Field("BILLID") String billId,
             @Field("IPADDRESS") String ipAddress);
+
 
 }

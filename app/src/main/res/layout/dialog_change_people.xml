@@ -91,6 +91,7 @@
                     android:background="@drawable/shape_login_edit"
                     android:orientation="horizontal"
                     android:layout_marginBottom="32px"
+                    android:visibility="gone"
                     >
 
                     <TextView

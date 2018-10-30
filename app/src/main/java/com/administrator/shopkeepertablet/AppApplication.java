@@ -3,6 +3,7 @@ package com.administrator.shopkeepertablet;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
@@ -17,10 +18,12 @@ import com.administrator.shopkeepertablet.push.MyPushIntentService;
 import com.administrator.shopkeepertablet.repository.BaseRepertory;
 import com.administrator.shopkeepertablet.repository.BaseRepertoryImpl;
 import com.administrator.shopkeepertablet.utils.MToast;
+import com.administrator.shopkeepertablet.utils.SocketClientService;
 import com.iflytek.cloud.SpeechUtility;
 import com.umeng.message.IUmengCallback;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 
@@ -37,8 +40,10 @@ public class AppApplication extends MultiDexApplication {
     private SQLiteDatabase db;
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
-    private PushAgent mPushAgent;
+    public PushAgent mPushAgent;
     public static final String UPDATE_STATUS_ACTION = "com.administrator.shopkeepertablet.action.UPDATE_STATUS";
+
+    private Intent intent;
     //    @Override
 //    protected void attachBaseContext(Context context) {
 //        super.attachBaseContext(context);
@@ -54,6 +59,7 @@ public class AppApplication extends MultiDexApplication {
         initPush();
         SpeechUtility.createUtility(this, "appid=59c1e9f6");
         ZXingLibrary.initDisplayOpinion(this);
+        intent = new Intent(getApplicationContext(), SocketClientService.class);
     }
 
     private void initPush() {
@@ -79,12 +85,20 @@ public class AppApplication extends MultiDexApplication {
 
     //设置别名
     public void setAlias(String id, String type) {
-        mPushAgent.addExclusiveAlias(id, type, (b, s) -> MToast.showToast( this, (b ? "绑定成功" : "绑定失败")));
+        mPushAgent.addExclusiveAlias(id, type, new UTrack.ICallBack() {
+            @Override
+            public void onMessage(boolean b, String s) {
+                Looper.prepare();
+                MToast.showToast(getApplicationContext(), (b ? "绑定成功" : "绑定失败"));
+                Looper.loop();
+            }
+        });
+
     }
 
     //移除别名
     public void removeAlias(String id, String type) {
-        mPushAgent.removeAlias(id, type, (b, s) -> MToast.showToast( this, b ? "解绑成功" : "解绑失败"));
+        mPushAgent.removeAlias(id, type, (b, s) -> MToast.showToast(getApplicationContext(), b ? "解绑成功" : "解绑失败"));
     }
 
     //关闭推送
@@ -150,9 +164,11 @@ public class AppApplication extends MultiDexApplication {
         mDaoMaster = new DaoMaster(db);
         mDaoSession = mDaoMaster.newSession();
     }
+
     public DaoSession getDaoSession() {
         return mDaoSession;
     }
+
     public SQLiteDatabase getDb() {
         return db;
     }

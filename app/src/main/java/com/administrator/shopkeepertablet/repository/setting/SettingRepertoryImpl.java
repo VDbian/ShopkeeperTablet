@@ -1,6 +1,7 @@
 package com.administrator.shopkeepertablet.repository.setting;
 
 import com.administrator.shopkeepertablet.model.api.ApiSource;
+import com.administrator.shopkeepertablet.model.entity.BaseEntity;
 import com.administrator.shopkeepertablet.model.entity.ResultFoodEntity;
 import com.administrator.shopkeepertablet.model.preference.PreferenceSource;
 import com.administrator.shopkeepertablet.repository.BaseRepertoryImpl;
@@ -36,6 +37,12 @@ public class SettingRepertoryImpl extends BaseRepertoryImpl implements SettingRe
     @Override
     public Observable<ResultFoodEntity> getComboList(String type, String id, int index, int size) {
         return apiSource.getComboList(type, id, index, size).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<BaseEntity<String>> getSocket(String type) {
+        return apiSource.getSocket(type).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }

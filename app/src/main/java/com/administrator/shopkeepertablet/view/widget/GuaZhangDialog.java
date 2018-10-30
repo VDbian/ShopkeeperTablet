@@ -50,7 +50,7 @@ public class GuaZhangDialog extends DialogFragment {
     public void setmList(List<GuaZhangEntity> mList) {
         this.mList.clear();
         this.mList.addAll(mList);
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
     }
 
     @Override

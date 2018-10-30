@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.administrator.shopkeepertablet.BR;
 import com.administrator.shopkeepertablet.R;
 import com.administrator.shopkeepertablet.databinding.ItemRlvOrderDishesOrderBinding;
+import com.administrator.shopkeepertablet.model.entity.ProductKouWeiEntity;
 import com.administrator.shopkeepertablet.model.entity.bean.CartBean;
 import com.administrator.shopkeepertablet.model.entity.bean.FoodAddBean;
 import com.administrator.shopkeepertablet.view.widget.OrderRemarkView;
@@ -56,9 +57,9 @@ public class OrderDishesCartAdapter extends RecyclerView.Adapter<OrderDishesCart
         final CartBean cartBean = cartBeanList.get(position);
         holder.setBinding(BR.entity, cartBean);
         holder.binding.llRemark.removeAllViews();
-        if (Double.valueOf(cartBean.getGiveNum()) != 0) {
+        if (cartBean.getGiveNum() != 0) {
             View view = LayoutInflater.from(context).inflate(R.layout.view_order_dishes_give, null);
-            ((TextView) view.findViewById(R.id.tv_num)).setText(cartBean.getGiveNum());
+            ((TextView) view.findViewById(R.id.tv_num)).setText(String.valueOf(cartBean.getGiveNum()));
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             params.setMargins(0, 8, 0, 0);
             view.setLayoutParams(params);
@@ -74,11 +75,13 @@ public class OrderDishesCartAdapter extends RecyclerView.Adapter<OrderDishesCart
                 holder.binding.llRemark.addView(view);
             }
         }
-        if (cartBean.getProductKouWeiEntity() != null || !TextUtils.isEmpty(cartBean.getKouwei())) {
+        if (cartBean.getProductKouWeiEntity() != null&&!cartBean.getProductKouWeiEntity().isEmpty() || !TextUtils.isEmpty(cartBean.getKouwei())) {
             View view = LayoutInflater.from(context).inflate(R.layout.view_order_dishes_give, null);
             String kouwei = "";
-            if (cartBean.getProductKouWeiEntity() != null) {
-                kouwei = cartBean.getProductKouWeiEntity().getName() + "、";
+            if (cartBean.getProductKouWeiEntity() != null&&!cartBean.getProductKouWeiEntity().isEmpty()) {
+                for (ProductKouWeiEntity productKouWeiEntity:cartBean.getProductKouWeiEntity()){
+                    kouwei += productKouWeiEntity.getName() + "、";
+                }
             }
             kouwei += cartBean.getKouwei();
             if (kouwei.endsWith("、")){
@@ -93,11 +96,19 @@ public class OrderDishesCartAdapter extends RecyclerView.Adapter<OrderDishesCart
             holder.binding.llRemark.addView(view);
         }
 
-        if (TextUtils.isEmpty(cartBean.getUnit())) {
-            String format = context.getResources().getString(R.string.num_prefix);
-            holder.binding.tvNum.setText(String.format(format, String.valueOf(cartBean.getNum())));
-        } else {
+//        if (TextUtils.isEmpty(cartBean.getUnit())) {
+//            String format = context.getResources().getString(R.string.num_prefix);
+//            holder.binding.tvNum.setText(String.format(format, String.valueOf(cartBean.getNum())));
+//        } else {
+//            holder.binding.tvNum.setText(cartBean.getNum() + cartBean.getUnit());
+//        }
+
+        if (TextUtils.isEmpty(cartBean.getWeight())) {
+//            String format = context.getResources().getString(R.string.num_prefix);
+//            holder.binding.tvNum.setText(String.format(format, String.valueOf(cartBean.getNum())));
             holder.binding.tvNum.setText(cartBean.getNum() + cartBean.getUnit());
+        } else {
+            holder.binding.tvNum.setText(cartBean.getWeight() + cartBean.getUnit()+"(1份)");
         }
 
 
